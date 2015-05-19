@@ -77,7 +77,7 @@ POST /api/:version/shop_detail
 
 ### Request Params
 ```
-id=1　店舗ID
+id=834336　店舗ID
 ```
 
 ### Response
