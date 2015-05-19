@@ -66,3 +66,50 @@ style_lists:name | 名前
 style_lists:image | 画像のURL
 style_lists:shopId | お店のID
 style_lists:stylistId | スタイリストのID
+
+
+## <a name="update_url_schemes"></a>店舗詳細取得
+
+### URL
+```
+POST /api/:version/shop_detail
+```
+
+### Request Params
+```
+id=1　店舗ID
+```
+
+### Response
+```
+    {
+      id: 834336
+      name: "美美美"
+      image1: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      image2: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      image3: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      star_count: 4.0,
+      message: "サロンからのメッセージだよーん",
+      tel: "0000000000",
+      address: "北京市あああああああ",
+      business_hours: "10:00-22:00",
+      regular_holiday: "火曜日",
+      multilingual: "日本語、韓国語",
+      word_of_mouth_count: 150
+    }
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+name | サロン名
+image1 image2 image3 | 画像のURL 画像の枚数が少ない時は項目ごと消える
+star_count | 星の平均値
+message | サロンからのメッセージ
+address | 住所
+tel | 電話番号
+business_hours | 営業時間
+regular_holiday | 定休日
+multilingual | 対応外国語
+word_of_mouth_count | 口コミの数
