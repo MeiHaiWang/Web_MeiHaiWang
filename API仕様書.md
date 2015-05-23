@@ -159,8 +159,6 @@ POST /api/:version/conditions
 ```
 ### Response
 ```
-
-```
 {
       titles:[
          {
@@ -194,7 +192,6 @@ POST /api/:version/conditions
           }
       ]
 }
-
 ```
 
  キー | 値
