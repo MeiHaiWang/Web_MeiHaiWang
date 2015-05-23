@@ -1,3 +1,9 @@
+すべての通信のヘッダーに以下の情報をのせる
+
+userID:0000  
+ログインしている場合ユーザID
+ログインしていない場合は-1
+
 ## <a name="osusume"></a>おすすめサロン、ヘアスタイル取得
 
 ### URL
@@ -114,21 +120,59 @@ regular_holiday | 定休日
 multilingual | 対応外国語
 word_of_mouth_count | 口コミの数
 
-
-## <a name="shopDetail"></a>スタイリスト詳細取得
+## <a name="shopMap"></a>店舗地図取得
 
 ### URL
 ```
-POST /api/:version/stylist_detail
+POST /api/:version/shopMap
 ```
 
 ### Request Params
 ```
-id=834336　スタイリストID
+id=834336　店舗ID
 ```
 
 ### Response
 ```
+    {
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/map.png",
+      latitude: 35.689,
+      longitude: 135.928,
+      info: "駅から徒歩５分"
+    }
+
+```
+
+ キー | 値
+--------|---------
+image | 地図画像（仮　googleマップの代わりがあるなら要らない）
+latitude | 緯度
+longitude | 経度
+info | 最寄り駅からの距離など
+
+## <a name="stylistDetail"></a>スタイリスト一覧取得
+
+### URL
+```
+POST /api/:version/stylist_list
+```
+
+### Request Params
+```
+id=834336　店舗ID
+```
+
+### Response
+```
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    },
     {
       id: 834336,
       shopID:3945773,
@@ -150,6 +194,45 @@ gender | 性別　0=男性　1=女性
 image | 画像のURL
 message | スタイリストからのメッセージ
 years | 経験年数
+
+
+## <a name="stylistDetail"></a>スタイリスト詳細取得
+
+### URL
+```
+POST /api/:version/stylist_detail
+```
+
+### Request Params
+```
+id=834336　スタイリストID
+```
+
+### Response
+```
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間",
+      good: 1
+    }
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+shopID | 所属店舗のID
+name | スタイリスト名
+gender | 性別　0=男性　1=女性
+image | 画像のURL
+message | スタイリストからのメッセージ
+years | 経験年数
+good | いいねフラグ
 
 
 ## <a name="getArea"></a>地域エリア取得
