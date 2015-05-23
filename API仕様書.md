@@ -151,7 +151,7 @@ latitude | 緯度
 longitude | 経度
 info | 最寄り駅からの距離など
 
-## <a name="stylistDetail"></a>スタイリスト一覧取得
+## <a name="stylistList"></a>スタイリスト一覧取得
 
 ### URL
 ```
@@ -165,6 +165,7 @@ id=834336　店舗ID
 
 ### Response
 ```
+stylelist_lists: [
     {
       id: 834336,
       shopID:3945773,
@@ -183,6 +184,7 @@ id=834336　店舗ID
       message: "スタイリストからのメッセージだよーん",
       years: "7年間"
     }
+]
 
 ```
 
@@ -441,3 +443,95 @@ image2 | 画像のURL
 image3 | 画像のURL
 isgood | いいねフラグ
 stylistID | この髪型を登録したスタイリストのID
+
+## <a name="salonHistory"></a>最近見たサロン取得
+
+### URL
+```
+GET /api/:version/salon_history
+```
+### Response
+```
+
+{
+  salon_lists: [
+    {
+      id: 834336,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    },
+    {
+      id: 55556,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    },
+    {
+      id: 666666,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    }
+  ]
+}
+```
+
+ キー | 値
+--------|---------
+information:published_at | 更新日
+salon_lists:id | サロンのID
+salon_lists:name | サロン名
+salon_lists:image | 画像のURL
+salon_lists:message | サロンからのメッセージ
+salon_lists:place | 大体の場所
+
+## <a name="stylistHistory"></a>最近見たスタイリスト一覧取得
+
+### URL
+```
+POST /api/:version/stylist_list
+```
+
+### Request Params
+```
+id=834336　店舗ID
+```
+
+### Response
+```
+stylelist_lists: [
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    },
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    }
+]
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+shopID | 所属店舗のID
+name | スタイリスト名
+gender | 性別　0=男性　1=女性
+image | 画像のURL
+message | スタイリストからのメッセージ
+years | 経験年数
