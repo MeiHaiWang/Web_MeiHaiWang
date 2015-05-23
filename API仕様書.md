@@ -114,6 +114,44 @@ regular_holiday | 定休日
 multilingual | 対応外国語
 word_of_mouth_count | 口コミの数
 
+
+## <a name="shopDetail"></a>スタイリスト詳細取得
+
+### URL
+```
+POST /api/:version/stylist_detail
+```
+
+### Request Params
+```
+id=834336　スタイリストID
+```
+
+### Response
+```
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    }
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+shopID | 所属店舗のID
+name | スタイリスト名
+gender | 性別　0=男性　1=女性
+image | 画像のURL
+message | スタイリストからのメッセージ
+years | 経験年数
+
+
 ## <a name="getArea"></a>地域エリア取得
 
 ### URL
