@@ -157,9 +157,6 @@ isDetail | 詳細地域があるのかないのか判定用フラグ
 ```
 POST /api/:version/conditions
 ```
-### Request Params
-```
-
 ### Response
 ```
 
