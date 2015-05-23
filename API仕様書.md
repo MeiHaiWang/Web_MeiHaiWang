@@ -162,6 +162,8 @@ POST /api/:version/conditions
 
 ### Response
 ```
+
+```
 {
       titles:[
          {
