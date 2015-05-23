@@ -286,12 +286,16 @@ POST /api/:version/catalog/list
 ```
 ### Request Params
 ```
-categoryID=0
+categoryID=0 or stylistID=0
 ```
 
 ### Response
 ```
 {
+   stylistInfo:{
+      id:0,
+      name: "イケメンちゃん"
+   },
    cataloglist:[
       {
          id:1,
@@ -315,8 +319,11 @@ categoryID=0
 
  キー | 値
 --------|---------
+stylistInfo:id | stylistID
+stylistInfo:name | スタイリストの名前
 cataloglist:id | cataloglistID
 cataloglist:image | 画像のURL
+*パラメータにstylistIDが与えられた場合stylistInfoの項目が出現する
 
 ## <a name="cataloglist"></a>ヘアカタログ詳細取得
 
