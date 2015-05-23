@@ -13,22 +13,22 @@ GET /api/:version/osusume
   }, 
   salon_lists: [
     {
-      id: 834336
-      name: "美美美"
+      id: 834336,
+      name: "美美美",
       image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       message: "サロンからのメッセージだよーん",
       place: "北京",
     },
     {
-      id: 55556
-      name: "美美美"
+      id: 55556,
+      name: "美美美",
       image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       message: "サロンからのメッセージだよーん",
       place: "北京",
     },
     {
-      id: 666666
-      name: "美美美"
+      id: 666666,
+      name: "美美美",
       image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       message: "サロンからのメッセージだよーん",
       place: "北京",
@@ -36,15 +36,15 @@ GET /api/:version/osusume
   ],
   style_lists: [
     {
-      id: 28376
-      name: "ショートボブちん"
+      id: 28376,
+      name: "ショートボブちん",
       image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       shopId: 33333,
       stylistId: 2222222
     },
     {
-      id: 28376
-      name: "ショートボブちん"
+      id: 28376,
+      name: "ショートボブちん",
       image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       shopId: 33333,
       stylistId: 2222222
@@ -131,16 +131,16 @@ id=1　地域ID
 ### Response
 ```
     areaList: [
-    {
-      id: 1
-      name: "北京"
-      isDetail: 1
-    },
-    {
-      id: 2
-      name: "広州"
-      isDetail: 1
-    }
+       {
+         id: 1,
+         name: "北京",
+         isDetail: 1,
+       },
+       {
+         id: 2,
+         name: "広州",
+         isDetail: 1
+       }
     ]
 
 ```
@@ -150,3 +150,61 @@ id=1　地域ID
 id | サロンのID
 name | サロン名
 isDetail | 詳細地域があるのかないのか判定用フラグ
+
+## <a name="update_url_schemes"></a>こだわり条件取得
+
+### URL
+```
+POST /api/:version/conditions
+```
+### Request Params
+```
+
+### Response
+```
+{
+      titles:[
+         {
+            id: 1,
+            name: "時間"
+         },
+         {
+            id: 2,
+            name: "サービス"
+　　　　  },
+         {
+            id: 3,
+            name: "設備"
+　　　　　}
+      ],
+      values: [
+         {
+            id: 1,
+            titleID: 1,
+            name: "当日予約可能",
+         },
+         {
+             id: 2,
+             titleID: 1,
+             name: "１９時以降も予約受付"
+          },
+          {
+             id:3,
+             titleID: 2,
+             name: "英語受付対応"
+          }
+      ]
+}
+
+```
+
+ キー | 値
+--------|---------
+titles:id | タイトルID
+titles:name | タイトル
+values:id | こだわり条件のID
+values:titleID | どこのグループ（タイトルに属しているか）
+values:name | こだわり条件
+
+*これ構造が微妙だから要検討
+
