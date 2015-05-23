@@ -1,4 +1,4 @@
-## <a name="ads"></a>おすすめサロン、ヘアスタイル取得
+## <a name="osusume"></a>おすすめサロン、ヘアスタイル取得
 
 ### URL
 ```
@@ -68,7 +68,7 @@ style_lists:shopId | お店のID
 style_lists:stylistId | スタイリストのID
 
 
-## <a name="update_url_schemes"></a>店舗詳細取得
+## <a name="shopDetail"></a>店舗詳細取得
 
 ### URL
 ```
@@ -114,7 +114,7 @@ regular_holiday | 定休日
 multilingual | 対応外国語
 word_of_mouth_count | 口コミの数
 
-## <a name="update_url_schemes"></a>地域エリア取得
+## <a name="getArea"></a>地域エリア取得
 
 ### URL
 ```
@@ -151,7 +151,7 @@ id | サロンのID
 name | サロン名
 isDetail | 詳細地域があるのかないのか判定用フラグ
 
-## <a name="update_url_schemes"></a>こだわり条件取得
+## <a name="conditions"></a>こだわり条件取得
 
 ### URL
 ```
@@ -204,7 +204,7 @@ values:name | こだわり条件
 
 *これ構造が微妙だから要検討
 
-## <a name="update_url_schemes"></a>ヘアカタログカテゴリー取得
+## <a name="catalog_categoly"></a>ヘアカタログカテゴリー取得
 
 ### URL
 ```
@@ -236,11 +236,11 @@ gender=0　性別フラグ　0=男性、1=女性
 
  キー | 値
 --------|---------
-catalogCategory:id | ID
+catalogCategory:id | catalogCategoryID
 catalogCategory:name | タイトル
 catalogCategory:image | 画像のURL
 
-## <a name="update_url_schemes"></a>ヘアカタログ一覧取得
+## <a name="cataloglist"></a>ヘアカタログ一覧取得
 
 ### URL
 ```
@@ -257,19 +257,19 @@ categoryID=0
    cataloglist:[
       {
          id:1,
-         image: "http://exsample.com/Short.png"
+         image: "http://exsample.com/Shor1.png"
       },
       {
          id:2,
-         image: "http://exsample.com/Short.png"
+         image: "http://exsample.com/Shor2.png"
       },
       {
          id:3,
-         image: "http://exsample.com/Short.png"
+         image: "http://exsample.com/Shor3.png"
       },
       {
          id:4,
-         image: "http://exsample.com/Short.png"
+         image: "http://exsample.com/Shor4.png"
       }
    ]
 }
@@ -277,5 +277,37 @@ categoryID=0
 
  キー | 値
 --------|---------
-cataloglist:id | ID
+cataloglist:id | cataloglistID
 cataloglist:image | 画像のURL
+
+## <a name="cataloglist"></a>ヘアカタログ詳細取得
+
+### URL
+```
+POST /api/:version/catalog/detail
+```
+### Request Params
+```
+cataloglistID=1
+```
+
+### Response
+```
+{
+   id: 1,
+   image1: "http://exsample.com/minibobex.png",
+   image2: "http://exsample.com/minibobex.png",
+   image3: "http://exsample.com/minibobex.png",
+   isgood: 1,
+   stylistID: 1
+}
+```
+
+ キー | 値
+--------|---------
+id | catalogDetailID
+image1 | 画像のURL
+image2 | 画像のURL
+image3 | 画像のURL
+isgood | いいねフラグ
+stylistID | この髪型を登録したスタイリストのID
