@@ -237,6 +237,62 @@ message | スタイリストからのメッセージ
 years | 経験年数
 good | いいねフラグ
 
+## <a name="stylistList"></a>クーポン一覧取得
+
+### URL
+```
+POST /api/:version/CouponList
+```
+
+### Request Params
+```
+id=834336　店舗ID
+```
+
+### Response
+```
+coupon_lists: [
+    {
+      id: 834335,
+      shopID: 8888888,
+      title: "モロッカンコース　カット＋カラー＋炭酸スパ",
+      detail: "高級オイルを使用したトリートメント　ロング無料",
+      category: "カラー　トリートメント　ヘッドスパ",
+      price: 1000,
+      presentation: "予約時＆入店時",
+      deadline: "2015年7月末",
+      conditions: "予約時に伝える",
+      isFirst: 1
+    },
+    {
+      id: 834336,
+      shopID: 8888888,
+      title: "モロッカンコース　カット＋カラー＋炭酸スパ",
+      detail: "高級オイルを使用したトリートメント　ロング無料",
+      category: "カラー　トリートメント　ヘッドスパ",
+      price: 1000,
+      presentation: "予約時＆入店時",
+      deadline: "2015年7月末",
+      conditions: "予約時に伝える",
+      isFirst: 1
+    }
+]
+
+```
+
+ キー | 値
+--------|---------
+id | クーポンのID
+shopID | 所属店舗のID
+title | クーポンタイトル
+detail | 詳細
+category | クーポンのメニューカテゴリー
+price | 値段
+presentation | 提示条件
+deadline | 有効期限
+conditions | 利用条件
+isFirst | １＝初回のお客さん用　０＝２回目以降も使える
+
 
 ## <a name="getArea"></a>地域エリア取得
 
@@ -444,6 +500,95 @@ image3 | 画像のURL
 isgood | いいねフラグ
 stylistID | この髪型を登録したスタイリストのID
 
+## <a name="salonFavorite"></a>お気に入りサロン取得
+
+### URL
+```
+GET /api/:version/salon_Favorite
+```
+### Response
+```
+
+{
+  salon_lists: [
+    {
+      id: 834336,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    },
+    {
+      id: 55556,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    },
+    {
+      id: 666666,
+      name: "美美美",
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "サロンからのメッセージだよーん",
+      place: "北京",
+    }
+  ]
+}
+```
+
+ キー | 値
+--------|---------
+information:published_at | 更新日
+salon_lists:id | サロンのID
+salon_lists:name | サロン名
+salon_lists:image | 画像のURL
+salon_lists:message | サロンからのメッセージ
+salon_lists:place | 大体の場所
+
+## <a name="stylistFavorite"></a>お気に入りスタイリスト一覧取得
+
+### URL
+```
+POST /api/:version/stylist_Favorite
+```
+
+### Response
+```
+stylelist_lists: [
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    },
+    {
+      id: 834336,
+      shopID:3945773,
+      name: "イケメンちゃん",
+      gender: 0,
+      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+      message: "スタイリストからのメッセージだよーん",
+      years: "7年間"
+    }
+]
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+shopID | 所属店舗のID
+name | スタイリスト名
+gender | 性別　0=男性　1=女性
+image | 画像のURL
+message | スタイリストからのメッセージ
+years | 経験年数
+
+
+
 ## <a name="salonHistory"></a>最近見たサロン取得
 
 ### URL
@@ -493,12 +638,7 @@ salon_lists:place | 大体の場所
 
 ### URL
 ```
-POST /api/:version/stylist_list
-```
-
-### Request Params
-```
-id=834336　店舗ID
+POST /api/:version/stylist_History
 ```
 
 ### Response
@@ -535,3 +675,32 @@ gender | 性別　0=男性　1=女性
 image | 画像のURL
 message | スタイリストからのメッセージ
 years | 経験年数
+
+## <a name="news"></a>美容ニュース一覧取得
+
+### URL
+```
+GET /api/:version/news
+```
+
+### Response
+```
+news:[
+   {
+      image: "http://exsample.com/minibobex.png",
+      title: "あああああ",
+      URL: "http://exsample.com/news1"
+   },
+   {
+      image: "http://exsample.com/minibobex.png",
+      title: "いいいいい",
+      URL: "http://exsample.com/news2"
+   }
+]
+```
+
+ キー | 値
+--------|---------
+image | 画像のURL
+title | ニュースのタイトル
+URL | ニュースのURL
