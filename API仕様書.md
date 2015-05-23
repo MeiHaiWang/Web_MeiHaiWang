@@ -204,3 +204,78 @@ values:name | こだわり条件
 
 *これ構造が微妙だから要検討
 
+## <a name="update_url_schemes"></a>ヘアカタログカテゴリー取得
+
+### URL
+```
+POST /api/:version/catalog/categoly
+```
+
+### Request Params
+```
+gender=0　性別フラグ　0=男性、1=女性
+```
+
+### Response
+```
+{
+   catalogCategory:[
+      {
+         id:1,
+         name: "ショート",
+         image: "http://exsample.com/Short.png"
+      },
+      {
+         id:1,
+         name: "ロング",
+         image: "http://exsample.com/long.png"
+      }
+   ]
+}
+```
+
+ キー | 値
+--------|---------
+catalogCategory:id | ID
+catalogCategory:name | タイトル
+catalogCategory:image | 画像のURL
+
+## <a name="update_url_schemes"></a>ヘアカタログ一覧取得
+
+### URL
+```
+POST /api/:version/catalog/list
+```
+### Request Params
+```
+categoryID=0
+```
+
+### Response
+```
+{
+   cataloglist:[
+      {
+         id:1,
+         image: "http://exsample.com/Short.png"
+      },
+      {
+         id:2,
+         image: "http://exsample.com/Short.png"
+      },
+      {
+         id:3,
+         image: "http://exsample.com/Short.png"
+      },
+      {
+         id:4,
+         image: "http://exsample.com/Short.png"
+      }
+   ]
+}
+```
+
+ キー | 値
+--------|---------
+cataloglist:id | ID
+cataloglist:image | 画像のURL
