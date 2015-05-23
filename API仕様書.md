@@ -2,7 +2,7 @@
 
 ### URL
 ```
-GET /api/:version/omakase-
+GET /api/:version/osusume
 ```
 ### Response
 ```
@@ -83,8 +83,8 @@ id=834336　店舗ID
 ### Response
 ```
     {
-      id: 834336
-      name: "美美美"
+      id: 834336,
+      name: "美美美",
       image1: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       image2: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
       image3: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
@@ -113,3 +113,40 @@ business_hours | 営業時間
 regular_holiday | 定休日
 multilingual | 対応外国語
 word_of_mouth_count | 口コミの数
+
+## <a name="update_url_schemes"></a>地域エリア取得
+
+### URL
+```
+POST /api/:version/area
+```
+
+### Request Params
+```
+id=1　地域ID
+パラメータ無しで最上位の地域を取得する　（北京、広州など）
+パラメータを与えられた場合その地域の詳細地域を取得する　
+```
+
+### Response
+```
+    areaList: [
+    {
+      id: 1
+      name: "北京"
+      isDetail: 1
+    },
+    {
+      id: 2
+      name: "広州"
+      isDetail: 1
+    }
+    ]
+
+```
+
+ キー | 値
+--------|---------
+id | サロンのID
+name | サロン名
+isDetail | 詳細地域があるのかないのか判定用フラグ
