@@ -282,7 +282,8 @@ catalogCategory:image | 画像のURL
 
 ### URL
 ```
-POST /api/:version/catalog/list
+POST /api/:version/catalog/list/new 新着順
+POST /api/:version/catalog/list/good 高評価順
 ```
 ### Request Params
 ```
