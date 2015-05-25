@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetRecommendService;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 @WebServlet(name="GetRecommendSalonServlet",urlPatterns={"/api/:version/osusume"})
 public class GetRecommendAction extends HttpServlet{
@@ -39,7 +40,22 @@ public class GetRecommendAction extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		String languageCode = request.getHeader("langage");
+		if(languageCode != null && languageCode.equals("jp")){
+			response.setLocale(Locale.JAPAN);
+		}
+		else if(languageCode != null && languageCode.equals("ch")){
+			response.setLocale(Locale.CHINA);
+		}
+		else{
+			//defaultは中国
+			response.setLocale(Locale.CHINA);
+		}
 		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		//service excute
 		GetRecommendService recommendservice = new GetRecommendService();
 		recommendservice.excuteService(request, response);
 	    
