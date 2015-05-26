@@ -68,7 +68,7 @@ public class RecommendDao {
 	}	
 	
 	public Date getRecommendSalonLastUpdate(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_masterRecommend_updateDate` FROM 't_masterRecommend' WHERE ('t_masterRecommend_salonId'　!=-1 AND 't_masterRecommend_hairStyleId' == -1) ORDER BY 't_masterRecommend_updateDate' DESC";
+		String sql = "SELECT `t_masterRecommend_updateDate` FROM `t_masterRecommend` WHERE (t_masterRecommend_salonId!=-1 AND t_masterRecommend_hairStyleId = -1)  ORDER BY `t_masterRecommend_updateDate` DESC";
 		Statement statement = dbConnection.getStatement();
 		Date lastUpdate = new Date(0);
 		try {
@@ -88,7 +88,7 @@ public class RecommendDao {
 	}
 	
 	public Date getRecommendHairLastUpdate(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_masterRecommend_updateDate` FROM 't_masterRecommend' WHERE ('t_masterRecommend_salonId'　==-1 AND 't_masterRecommend_hairStyleId' != -1) ORDER BY t_masterRecommend_updateDate DESC";
+		String sql = "SELECT `t_masterRecommend_updateDate` FROM `t_masterRecommend` WHERE (t_masterRecommend_salonId=-1 AND t_masterRecommend_hairStyleId !=-1)  ORDER BY `t_masterRecommend_updateDate` DESC";
 		Statement statement = dbConnection.getStatement();
 		Date lastUpdate = new Date(0);
 		try {
