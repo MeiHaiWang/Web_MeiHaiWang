@@ -83,8 +83,9 @@ public class GetRecommendService {
 		    //返却用インフォーメーション用データ(Jsonデータの作成)
 		    JSONArray informationArray = new JSONArray();
 		    JSONObject jsonOneData = new JSONObject();
-		    jsonOneData.put("published_at_salon",lastUpdateSalon);
-		    jsonOneData.put("published_at_hair",lastUpdateHair);
+		    jsonOneData.put("published_at_salon",lastUpdateSalon.toString());
+		    jsonOneData.put("published_at_hair",lastUpdateHair.toString());
+		    informationArray.add(jsonOneData);
 		    jsonObject.put("information",informationArray);
 		    
 		    PrintWriter out = response.getWriter();
