@@ -18,8 +18,8 @@ import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class GetSearchSalonService {
-		@SuppressWarnings({ "unchecked", "unused" })
-		public HttpServletResponse excuteService(HttpServletRequest request,
+	@SuppressWarnings({ "unchecked", "unused" })
+	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){
 		
 	/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
@@ -43,6 +43,6 @@ public class GetSearchSalonService {
     
 	response.setStatus(responseStatus);
 	return response;
-}			
-		}
+
+	}
 }
