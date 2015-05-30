@@ -68,7 +68,7 @@ public class GetRecommendService {
 		    	//オススメサロンを返却する際は地域レベル１の地名を返却すればいい
 		    	jsonOneData.put("place", hairSalonInfo.getAreaNameList().get(0));
 		    	jsonOneData.put("isgood", hairSalonInfo.getIsGood());
-		    	jsonOneData.put("good_count", hairSalonInfo.getGoodNumber());
+		    	jsonOneData.put("good_count", hairSalonInfo.getFavoriteNumber());
 		    	salonArray.add(jsonOneData);
 		    }
 		    jsonObject.put("salon_lists",salonArray);
@@ -83,7 +83,7 @@ public class GetRecommendService {
 		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
 		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
 		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
-		    	jsonOneData.put("good_count", hairStyleInfo.getGoodNumber());
+		    	jsonOneData.put("good_count", hairStyleInfo.getFavoriteNumber());
 		    	hairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("style_lists",hairStyleArray);
@@ -97,7 +97,7 @@ public class GetRecommendService {
 		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
 		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
 		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
-		    	jsonOneData.put("good_count", stylistInfo.getGoodNumber());
+		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
 		    	stylistArray.add(jsonOneData);
 		    }
 		    jsonObject.put("stylist_lists",stylistArray);		    

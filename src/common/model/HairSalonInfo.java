@@ -10,21 +10,18 @@ public class HairSalonInfo {
 	private String hairSalonImagePath="";
 	private List<String> areaNameList = new ArrayList<String>();
 	private String message ="";
-	private int goodNumber = Integer.MIN_VALUE;
+	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
+    private String telNumber ="";
+    private String address ="";
+    private String businessHour ="";
+    private String regularHoliday ="";
+    private String multiLingual ="";
+    private int wordOfMonthCount = Integer.MIN_VALUE;
+    private int isNetReservation = Integer.MIN_VALUE;
+    private Double evaluationPointMid = Double.MIN_VALUE;
+    
 	public HairSalonInfo(){
-		
-	}
-
-	public HairSalonInfo(int hairSalonId,String hairSalonName , String hairSalonImagePath,
-			List<String> areNameList , String message , int goodNumber, int isGood){
-		this.hairSalonId = hairSalonId;
-		this.hairSalonName = hairSalonName;
-		this.hairSalonImagePath = hairSalonImagePath;
-		this.areaNameList = areNameList;
-		this.message = message;
-		this.goodNumber = goodNumber;
-		this.isGood = isGood;
 		
 	}
 
@@ -67,12 +64,12 @@ public class HairSalonInfo {
 		return message;
 	}
 
-	public void setGoodNumber(int goodNumber){
-		this.goodNumber = goodNumber;
+	public void setFavoriteNumber(int favoriteNumber){
+		this.favoriteNumber = favoriteNumber;
 	}
 	
-	public int getGoodNumber(){
-		return goodNumber;
+	public int getFavoriteNumber(){
+		return favoriteNumber;
 	}	
 	public void setIsGood(int isGood){
 		this.isGood = isGood;
@@ -81,4 +78,68 @@ public class HairSalonInfo {
 	public int getIsGood(){
 		return isGood;
 	}	
+	
+	public void setTelNumber(String tel){
+		this.telNumber = tel;
+	}
+	
+	public String getTel(){
+		return telNumber;
+	}	
+	
+	public void setAddress(String address){
+		this.address = address;
+	}
+	
+	public String getAddress(){
+		return address;
+	}	
+	
+	public void setBusinessHour(String businessHour){
+		this.businessHour = businessHour;
+	}
+	
+	public String getBusinessHour(){
+		return businessHour;
+	}		
+
+	public void setRegularHoliday(String regularHoliday){
+		this.regularHoliday = regularHoliday;
+	}
+	
+	public String getRegularHoliday(){
+		return regularHoliday;
+	}		
+	
+	public void setMultiLingual(String multiLingual){
+		this.multiLingual = multiLingual;
+	}
+	
+	public String getMultiLingual(){
+		return multiLingual;
+	}		
+
+	public void setWordOfMonth(int wordOfMonth){
+		this.wordOfMonthCount = wordOfMonth;
+	}
+	
+	public int getWordOfMonth(){
+		return wordOfMonthCount;
+	}		
+	
+	public void setIsNetReservation(int isNetReservation){
+		this.isNetReservation = isNetReservation;
+	}
+	
+	public int getIsNetReservation(){
+		return isNetReservation;
+	}	
+	
+	public void setEvaluationPointMid(double point){
+		this.evaluationPointMid = point;
+	}
+	
+	public double getEvaluationPointMid(){
+		return evaluationPointMid;
+	}
 }

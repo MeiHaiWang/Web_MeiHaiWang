@@ -16,11 +16,6 @@ public class StylistHistryDao {
 		
 	}
 	
-	/*  *
-	 *  SELECT `t_user_latestViewStylistId` FROM `t_user` WHERE t_user_Id=?
-		SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_goodNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id=?
-	 * */
-	
 	public List<Integer> getstylistIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_latestViewStylistId` FROM `t_user` WHERE t_user_Id=" + user_id;
 		List<Integer> stylistIdList = new ArrayList<Integer>();
@@ -44,7 +39,7 @@ public class StylistHistryDao {
 
 	public List<StylistInfo> getStylistHistryInfo(DBConnection dbConnection, List<Integer> stylist_id_list) throws SQLException{
 		String sql = 
-				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_goodNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id=";
+				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_favoriteNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id=";
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		
 		Statement statement = dbConnection.getStatement();
@@ -57,7 +52,7 @@ public class StylistHistryDao {
 					stylistInfo.setStylistName(rs.getString("t_stylist_name"));
 					stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
 					stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-					stylistInfo.setGoodNumber(rs.getInt("t_stylist_goodNumber"));
+					stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
 					stylistInfoList.add(stylistInfo);
 				}
 			} catch (SQLException e) {

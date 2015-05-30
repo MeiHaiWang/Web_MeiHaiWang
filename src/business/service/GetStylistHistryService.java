@@ -55,7 +55,7 @@ public class GetStylistHistryService {
 		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
 		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
 		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
-		    	jsonOneData.put("good_count", stylistInfo.getGoodNumber());
+		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
 		    	stylistArray.add(jsonOneData);
 		    }
 		    jsonObject.put("stylist_lists",stylistArray);		    
