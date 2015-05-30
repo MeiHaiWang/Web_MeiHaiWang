@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
 import common.model.StylistInfo;
@@ -25,6 +26,7 @@ public class RecommendDao {
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			
 			while(rs.next()){
 				HairSalonInfo hairSalonInfo = new HairSalonInfo();
 				hairSalonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonID"));
@@ -69,25 +71,25 @@ public class RecommendDao {
 	//TODO ユーザがお気に入りしているかどうかを保持するisGoodはセットしていない。呼び出し側でセットすること
 	public List<StylistInfo> getRecommendStylistInfo(DBConnection dbConnection) throws SQLException{
 		String sql = "SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_goodNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id IN (SELECT `t_masterRecommend_stylistId` FROM `t_masterRecommend`)";
-		List<StylistInfo> styListInfoList = new ArrayList<StylistInfo>();
+		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setStylistId(rs.getInt("t_hairStyle_Id"));
-				stylistInfo.setStylistName(rs.getString("t_hairStyle_name"));
-				stylistInfo.setStylistImagePath(rs.getString("t_hairStyle_imagePath"));
-				stylistInfo.setSalonId(rs.getInt("t_hairStyle_salonId"));
+				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
 				stylistInfo.setGoodNumber(rs.getInt("t_stylist_goodNumber"));
-				styListInfoList.add(stylistInfo);
+				stylistInfoList.add(stylistInfo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return styListInfoList;
+		return stylistInfoList;
 	}		
 	
 	public Date getRecommendSalonLastUpdate(DBConnection dbConnection) throws SQLException{
