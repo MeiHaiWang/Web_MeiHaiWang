@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
 import common.model.StylistInfo;
@@ -20,13 +19,12 @@ public class RecommendDao {
 	}
 	//TODO ユーザがお気に入りしているかどうかを保持するisGoodはセットしていない。呼び出し側でセットすること
 	public List<HairSalonInfo> getRecommendSalonInfo(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName`,`t_hairSalonMaster_goodNumber` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_salonId` IN (SELECT `t_masterRecommend_salonId` FROM `t_masterRecommend`)";
+		String sql = "SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName`,`t_hairSalonMaster_favoriteNumber` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_salonId` IN (SELECT `t_masterRecommend_salonId` FROM `t_masterRecommend`)";
 		List<HairSalonInfo> hairSalonInfoList = new ArrayList<HairSalonInfo>();
 		
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
-			
 			while(rs.next()){
 				HairSalonInfo hairSalonInfo = new HairSalonInfo();
 				hairSalonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonID"));
@@ -34,7 +32,7 @@ public class RecommendDao {
 				hairSalonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
 				hairSalonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
 				hairSalonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
-				hairSalonInfo.setGoodNumber(rs.getInt("t_hairSalonMaster_goodNumber"));
+				hairSalonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
 				hairSalonInfoList.add(hairSalonInfo);
 			}
 		} catch (SQLException e) {
@@ -45,7 +43,7 @@ public class RecommendDao {
 	}
 	//TODO ユーザがお気に入りしているかどうかを保持するisGoodはセットしていない。呼び出し側でセットすること
 	public List<HairStyleInfo> getRecommendHairStyleInfo(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_hairStyle_Id`, `t_hairStyle_name`, `t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_stylistId` , `t_hairStyle_goodNumber` FROM `t_hairStyle` WHERE `t_hairStyle_Id` IN (SELECT `t_masterRecommend_hairStyleId` FROM `t_masterRecommend`)";
+		String sql = "SELECT `t_hairStyle_Id`, `t_hairStyle_name`, `t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_stylistId` , `t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE `t_hairStyle_Id` IN (SELECT `t_masterRecommend_hairStyleId` FROM `t_masterRecommend`)";
 		List<HairStyleInfo> hairStyleInfoList = new ArrayList<HairStyleInfo>();
 		
 		Statement statement = dbConnection.getStatement();
@@ -58,7 +56,7 @@ public class RecommendDao {
 				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
 				hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
 				hairStyleInfo.setSalonId(rs.getInt("t_hairStyle_salonId"));
-				hairStyleInfo.setGoodNumber(rs.getInt("t_hairStyle_goodNumber"));
+				hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
 				hairStyleInfoList.add(hairStyleInfo);
 			}
 		} catch (SQLException e) {
@@ -70,29 +68,30 @@ public class RecommendDao {
 
 	//TODO ユーザがお気に入りしているかどうかを保持するisGoodはセットしていない。呼び出し側でセットすること
 	public List<StylistInfo> getRecommendStylistInfo(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_goodNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id IN (SELECT `t_masterRecommend_stylistId` FROM `t_masterRecommend`)";
-		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
+		String sql = "SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_imagePath`, `t_stylist_favoriteNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id IN (SELECT `t_masterRecommend_stylistId` FROM `t_masterRecommend`)";
+		List<StylistInfo> styListInfoList = new ArrayList<StylistInfo>();
 		
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
-				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setGoodNumber(rs.getInt("t_stylist_goodNumber"));
-				stylistInfoList.add(stylistInfo);
+				stylistInfo.setStylistId(rs.getInt("t_hairStyle_Id"));
+				stylistInfo.setStylistName(rs.getString("t_hairStyle_name"));
+				stylistInfo.setStylistImagePath(rs.getString("t_hairStyle_imagePath"));
+				stylistInfo.setSalonId(rs.getInt("t_hairStyle_salonId"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				styListInfoList.add(stylistInfo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfoList;
+		return styListInfoList;
 	}		
 	
 	public Date getRecommendSalonLastUpdate(DBConnection dbConnection) throws SQLException{
+
 		String sql = "SELECT `t_masterRecommend_updateDate` FROM `t_masterRecommend` WHERE (t_masterRecommend_salonId!=-1 AND t_masterRecommend_hairStyleId = -1 AND t_masterRecommend_stylistId = -1)  ORDER BY `t_masterRecommend_updateDate` DESC";
 		Statement statement = dbConnection.getStatement();
 		Date lastUpdate = new Date(0);

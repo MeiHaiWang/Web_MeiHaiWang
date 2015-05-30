@@ -6,21 +6,10 @@ public class HairStyleInfo {
 	private String hairStyleImagePath="";
 	private int stylistId = Integer.MIN_VALUE;
 	private int salonId = Integer.MIN_VALUE;
-	private int goodNumber = Integer.MIN_VALUE;
+	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
 	public HairStyleInfo(){
 		
-	}
-
-	public HairStyleInfo(int hairStyleId,String hairStyleName , String hairStyleImagePath,
-			int stylistId , int salonId,int goodNumber , int isGood){
-		this.hairStyleId = hairStyleId;
-		this.hairStyleName = hairStyleName;
-		this.hairStyleImagePath = hairStyleImagePath;
-		this.stylistId = stylistId;
-		this.salonId = salonId;
-		this.goodNumber = goodNumber;
-		this.isGood = isGood;
 	}
 	
 	public void setHairStyleId(int hairStyleId){
@@ -62,12 +51,12 @@ public class HairStyleInfo {
 		return salonId;
 	}
 
-	public void setGoodNumber(int goodNumber){
-		this.goodNumber = goodNumber;
+	public void setFavoriteNumber(int favoriteNumber){
+		this.favoriteNumber = favoriteNumber;
 	}
 	
-	public int getGoodNumber(){
-		return goodNumber;
+	public int getFavoriteNumber(){
+		return favoriteNumber;
 	}
 
 	public void setIsGood(int isGood){

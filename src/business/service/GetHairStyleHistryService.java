@@ -51,7 +51,7 @@ public class GetHairStyleHistryService {
 		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
 		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
 		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
-		    	jsonOneData.put("good_count", hairStyleInfo.getGoodNumber());
+		    	jsonOneData.put("good_count", hairStyleInfo.getFavoriteNumber());
 		    	hairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("hair_lists",hairStyleArray);

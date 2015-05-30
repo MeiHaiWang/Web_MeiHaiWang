@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetStylistHistryService;
+import business.service.GetRecommendService;
+import business.service.GetSalonDetailService;
 
-@WebServlet(name="GetStylistHistryServlet",urlPatterns={"/api/:version/stylist_History"})
-public class GetStylistHistryAction extends HttpServlet{
-
+@WebServlet(name="GetSalonDetailServlet",urlPatterns={"/api/:version/shop_detail"})
+public class GetSalonDetailAction extends HttpServlet {
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class GetStylistHistryAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetStylistHistryAction() {
+	public GetSalonDetailAction() {
 		super();
 	}
 
@@ -56,8 +56,8 @@ public class GetStylistHistryAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetStylistHistryService stylist_histry_service = new GetStylistHistryService();
-		stylist_histry_service.excuteService(request, response);
+		GetSalonDetailService salonDetailService = new GetSalonDetailService();
+		salonDetailService.excuteService(request, response);
 	    
 	}
 
@@ -75,5 +75,4 @@ public class GetStylistHistryAction extends HttpServlet{
 			HttpServletResponse response) throws ServletException, IOException {
 		//do nothing
 	}
-
 }

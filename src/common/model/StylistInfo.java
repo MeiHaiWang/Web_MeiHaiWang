@@ -6,20 +6,10 @@ public class StylistInfo {
 	private String stylistImagePath="";
 	private int salonId = Integer.MIN_VALUE;
 	private int isgood = 0;
-	private int goodNumber = Integer.MIN_VALUE;
+	private int favoriteNumber = Integer.MIN_VALUE;
 	
 	public StylistInfo(){
 		
-	}
-
-	public StylistInfo(int stylistId,String stylistName , String stylistImagePath,
-			int salonId , int isgood , int goodNumber ){
-		this.stylistId = stylistId;
-		this.stylistName = stylistName;
-		this.stylistImagePath = stylistImagePath;
-		this.salonId = salonId;
-		this.isgood = isgood;
-		this.goodNumber = goodNumber;
 	}
 	
 	public void setStylistId(int stylistId){
@@ -62,11 +52,11 @@ public class StylistInfo {
 		return isgood;
 	}
 	
-	public void setGoodNumber(int goodNumber){
-		this.goodNumber = goodNumber;
+	public void setFavoriteNumber(int favoriteNumber){
+		this.favoriteNumber = favoriteNumber;
 	}
 	
-	public int getGoodNumber(){
-		return goodNumber;
+	public int getFavoriteNumber(){
+		return favoriteNumber;
 	}
 }
