@@ -18,7 +18,7 @@ public class NewsDao {
 	}
 
 	public List<BeautyNewsInfo> getBeautyNewsInfo(DBConnection dbConnection) throws SQLException{
-		String sql = "SELECT `t_masterNewsName`, `t_masterNewImagePath`, `t_masterNewsURL` FROM `t_masterNews`)";
+		String sql = "SELECT `t_masterNewsName`, `t_masterNewImagePath`, `t_masterNewsURL` FROM `t_masterNews`";
 		List<BeautyNewsInfo> BeautyNewsInfoList = new ArrayList<BeautyNewsInfo>();
 		
 		Statement statement = dbConnection.getStatement();

@@ -22,16 +22,18 @@ public class GetNewsService {
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
-        Date lastUpdateSalon = new Date(0);
-        Date lastUpdateHair = new Date(0);
+        //Date lastUpdateSalon = new Date(0);
+        //Date lastUpdateHair = new Date(0);
+		
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<BeautyNewsInfo> beatyNewsList  = new ArrayList<BeautyNewsInfo>();
+			List<BeautyNewsInfo> beautyNewsList  = new ArrayList<BeautyNewsInfo>();
 			
 			if(conn!=null){
 				NewsDao dao = new NewsDao();
+				beautyNewsList = dao.getBeautyNewsInfo(dbConnection);
 				/*
 				salonInfoList  = dao.getRecommendSalonInfo(dbConnection);
 				hairStyleInfoList =  dao.getRecommendHairStyleInfo(dbConnection);
@@ -44,18 +46,22 @@ public class GetNewsService {
 			JSONObject jsonObject = new JSONObject();
 		    
 		    // 返却用サロンデータ（jsonデータの作成）
-			JSONArray salonArray = new JSONArray();
-		    for(BeautyNewsInfo hairSalonInfo : salonInfoList){
+			JSONArray newsArray = new JSONArray();
+		    for(BeautyNewsInfo returnNews : beautyNewsList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
-		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-		    	jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
-		    	jsonOneData.put("message", hairSalonInfo.getMessage());
-		    	//オススメサロンを返却する際は地域レベル１の地名を返却すればいい
-		    	jsonOneData.put("place", hairSalonInfo.getAreaNameList().get(0));
-		    	salonArray.add(jsonOneData);
+		    	jsonOneData.put("image", returnNews.getbeautyNewsImagePath());
+		    	jsonOneData.put("title", returnNews.getbeautyNewsName());
+		    	jsonOneData.put("URL", returnNews.getbeautyNewsURL());
+		    	newsArray.add(jsonOneData);
 		    }
-		    jsonObject.put("salon_lists",salonArray);
+		    jsonObject.put("news",newsArray);
+		    
+		    /*
+		     * 				BeautyNewsInfo.setbeautyNewsName(rs.getString("t_masterNewsName"));
+				BeautyNewsInfo.setbeautyNewsImagePath(rs.getString("t_masterNewImagePath"));
+				BeautyNewsInfo.setbeautyNewsURL(rs.getString("t_masterNewsURL"));
+
+		     */
 		    
 		    /*
 		    //返却用ヘアースタイルデータ(Jsonデータの作成)
