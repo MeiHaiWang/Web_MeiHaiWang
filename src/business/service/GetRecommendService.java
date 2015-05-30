@@ -3,51 +3,55 @@ package business.service;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
-
-import com.mysql.jdbc.Connection;
-
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
+import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class GetRecommendService {
 
 	
-	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
-		HttpSession session = request.getSession();
+		/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
+				Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+		*/
+		//TODO テスト用
+		int userId =1;
+		
         Date lastUpdateSalon = new Date(0);
         Date lastUpdateHair = new Date(0);
+        Date lastUpdateStylist = new Date(0);
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<HairSalonInfo> salonInfoList  = new ArrayList<HairSalonInfo>();
 			List<HairStyleInfo> hairStyleInfoList = new ArrayList<HairStyleInfo>();
+			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 			
 			if(conn!=null){
 				RecommendDao dao = new RecommendDao();
 				salonInfoList  = dao.getRecommendSalonInfo(dbConnection);
 				hairStyleInfoList =  dao.getRecommendHairStyleInfo(dbConnection);
+				stylistInfoList = dao.getRecommendStylistInfo(dbConnection);
+				
+				//お気に入りされているかどうかを設定する
+				dao.setIsFavoriteSalon(userId, salonInfoList, dbConnection);
+				dao.setIsFavoriteHair(userId, hairStyleInfoList, dbConnection);
+				dao.setIsFavoriteStylist(userId, stylistInfoList, dbConnection);
+				
 				lastUpdateSalon = dao.getRecommendSalonLastUpdate(dbConnection);
 				lastUpdateHair = dao.getRecommendHairLastUpdate(dbConnection);
+				lastUpdateStylist = dao.getRecommendStylistLastUpdate(dbConnection);
+				
 				dbConnection.close();
 			}
 			//レスポンスに設定するJSON Object
@@ -63,6 +67,8 @@ public class GetRecommendService {
 		    	jsonOneData.put("message", hairSalonInfo.getMessage());
 		    	//オススメサロンを返却する際は地域レベル１の地名を返却すればいい
 		    	jsonOneData.put("place", hairSalonInfo.getAreaNameList().get(0));
+		    	jsonOneData.put("isgood", hairSalonInfo.getIsGood());
+		    	jsonOneData.put("good_count", hairSalonInfo.getGoodNumber());
 		    	salonArray.add(jsonOneData);
 		    }
 		    jsonObject.put("salon_lists",salonArray);
@@ -76,15 +82,32 @@ public class GetRecommendService {
 		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
 		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
 		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
+		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
+		    	jsonOneData.put("good_count", hairStyleInfo.getGoodNumber());
 		    	hairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("style_lists",hairStyleArray);
 			
+		    //返却用スタイリストデータの(JSONデータの作成)
+		    JSONArray stylistArray = new JSONArray();
+		    for(StylistInfo stylistInfo : stylistInfoList){
+		    	JSONObject jsonOneData = new JSONObject();
+		    	jsonOneData.put("id", stylistInfo.getStylistId());
+		    	jsonOneData.put("name", stylistInfo.getStylistName());
+		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
+		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
+		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
+		    	jsonOneData.put("good_count", stylistInfo.getGoodNumber());
+		    	stylistArray.add(jsonOneData);
+		    }
+		    jsonObject.put("stylist_lists",stylistArray);		    
+		    
 		    //返却用インフォーメーション用データ(Jsonデータの作成)
 		    JSONArray informationArray = new JSONArray();
 		    JSONObject jsonOneData = new JSONObject();
 		    jsonOneData.put("published_at_salon",lastUpdateSalon.toString());
 		    jsonOneData.put("published_at_hair",lastUpdateHair.toString());
+		    jsonOneData.put("published_at_stylist",lastUpdateStylist.toString());
 		    informationArray.add(jsonOneData);
 		    jsonObject.put("information",informationArray);
 		    

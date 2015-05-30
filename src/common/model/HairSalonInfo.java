@@ -10,18 +10,21 @@ public class HairSalonInfo {
 	private String hairSalonImagePath="";
 	private List<String> areaNameList = new ArrayList<String>();
 	private String message ="";
-
+	private int goodNumber = Integer.MIN_VALUE;
+	private int isGood = 0;
 	public HairSalonInfo(){
 		
 	}
 
 	public HairSalonInfo(int hairSalonId,String hairSalonName , String hairSalonImagePath,
-			List<String> areNameList , String message ){
+			List<String> areNameList , String message , int goodNumber, int isGood){
 		this.hairSalonId = hairSalonId;
 		this.hairSalonName = hairSalonName;
 		this.hairSalonImagePath = hairSalonImagePath;
 		this.areaNameList = areNameList;
 		this.message = message;
+		this.goodNumber = goodNumber;
+		this.isGood = isGood;
 		
 	}
 
@@ -63,5 +66,19 @@ public class HairSalonInfo {
 	public String getMessage(){
 		return message;
 	}
+
+	public void setGoodNumber(int goodNumber){
+		this.goodNumber = goodNumber;
+	}
 	
+	public int getGoodNumber(){
+		return goodNumber;
+	}	
+	public void setIsGood(int isGood){
+		this.isGood = isGood;
+	}
+	
+	public int getIsGood(){
+		return isGood;
+	}	
 }
