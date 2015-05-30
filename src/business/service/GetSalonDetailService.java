@@ -66,7 +66,10 @@ public class GetSalonDetailService {
 		    	jsonOneData.put("isNetReservation", String.valueOf(hairSalonInfo.getIsNetReservation()));
 		    	salonArray.add(jsonOneData);
 		    }
-		    jsonObject.put("",salonArray);
+		    jsonObject.put("shop",salonArray);
+		    PrintWriter out = response.getWriter();
+		    out.print(jsonObject);
+		    out.flush();
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
