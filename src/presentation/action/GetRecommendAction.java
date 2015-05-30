@@ -52,7 +52,7 @@ public class GetRecommendAction extends HttpServlet{
 			response.setLocale(Locale.CHINA);
 		}
 		
-		response.setContentType("application/json");
+		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute

@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import business.service.GetSearchSalonService;
 import business.service.GetStylistHistryService;
 
-@WebServlet(name="GetStylistHistryServlet",urlPatterns={"/api/:version/stylist_History"})
-public class GetStylistHistryAction extends HttpServlet{
+@WebServlet(name="GetSearchSalonServlet",urlPatterns={"/api/:version/shop_list"})
+public class GetSearchSalonAction {
 
 	/**
 	 *
@@ -23,7 +24,7 @@ public class GetStylistHistryAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetStylistHistryAction() {
+	public GetSearchSalonAction() {
 		super();
 	}
 
@@ -56,8 +57,8 @@ public class GetStylistHistryAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetStylistHistryService stylist_histry_service = new GetStylistHistryService();
-		stylist_histry_service.excuteService(request, response);
+		GetSearchSalonService searchSalonService = new GetSearchSalonService();
+		searchSalonService.excuteService(request, response);
 	    
 	}
 
@@ -74,6 +75,5 @@ public class GetStylistHistryAction extends HttpServlet{
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		//do nothing
-	}
-
+	}	
 }
