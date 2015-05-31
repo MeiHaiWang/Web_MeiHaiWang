@@ -10,27 +10,23 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import business.dao.StylistDao;
+import business.dao.SalonDao;
 
-import common.model.StylistInfo;
+import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
-public class GetStylistFavoriteService {
+public class GetSalonFavoriteService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
-		/*
-		Date lastUpdateSalon = new Date(0);
-        Date lastUpdateHair = new Date(0);
-        */
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<Integer> stylistIdList  = new ArrayList<Integer>();
-			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
+			List<Integer> SalonIdList  = new ArrayList<Integer>();
+			List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
 			/*String userId = request.getHeader(Constant.HEADER_USERID) != null ?
 			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 			 */
@@ -38,27 +34,27 @@ public class GetStylistFavoriteService {
 			int userId =1;			
 			
 			if(conn!=null){
-				StylistDao dao = new StylistDao();
-				stylistIdList  = dao.getStylistFavoriteIdList(dbConnection, userId);
-				stylistInfoList = dao.getStylistFavoriteInfo(dbConnection, stylistIdList);
+				SalonDao dao = new SalonDao();
+				SalonIdList  = dao.getSalonFavoriteIdList(dbConnection, userId);
+				SalonInfoList = dao.getSalonFavoriteInfo(dbConnection, SalonIdList);
 				dbConnection.close();
 			}
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 		    
 		    // 返却用サロンデータ（jsonデータの作成）
-		    JSONArray stylistArray = new JSONArray();
-		    for(StylistInfo stylistInfo : stylistInfoList){
+		    JSONArray SalonArray = new JSONArray();
+		    for(HairSalonInfo SalonInfo : SalonInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", stylistInfo.getStylistId());
-		    	jsonOneData.put("name", stylistInfo.getStylistName());
-		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
-		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
-		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
-		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
-		    	stylistArray.add(jsonOneData);
+		    	jsonOneData.put("id", SalonInfo.getHairSalonId());
+		    	jsonOneData.put("name", SalonInfo.getHairSalonName());
+		    	jsonOneData.put("image", SalonInfo.getHairSalonImagePath());
+		    	jsonOneData.put("shopId", SalonInfo.getHairSalonId());
+		    	jsonOneData.put("isgood", SalonInfo.getIsGood());
+		    	jsonOneData.put("good_count", SalonInfo.getFavoriteNumber());
+		    	SalonArray.add(jsonOneData);
 		    }
-		    jsonObject.put("stylist_lists",stylistArray);		    
+		    jsonObject.put("salon_lists",SalonArray);		    
 
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

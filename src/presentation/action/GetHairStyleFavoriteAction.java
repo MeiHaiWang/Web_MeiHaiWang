@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetHairSalonHistoryService;
+import business.service.GetHairStyleFavoriteService;
 
-@WebServlet(name="GetHairSalonHistoryServlet",urlPatterns={"/api/:version/salon_history"})
-public class GetHairSalonHistoryAction extends HttpServlet{
-
+@WebServlet(name="GetHairStyleFavoriteServlet",urlPatterns={"/api/:version/hire_Favorite"})
+public class GetHairStyleFavoriteAction extends HttpServlet {
 	/**
 	 *
 	 */
@@ -23,7 +22,7 @@ public class GetHairSalonHistoryAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetHairSalonHistoryAction() {
+	public GetHairStyleFavoriteAction() {
 		super();
 	}
 
@@ -52,11 +51,11 @@ public class GetHairSalonHistoryAction extends HttpServlet{
 			response.setLocale(Locale.CHINA);
 		}
 		
-		response.setContentType("application/json");
+		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetHairSalonHistoryService service = new GetHairSalonHistoryService();
+		GetHairStyleFavoriteService service = new GetHairStyleFavoriteService();
 		service.excuteService(request, response);
 	    
 	}
@@ -76,4 +75,5 @@ public class GetHairSalonHistoryAction extends HttpServlet{
 		//do nothing
 	}
 
+	
 }

@@ -99,7 +99,7 @@ public class StylistDao {
 	/*
 	 * Favorite
 	 * */
-	public List<Integer> geStylisttFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
+	public List<Integer> getStylistFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_favoriteStylistId` FROM `t_user` WHERE t_user_Id =" + user_id;
 		List<Integer> stylistIdList = new ArrayList<Integer>();
 		

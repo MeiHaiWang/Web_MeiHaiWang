@@ -14,7 +14,7 @@ import com.sun.media.jfxmedia.logging.Logger;
 
 import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
-import common.model.StylistInfo;
+import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
 public class SalonDao {
@@ -171,6 +171,67 @@ public class SalonDao {
 		}
 		return infoList;
 	}	
+	
+	
+	/*
+	 * Favorite
+	 * */
+	public List<Integer> getSalonFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
+		String sql = "SELECT `t_user_favoriteSalonId` FROM `t_user` WHERE t_user_Id =" + user_id;
+		List<Integer> SalonIdList = new ArrayList<Integer>();
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			rs.next();
+			String str_id_list = rs.getString("t_user_favoriteSalonId");
+			for(int i=0; i<=str_id_list.length(); i+=2){
+				String temp = str_id_list.substring(i, i+1);
+				SalonIdList.add(Integer.parseInt(temp));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return SalonIdList;
+	}
+
+	public List<HairSalonInfo> getSalonFavoriteInfo(DBConnection dbConnection, List<Integer> Salon_id_list) throws SQLException{
+		String sql = 
+				"SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, "
+				+ "`t_area_areaName` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE t_hairSalonMaster_salonId =";
+		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
+		
+		/* お気に入りにまだ何も登録されていない＝null */
+	 	if(Salon_id_list.isEmpty()) {
+	 		SalonInfoList.add(retNull());
+	 		return SalonInfoList;
+	 	}
+		
+		Statement statement = dbConnection.getStatement();
+		for(int index: Salon_id_list){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				while(rs.next()){
+					HairSalonInfo SalonInfo = new HairSalonInfo();
+					SalonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+					SalonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+					SalonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+					SalonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
+					ArrayList<String> areaNameList = new ArrayList<String>();
+					areaNameList.add(rs.getString("t_area_areaName"));
+					SalonInfo.setAreaNameList(areaNameList);
+					SalonInfoList.add(SalonInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		return SalonInfoList;
+	}	
+	
 	
 	/*空っぽのデータをつっこむ*/
 	public HairSalonInfo retNull(){

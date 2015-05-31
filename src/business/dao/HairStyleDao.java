@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.model.HairStyleInfo;
-import common.model.StylistInfo;
+import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
 public class HairStyleDao {
@@ -55,7 +55,7 @@ public class HairStyleDao {
 					HairStyleInfo hairStyleInfo = new HairStyleInfo();
 					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
 					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-					hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
+					hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_HairStyleId"));
 					hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
 					infoList.add(hairStyleInfo);
 				}
@@ -67,7 +67,61 @@ public class HairStyleDao {
 		return infoList;
 	}	
 	
-	
+	/*
+	 * Favorite
+	 * */
+	public List<Integer> getHairStyleFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
+		String sql = "SELECT `t_user_favoriteHairStyleId` FROM `t_user` WHERE t_user_Id =" + user_id;
+		List<Integer> HairStyleIdList = new ArrayList<Integer>();
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			rs.next();
+			String str_id_list = rs.getString("t_user_favoriteHairStyleId");
+			for(int i=0; i<=str_id_list.length(); i+=2){
+				String temp = str_id_list.substring(i, i+1);
+				HairStyleIdList.add(Integer.parseInt(temp));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return HairStyleIdList;
+	}
+
+	public List<HairStyleInfo> getHairStyleFavoriteInfo(DBConnection dbConnection, List<Integer> HairStyle_id_list) throws SQLException{
+		String sql = 
+				"SELECT `t_hairStyle_id`, `t_hairStyle_stylistId`, `t_hairStyle_imagePath`,"
+				+ " `t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE t_hairStyle_id=";
+		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
+		
+		/* お気に入りにまだ何も登録されていない＝null */
+	 	if(HairStyle_id_list.isEmpty()) {
+	 		HairStyleInfoList.add(retNull());
+	 		return HairStyleInfoList;
+	 	}
+		
+		Statement statement = dbConnection.getStatement();
+		for(int index: HairStyle_id_list){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				while(rs.next()){
+					HairStyleInfo HairStyleInfo = new HairStyleInfo();
+					HairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_id"));
+					HairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
+					HairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+					HairStyleInfo.setIsGood(rs.getInt("t_hairStyle_favoriteNumber"));
+					HairStyleInfoList.add(HairStyleInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		return HairStyleInfoList;
+	}	
 	
 	/*空っぽのデータをつっこむ*/
 	public HairStyleInfo retNull(){
