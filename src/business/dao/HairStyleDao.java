@@ -121,7 +121,34 @@ public class HairStyleDao {
 			}
 		}
 		return HairStyleInfoList;
-	}	
+	}
+	
+	//Detail
+	public List<HairStyleInfo> getHairStyleDetailInfo(DBConnection dbConnection, int cataloglistID) throws SQLException{
+		String sql = 
+				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, "
+				+ "`t_hairStyle_favoriteNumber`, `t_hairStyle_stylistId` FROM `t_hairStyle` WHERE t_hairStyle_id="+cataloglistID;
+				
+		Statement statement = dbConnection.getStatement();
+		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
+
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				HairStyleInfo hairStyleInfo = new HairStyleInfo();
+				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_id"));
+				hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
+				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+				hairStyleInfo.setIsGood(rs.getInt("t_hairStyle_favoriteNumber"));
+				HairStyleInfoList.add(hairStyleInfo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+		return HairStyleInfoList;
+	}
 	
 	/*空っぽのデータをつっこむ*/
 	public HairStyleInfo retNull(){
