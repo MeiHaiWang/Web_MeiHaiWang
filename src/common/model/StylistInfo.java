@@ -28,7 +28,7 @@ public class StylistInfo {
 	}
 
 	public int getStylistGender(){
-		return stylistId;
+		return stylistGender;
 	}
 	
 	public void setStylistName(String stylistName){
