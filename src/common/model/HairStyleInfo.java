@@ -20,7 +20,7 @@ public class HairStyleInfo {
 		return hairStyleId;
 	}
 	public void setHairStyleName(String hairStyleName){
-		this.hairStyleName = hairStyleName;
+		this.hairStyleName = hairStyleName != null ? hairStyleName : "";
 	}
 	
 	public String getHairStyleName(){
@@ -28,7 +28,7 @@ public class HairStyleInfo {
 	}
 
 	public void setHairStyleImagePath(String hairStyleImagePath){
-		this.hairStyleImagePath = hairStyleImagePath;
+		this.hairStyleImagePath = hairStyleImagePath != null ? hairStyleImagePath : "";
 	}
 	
 	public String getHairStyleImagePath(){

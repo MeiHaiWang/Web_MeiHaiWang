@@ -88,4 +88,23 @@ public class SalonDao {
 		return salonInfoList;
 	}
 	
+	public HairSalonInfo getSalonMapInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
+		String sql ="SELECT `t_hairSalonMaster_mapUrl`, `t_hairSalonMaster_mapImagePath`, `t_hairSalonMaster_mapLatitude`, `t_hairSalonMaster_mapLongitude`, `t_hairSalonMaster_mapInfoText` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId.toString(); 		
+		Statement statement = dbConnection.getStatement();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				salonInfo.setSalonMapImagePath(rs.getString("t_hairSalonMaster_mapImagePath"));
+				salonInfo.setSalonLatitude(rs.getDouble("t_hairSalonMaster_mapLatitude"));
+				salonInfo.setSalonLongitude(rs.getDouble("t_hairSalonMaster_mapLongitude"));
+				salonInfo.setSalonMapInfo(rs.getString("t_hairSalonMaster_mapInfoText"));
+				
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return salonInfo;		
+	}
 }

@@ -20,6 +20,10 @@ public class HairSalonInfo {
     private int wordOfMonthCount = Integer.MIN_VALUE;
     private int isNetReservation = Integer.MIN_VALUE;
     private Double evaluationPointMid = Double.MIN_VALUE;
+    private Double salonLatitude = Double.MIN_VALUE;
+    private Double salonLongitude = Double.MIN_VALUE;
+    private String salonMapInfo = "";
+    private String salonMapImagePath = "";
     
 	public HairSalonInfo(){
 		
@@ -33,7 +37,7 @@ public class HairSalonInfo {
 		return hairSalonId;
 	}
 	public void setHairSalonName(String hairSalonName){
-		this.hairSalonName = hairSalonName;
+		this.hairSalonName = hairSalonName != null ? hairSalonName : "";
 	}
 	
 	public String getHairSalonName(){
@@ -41,7 +45,7 @@ public class HairSalonInfo {
 	}	
 
 	public void setHairSalonImagePath(String hairSalonImagePath){
-		this.hairSalonImagePath = hairSalonImagePath;
+		this.hairSalonImagePath = hairSalonImagePath != null ? hairSalonImagePath : "";
 	}
 	
 	public String getHairSalonImagePath(){
@@ -49,7 +53,7 @@ public class HairSalonInfo {
 	}	
 
 	public void setAreaNameList(List<String> areaNameList){
-		this.areaNameList = areaNameList;
+		this.areaNameList = areaNameList != null ? areaNameList : new ArrayList<String>();
 	}
 	
 	public List<String> getAreaNameList(){
@@ -57,7 +61,7 @@ public class HairSalonInfo {
 	}
 	
 	public void setMessage(String message){
-		this.message = message;
+		this.message = message != null ? message : "";
 	}
 	
 	public String getMessage(){
@@ -80,7 +84,7 @@ public class HairSalonInfo {
 	}	
 	
 	public void setTelNumber(String tel){
-		this.telNumber = tel;
+		this.telNumber = tel != null ? tel : "";
 	}
 	
 	public String getTel(){
@@ -88,7 +92,7 @@ public class HairSalonInfo {
 	}	
 	
 	public void setAddress(String address){
-		this.address = address;
+		this.address = address != null ? address : "";
 	}
 	
 	public String getAddress(){
@@ -96,7 +100,7 @@ public class HairSalonInfo {
 	}	
 	
 	public void setBusinessHour(String businessHour){
-		this.businessHour = businessHour;
+		this.businessHour = businessHour != null ? businessHour : "";
 	}
 	
 	public String getBusinessHour(){
@@ -104,7 +108,7 @@ public class HairSalonInfo {
 	}		
 
 	public void setRegularHoliday(String regularHoliday){
-		this.regularHoliday = regularHoliday;
+		this.regularHoliday = regularHoliday != null ? regularHoliday : "";
 	}
 	
 	public String getRegularHoliday(){
@@ -112,7 +116,7 @@ public class HairSalonInfo {
 	}		
 	
 	public void setMultiLingual(String multiLingual){
-		this.multiLingual = multiLingual;
+		this.multiLingual = multiLingual != null ? multiLingual : "";
 	}
 	
 	public String getMultiLingual(){
@@ -142,4 +146,37 @@ public class HairSalonInfo {
 	public double getEvaluationPointMid(){
 		return evaluationPointMid;
 	}
+
+	public void setSalonLatitude(double latitude){
+		this.salonLatitude = latitude;
+	}
+	
+	public double getSalonLatitude(){
+		return salonLatitude;
+	}
+	
+	public void setSalonLongitude(double longitude){
+		this.salonLongitude = longitude;
+	}
+	
+	public double getSalonLongitude(){
+		return salonLongitude;
+	}
+	
+	public void setSalonMapInfo(String mapInfo){
+		this.salonMapInfo = mapInfo != null ? mapInfo : "";
+	}
+	
+	public String getSalonMapInfo(){
+		return salonMapInfo;
+	}
+	
+	public void setSalonMapImagePath(String url){
+		this.salonMapImagePath = url != null ? url : "";
+	}
+	
+	public String getSalonMapImagePath(){
+		return salonMapImagePath;
+	}
 }
+

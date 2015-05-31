@@ -21,7 +21,7 @@ public class StylistInfo {
 	}
 	
 	public void setStylistName(String stylistName){
-		this.stylistName = stylistName;
+		this.stylistName = stylistName != null ? stylistName : "";
 	}
 	
 	public String getStylistName(){
@@ -29,7 +29,7 @@ public class StylistInfo {
 	}
 	
 	public void setStylistImagePath(String stylistImagePath){
-		this.stylistImagePath = stylistImagePath;
+		this.stylistImagePath = stylistImagePath != null ? stylistImagePath : "";
 	}
 	
 	public String getStylistImagePath(){
