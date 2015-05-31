@@ -76,10 +76,10 @@ public class RecommendDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setStylistId(rs.getInt("t_hairStyle_Id"));
-				stylistInfo.setStylistName(rs.getString("t_hairStyle_name"));
-				stylistInfo.setStylistImagePath(rs.getString("t_hairStyle_imagePath"));
-				stylistInfo.setSalonId(rs.getInt("t_hairStyle_salonId"));
+				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
 				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
 				styListInfoList.add(stylistInfo);
 			}
