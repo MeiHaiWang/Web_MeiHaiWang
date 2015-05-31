@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import business.dao.HairStyleHistryDao;
+import business.dao.HairStyleDao;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
@@ -33,7 +33,7 @@ public class GetHairStyleHistryService {
 			int userId =1;			
 			
 			if(conn!=null){
-				HairStyleHistryDao dao = new HairStyleHistryDao();
+				HairStyleDao dao = new HairStyleDao();
 				hairstyleIdList  = dao.getHairStyleIdList(dbConnection, userId);
 				hairStyleInfoList = dao.getHairStyleHistryInfo(dbConnection, hairstyleIdList);
 				dbConnection.close();

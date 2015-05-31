@@ -9,8 +9,8 @@ import java.util.List;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
-public class HairStyleHistryDao {
-	public HairStyleHistryDao() throws Exception{
+public class HairStyleDao {
+	public HairStyleDao() throws Exception{
 		
 	}
 	
