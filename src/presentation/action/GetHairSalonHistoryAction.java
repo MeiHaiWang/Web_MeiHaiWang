@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetStylistHistryService;
+import business.service.GetHairSalonHistoryService;
 
-@WebServlet(name="GetStylistHistryServlet",urlPatterns={"/api/:version/stylist_History"})
-public class GetStylistHistryAction extends HttpServlet{
+@WebServlet(name="GetHairSalonHistoryServlet",urlPatterns={"/api/:version/salon_history"})
+public class GetHairSalonHistoryAction extends HttpServlet{
 
 	/**
 	 *
@@ -23,7 +23,7 @@ public class GetStylistHistryAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetStylistHistryAction() {
+	public GetHairSalonHistoryAction() {
 		super();
 	}
 
@@ -52,12 +52,12 @@ public class GetStylistHistryAction extends HttpServlet{
 			response.setLocale(Locale.CHINA);
 		}
 		
-		response.setContentType("text/html");
+		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetStylistHistryService stylist_histry_service = new GetStylistHistryService();
-		stylist_histry_service.excuteService(request, response);
+		GetHairSalonHistoryService service = new GetHairSalonHistoryService();
+		service.excuteService(request, response);
 	    
 	}
 

@@ -117,9 +117,9 @@ public class SalonDao {
 	}
 	
 	/*
-	 * Histry
+	 * History
 	 * */
-	public List<Integer> getHairSalonHistryIdList(DBConnection dbConnection, int user_id) throws SQLException{
+	public List<Integer> getHairSalonHistoryIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_latestViewSalonId` FROM `t_user` WHERE t_user_Id = " + user_id;
 		List<Integer> idList = new ArrayList<Integer>();
 		
@@ -140,7 +140,7 @@ public class SalonDao {
 		return idList;
 	}
 
-	public List<HairSalonInfo> getHairSalonHistryInfo(DBConnection dbConnection, List<Integer> idList) throws SQLException{
+	public List<HairSalonInfo> getHairSalonHistoryInfo(DBConnection dbConnection, List<Integer> idList) throws SQLException{
 		String sql = 
 				"SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName` FROM `t_hairSalonMaster` JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE t_hairSalonMaster_salonId =";
 		List<HairSalonInfo> infoList = new ArrayList<HairSalonInfo>();

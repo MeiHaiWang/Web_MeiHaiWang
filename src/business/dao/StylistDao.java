@@ -16,7 +16,7 @@ public class StylistDao {
 		
 	}
 	
-	public List<Integer> getStylistHistryIdList(DBConnection dbConnection, int user_id) throws SQLException{
+	public List<Integer> getStylistHistoryIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_latestViewStylistId` FROM `t_user` WHERE t_user_Id=" + user_id;
 		List<Integer> stylistIdList = new ArrayList<Integer>();
 		
@@ -37,7 +37,7 @@ public class StylistDao {
 		return stylistIdList;
 	}
 
-	public List<StylistInfo> getStylistHistryInfo(DBConnection dbConnection, List<Integer> stylist_id_list) throws SQLException{
+	public List<StylistInfo> getStylistHistoryInfo(DBConnection dbConnection, List<Integer> stylist_id_list) throws SQLException{
 		String sql = 
 				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_imagePath`, `t_stylist_favoriteNumber`, `t_stylist_salonId` FROM `t_stylist` WHERE t_stylist_Id=";
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();

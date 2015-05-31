@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetSearchSalonService;
-import business.service.GetStylistHistryService;
+import business.service.GetStylistHistoryService;
 
 @WebServlet(name="GetSearchSalonServlet",urlPatterns={"/api/:version/shop_list"})
 public class GetSearchSalonAction {

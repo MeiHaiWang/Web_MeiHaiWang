@@ -15,7 +15,7 @@ import business.dao.StylistDao;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class GetStylistHistryService {
+public class GetStylistHistoryService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -39,8 +39,8 @@ public class GetStylistHistryService {
 			
 			if(conn!=null){
 				StylistDao dao = new StylistDao();
-				stylistIdList  = dao.getStylistHistryIdList(dbConnection, userId);
-				stylistInfoList = dao.getStylistHistryInfo(dbConnection, stylistIdList);
+				stylistIdList  = dao.getStylistHistoryIdList(dbConnection, userId);
+				stylistInfoList = dao.getStylistHistoryInfo(dbConnection, stylistIdList);
 				dbConnection.close();
 			}
 			//レスポンスに設定するJSON Object

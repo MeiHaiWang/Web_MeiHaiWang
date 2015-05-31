@@ -14,7 +14,7 @@ import business.dao.HairStyleDao;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
-public class GetHairStyleHistryService {
+public class GetHairStyleHistoryService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -34,8 +34,8 @@ public class GetHairStyleHistryService {
 			
 			if(conn!=null){
 				HairStyleDao dao = new HairStyleDao();
-				hairstyleIdList  = dao.getHairStyleIdList(dbConnection, userId);
-				hairStyleInfoList = dao.getHairStyleHistryInfo(dbConnection, hairstyleIdList);
+				hairstyleIdList  = dao.getHairStyleHistoryIdList(dbConnection, userId);
+				hairStyleInfoList = dao.getHairStyleHistoryInfo(dbConnection, hairstyleIdList);
 				dbConnection.close();
 			}
 			//レスポンスに設定するJSON Object
