@@ -1,33 +1,26 @@
 package presentation.action;
 
 import java.io.IOException;
-
+import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import business.service.GetRecommendService;
 import business.service.GetSalonMapService;
 
-import java.util.Locale;
-import java.util.logging.Logger;
-@WebServlet(name="GetRecommendSalonServlet",urlPatterns={"/api/:version/osusume"})
-public class GetRecommendAction extends HttpServlet{
+@WebServlet(name="GetSalonMapServlet",urlPatterns={"/api/:version/shopMap"})
+public class GetSalonMapAction extends HttpServlet {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static Logger myLog = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public GetRecommendAction() {
+
+	public GetSalonMapAction(){
 		super();
 	}
-
+	
 	/**
 	 * @param HttpServletRequest
 	 *            request クライアント送信用リクエストパラメータ
@@ -57,9 +50,8 @@ public class GetRecommendAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetSalonMapService salonMapService = new GetSalonMapService();
-		salonMapService.excuteService(request, response);
-	    
+		GetSalonMapService mapService = new GetSalonMapService();
+		mapService.excuteService(request, response);
 	}
 
 	/**
@@ -75,6 +67,5 @@ public class GetRecommendAction extends HttpServlet{
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		//do nothing
-	}
-
+	}	
 }
