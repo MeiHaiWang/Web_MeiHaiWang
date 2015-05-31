@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import business.dao.StylistHistryDao;
+import business.dao.StylistDao;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
@@ -38,7 +38,7 @@ public class GetStylistHistryService {
 			int userId =1;			
 			
 			if(conn!=null){
-				StylistHistryDao dao = new StylistHistryDao();
+				StylistDao dao = new StylistDao();
 				stylistIdList  = dao.getstylistIdList(dbConnection, userId);
 				stylistInfoList = dao.getStylistHistryInfo(dbConnection, stylistIdList);
 				dbConnection.close();
