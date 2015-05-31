@@ -57,8 +57,8 @@ public class GetRecommendAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetSalonMapService salonMapService = new GetSalonMapService();
-		salonMapService.excuteService(request, response);
+		GetRecommendService recommendService = new GetRecommendService();
+		recommendService.excuteService(request, response);
 	    
 	}
 
