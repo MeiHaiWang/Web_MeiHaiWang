@@ -11,8 +11,8 @@ import java.util.List;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class StylistHistryDao {
-	public StylistHistryDao() throws Exception{
+public class StylistDao {
+	public StylistDao() throws Exception{
 		
 	}
 	
