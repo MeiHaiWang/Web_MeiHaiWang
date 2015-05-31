@@ -10,6 +10,7 @@ public class StylistInfo {
 	private int stylistGender = Integer.MIN_VALUE;
 	private int yearsNumber = Integer.MIN_VALUE;
 	private String stylistMessage="";
+	private int isNetReservation = Integer.MIN_VALUE;
 	
 	public StylistInfo(){
 		
@@ -86,5 +87,11 @@ public class StylistInfo {
 		return stylistMessage;
 	}
 
+	public void setIsNetReservation(int isNetReservation){
+		this.isNetReservation = isNetReservation;
+	}
 	
+	public int getIsNetReservation(){
+		return isNetReservation;
+	}
 }

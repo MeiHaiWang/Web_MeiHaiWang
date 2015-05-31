@@ -63,4 +63,29 @@ public class StylistDao {
 		return stylistInfoList;
 	}	
 	
+	public StylistInfo getStylistDetailInfo(DBConnection dbConnection, Integer stylistId) throws SQLException{
+		String sql = "SELECT `t_stylist_Id`, `t_stylist_salonId`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_imagePath`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation` FROM `t_stylist` WHERE t_stylist_Id =" + stylistId.toString();
+		StylistInfo stylistInfo = new StylistInfo();
+		Statement statement = dbConnection.getStatement();
+		
+		try{
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+				stylistInfo.setStylistGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setStylistYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+			}
+	
+		}catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+		}
+		return stylistInfo;		
+	}
 }
