@@ -39,7 +39,7 @@ public class GetStylistHistryService {
 			
 			if(conn!=null){
 				StylistDao dao = new StylistDao();
-				stylistIdList  = dao.getstylistIdList(dbConnection, userId);
+				stylistIdList  = dao.getStylistHistryIdList(dbConnection, userId);
 				stylistInfoList = dao.getStylistHistryInfo(dbConnection, stylistIdList);
 				dbConnection.close();
 			}

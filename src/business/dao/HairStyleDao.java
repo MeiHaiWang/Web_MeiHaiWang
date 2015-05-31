@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.model.HairStyleInfo;
+import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class HairStyleDao {
@@ -40,6 +41,12 @@ public class HairStyleDao {
 				"SELECT `t_hairStyle_Id`, `t_hairStyle_imagePath`, `t_hairStyle_stylistId`, `t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE `t_hairStyle_Id` =";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
+		/* 履歴にまだ何も登録されていない＝null */
+		if(idList.isEmpty()){
+			infoList.add(retNull());
+	 		return infoList;
+		}
+		
 		Statement statement = dbConnection.getStatement();
 		for(int index: idList){
 			try {
@@ -59,5 +66,19 @@ public class HairStyleDao {
 		}
 		return infoList;
 	}	
+	
+	
+	
+	/*空っぽのデータをつっこむ*/
+	public HairStyleInfo retNull(){
+		HairStyleInfo hairStyleInfo = new HairStyleInfo();
+		hairStyleInfo.setHairStyleId(Integer.MIN_VALUE);
+		hairStyleInfo.setHairStyleImagePath("");
+		hairStyleInfo.setStylistId(Integer.MIN_VALUE);
+		hairStyleInfo.setFavoriteNumber(Integer.MIN_VALUE);
+
+		return hairStyleInfo;
+
+	}
 
 }

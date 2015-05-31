@@ -14,6 +14,7 @@ import com.sun.media.jfxmedia.logging.Logger;
 
 import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
+import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class SalonDao {
@@ -96,8 +97,15 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				salonInfo.setSalonMapImagePath(rs.getString("t_hairSalonMaster_mapImagePath"));
+				/*
 				salonInfo.setSalonLatitude(rs.getDouble("t_hairSalonMaster_mapLatitude"));
 				salonInfo.setSalonLongitude(rs.getDouble("t_hairSalonMaster_mapLongitude"));
+				 */
+				Double ido = Double.parseDouble(rs.getString("t_hairSalonMaster_mapLatitude"));
+				Double keido = Double.parseDouble(rs.getString("t_hairSalonMaster_mapLongitude"));
+				salonInfo.setSalonLatitude(ido);
+				salonInfo.setSalonLongitude(keido);
+
 				salonInfo.setSalonMapInfo(rs.getString("t_hairSalonMaster_mapInfoText"));
 				
 			}	
@@ -107,4 +115,96 @@ public class SalonDao {
 		}
 		return salonInfo;		
 	}
+	
+	/*
+	 * Histry
+	 * */
+	public List<Integer> getHairSalonHistryIdList(DBConnection dbConnection, int user_id) throws SQLException{
+		String sql = "SELECT `t_user_latestViewSalonId` FROM `t_user` WHERE t_user_Id = " + user_id;
+		List<Integer> idList = new ArrayList<Integer>();
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			rs.next();
+			String str_id_list = rs.getString("t_user_latestViewSalonId");
+			for(int i=0; i<=str_id_list.length(); i+=2){
+				String temp = str_id_list.substring(i, i+1);
+				idList.add(Integer.parseInt(temp));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return idList;
+	}
+
+	public List<HairSalonInfo> getHairSalonHistryInfo(DBConnection dbConnection, List<Integer> idList) throws SQLException{
+		String sql = 
+				"SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName` FROM `t_hairSalonMaster` JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE t_hairSalonMaster_salonId =";
+		List<HairSalonInfo> infoList = new ArrayList<HairSalonInfo>();
+		
+		/* 履歴にまだ何も登録されていない＝null */
+		if(idList.isEmpty()){
+			infoList.add(retNull());
+	 		return infoList;
+		}
+		
+		Statement statement = dbConnection.getStatement();
+		for(int index: idList){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				while(rs.next()){
+					HairSalonInfo hairSalonInfo = new HairSalonInfo();
+					hairSalonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonID"));
+					hairSalonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+					hairSalonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+					hairSalonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
+					hairSalonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
+					infoList.add(hairSalonInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		return infoList;
+	}	
+	
+	/*空っぽのデータをつっこむ*/
+	public HairSalonInfo retNull(){
+		/*
+		List<String> reviewIdList =  new ArrayList<String>();
+		List<String> evaluationIdList = new ArrayList<String>();
+		List<String> availabuleCountryIdList = new ArrayList<String>();
+		*/
+
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		salonInfo.setHairSalonId(Integer.MIN_VALUE);
+		salonInfo.setHairSalonName("");
+		salonInfo.setHairSalonImagePath("");
+		salonInfo.setMessage("");
+		salonInfo.setTelNumber("");
+		salonInfo.setAddress("");
+		Date openTime = new Date(0);
+		Date closeTime = new Date(0);
+		salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
+		salonInfo.setRegularHoliday("");
+		salonInfo.setFavoriteNumber(Integer.MIN_VALUE);
+		salonInfo.setIsNetReservation(Integer.MIN_VALUE);
+		salonInfo.setWordOfMonth(Integer.MIN_VALUE);
+
+		/*
+		reviewIdList =  new ArrayList<String>();
+		
+		evaluationIdList = new ArrayList<String>();
+		availabuleCountryIdList =  new ArrayList<String>();
+		*/
+		
+		return salonInfo;
+	}
+
+	
 }
