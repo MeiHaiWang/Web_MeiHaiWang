@@ -24,6 +24,7 @@ public class HairSalonInfo {
     private Double salonLongitude = Double.MIN_VALUE;
     private String salonMapInfo = "";
     private String salonMapImagePath = "";
+    private int salonReviewId = Integer.MIN_VALUE;
     
 	public HairSalonInfo(){
 		
@@ -178,5 +179,16 @@ public class HairSalonInfo {
 	public String getSalonMapImagePath(){
 		return salonMapImagePath;
 	}
+	
+	public void setSalonReviewId(int reviewId){
+		//this.salonReviewId = reviewId != null ? reviewId : "";
+		this.salonReviewId = reviewId;
+	}
+	
+	public int getSalonReviewId(){
+		return salonReviewId;
+	}
+
+
 }
 

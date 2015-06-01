@@ -233,6 +233,69 @@ public class SalonDao {
 	}	
 	
 	
+	public List<Integer> getHairSalonEvaluationIdList(DBConnection dbConnection, int salonId) throws SQLException{
+		String sql = 
+				"SELECT `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_reviewId` "
+				+ "FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId;
+		
+		Statement statement = dbConnection.getStatement();
+		List<Integer> evalList = new ArrayList<Integer>();
+		
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				String evalStr = rs.getString("t_hairSalonMaster_evaluationId");
+				String str2 = evalStr;
+		    	int i = 0;
+		    	while(i<=evalStr.length()){
+		    		int idx = evalStr.indexOf(',', i);
+		    		if(idx>0){
+				    	str2 = evalStr.substring(i, idx);		    			
+		    		}
+			    	//jsonOneData.put("image"+Integer.toString(num++), str2);
+		    		evalList.add(Integer.parseInt(str2));
+			    	i+=(str2.length()+1);
+		    	}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return evalList;
+	}
+
+	public List<Integer> getHairSalonReviewIdList(DBConnection dbConnection, int salonId) throws SQLException{
+		String sql = 
+				"SELECT `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_reviewId` "
+				+ "FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId;
+		
+		Statement statement = dbConnection.getStatement();
+		List<Integer> reviewIdList = new ArrayList<Integer>();
+		
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				String reviewIdStr = rs.getString("t_hairSalonMaster_evaluationId");
+				String str2 = reviewIdStr;
+		    	int i = 0;
+		    	while(i<=reviewIdStr.length()){
+		    		int idx = reviewIdStr.indexOf(',', i);
+		    		if(idx>0){
+				    	str2 = reviewIdStr.substring(i, idx);		    			
+		    		}
+			    	//jsonOneData.put("image"+Integer.toString(num++), str2);
+		    		reviewIdList.add(Integer.parseInt(str2));
+			    	i+=(str2.length()+1);
+		    	}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return reviewIdList;
+	}
+
+	
 	/*空っぽのデータをつっこむ*/
 	public HairSalonInfo retNull(){
 		/*

@@ -24,10 +24,23 @@ public class HairStyleDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_latestViewHairStyleId");
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				idList.add(Integer.parseInt(temp));
 			}
+			*/
+	    	String str2 = str_id_list;
+	    	int i = 0;
+	    	while(i<=str_id_list.length()){
+	    		int idx = str_id_list.indexOf(',', i);
+	    		if(idx>0){
+			    	str2 = str_id_list.substring(i, idx);		    			
+	    		}
+		    	//jsonOneData.put("image"+Integer.toString(num++), str2);
+	    		idList.add(Integer.parseInt(str2));
+		    	i+=(str2.length()+1);
+	    	}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,10 +92,26 @@ public class HairStyleDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_favoriteHairStyleId");
+			
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				HairStyleIdList.add(Integer.parseInt(temp));
 			}
+			*/
+			
+	    	String str2 = str_id_list;
+	    	int i = 0;
+	    	while(i<=str_id_list.length()){
+	    		int idx = str_id_list.indexOf(',', i);
+	    		if(idx>0){
+			    	str2 = str_id_list.substring(i, idx);		    			
+	    		}
+		    	//jsonOneData.put("image"+Integer.toString(num++), str2);
+	    		HairStyleIdList.add(Integer.parseInt(str2));
+		    	i+=(str2.length()+1);
+	    	}
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();

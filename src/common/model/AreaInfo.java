@@ -19,7 +19,7 @@ public class AreaInfo {
 	}
 
 	public void setAreaName(String AreaName){
-		this.AreaName = AreaName;
+		this.AreaName = AreaName != null ? AreaName : "";
 	}
 	
 	public String getAreaName(){
