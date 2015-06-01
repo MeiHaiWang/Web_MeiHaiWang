@@ -36,6 +36,29 @@ public class HairTypeDao {
 		return hairTypeInfo;
 	}	
 
+	//Category一覧取得
+	public List<HairTypeInfo> getHairTypeCategoryInfo(DBConnection dbConnection, int gender) throws SQLException{
+		String sql = "SELECT `t_hairType_id`, `t_hairType_name`, `t_hairType_ImagePath` FROM `t_masterHairType` WHERE t_hairType_sex="+gender;
+
+		List<HairTypeInfo> hairTypeInfoList = new ArrayList<HairTypeInfo>();
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				HairTypeInfo hairTypeInfo = new HairTypeInfo();
+				hairTypeInfo.setHairTypeId(rs.getInt("t_hairType_id"));
+				hairTypeInfo.setHairTypeName(rs.getString("t_hairType_name"));
+				hairTypeInfo.setHairTypeImagePath(rs.getString("t_hairType_ImagePath"));
+				hairTypeInfoList.add(hairTypeInfo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return hairTypeInfoList;
+	}	
+
+	
 	
 	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId) throws SQLException{
 		String sql = "";
