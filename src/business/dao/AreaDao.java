@@ -18,11 +18,6 @@ public class AreaDao {
 	 * 
 	 * @param dbConnection
 	 * @param AreaType: 
-	 *  サロン検索条件：１
-		スタイリスト検索条件：2
-		スタイリスト検索好み：3
-		ヘアスタイル検索メニュー：4
-		ヘアスタイル検索顔型：5
 	 * @return
 	 * @throws SQLException
 	 */

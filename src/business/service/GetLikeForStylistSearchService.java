@@ -44,8 +44,8 @@ public class GetLikeForStylistSearchService {
 			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, CONDITION_TYPE);				
 				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, CONDITION_TYPE);
+				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

@@ -27,74 +27,21 @@ public class ConditionDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<ConditionInfo> getConditionInfo(DBConnection dbConnection, int ConditionType) throws SQLException{
-		String sql = "SELECT `t_masterSearchCondition_id`, `t_masterSearchCondition_name`, `t_masterSearchCondition_titleId` "
-				+ "FROM `t_masterSearchCondition`";
+	public List<ConditionInfo> getConditionInfo(DBConnection dbConnection, List<ConditionTitleInfo> ConditionTitleInfoList) throws SQLException{
+		String sql = "SELECT `t_masterSearchCondition_id`, `t_masterSearchCondition_name` ,`t_masterSearchCondition_titleId`"
+				+ "FROM `t_masterSearchCondition` WHERE `t_masterSearchCondition_titleId`=";
 		ArrayList<ConditionInfo> ConditionInfoList = new ArrayList<ConditionInfo>();
 		
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				ConditionInfo ConditionInfo = new ConditionInfo();
-				int ConditionId = -1, ConditionTitleId = -1;
-
-				switch(ConditionType){
-				case 1:
-					ConditionId = rs.getInt("t_masterSearchCondition_id");
-					if(ConditionId>=111 && ConditionId <=199){
-						ConditionInfo.setConditionId(ConditionId % 10);
+			for(ConditionTitleInfo conditionTitleInfo: ConditionTitleInfoList){
+				ResultSet rs = statement.executeQuery(sql+conditionTitleInfo.getConditionTitleId());
+				while(rs.next()){
+					ConditionInfo ConditionInfo = new ConditionInfo();
 						ConditionInfo.setConditionName(rs.getString("t_masterSearchCondition_name"));
-						ConditionTitleId = rs.getInt("t_masterSearchCondition_titleId");
-						ConditionInfo.setConditionTitleId(ConditionTitleId % 10);
+						ConditionInfo.setConditionId(rs.getInt("t_masterSearchCondition_Id"));
+						ConditionInfo.setConditionTitleId(rs.getInt("t_masterSearchCondition_titleId"));
 						ConditionInfoList.add(ConditionInfo);
-					}
-					break;
-				case 2:
-					ConditionId = rs.getInt("t_masterSearchCondition_id");
-					if(ConditionId>=211 && ConditionId <=299){
-						ConditionInfo.setConditionId(ConditionId % 10);
-						ConditionInfo.setConditionName(rs.getString("t_masterSearchCondition_name"));
-						ConditionTitleId = rs.getInt("t_masterSearchCondition_titleId");
-						ConditionInfo.setConditionTitleId(ConditionTitleId % 10);
-						ConditionInfoList.add(ConditionInfo);
-					}
-					break;
-					
-				case 3:
-					ConditionId = rs.getInt("t_masterSearchCondition_id");
-					if(ConditionId>=311 && ConditionId <=399){
-						ConditionInfo.setConditionId(ConditionId % 10);
-						ConditionInfo.setConditionName(rs.getString("t_masterSearchCondition_name"));
-						ConditionTitleId = rs.getInt("t_masterSearchCondition_titleId");
-						ConditionInfo.setConditionTitleId(ConditionTitleId % 10);
-						ConditionInfoList.add(ConditionInfo);
-					}
-					break;
-					
-				case 4:
-					ConditionId = rs.getInt("t_masterSearchCondition_id");
-					if(ConditionId>=411 && ConditionId <=499){
-						ConditionInfo.setConditionId(ConditionId % 10);
-						ConditionInfo.setConditionName(rs.getString("t_masterSearchCondition_name"));
-						ConditionTitleId = rs.getInt("t_masterSearchCondition_titleId");
-						ConditionInfo.setConditionTitleId(ConditionTitleId % 10);
-						ConditionInfoList.add(ConditionInfo);
-					}
-					break;
-					
-				case 5:
-					ConditionId = rs.getInt("t_masterSearchCondition_id");
-					if(ConditionId>=511 && ConditionId <=599){
-						ConditionInfo.setConditionId(ConditionId % 10);
-						ConditionInfo.setConditionName(rs.getString("t_masterSearchCondition_name"));
-						ConditionTitleId = rs.getInt("t_masterSearchCondition_titleId");
-						ConditionInfo.setConditionTitleId(ConditionTitleId % 10);
-						ConditionInfoList.add(ConditionInfo);
-					}				
-					break;
-
-				default:						
 				}
 			}
 		} catch (SQLException e) {
@@ -107,6 +54,7 @@ public class ConditionDao {
 	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int ConditionTitleType) throws SQLException{
 		String sql = "SELECT `t_masterSearchConditionTitle_id`, "
 				+ "`t_masterSearchConditionTitle_name` FROM `t_masterSearchConditionTitle`";
+
 		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();
 		
 		Statement statement = dbConnection.getStatement();
@@ -114,47 +62,52 @@ public class ConditionDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				ConditionTitleInfo ConditionTitleInfo = new ConditionTitleInfo();
-				int ConditionTitleId = -1;
+				String ConditionTitleName = "";
 
 				switch(ConditionTitleType){
 				case 1:
-					ConditionTitleId = rs.getInt("t_masterSearchConditionTitle_id");
-					if(ConditionTitleId>=11 && ConditionTitleId <=19){
-						ConditionTitleInfo.setConditionTitleId(ConditionTitleId % 10);
+					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
+					if(ConditionTitleName.compareTo("時間")==0 
+					|| ConditionTitleName.compareTo("サービス")==0
+					|| ConditionTitleName.compareTo("設備")==0){
+						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
 						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
 						ConditionTitleInfoList.add(ConditionTitleInfo);
 					}
 					break;
 				case 2:
-					ConditionTitleId = rs.getInt("t_masterSearchConditionTitle_id");
-					if(ConditionTitleId>=21 && ConditionTitleId <=29){
-						ConditionTitleInfo.setConditionTitleId(ConditionTitleId % 10);
+					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
+					if(ConditionTitleName.compareTo("対応日時")==0 
+					|| ConditionTitleName.compareTo("得意メニュー")==0
+					|| ConditionTitleName.compareTo("得意なスタイル")==0){
+						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
 						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
 						ConditionTitleInfoList.add(ConditionTitleInfo);
 					}
 					break;
 					
 				case 3:
-					ConditionTitleId = rs.getInt("t_masterSearchConditionTitle_id");
-					if(ConditionTitleId>=31 && ConditionTitleId <=39){
-						ConditionTitleInfo.setConditionTitleId(ConditionTitleId % 10);
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}					
-					break;
-				case 4:
-					ConditionTitleId = rs.getInt("t_masterSearchConditionTitle_id");
-					if(ConditionTitleId>=41 && ConditionTitleId <=49){
-						ConditionTitleInfo.setConditionTitleId(ConditionTitleId % 10);
+					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
+					if(ConditionTitleName.compareTo("性別")==0 
+					|| ConditionTitleName.compareTo("年齢")==0){
+						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
 						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
 						ConditionTitleInfoList.add(ConditionTitleInfo);
 					}
 					break;
-					
+				case 4:
+					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
+					if(ConditionTitleName.compareTo("カラー")==0 
+					|| ConditionTitleName.compareTo("イメージ")==0){
+						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
+						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
+						ConditionTitleInfoList.add(ConditionTitleInfo);
+					}
+					break;
 				case 5:
-					ConditionTitleId = rs.getInt("t_masterSearchConditionTitle_id");
-					if(ConditionTitleId>=51 && ConditionTitleId <=59){
-						ConditionTitleInfo.setConditionTitleId(ConditionTitleId % 10);
+					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
+					if(ConditionTitleName.compareTo("顔型")==0){
+						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
 						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
 						ConditionTitleInfoList.add(ConditionTitleInfo);
 					}
