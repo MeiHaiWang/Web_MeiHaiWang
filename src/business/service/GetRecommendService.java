@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
@@ -53,6 +55,10 @@ public class GetRecommendService {
 				lastUpdateStylist = dao.getRecommendStylistLastUpdate(dbConnection);
 				
 				dbConnection.close();
+			}
+			else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
