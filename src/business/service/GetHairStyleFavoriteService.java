@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
-
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
@@ -38,6 +37,9 @@ public class GetHairStyleFavoriteService {
 				HairStyleIdList  = dao.getHairStyleFavoriteIdList(dbConnection, userId);
 				HairStyleInfoList = dao.getHairStyleFavoriteInfo(dbConnection, HairStyleIdList);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();

@@ -41,6 +41,9 @@ public class GetSalonDetailService {
 				//ユーザがお気に入りしているかどうかを設定する
 				recomendDao.setIsFavoriteSalon(userId, salonInfoList, dbConnection);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			
 			//レスポンスに設定するJSON Object

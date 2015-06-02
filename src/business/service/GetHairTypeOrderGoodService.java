@@ -12,7 +12,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
-
 import common.model.HairStyleInfo;
 import common.model.HairTypeInfo;
 import common.model.StylistInfo;
@@ -49,6 +48,9 @@ public class GetHairTypeOrderGoodService {
 					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
 					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId);
 					dbConnection.close();
+				}else{
+					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+					throw new Exception("DabaBase Connect Error");
 				}
 				
 				//レスポンスに設定するJSON Object

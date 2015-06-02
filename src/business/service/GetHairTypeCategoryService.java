@@ -34,6 +34,9 @@ public class GetHairTypeCategoryService {
 				HairTypeDao hairTypeDao = new HairTypeDao();
 				infoList = hairTypeDao.getHairTypeCategoryInfo(dbConnection, gender);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			
 			//レスポンスに設定するJSON Object

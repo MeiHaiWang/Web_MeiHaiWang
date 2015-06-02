@@ -34,6 +34,9 @@ public class GetSearchSalonService {
 		
 		if(conn!=null){
 			SalonDao dao = new SalonDao();
+		}else{
+			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			throw new Exception("DabaBase Connect Error");
 		}
 	    
 	}catch(Exception e){

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
-
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
@@ -48,6 +47,9 @@ public class GetLikeForStylistSearchService {
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, CONDITION_TYPE);				
 				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, CONDITION_TYPE);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			
 			//レスポンスに設定するJSON Object(title)

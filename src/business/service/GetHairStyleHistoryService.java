@@ -37,6 +37,9 @@ public class GetHairStyleHistoryService {
 				hairstyleIdList  = dao.getHairStyleHistoryIdList(dbConnection, userId);
 				hairStyleInfoList = dao.getHairStyleHistoryInfo(dbConnection, hairstyleIdList);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();

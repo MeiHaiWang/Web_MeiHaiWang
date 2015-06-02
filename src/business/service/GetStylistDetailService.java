@@ -3,8 +3,10 @@ package business.service;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
 import business.dao.StylistDao;
@@ -37,6 +39,9 @@ public class GetStylistDetailService {
 				//ユーザがお気に入りしているかどうかを設定する
 				recomendDao.setIsFavoriteStylist(userId, stylistInfoList, dbConnection);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			
 			//レスポンスに設定するJSON Object

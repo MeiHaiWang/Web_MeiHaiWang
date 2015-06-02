@@ -52,6 +52,9 @@ public class GetConditionForSalonSearchService {
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, CONDITION_TYPE);				
 				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, CONDITION_TYPE);
 				dbConnection.close();
+			}else{
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				throw new Exception("DabaBase Connect Error");
 			}
 			
 			//レスポンスに設定するJSON Object(title)
