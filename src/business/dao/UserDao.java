@@ -38,4 +38,25 @@ public class UserDao {
 		}
 		return UserInfoList;
 	}
+	
+	public UserInfo getUserMypointInfo(DBConnection dbConnection, int userId) throws SQLException{
+		
+		List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
+		String sql = "SELECT `t_user_point` FROM `t_user` WHERE t_user_Id = ";		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql+userId);
+			UserInfo userInfo = new UserInfo();
+			while(rs.next()){
+				userInfo.setUserId(rs.getString("t_user_id"));
+				userInfo.setUserPoint(rs.getString("t_user_point"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return UserInfoId;
+	}
+
 }
