@@ -40,6 +40,21 @@ public class GetHairTypeOrderGoodAction extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		//do nothing
+	}
+
+	/**
+	 * @param HttpServletRequest
+	 *            request クライアント送信用リクエストパラメータ
+	 * @param HttpServletRequest
+	 *            response クライアント返却用レスポンスパラメータ
+	 * @author Hiroki Ebina
+	 *
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
 			response.setLocale(Locale.JAPAN);
@@ -59,21 +74,6 @@ public class GetHairTypeOrderGoodAction extends HttpServlet{
 		GetHairTypeOrderGoodService service = new GetHairTypeOrderGoodService();
 		service.excuteService(request, response);
 	    
-	}
-
-	/**
-	 * @param HttpServletRequest
-	 *            request クライアント送信用リクエストパラメータ
-	 * @param HttpServletRequest
-	 *            response クライアント返却用レスポンスパラメータ
-	 * @author Hiroki Ebina
-	 *
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
 	}	
 	
 }
