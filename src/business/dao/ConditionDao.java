@@ -55,14 +55,29 @@ public class ConditionDao {
 
 	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int ConditionTitleType) throws SQLException,UnsupportedEncodingException{
 		String sql = "";
+		String typeStr =  "";
 		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();		
+
 		try{
-			 sql = "SELECT `t_masterSearchConditionTitle_id`,`t_masterSearchConditionTitle_name` FROM `t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_name` IN(" + new String(Constant.TITLE_NAME_LIST_FOR_SALON.getBytes("UTF-8"),"UTF-8") + ")";
+			if(ConditionTitleType == 1)
+				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_SALON.getBytes("UTF-8"),"UTF-8");
+			else if(ConditionTitleType == 2)
+				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_STYLIST_CODITION.getBytes("UTF-8"),"UTF-8");
+			else if(ConditionTitleType == 3)
+				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_STYLIST_LIKE.getBytes("UTF-8"),"UTF-8");
+			else if(ConditionTitleType == 4)
+				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_HAIRSTYLE_MENU.getBytes("UTF-8"),"UTF-8");
+			else if(ConditionTitleType == 5)
+				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_HAIRSTYLE_FACE.getBytes("UTF-8"),"UTF-8");
+			else typeStr = "";
 		}catch(UnsupportedEncodingException e){
 			e.printStackTrace();
 			throw e;
 		}
-		
+
+		sql = "SELECT `t_masterSearchConditionTitle_id`,`t_masterSearchConditionTitle_name` FROM "
+			 		+ "`t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_name` "
+			 		+ "IN(" + typeStr + ")";
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
