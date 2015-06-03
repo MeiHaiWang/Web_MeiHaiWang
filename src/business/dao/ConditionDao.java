@@ -1,11 +1,13 @@
 package business.dao;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
@@ -51,69 +53,25 @@ public class ConditionDao {
 		return ConditionInfoList;
 	}	
 
-	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int ConditionTitleType) throws SQLException{
-		String sql = "SELECT `t_masterSearchConditionTitle_id`, "
-				+ "`t_masterSearchConditionTitle_name` FROM `t_masterSearchConditionTitle`";
-
-		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();
+	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int ConditionTitleType) throws SQLException,UnsupportedEncodingException{
+		String sql = "";
+		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();		
+		try{
+			 sql = "SELECT `t_masterSearchConditionTitle_id`,`t_masterSearchConditionTitle_name` FROM `t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_name` IN(" + new String(Constant.TITLE_NAME_LIST_FOR_SALON.getBytes("UTF-8"),"UTF-8") + ")";
+		}catch(UnsupportedEncodingException e){
+			e.printStackTrace();
+			throw e;
+		}
 		
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			System.out.println(sql);
 			while(rs.next()){
-				ConditionTitleInfo ConditionTitleInfo = new ConditionTitleInfo();
-				String ConditionTitleName = "";
-
-				switch(ConditionTitleType){
-				case 1:
-					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
-					if(ConditionTitleName.compareTo("時間")==0 
-					|| ConditionTitleName.compareTo("サービス")==0
-					|| ConditionTitleName.compareTo("設備")==0){
-						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}
-					break;
-				case 2:
-					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
-					if(ConditionTitleName.compareTo("対応日時")==0 
-					|| ConditionTitleName.compareTo("得意メニュー")==0
-					|| ConditionTitleName.compareTo("得意なスタイル")==0){
-						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}
-					break;
-					
-				case 3:
-					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
-					if(ConditionTitleName.compareTo("性別")==0 
-					|| ConditionTitleName.compareTo("年齢")==0){
-						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}
-					break;
-				case 4:
-					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
-					if(ConditionTitleName.compareTo("カラー")==0 
-					|| ConditionTitleName.compareTo("イメージ")==0){
-						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}
-					break;
-				case 5:
-					ConditionTitleName = rs.getString("t_masterSearchConditionTitle_name");
-					if(ConditionTitleName.compareTo("顔型")==0){
-						ConditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
-						ConditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
-						ConditionTitleInfoList.add(ConditionTitleInfo);
-					}
-					break;
-				default:						
-				}
+				ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
+				conditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
+				conditionTitleInfo.setConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
+				ConditionTitleInfoList.add(conditionTitleInfo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

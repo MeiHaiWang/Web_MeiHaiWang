@@ -9,4 +9,5 @@ public  class Constant {
 	public static final  int USER_NOT_LOGIN = -1;
 	public static final String HEADER_USERID = "userID";
 	public static final String ID = "id";
+	public static final String TITLE_NAME_LIST_FOR_SALON = "'時間','サービス','設備'";
 }
