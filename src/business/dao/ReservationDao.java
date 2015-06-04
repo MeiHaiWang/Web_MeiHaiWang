@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.model.HairSalonInfo;
 import common.model.ReservationInfo;
 import common.util.DBConnection;
 
@@ -21,18 +22,19 @@ public class ReservationDao {
 				+ "t_masterReservation_salonId = t_hairSalonMaster_salonId"
 				+ " JOIN t_stylist ON t_masterReservation_stylistId = t_stylist_Id WHERE t_masterReservation_userId=";
 		List<ReservationInfo> ReservationInfoList = new ArrayList<ReservationInfo>();
+		System.out.println(sql+userId);
 		
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql+userId);
 			while(rs.next()){
 				ReservationInfo reservationInfo = new ReservationInfo();
-				/*
-				BeautyNewsInfo.setbeautyNewsName(rs.getString("t_masterNewsName"));
-				BeautyNewsInfo.setbeautyNewsImagePath(rs.getString("t_masterNewImagePath"));
-				BeautyNewsInfo.setbeautyNewsURL(rs.getString("t_masterNewsURL"));
-				BeautyNewsInfoList.add(BeautyNewsInfo);
-				*/
+				HairSalonInfo hairSalonInfo = new HairSalonInfo();
+				reservationInfo.setReservationId(rs.getInt("t_masterReservation_id"));
+				reservationInfo.setReservationSalonId(rs.getInt("t_masterReservation_salonid"));
+				reservationInfo.setReservationSalonName(rs.getString("t_hairSalonMaster_name"));
+				reservationInfo.setReservationStylistId(rs.getInt("t_masterReservation_stylistid"));				
+				reservationInfo.setReservationStylistName(rs.getString("t_stylist_name"));
 				ReservationInfoList.add(reservationInfo);
 			}
 		} catch (SQLException e) {

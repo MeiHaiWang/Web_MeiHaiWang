@@ -39,24 +39,44 @@ public class UserDao {
 		return UserInfoList;
 	}
 	
-	public UserInfo getUserMypointInfo(DBConnection dbConnection, int userId) throws SQLException{
+	public UserInfo getUserMypageInfo(DBConnection dbConnection, int userId) throws SQLException{
 		
-		List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
-		String sql = "SELECT `t_user_point` FROM `t_user` WHERE t_user_Id = ";		
+		//List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
+		UserInfo userInfo = new UserInfo();
+		String sql = "SELECT `t_user_id`, `t_user_point` FROM `t_user` WHERE t_user_Id = ";		
 		Statement statement = dbConnection.getStatement();
 		try {			
 			ResultSet rs = statement.executeQuery(sql+userId);
-			UserInfo userInfo = new UserInfo();
 			while(rs.next()){
-				userInfo.setUserId(rs.getString("t_user_id"));
-				userInfo.setUserPoint(rs.getString("t_user_point"));
+				userInfo.setUserId(rs.getInt("t_user_id"));
+				userInfo.setUserPoint(rs.getInt("t_user_point"));
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		if(getUserIsStylistInfo(dbConnection, userId)){
+			userInfo.setUserIsStylist(1);			
+		}
+		return userInfo;
+	}
+	
+	public boolean getUserIsStylistInfo(DBConnection dbConnection, int userId) throws SQLException {
+		//UserInfo userInfo = new UserInfo();
+		boolean isStylist = false;
+		String sql = "SELECT `t_stylist_userId` FROM `t_stylist`";		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				if(rs.getInt("t_stylist_userId")==userId) isStylist = true;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return UserInfoId;
+		return isStylist;
 	}
 
 }

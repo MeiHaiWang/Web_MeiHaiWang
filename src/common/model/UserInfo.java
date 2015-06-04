@@ -17,6 +17,7 @@ public class UserInfo {
 	private String UserFavoriteHairStyleId = "";
 	private String UserLatestViewHairStyleId = "";
 	private Integer UserPoint = 0;
+	private Integer UserIsStylist = -1;
 
 	public UserInfo(){
 		
@@ -59,6 +60,22 @@ public class UserInfo {
 	
 	public Date getUserBirth(){
 		return UserBirth;
+	}
+
+	public void setUserPoint(int point){
+		this.UserPoint = point;
+	}
+	
+	public int getUserPoint(){
+		return UserPoint;
+	}
+
+	public void setUserIsStylist(int flag){
+		this.UserIsStylist = flag;
+	}
+	
+	public int getUserIsStylist(){
+		return UserIsStylist;
 	}
 
 	

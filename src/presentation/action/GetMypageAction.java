@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import business.service.GetMypageService;
 import business.service.GetNewsService;
 
 @WebServlet(name="GetMypageServlet",urlPatterns={"/api/:version/mypage"})
@@ -70,8 +71,8 @@ public class GetMypageAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetNewsService newsservice = new GetNewsService();
-		newsservice.excuteService(request, response);
+		GetMypageService mypageService = new GetMypageService();
+		mypageService.excuteService(request, response);
 	}
 
 }

@@ -28,18 +28,19 @@ public class GetMypageService {
 		/*int salonId = request.getParameter(Constant.ID) != null ?
 		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
         //TODO テスト用
-        int userId =0 ;
+        int userId =1 ;
         
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<ReservationInfo> reservationList  = new ArrayList<ReservationInfo>();
+			UserInfo userInfo = new UserInfo();
 			
 			if(conn!=null){
 				ReservationDao dao = new ReservationDao();
 				reservationList = dao.getReservationInfo(dbConnection, userId);
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = userDao.getUserMydataInfo(dbConnection, userId);
+				userInfo = userDao.getUserMypageInfo(dbConnection, userId);
 
 				dbConnection.close();
 			}else{
@@ -52,13 +53,25 @@ public class GetMypageService {
 		    // 返却用サロンデータ（jsonデータの作成）
 			JSONArray myPageArray = new JSONArray();
 	    	JSONObject jsonOneData = new JSONObject();
-	    	jsonOneData.put("mypoint", userInfo.getMypoint());
+	    	jsonOneData.put("isstylist", userInfo.getUserIsStylist());
+	    	jsonOneData.put("mypoint", userInfo.getUserPoint());
 		    for(ReservationInfo returnMypage : reservationList){
+		    	jsonOneData.put("id", returnMypage.getReservationId());
+		    	jsonOneData.put("day", returnMypage.getReservationDate());
+		    	jsonOneData.put("salon_id", returnMypage.getReservationSalonId());
+		    	jsonOneData.put("salon_name", returnMypage.getReservationSalonName());
+		    	jsonOneData.put("stylist_id", returnMypage.getReservationStylistId());
+		    	jsonOneData.put("stylist_name", returnMypage.getReservationStylistName());
 		    	/*
-		    	jsonOneData.put("image", returnNews.getbeautyNewsImagePath());
-		    	jsonOneData.put("title", returnNews.getbeautyNewsName());
-		    	jsonOneData.put("URL", returnNews.getbeautyNewsURL());
-		    	*/
+		    	 *   id: 834336,
+				      day: "201304121613",
+				      salon_id: 222,
+				      salon_name: "美々日",
+				      stylist_Id: 123,
+				      stylist_name: "イケメンちゃん"
+		    	 * 
+		    	 */
+		    	
 		    	myPageArray.add(jsonOneData);
 		    }
 		    jsonObject.put("reservation_lists",myPageArray);
