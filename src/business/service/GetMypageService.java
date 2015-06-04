@@ -1,7 +1,9 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,11 +55,15 @@ public class GetMypageService {
 		    // 返却用サロンデータ（jsonデータの作成）
 			JSONArray myPageArray = new JSONArray();
 	    	JSONObject jsonOneData = new JSONObject();
-	    	jsonOneData.put("isstylist", userInfo.getUserIsStylist());
-	    	jsonOneData.put("mypoint", userInfo.getUserPoint());
+	    	jsonObject.put("isstylist", userInfo.getUserIsStylist());
+	    	jsonObject.put("mypoint", userInfo.getUserPoint());
+	    	
 		    for(ReservationInfo returnMypage : reservationList){
 		    	jsonOneData.put("id", returnMypage.getReservationId());
-		    	jsonOneData.put("day", returnMypage.getReservationDate());
+
+		    	Date oneDate = returnMypage.getReservationDate();
+		    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
+		    	jsonOneData.put("day", sdf1.format(oneDate));
 		    	jsonOneData.put("salon_id", returnMypage.getReservationSalonId());
 		    	jsonOneData.put("salon_name", returnMypage.getReservationSalonName());
 		    	jsonOneData.put("stylist_id", returnMypage.getReservationStylistId());
@@ -75,6 +81,8 @@ public class GetMypageService {
 		    	myPageArray.add(jsonOneData);
 		    }
 		    jsonObject.put("reservation_lists",myPageArray);
+		    //Debug
+		    //System.out.println(jsonObject.toString(4));
 		    
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
