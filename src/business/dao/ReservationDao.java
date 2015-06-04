@@ -29,7 +29,6 @@ public class ReservationDao {
 			ResultSet rs = statement.executeQuery(sql+userId);
 			while(rs.next()){
 				ReservationInfo reservationInfo = new ReservationInfo();
-				HairSalonInfo hairSalonInfo = new HairSalonInfo();
 				reservationInfo.setReservationId(rs.getInt("t_masterReservation_id"));
 				reservationInfo.setReservationSalonId(rs.getInt("t_masterReservation_salonid"));
 				reservationInfo.setReservationSalonName(rs.getString("t_hairSalonMaster_name"));
