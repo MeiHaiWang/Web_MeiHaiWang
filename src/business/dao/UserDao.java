@@ -61,6 +61,31 @@ public class UserDao {
 		return userInfo;
 	}
 	
+	public UserInfo getUserProfileInfo(DBConnection dbConnection, int userId) throws SQLException{
+		UserInfo userInfo = new UserInfo();
+		String sql = "SELECT `t_user_id`, `t_user_name`, `t_user_imagePath`, "
+				+ "`t_user_birth`, `t_user_sex` FROM `t_user` WHERE t_user_Id = ";		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql+userId);
+			while(rs.next()){
+				userInfo.setUserId(rs.getInt("t_user_id"));
+				userInfo.setUserName(rs.getString("t_user_name"));
+				userInfo.setUserImagePath(rs.getString("t_user_imagePath"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		if(getUserIsStylistInfo(dbConnection, userId)){
+			userInfo.setUserIsStylist(1);			
+		}
+		return userInfo;
+	}
+
+	
 	public boolean getUserIsStylistInfo(DBConnection dbConnection, int userId) throws SQLException {
 		//UserInfo userInfo = new UserInfo();
 		boolean isStylist = false;
