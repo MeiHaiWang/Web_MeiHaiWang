@@ -331,5 +331,8 @@ public class SalonDao {
 		return salonInfo;
 	}
 
+	public List<HairSalonInfo> getSalonInfoListByArea(DBConnection dbConnection, List<String> areaIdList){
+		return null;
+	}
 	
 }
