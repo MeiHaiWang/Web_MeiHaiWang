@@ -58,17 +58,17 @@ public class GetSalonDetailService {
 		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
 		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
 		    	jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
-		    	jsonOneData.put("star_count", String.valueOf(hairSalonInfo.getEvaluationPointMid()));
+		    	jsonOneData.put("star_count", hairSalonInfo.getEvaluationPointMid());
 		    	jsonOneData.put("message", hairSalonInfo.getMessage());
 		    	jsonOneData.put("tel", hairSalonInfo.getTel());
 		    	jsonOneData.put("place",hairSalonInfo.getAreaNameList().toArray(new String[0]));
 		    	jsonOneData.put("business_hours", hairSalonInfo.getBusinessHour());
 		    	jsonOneData.put("regular_holiday", hairSalonInfo.getRegularHoliday());
 		    	jsonOneData.put("multilingual", hairSalonInfo.getMultiLingual());
-		    	jsonOneData.put("word_of_mouth_count", String.valueOf(hairSalonInfo.getWordOfMonth()));
+		    	jsonOneData.put("word_of_mouth_count", hairSalonInfo.getWordOfMonth());
 		    	jsonOneData.put("isgood", hairSalonInfo.getIsGood());
 		    	jsonOneData.put("good_count", hairSalonInfo.getFavoriteNumber());
-		    	jsonOneData.put("isNetReservation", String.valueOf(hairSalonInfo.getIsNetReservation()));
+		    	jsonOneData.put("isNetReservation", hairSalonInfo.getIsNetReservation());
 		    	salonArray.add(jsonOneData);
 		    }
 		    jsonObject.put("shop",salonArray);

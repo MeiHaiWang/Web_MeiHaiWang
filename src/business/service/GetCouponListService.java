@@ -44,16 +44,16 @@ public class GetCouponListService {
 			JSONArray AreaArray = new JSONArray();
 		    for(CouponInfo couponInfo : infoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", String.valueOf(couponInfo.getCouponId()));		    	
-		    	jsonOneData.put("shopID", String.valueOf(couponInfo.getSalonId()));
+		    	jsonOneData.put("id", couponInfo.getCouponId());		    	
+		    	jsonOneData.put("shopID", couponInfo.getSalonId());
 		    	jsonOneData.put("title", couponInfo.getCouponName());
 		    	jsonOneData.put("detail", couponInfo.getCouponDetailText());
 		    	jsonOneData.put("category", couponInfo.getCouponCategoryName());
-		    	jsonOneData.put("price", String.valueOf(couponInfo.getPrice()));
+		    	jsonOneData.put("price", couponInfo.getPrice());
 		    	jsonOneData.put("presentation", couponInfo.getPresentationCondition());
 		    	jsonOneData.put("deadline", couponInfo.getDeadLine());
 		    	jsonOneData.put("conditions", couponInfo.getUseCondition());
-		    	jsonOneData.put("isFirst", String.valueOf(couponInfo.getIsFirstFlag()));
+		    	jsonOneData.put("isFirst", couponInfo.getIsFirstFlag());
 		    	AreaArray.add(jsonOneData);
 		    }
 		    jsonObject.put("coupon_lists",AreaArray);

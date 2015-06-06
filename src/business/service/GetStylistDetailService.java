@@ -54,13 +54,13 @@ public class GetStylistDetailService {
 			jsonOneData.put("id", stylistInfoList.get(0).getStylistId());
 			jsonOneData.put("shopID", stylistInfoList.get(0).getSalonId());
 			jsonOneData.put("name", stylistInfoList.get(0).getStylistName());
-			jsonOneData.put("gender", String.valueOf(stylistInfoList.get(0).getStylistGender()));
+			jsonOneData.put("gender", stylistInfoList.get(0).getStylistGender());
 			jsonOneData.put("image", stylistInfoList.get(0).getStylistImagePath());
 			jsonOneData.put("message", stylistInfoList.get(0).getStylistMessage());
-			jsonOneData.put("years", String.valueOf(stylistInfoList.get(0).getStylistYearsNumber()));
-			jsonOneData.put("isgood", String.valueOf(stylistInfoList.get(0).getIsGood()));
-			jsonOneData.put("good_count", String.valueOf(stylistInfoList.get(0).getFavoriteNumber()));
-			jsonOneData.put("isNetReservation", String.valueOf(stylistInfoList.get(0).getIsNetReservation()));
+			jsonOneData.put("years", stylistInfoList.get(0).getStylistYearsNumber());
+			jsonOneData.put("isgood", stylistInfoList.get(0).getIsGood());
+			jsonOneData.put("good_count", stylistInfoList.get(0).getFavoriteNumber());
+			jsonOneData.put("isNetReservation", stylistInfoList.get(0).getIsNetReservation());
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("stylist",jsonOneData);
 		    PrintWriter out = response.getWriter();
