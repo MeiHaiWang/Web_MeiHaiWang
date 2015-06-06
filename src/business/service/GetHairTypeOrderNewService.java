@@ -12,6 +12,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
+import common.constant.Constant;
 import common.model.HairStyleInfo;
 import common.model.StylistInfo;
 import common.model.HairTypeInfo;
@@ -24,14 +25,31 @@ public class GetHairTypeOrderNewService {
 		
 		HttpSession session = request.getSession();
 
-
-		/*  int userId = request.getHeader(Constant.HEADER_USERID) != null ?
-			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
+/**
+	 * categoryID=0
+	ヘアカタログID
+	stylistID=0
+	スタイリストID
+	menu=0&menu=1&menu=2
+	メニュー
+	face=0&face=1
+	顔型
+	page=0
+ */
+        int categoryId = request.getParameter("categoryID")!= null
+        		?Integer.parseInt(request.getParameter("categoryID")) : -1;
+        int stylistId = request.getParameter("stylistID")!= null
+           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
+        int menu = request.getParameter("menu")!= null
+           		?Integer.parseInt(request.getParameter("menu")) : -1;
+        int face = request.getParameter("face")!= null
+           		?Integer.parseInt(request.getParameter("face")) : -1;
+        int page = request.getParameter("page")!= null
+           		?Integer.parseInt(request.getParameter("page")) : -1;
 		//TODO テスト用
 		//リクエストにどちらかのidが付加されてくる
-		int categoryId = 1;
-		int stylistId = -1;
+		categoryId = 1;
+		stylistId = -1;
 
         int responseStatus = HttpServletResponse.SC_OK;
 				

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.dao.UserDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import common.constant.Constant;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
@@ -18,12 +19,14 @@ public class AddSalonFavoriteService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+        int salonId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
-        int userId = 1;
-        int salonId = 2;
+        userId = 1;
+        salonId = 2;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

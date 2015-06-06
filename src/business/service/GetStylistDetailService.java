@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
 import business.dao.StylistDao;
+import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
@@ -19,12 +20,15 @@ public class GetStylistDetailService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
-		 
+
+        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+        int stylistId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
+
         //TODO テスト用
-        int stylistId =1;
-        int userId = 1;
+        stylistId =1;
+        userId = 1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

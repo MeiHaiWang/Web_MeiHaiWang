@@ -26,10 +26,11 @@ public class GetReviewCommentService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+
+        int commentId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
         //TODO テスト用
-        int commentId = 1;
+        commentId = 1;
         
 		CommentInfo commentInfo = new CommentInfo();
 		CommentDao commentDao = new CommentDao(); 

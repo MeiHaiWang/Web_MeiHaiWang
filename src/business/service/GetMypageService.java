@@ -14,6 +14,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.ReservationDao;
 import business.dao.UserDao;
+import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.ReservationInfo;
 import common.model.UserInfo;
@@ -29,8 +30,10 @@ public class GetMypageService {
         int responseStatus = HttpServletResponse.SC_OK;
 		/*int salonId = request.getParameter(Constant.ID) != null ?
 		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
         //TODO テスト用
-        int userId =1 ;
+        userId =1 ;
         
         try{
 			DBConnection dbConnection = new DBConnection();

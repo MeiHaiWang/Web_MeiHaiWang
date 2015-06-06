@@ -1,12 +1,13 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.dao.UserDao;
-
+import common.constant.Constant;
 import common.util.DBConnection;
 
 public class AddStylistFavoriteService {
@@ -14,12 +15,25 @@ public class AddStylistFavoriteService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
-		 // userIdがパラメータ。なかったら-1を入れておく。
+
+        // userIdがパラメータ。なかったら-1を入れておく。
+        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+        int stylistId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
+        
+        /*debug
+        Enumeration headernames = request.getHeaderNames();
+        while (headernames.hasMoreElements()){
+                String headerName = (String)headernames.nextElement();
+                System.out.println("headerName: "+headerName);
+                System.out.println("header_: "+request.getHeader(headerName));
+                
+        }
+        */
         //TODO テスト用
-        int userId = 1;
-        int stylistId = 9;
+        userId = 1;
+        stylistId = 9;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

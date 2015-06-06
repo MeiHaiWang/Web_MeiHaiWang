@@ -24,9 +24,8 @@ public class GetSearchSalonService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){
 		
-	/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
+	int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-	*/
 	/*List<String> areaIdList = request.getParameter("area") != null ?
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 			
@@ -39,7 +38,8 @@ public class GetSearchSalonService {
 	int onePageDisplayNum = request.getParameter("onePageNum") != null ?
 			Integer.valueOf(request.getParameter("onePageNum").toString()) : Constant.ONE_PAGE_NUM;
 	*/
-	int userId=1;
+	userId=1;
+	
 	List<String> areaIdList = new ArrayList<String>();
 	areaIdList.add("1");
 	areaIdList.add("2");

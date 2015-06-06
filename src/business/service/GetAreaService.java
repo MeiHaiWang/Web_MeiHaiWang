@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.AreaDao;
+import common.constant.Constant;
 import common.model.AreaInfo;
 import common.util.DBConnection;
 
@@ -18,11 +19,12 @@ public class GetAreaService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+
+        int areaId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // areaIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
-        int areaId = -1;
+        areaId = -1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

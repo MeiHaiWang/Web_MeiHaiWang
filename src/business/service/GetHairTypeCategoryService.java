@@ -11,6 +11,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
 import business.dao.HairTypeDao;
+import common.constant.Constant;
 import common.model.HairStyleInfo;
 import common.model.HairTypeInfo;
 import common.util.DBConnection;
@@ -20,11 +21,11 @@ public class GetHairTypeCategoryService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+        int gender = request.getParameter("gender")!= null
+        		?Integer.parseInt(request.getParameter("gender")) : -1;
 		 //gender=0 　性別フラグ　0=男性、1=女性
         //TODO テスト用
-        int gender =0 ;
+        gender =0 ;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
 import business.dao.RecommendDao;
 import business.dao.SalonDao;
+import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
@@ -21,9 +22,9 @@ public class GetHairStyleDetailService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
-		 
+
+        int cataloglistId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
         //TODO テスト用
         int cataloglistID =1;
         

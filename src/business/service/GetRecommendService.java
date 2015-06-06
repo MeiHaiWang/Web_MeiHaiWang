@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
+import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
 import common.model.StylistInfo;
@@ -22,11 +23,10 @@ public class GetRecommendService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
-		/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
-				Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
+        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		//TODO テスト用
-		int userId =1;
+		userId =1;
 		
         Date lastUpdateSalon = new Date(0);
         Date lastUpdateHair = new Date(0);

@@ -17,8 +17,10 @@ public class GetSalonMapService {
 		/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 				Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		*/
+        int salonId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
         //TODO テスト用
-        int salonId =1;
+        salonId =1;
         
         int responseStatus = HttpServletResponse.SC_OK;
 		try{

@@ -27,11 +27,13 @@ public class GetReviewsService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-		/*int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
+        int shopId = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
+        int pageNum = request.getParameter("id")!= null
+        		?Integer.parseInt(request.getParameter("id")) : -1;
         //TODO テスト用
-        int shopId = 1;
-        int pageNum = 1;
+        shopId = 1;
+        pageNum = 1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();
