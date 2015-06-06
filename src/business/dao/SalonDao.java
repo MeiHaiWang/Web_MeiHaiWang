@@ -9,8 +9,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import business.util.ListUtilities;
-
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.sun.media.jfxmedia.logging.Logger;
 
@@ -18,6 +16,7 @@ import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
+import common.util.ListUtilities;
 
 public class SalonDao {
 	

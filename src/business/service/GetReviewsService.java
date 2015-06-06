@@ -49,7 +49,7 @@ public class GetReviewsService {
 				//EvaluationDao evaluationDao = new EvaluationDao();
 				
 				reviewIdList = salonDao.getHairSalonReviewIdList(dbConnection, shopId);
-				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList);
+				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList, pageNum);
 				userInfoList = userDao.getReviewerUserInfo(dbConnection, reviewIdList);
 				
 				dbConnection.close();

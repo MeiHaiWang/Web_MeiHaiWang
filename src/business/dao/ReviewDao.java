@@ -9,18 +9,35 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import common.constant.Constant;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
 public class ReviewDao {
 
-	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> reviewIdList) throws SQLException{
+	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> idList, int pageNum) throws SQLException{
 		List<ReviewInfo> ReviewInfoList = new ArrayList<ReviewInfo>();
-		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , `t_review_text`, "
-				+ "`t_review_evaluation_point`, `t_user_name`, `t_user_sex`, `t_user_birth` FROM t_review "
-				+ "JOIN t_user ON t_review_userId = t_user_Id WHERE t_review_id=";		
+		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "
+				+ "`t_review_text`, `t_review_evaluation_point`, `t_user_name`, `t_user_sex`, `t_user_birth` "
+				+ "FROM t_review JOIN t_user ON t_review_userId = t_user_Id WHERE t_review_id = ";
+				//+ "LIMIT 1 OFFSET 0";		
 		Statement statement = dbConnection.getStatement();
+		
+		//ページ対応
+		int searchNum_start = (pageNum-1) * Constant.ONE_PAGE_NUM;
+		int searchNum_end = pageNum * Constant.ONE_PAGE_NUM;
+		/*
+		int searchNum_start = (pageNum-1) * 2;
+		int searchNum_end = pageNum * 2;
+		 */
+
+		List<Integer> reviewIdList = new ArrayList<Integer>();
+		for(int i=searchNum_start; i<searchNum_end; i++){
+			if(idList.size()<=i) break;
+			reviewIdList.add(idList.get(i));			
+		}
+		
 		try {			
 			for(int reviewId : reviewIdList){
 				ResultSet rs = statement.executeQuery(sql+reviewId);

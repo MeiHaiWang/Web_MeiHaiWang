@@ -1,4 +1,4 @@
-package business.util;
+package common.util;
 
 import java.util.ArrayList;
 import java.util.List;
