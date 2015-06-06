@@ -162,7 +162,8 @@ public class RecommendDao {
 			while(rs.next()){
 				favoriteSalons = rs.getString("t_user_favoriteSalonId");
 			}
-			String[]  favoriteSalonIdArray = favoriteSalons.split(",");
+			String[]  favoriteSalonIdArray = favoriteSalons != null ?
+					favoriteSalons.split(",") : null;
 			List<String> favoriteSalonIdList = favoriteSalonIdArray != null  ?
 					Arrays.asList(favoriteSalonIdArray) : new ArrayList<String>() ;
 			
@@ -193,7 +194,8 @@ public class RecommendDao {
 			while(rs.next()){
 				favoriteHairs = rs.getString("t_user_favoriteHairStyleId");
 			}
-			String[]  favoriteHairIdArray = favoriteHairs.split(",");
+			String[]  favoriteHairIdArray = favoriteHairs != null ?
+					favoriteHairs.split(",") : null;
 			List<String> favoriteHairIdList = favoriteHairIdArray != null  ?
 					Arrays.asList(favoriteHairIdArray) : new ArrayList<String>() ;
 			
@@ -224,7 +226,8 @@ public class RecommendDao {
 			while(rs.next()){
 				favoriteStylists = rs.getString("t_user_favoriteStylistId");
 			}
-			String[]  favoriteStylistIdArray = favoriteStylists.split(",");
+			String[]  favoriteStylistIdArray = favoriteStylists != null ?
+					favoriteStylists.split(",") : null;
 			List<String> favoriteHairIdList = favoriteStylistIdArray != null  ?
 					Arrays.asList(favoriteStylistIdArray) : new ArrayList<String>() ;
 			

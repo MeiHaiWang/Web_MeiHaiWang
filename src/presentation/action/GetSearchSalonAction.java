@@ -14,7 +14,7 @@ import business.service.GetSearchSalonService;
 import business.service.GetStylistHistoryService;
 
 @WebServlet(name="GetSearchSalonServlet",urlPatterns={"/api/:version/shop_list"})
-public class GetSearchSalonAction {
+public class GetSearchSalonAction extends HttpServlet {
 
 	/**
 	 *
