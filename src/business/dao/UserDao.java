@@ -15,14 +15,17 @@ public class UserDao {
 	public List<UserInfo> getReviewerUserInfo(DBConnection dbConnection, List<Integer> reviewIdList) throws SQLException{
 	
 		List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
-		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , `t_review_text`"
-				+ ", `t_user_name`, `t_user_sex`, `t_user_birth`, `t_comment_message` FROM t_review "
-				+ "JOIN t_comment ON t_review_commentId = t_comment_reviewId JOIN t_user ON "
-				+ "t_review_userId = t_user_Id WHERE t_review_id=";		
+		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , `"
+				+ "t_review_text`, `t_user_name`, `t_user_sex`, `t_user_birth` FROM t_review "
+				+ "JOIN t_user ON t_review_userId = t_user_Id WHERE t_review_id=";		
 		Statement statement = dbConnection.getStatement();
+		
 		try {			
 			for(int reviewId : reviewIdList){
 				ResultSet rs = statement.executeQuery(sql+reviewId);
+				//debug
+				System.out.println(sql+reviewId);
+
 				UserInfo userInfo = new UserInfo();
 				while(rs.next()){
 					userInfo.setUserName(rs.getString("t_user_name"));

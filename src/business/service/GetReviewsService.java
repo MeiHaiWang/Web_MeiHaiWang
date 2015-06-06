@@ -37,22 +37,19 @@ public class GetReviewsService {
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<Integer> reviewIdList = new ArrayList<Integer>();
-			List<Integer> evalIdList = new ArrayList<Integer>();
+			//List<Integer> evalIdList = new ArrayList<Integer>();
 			List<ReviewInfo> reviewInfoList = new ArrayList<ReviewInfo>();
-			List<EvaluationInfo> evaluationInfoList = new ArrayList<EvaluationInfo>();
+			//List<EvaluationInfo> evaluationInfoList = new ArrayList<EvaluationInfo>();
 			List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				ReviewDao reviewDao = new ReviewDao();
 				UserDao userDao = new UserDao();
-				EvaluationDao evaluationDao = new EvaluationDao();
+				//EvaluationDao evaluationDao = new EvaluationDao();
 				
 				reviewIdList = salonDao.getHairSalonReviewIdList(dbConnection, shopId);
-				evalIdList = salonDao.getHairSalonEvaluationIdList(dbConnection, shopId);
-
 				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList);
-				evaluationInfoList = evaluationDao.getReviewEvaluationInfo(dbConnection, evalIdList);
 				userInfoList = userDao.getReviewerUserInfo(dbConnection, reviewIdList);
 				
 				dbConnection.close();
@@ -88,7 +85,8 @@ public class GetReviewsService {
 		    	}
 		    	jsonOneData.put("age", age);
 		    	jsonOneData.put("comment", reviewInfo.getReviewText());		    	
-		    	jsonOneData.put("evaluation", evaluationInfoList.get(i).getEvaluationPoint());
+		    	//jsonOneData.put("evaluation", evaluationInfoList.get(i).getEvaluationPoint());
+		    	jsonOneData.put("evaluation", reviewInfo.getReviewPoint());
 		    	ReviewArray.add(jsonOneData);
 		    	i++;
 		    }
