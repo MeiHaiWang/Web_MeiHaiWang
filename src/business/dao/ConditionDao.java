@@ -53,21 +53,21 @@ public class ConditionDao {
 		return ConditionInfoList;
 	}	
 
-	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int ConditionTitleType) throws SQLException,UnsupportedEncodingException{
+	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, String ConditionTitleType) throws SQLException,UnsupportedEncodingException{
 		String sql = "";
 		String typeStr =  "";
 		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();		
 
 		try{
-			if(ConditionTitleType == 1)
+			if(ConditionTitleType.compareTo(Constant.TITLE_FOR_SALON_CONDITION)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_SALON.getBytes("UTF-8"),"UTF-8");
-			else if(ConditionTitleType == 2)
+			else if(ConditionTitleType.compareTo(Constant.TITLE_FOR_STYLIST_CODITION)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_STYLIST_CODITION.getBytes("UTF-8"),"UTF-8");
-			else if(ConditionTitleType == 3)
+			else if(ConditionTitleType.compareTo(Constant.TITLE_FOR_STYLIST_LIKE)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_STYLIST_LIKE.getBytes("UTF-8"),"UTF-8");
-			else if(ConditionTitleType == 4)
+			else if(ConditionTitleType.compareTo(Constant.TITLE_FOR_HAIRSTYLE_MENU)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_HAIRSTYLE_MENU.getBytes("UTF-8"),"UTF-8");
-			else if(ConditionTitleType == 5)
+			else if(ConditionTitleType.compareTo(Constant.TITLE_FOR_HAIRSTYLE_FACE)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_HAIRSTYLE_FACE.getBytes("UTF-8"),"UTF-8");
 			else typeStr = "";
 		}catch(UnsupportedEncodingException e){

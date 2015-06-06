@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
+import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.model.HairStyleInfo;
@@ -24,13 +25,13 @@ public class GetConditionForSalonSearchService {
 	@SuppressWarnings({ "unchecked", "unused" })
 
 	/**
-	 * 	 *  サロン検索条件：１
-		スタイリスト検索条件：2
-		スタイリスト検索好み：3
-		ヘアスタイル検索メニュー：4
-		ヘアスタイル検索顔型：5
+	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
+	public static final String TITLE_FOR_STYLIST_CODITION = "スタイリスト検索条件";
+	public static final String TITLE_FOR_STYLIST_LIKE = "スタイリスト検索好み";
+	public static final String TITLE_FOR_HAIRSTYLE_MENU = "ヘアスタイル検索メニュー";
+	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
+
 	 */
-	static int CONDITION_TYPE = 1;
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -51,7 +52,7 @@ public class GetConditionForSalonSearchService {
 			*/
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, CONDITION_TYPE);
+				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TITLE_FOR_SALON_CONDITION);
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				dbConnection.close();
 			}else{

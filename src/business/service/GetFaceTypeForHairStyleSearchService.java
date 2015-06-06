@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
+import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
@@ -19,13 +20,13 @@ public class GetFaceTypeForHairStyleSearchService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	
 	/**
-	 * 	 *  サロン検索条件：１
-		スタイリスト検索条件：2
-		スタイリスト検索好み：3
-		ヘアスタイル検索メニュー：4
-		ヘアスタイル検索顔型：5
+	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
+	public static final String TITLE_FOR_STYLIST_CODITION = "スタイリスト検索条件";
+	public static final String TITLE_FOR_STYLIST_LIKE = "スタイリスト検索好み";
+	public static final String TITLE_FOR_HAIRSTYLE_MENU = "ヘアスタイル検索メニュー";
+	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
+
 	 */
-	static int CONDITION_TYPE = 5;
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -44,7 +45,7 @@ public class GetFaceTypeForHairStyleSearchService {
 			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, CONDITION_TYPE);
+				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TITLE_FOR_HAIRSTYLE_FACE);
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				dbConnection.close();
 			}else{
