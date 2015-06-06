@@ -107,4 +107,87 @@ public class UserDao {
 		return isStylist;
 	}
 
+	public int addFavoriteSalon(DBConnection dbConnection, int userId, int salonId) throws SQLException {
+		int result = -1;
+		String sql_before = "SELECT `t_user_favoriteSalonId` FROM `t_user` WHERE t_user_id = ";
+		String sql_after="";
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteSalonId` = '";
+		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
+		
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql_before+userId);		
+
+		String before = "";
+		String after = "";
+		try {						
+			ResultSet rs = statement.executeQuery(sql_before + userId);
+			while(rs.next()){
+				before = rs.getString("t_user_favoriteSalonId");
+				if(before.compareTo("")!=0){
+				    after = before + "," + salonId; 
+				}else{
+					after = "" + salonId; 					
+				}
+				//rs.updateString("t_user_favoriteSalonId", after);
+			}
+			
+			sql_after = sql1 + after + sql2;
+			
+			//debug
+			System.out.println(sql_after);		
+
+			result = statement.executeUpdate(sql_after);
+			System.out.println("result: "+result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
+	}
+
+	public int addFavoriteStylist(DBConnection dbConnection, int userId, int stylistId) throws SQLException {
+		int result = -1, status = -1;
+		String sql_before = "SELECT `t_user_favoriteStylistId` FROM `t_user` WHERE t_user_id = ";
+		String sql_after="";
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteStylistId` = '";
+		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
+		
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql_before+userId);		
+
+		String before = "";
+		String after = "";
+		try {						
+			ResultSet rs = statement.executeQuery(sql_before + userId);
+			while(rs.next()){
+				before = rs.getString("t_user_favoriteStylistId");
+				if(before.compareTo("")!=0){
+				    after = before + "," + stylistId; 
+				}else{
+					after = "" + stylistId; 					
+				}
+				//rs.updateString("t_user_favoriteSalonId", after);
+			}
+			
+			sql_after = sql1 + after + sql2;
+			
+			//debug
+			System.out.println(sql_after);		
+
+			result = statement.executeUpdate(sql_after);
+			//System.out.println("result: "+result);
+			if(result==1) status = 0;
+			else status = 1;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return status;
+	}
+
 }

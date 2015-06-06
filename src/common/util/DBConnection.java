@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -65,4 +66,21 @@ public class DBConnection {
 	public Statement getStatement(){
 		return this.statement;
 	}
+
+	/*
+	public Statement getUpdatableStatement(){
+		Statement retStatement = null;
+		try {
+			this.statement = this.conn.createStatement(
+					ResultSet.TYPE_SCROLL_SENSITIVE,
+			        ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(statement!=null) retStatement = this.statement;
+		return retStatement;
+	}
+	*/
+	
 }
