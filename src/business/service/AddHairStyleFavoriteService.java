@@ -1,32 +1,28 @@
 package business.service;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.dao.UserDao;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
 import common.constant.Constant;
-import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class AddSalonFavoriteService {
+public class AddHairStyleFavoriteService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        int salonId = request.getParameter("id")!= null
+        int hairStyleId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
         userId = 1;
-        salonId = 2;
+        hairStyleId = 2;
         
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -36,7 +32,7 @@ public class AddSalonFavoriteService {
 			if(conn!=null){
 				UserDao userDao = new UserDao();
 				//infoList = userDao.getuserInfo(dbConnection, userId);
-				status = userDao.addFavoriteSalon(dbConnection, userId, salonId);
+				status = userDao.addFavoriteHairStyle(dbConnection, userId, hairStyleId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

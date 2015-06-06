@@ -21,8 +21,6 @@ public class GetNewsService {
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
-        //Date lastUpdateSalon = new Date(0);
-        //Date lastUpdateHair = new Date(0);
 		
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
@@ -33,12 +31,6 @@ public class GetNewsService {
 			if(conn!=null){
 				NewsDao dao = new NewsDao();
 				beautyNewsList = dao.getBeautyNewsInfo(dbConnection);
-				/*
-				salonInfoList  = dao.getRecommendSalonInfo(dbConnection);
-				hairStyleInfoList =  dao.getRecommendHairStyleInfo(dbConnection);
-				lastUpdateSalon = dao.getRecommendSalonLastUpdate(dbConnection);
-				lastUpdateHair = dao.getRecommendHairLastUpdate(dbConnection);
-				*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -57,37 +49,10 @@ public class GetNewsService {
 		    	newsArray.add(jsonOneData);
 		    }
 		    jsonObject.put("news",newsArray);
-		    
-		    /*
-		     * 				BeautyNewsInfo.setbeautyNewsName(rs.getString("t_masterNewsName"));
-				BeautyNewsInfo.setbeautyNewsImagePath(rs.getString("t_masterNewImagePath"));
-				BeautyNewsInfo.setbeautyNewsURL(rs.getString("t_masterNewsURL"));
 
-		     */
-		    
-		    /*
-		    //返却用ヘアースタイルデータ(Jsonデータの作成)
-		    JSONArray hairStyleArray = new JSONArray();
-		    for(HairStyleInfo hairStyleInfo : hairStyleInfoList){
-		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("name", hairStyleInfo.getHairStyleName());
-		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
-		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
-		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
-		    	hairStyleArray.add(jsonOneData);
-		    }
-		    jsonObject.put("style_lists",hairStyleArray);
-			
-		    //返却用インフォーメーション用データ(Jsonデータの作成)
-		    JSONArray informationArray = new JSONArray();
-		    JSONObject jsonOneData = new JSONObject();
-		    jsonOneData.put("published_at_salon",lastUpdateSalon.toString());
-		    jsonOneData.put("published_at_hair",lastUpdateHair.toString());
-		    informationArray.add(jsonOneData);
-		    jsonObject.put("information",informationArray);
-		    */
-		    
+		    //debug
+		    System.out.println(jsonObject.toString(4));
+
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

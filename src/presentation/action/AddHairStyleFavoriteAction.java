@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetSalonHistoryService;
+import business.service.AddHairStyleFavoriteService;
+import business.service.AddSalonFavoriteService;
 
-@WebServlet(name="GetHairSalonHistoryServlet",urlPatterns={"/api/:version/salon_history"})
-public class GetSalonHistoryAction extends HttpServlet{
-
+@WebServlet(name="AddHairStyleFavoriteServlet",urlPatterns={"/api/:version/hire/good"})
+public class AddHairStyleFavoriteAction extends HttpServlet{
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class GetSalonHistoryAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetSalonHistoryAction() {
+	public AddHairStyleFavoriteAction() {
 		super();
 	}
 
@@ -40,24 +40,7 @@ public class GetSalonHistoryAction extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String languageCode = request.getHeader("langage");
-		if(languageCode != null && languageCode.equals("jp")){
-			response.setLocale(Locale.JAPAN);
-		}
-		else if(languageCode != null && languageCode.equals("ch")){
-			response.setLocale(Locale.CHINA);
-		}
-		else{
-			//defaultは中国
-			response.setLocale(Locale.CHINA);
-		}
-		
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		
-		//service excute
-		GetSalonHistoryService service = new GetSalonHistoryService();
-		service.excuteService(request, response);
+		//do nothing
 	}
 
 	/**
@@ -72,7 +55,25 @@ public class GetSalonHistoryAction extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
-	}
+		String languageCode = request.getHeader("langage");
+		if(languageCode != null && languageCode.equals("jp")){
+			response.setLocale(Locale.JAPAN);
+		}
+		else if(languageCode != null && languageCode.equals("ch")){
+			response.setLocale(Locale.CHINA);
+		}
+		else{
+			//defaultは中国
+			response.setLocale(Locale.CHINA);
+		}
+		
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		
+		//service excute
+		AddHairStyleFavoriteService service = new AddHairStyleFavoriteService();
+		service.excuteService(request, response);
 
+	}
+	
 }

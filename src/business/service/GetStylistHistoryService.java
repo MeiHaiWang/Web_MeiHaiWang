@@ -22,10 +22,6 @@ public class GetStylistHistoryService {
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
-		/*
-		Date lastUpdateSalon = new Date(0);
-        Date lastUpdateHair = new Date(0);
-        */
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
 			DBConnection dbConnection = new DBConnection();

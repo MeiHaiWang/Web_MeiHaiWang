@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
+import common.constant.Constant;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
@@ -26,11 +27,11 @@ public class GetHairStyleFavoriteService {
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<Integer> HairStyleIdList  = new ArrayList<Integer>();
 			List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
-			/*String userId = request.getHeader(Constant.HEADER_USERID) != null ?
-			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-			 */
+
+			int userId = request.getHeader(Constant.HEADER_USERID)!= null 
+	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 			//TODO テスト用
-			int userId =1;			
+			userId =1;			
 			
 			if(conn!=null){
 				HairStyleDao dao = new HairStyleDao();

@@ -68,7 +68,7 @@ public class HairStyleDao {
 					HairStyleInfo hairStyleInfo = new HairStyleInfo();
 					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
 					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-					hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_HairStyleId"));
+					hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
 					hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
 					infoList.add(hairStyleInfo);
 				}

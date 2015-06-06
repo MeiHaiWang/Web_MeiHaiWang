@@ -189,5 +189,48 @@ public class UserDao {
 		}
 		return status;
 	}
+	
+	public int addFavoriteHairStyle(DBConnection dbConnection, int userId, int hairStyleId) throws SQLException {
+		int result = -1, status = -1;
+		String sql_before = "SELECT `t_user_favoriteHairStyleId` FROM `t_user` WHERE t_user_id = ";
+		String sql_after="";
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteHairStyleId` = '";
+		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
+		
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql_before+userId);		
+
+		String before = "";
+		String after = "";
+		try {						
+			ResultSet rs = statement.executeQuery(sql_before + userId);
+			while(rs.next()){
+				before = rs.getString("t_user_favoriteHairStyleId");
+				if(before.compareTo("")!=0){
+				    after = before + "," + hairStyleId; 
+				}else{
+					after = "" + hairStyleId; 				
+				}
+				//rs.updateString("t_user_favoriteSalonId", after);
+			}
+			
+			sql_after = sql1 + after + sql2;
+			
+			//debug
+			System.out.println(sql_after);		
+
+			result = statement.executeUpdate(sql_after);
+			//System.out.println("result: "+result);
+			if(result==1) status = 0;
+			else status = 1;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return status;
+	}
 
 }
