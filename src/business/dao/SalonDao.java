@@ -9,9 +9,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.sun.media.jfxmedia.logging.Logger;
 
+import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
@@ -36,6 +39,7 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			HairSalonInfo salonInfo = new HairSalonInfo();
 			while(rs.next()){
+				salonInfo = new HairSalonInfo();
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				salonInfo.setHairSalonId(salonId);
 				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
@@ -330,8 +334,96 @@ public class SalonDao {
 		return salonInfo;
 	}
 
-	public List<HairSalonInfo> getSalonInfoListByArea(DBConnection dbConnection, List<String> areaIdList){
-		return null;
+	public List<String> getSalonIdListByArea(DBConnection dbConnection, List<String> areaIdList) throws SQLException{
+		
+		String sql1 = "SELECT t_hairSalonMaster_salonId FROM t_hairSalonMaster WHERE  FIND_IN_SET(";
+		String sql2 =  ",t_hairSalonMaster_areaId)";
+		
+		Statement statement = dbConnection.getStatement();
+		List<String> salonIdList = new ArrayList<String>();
+		
+		try {
+			for(String areaId : areaIdList){
+				System.out.println(sql1 + areaId+ sql2);
+				ResultSet rs = statement.executeQuery(sql1 + areaId+ sql2);
+				while(rs.next()){
+					if(!salonIdList.contains(rs.getInt("t_hairSalonMaster_salonId"))){
+						salonIdList.add(String.valueOf(rs.getInt("t_hairSalonMaster_salonId")));
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return salonIdList;		
 	}
 	
+	public List<HairSalonInfo> getSalonListBySearchCondition(DBConnection dbConnection, List<String> searchConditionIdList,List<String> salonIdList,int pageNumber,JSONObject jsonObject) throws SQLException{
+		
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , `t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId IN(";
+		String sql2 =  ") AND FIND_IN_SET(";
+		String sql3 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
+		String sql4 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
+		String sql5 = ",t_review_id)";
+		Statement statement = dbConnection.getStatement();
+		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		int hitNum = 0;
+		try {
+			for(String conditionId : searchConditionIdList){
+				ResultSet rs = statement.executeQuery(sql1 + String.join(",", salonIdList)+ sql2 + conditionId + sql3);
+				List<String> reviewIdList = new ArrayList<String>();
+				HairSalonInfo salonInfo = new HairSalonInfo();
+				while(rs.next()){
+					salonInfo = new HairSalonInfo();
+					salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+					salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+					salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+					reviewIdList = rs.getString("t_hairSalonMaster_reviewId")!= null ?
+							Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+					salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
+					salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
+					Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
+							rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
+					Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
+							rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
+					salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
+					salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
+					salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
+					hitNum++;
+				}
+				
+				double reviewPoint = 0.0;
+				int reviewNumber = 0;
+				for(String reviewId : reviewIdList){
+					ResultSet rsReview = statement.executeQuery(sql4 +reviewId + sql5);
+					while(rsReview.next()){
+						reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+						reviewNumber++;
+					}
+				}
+				salonInfo.setEvaluationPointMid(reviewPoint/reviewNumber);
+				salonInfo.setWordOfMonth(reviewNumber);
+				boolean addFlag = true;
+				for(HairSalonInfo info : salonInfoList){
+					if(info.getHairSalonId() ==  salonInfo.getHairSalonId()){
+						addFlag = false;
+					}
+				}
+				if(addFlag) salonInfoList.add(salonInfo);
+			}
+
+			if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+				jsonObject.put("next", 0);
+			}
+			else{
+				jsonObject.put("next", 1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return salonInfoList;		
+	}
 }
