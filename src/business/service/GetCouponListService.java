@@ -17,10 +17,10 @@ import common.util.DBConnection;
 public class GetCouponListService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response) {
-		//TODO テスト用　本来はパラメータがきてない場合は-1をセットする
-        int responseStatus = HttpServletResponse.SC_OK;
+
+		int responseStatus = HttpServletResponse.SC_OK;
 		int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : 1;
+		Integer.parseInt(request.getParameter(Constant.ID)) : -1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

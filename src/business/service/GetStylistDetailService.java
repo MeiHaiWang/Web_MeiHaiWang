@@ -25,10 +25,6 @@ public class GetStylistDetailService {
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
         int stylistId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
-
-        //TODO テスト用
-        stylistId =1;
-        userId = 1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

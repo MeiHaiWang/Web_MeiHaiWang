@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
+import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
@@ -14,13 +15,11 @@ public class GetSalonMapService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
-		/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
+		int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 				Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
+		
         int salonId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
-        //TODO テスト用
-        salonId =1;
         
         int responseStatus = HttpServletResponse.SC_OK;
 		try{

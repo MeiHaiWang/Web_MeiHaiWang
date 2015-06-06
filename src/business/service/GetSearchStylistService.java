@@ -22,32 +22,28 @@ public class GetSearchStylistService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 	
-	/*int userId = request.getHeader(Constant.HEADER_USERID) != null ?
+	int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 	List<String> areaIdList = request.getParameter("area") != null ?
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
-			
+	if(areaIdList.isEmpty()){
+			areaIdList.add("-1");
+	}	
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-		
+	if(searchConditionIdList.isEmpty()){
+			searchConditionIdList.add("-1");
+	}
+	
 	int pageNumber = request.getParameter("page") != null ?
 			Integer.valueOf(request.getParameter("page").toString()) : 1;
 	
 	int onePageDisplayNum = request.getParameter("onePageNum") != null ?
 			Integer.valueOf(request.getParameter("onePageNum").toString()) : Constant.ONE_PAGE_NUM;
+	
 	int salonId = request.getParameter("shopId") != null ?
-			Integer.valueOf(request.getParameter("shopId").toString()) : 1;
-	*/
-			
-	int userId=1;
-	List<String> areaIdList = new ArrayList<String>();
-	areaIdList.add("1");
-	areaIdList.add("2");
-	int pageNumber =0;
-	List<String> searchConditionIdList = new ArrayList<String>();
-	searchConditionIdList.add("1");
-	searchConditionIdList.add("2");
-	int salonId = 1;
+			Integer.valueOf(request.getParameter("shopId").toString()) : -1;
+
 	int responseStatus = HttpServletResponse.SC_OK;
 	try{
 		DBConnection dbConnection = new DBConnection();

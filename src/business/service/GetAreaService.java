@@ -23,8 +23,6 @@ public class GetAreaService {
         int areaId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // areaIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        areaId = -1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();
