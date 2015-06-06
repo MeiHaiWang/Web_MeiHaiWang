@@ -9,7 +9,9 @@ public  class Constant {
 	public static final  int USER_NOT_LOGIN = -1;
 	public static final String HEADER_USERID = "userID";
 	public static final String ID = "id";
+<<<<<<< HEAD
 	public static final int ONE_PAGE_NUM = 20;
+=======
 
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
 	public static final String TITLE_FOR_STYLIST_CODITION = "スタイリスト検索条件";
@@ -17,6 +19,7 @@ public  class Constant {
 	public static final String TITLE_FOR_HAIRSTYLE_MENU = "ヘアスタイル検索メニュー";
 	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
 	
+>>>>>>> origin/master
 	public static final String TITLE_NAME_LIST_FOR_SALON = "'時間','サービス','設備'";
 	public static final String TITLE_NAME_LIST_FOR_STYLIST_CODITION = "'対応日時','得意なメニュー','得意なスタイル'";
 	public static final String TITLE_NAME_LIST_FOR_STYLIST_LIKE = "'性別','年齢'";
