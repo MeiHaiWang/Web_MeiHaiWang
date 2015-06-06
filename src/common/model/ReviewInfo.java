@@ -8,6 +8,7 @@ public class ReviewInfo {
 	private String ReviewText ="";
 	private String ReviewCommentId ="";
 	private Date ReviewPostedDate = new Date();
+	private Double ReviewPoint = Double.MAX_VALUE;
 
 	public ReviewInfo(){
 	}
@@ -52,6 +53,13 @@ public class ReviewInfo {
 		return ReviewPostedDate;
 	}
 
+	public void setReviewPoint(double ReviewPoint){
+		this.ReviewPoint = ReviewPoint;
+	}
 	
+	public double getReviewPoint(){
+		return ReviewPoint;
+	}
+		
 	
 }

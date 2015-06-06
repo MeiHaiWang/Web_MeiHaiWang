@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetAreaService;
+import business.service.GetReviewCommentService;
 import business.service.GetReviewsService;
 
-
-@WebServlet(name="GetReviewsServlet",urlPatterns={"/api/:version/reviews"})
-public class GetReviewsAction extends HttpServlet{
+@WebServlet(name="GetReviewCommentServlet",urlPatterns={"/api/:version/reviewRe"})
+public class GetReviewCommentAction extends HttpServlet{
 
 	/**
 	 *
@@ -25,7 +24,7 @@ public class GetReviewsAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetReviewsAction() {
+	public GetReviewCommentAction() {
 		super();
 	}
 
@@ -42,7 +41,7 @@ public class GetReviewsAction extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		//do nothing
 	}
 
 	/**
@@ -57,7 +56,6 @@ public class GetReviewsAction extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
 			response.setLocale(Locale.JAPAN);
@@ -74,8 +72,8 @@ public class GetReviewsAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetReviewsService reviewservice = new GetReviewsService();
-		reviewservice.excuteService(request, response);
+		GetReviewCommentService rcservice = new GetReviewCommentService();
+		rcservice.excuteService(request, response);
 	    
 	}
 }

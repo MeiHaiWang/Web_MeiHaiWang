@@ -19,6 +19,7 @@ import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
+import common.util.ListUtilities;
 
 public class SalonDao {
 	
@@ -236,7 +237,7 @@ public class SalonDao {
 		return SalonInfoList;
 	}	
 	
-	
+	/*
 	public List<Integer> getHairSalonEvaluationIdList(DBConnection dbConnection, int salonId) throws SQLException{
 		String sql = 
 				"SELECT `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_reviewId` "
@@ -267,10 +268,11 @@ public class SalonDao {
 		}
 		return evalList;
 	}
+	*/
 
 	public List<Integer> getHairSalonReviewIdList(DBConnection dbConnection, int salonId) throws SQLException{
 		String sql = 
-				"SELECT `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_reviewId` "
+				"SELECT `t_hairSalonMaster_reviewId` "
 				+ "FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId;
 		
 		Statement statement = dbConnection.getStatement();
@@ -279,26 +281,24 @@ public class SalonDao {
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				String reviewIdStr = rs.getString("t_hairSalonMaster_evaluationId");
-				String str2 = reviewIdStr;
-		    	int i = 0;
-		    	while(i<=reviewIdStr.length()){
-		    		int idx = reviewIdStr.indexOf(',', i);
-		    		if(idx>0){
-				    	str2 = reviewIdStr.substring(i, idx);		    			
-		    		}
-			    	//jsonOneData.put("image"+Integer.toString(num++), str2);
-		    		reviewIdList.add(Integer.parseInt(str2));
-			    	i+=(str2.length()+1);
-		    	}
+				String reviewIdStr = rs.getString("t_hairSalonMaster_reviewId");
+				ListUtilities listUtilities = new ListUtilities();
+				List<String> reviewIdStrList = listUtilities.separateData(reviewIdStr);
+				reviewIdList = listUtilities.convertList_str_int(reviewIdStrList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
+		
+		//Debug
+		/*
+		for(int reviewId : reviewIdList)
+			System.out.println("reviewId: "+reviewId);
+			*/
+		
 		return reviewIdList;
-	}
-
+	}	
 	
 	/*空っぽのデータをつっこむ*/
 	public HairSalonInfo retNull(){
