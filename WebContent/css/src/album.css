@@ -1,0 +1,104 @@
+#album_info label,
+#album_list_info label {
+  display: block;
+  text-align: right;
+}
+
+#album_info td,
+#album_list_info td {
+  width: 250px;
+  height: 50px;
+  padding: 5px 5px;
+}
+
+#album_info {
+  margin: 0 auto;
+}
+
+#album_info input[type="text"],
+#album_info textarea,
+#album_info select,
+#album_info option,
+#album_list_info select,
+#album_list_info option {
+  width: 100%;
+  height: 100%;
+}
+
+#album_info textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+#album_regist {
+  text-align: center;
+}
+
+#album_regist button {
+  width: 200px;
+}
+
+#album_page dt {
+  text-align: center;
+  font-weight: bold;
+}
+dt#album_regist_area {
+  color: #F2AECF;
+  border: solid 1px #F2AECF;
+}
+dt#album_list_area {
+  color: #BAD8D9;
+  border: solid 1px #BAD8D9;
+}
+
+#album_page dd {
+  padding: 1em;
+  margin-left: 0em;
+  margin-top: 0.5em;
+  margin-bottom: 3em;
+}
+
+dt#album_regist_area + dd {
+  border: solid 1px #F2AECF;
+}
+dt#album_list_area + dd {
+  border: solid 1px #BAD8D9;
+}
+
+div.album_image_path {
+  position: relative;
+  background-color: white;
+  width: 180px;
+  height: 250px;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+#album_list_info {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+#album_list_info th {
+  width: 16%;
+  padding: 4px;
+  text-align: center;
+  vertical-align: top;
+  color: #EDF6F5;
+  background-color: #75BFBF;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+#album_list_info td{
+  padding: 4px;
+  background-color: #fafafa;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
