@@ -133,10 +133,16 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_latestViewSalonId");
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				idList.add(Integer.parseInt(temp));
 			}
+			*/
+			ListUtilities listUtilities = new ListUtilities();
+			List<String> salonStrList = listUtilities.separateData(str_id_list);
+			idList = listUtilities.convertList_str_int(salonStrList);
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -190,10 +196,16 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_favoriteSalonId");
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				SalonIdList.add(Integer.parseInt(temp));
 			}
+			*/
+			ListUtilities listUtilities = new ListUtilities();
+			List<String> salonStrList = listUtilities.separateData(str_id_list);
+			SalonIdList = listUtilities.convertList_str_int(salonStrList);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -237,39 +249,6 @@ public class SalonDao {
 		return SalonInfoList;
 	}	
 	
-	/*
-	public List<Integer> getHairSalonEvaluationIdList(DBConnection dbConnection, int salonId) throws SQLException{
-		String sql = 
-				"SELECT `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_reviewId` "
-				+ "FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId;
-		
-		Statement statement = dbConnection.getStatement();
-		List<Integer> evalList = new ArrayList<Integer>();
-		
-		try {
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				String evalStr = rs.getString("t_hairSalonMaster_evaluationId");
-				String str2 = evalStr;
-		    	int i = 0;
-		    	while(i<=evalStr.length()){
-		    		int idx = evalStr.indexOf(',', i);
-		    		if(idx>0){
-				    	str2 = evalStr.substring(i, idx);		    			
-		    		}
-			    	//jsonOneData.put("image"+Integer.toString(num++), str2);
-		    		evalList.add(Integer.parseInt(str2));
-			    	i+=(str2.length()+1);
-		    	}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return evalList;
-	}
-	*/
-
 	public List<Integer> getHairSalonReviewIdList(DBConnection dbConnection, int salonId) throws SQLException{
 		String sql = 
 				"SELECT `t_hairSalonMaster_reviewId` "

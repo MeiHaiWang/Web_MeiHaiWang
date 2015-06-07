@@ -50,6 +50,8 @@ public class GetHairStyleDetailService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
 
+		    	
+		    	/*
 		    	String str = hairStyleInfo.getHairStyleImagePath();
 		    	String str2 = str;
 		    	int i = 0, num = 1;
@@ -60,6 +62,12 @@ public class GetHairStyleDetailService {
 		    		}
 			    	jsonOneData.put("image"+Integer.toString(num++), str2);
 			    	i+=(str2.length()+1);
+		    	}
+		    	 */		
+		    	int i = 0;
+		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
 		    	}
 		    	
 		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());

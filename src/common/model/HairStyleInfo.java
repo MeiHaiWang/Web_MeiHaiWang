@@ -1,5 +1,10 @@
 package common.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import common.util.ListUtilities;
+
 public class HairStyleInfo {
 	private int hairStyleId = Integer.MIN_VALUE;
 	private String hairStyleName ="";
@@ -31,8 +36,12 @@ public class HairStyleInfo {
 		this.hairStyleImagePath = hairStyleImagePath != null ? hairStyleImagePath : "";
 	}
 	
-	public String getHairStyleImagePath(){
-		return hairStyleImagePath;
+	public List<String> getHairStyleImagePath(){
+    	//imageがコンマで連結している場合がある↓
+		List<String> imgPathList = new ArrayList<String>();
+		ListUtilities listUtilities = new ListUtilities();
+		imgPathList = listUtilities.separateData(hairStyleImagePath);
+		return imgPathList;
 	}
 	
 	public void setStylistId(int stylistId){

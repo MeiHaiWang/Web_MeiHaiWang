@@ -16,6 +16,7 @@ import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
+import common.util.ListUtilities;
 
 public class StylistDao {
 	public StylistDao() throws Exception{
@@ -31,10 +32,16 @@ public class StylistDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_latestViewStylistId");
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				stylistIdList.add(Integer.parseInt(temp));
 			}
+			*/
+			ListUtilities listUtilities = new ListUtilities();
+			List<String> stylistStrList = listUtilities.separateData(str_id_list);
+			stylistIdList = listUtilities.convertList_str_int(stylistStrList);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,10 +121,16 @@ public class StylistDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_favoriteStylistId");
+			/*
 			for(int i=0; i<=str_id_list.length(); i+=2){
 				String temp = str_id_list.substring(i, i+1);
 				stylistIdList.add(Integer.parseInt(temp));
 			}
+			*/
+			ListUtilities listUtilities = new ListUtilities();
+			List<String> stylistStrList = listUtilities.separateData(str_id_list);
+			stylistIdList = listUtilities.convertList_str_int(stylistStrList);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();

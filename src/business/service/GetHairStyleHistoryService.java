@@ -36,6 +36,11 @@ public class GetHairStyleHistoryService {
 			if(conn!=null){
 				HairStyleDao dao = new HairStyleDao();
 				hairstyleIdList  = dao.getHairStyleHistoryIdList(dbConnection, userId);
+				//debug
+				/*
+				for(int i : hairstyleIdList)
+					System.out.println("idList: " + i);
+				*/
 				hairStyleInfoList = dao.getHairStyleHistoryInfo(dbConnection, hairstyleIdList);
 				dbConnection.close();
 			}else{
@@ -51,12 +56,14 @@ public class GetHairStyleHistoryService {
 		    for(HairStyleInfo hairStyleInfo : hairStyleInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("name", hairStyleInfo.getHairStyleName());
-		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
-		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
-		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
-		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
+		    	//imageがコンマで連結している場合がある↓
+		    	int i=0;
+		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	jsonOneData.put("good_count", hairStyleInfo.getFavoriteNumber());
+		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
 		    	hairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("hair_lists",hairStyleArray);

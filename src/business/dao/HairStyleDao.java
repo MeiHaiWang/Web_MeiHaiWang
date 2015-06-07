@@ -9,6 +9,7 @@ import java.util.List;
 import common.model.HairStyleInfo;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
+import common.util.ListUtilities;
 
 public class HairStyleDao {
 	public HairStyleDao() throws Exception{
@@ -29,7 +30,6 @@ public class HairStyleDao {
 				String temp = str_id_list.substring(i, i+1);
 				idList.add(Integer.parseInt(temp));
 			}
-			*/
 	    	String str2 = str_id_list;
 	    	int i = 0;
 	    	while(i<=str_id_list.length()){
@@ -41,6 +41,11 @@ public class HairStyleDao {
 	    		idList.add(Integer.parseInt(str2));
 		    	i+=(str2.length()+1);
 	    	}
+			 */
+			ListUtilities listUtilities = new ListUtilities();
+			List<String> hairStyleStrList = listUtilities.separateData(str_id_list);
+			idList = listUtilities.convertList_str_int(hairStyleStrList);
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
