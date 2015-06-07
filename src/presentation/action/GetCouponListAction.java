@@ -65,7 +65,7 @@ public class GetCouponListAction  extends HttpServlet{
 			response.setLocale(Locale.CHINA);
 		}
 		
-		response.setContentType("text/html");
+		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
