@@ -45,16 +45,30 @@ public class GetSalonFavoriteService {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 		    
+			/*
+			 *  salon_lists: [
+			    {
+			      id: 834336,
+			      name: "美美美",
+			      image: "http://madeth-mac.local:3000/system/uploads/banner_information/image/2/ff037c9c15.png",
+			      message: "サロンからのメッセージだよーん",
+			      place: "北京",
+			    }, 
+			 */			
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray SalonArray = new JSONArray();
 		    for(HairSalonInfo SalonInfo : SalonInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", SalonInfo.getHairSalonId());
 		    	jsonOneData.put("name", SalonInfo.getHairSalonName());
-		    	jsonOneData.put("image", SalonInfo.getHairSalonImagePath());
-		    	jsonOneData.put("shopId", SalonInfo.getHairSalonId());
-		    	jsonOneData.put("isgood", SalonInfo.getIsGood());
-		    	jsonOneData.put("good_count", SalonInfo.getFavoriteNumber());
+		    	//jsonOneData.put("image", SalonInfo.getHairSalonImagePath());
+		    	int i = 0;
+		    	for(String str : SalonInfo.getHairSalonImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
+		    	jsonOneData.put("message", SalonInfo.getMessage());
+		    	jsonOneData.put("place", SalonInfo.getAreaNameList().get(0));
 		    	SalonArray.add(jsonOneData);
 		    }
 		    jsonObject.put("salon_lists",SalonArray);		    

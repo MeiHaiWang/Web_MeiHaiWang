@@ -52,7 +52,12 @@ public class GetSalonHistoryService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
 		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-		    	jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+		    	int i = 0;
+		    	for(String str : hairSalonInfo.getHairSalonImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
+		    	//jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
 		    	jsonOneData.put("message", hairSalonInfo.getMessage());
 		    	//オススメサロンを返却する際は地域レベル１の地名を返却すればいい
 		    	jsonOneData.put("place", hairSalonInfo.getAreaNameList().get(0));

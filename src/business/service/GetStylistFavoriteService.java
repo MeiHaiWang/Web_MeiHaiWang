@@ -54,10 +54,17 @@ public class GetStylistFavoriteService {
 		    for(StylistInfo stylistInfo : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", stylistInfo.getStylistId());
+		    	jsonOneData.put("shopID", stylistInfo.getSalonId());
 		    	jsonOneData.put("name", stylistInfo.getStylistName());
-		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
-		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
-		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
+		    	jsonOneData.put("gender", stylistInfo.getStylistGender());
+		    	//jsonOneData.put("image", stylistInfo.getStylistImagePath());
+		    	int i = 0;
+		    	for(String str : stylistInfo.getStylistImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
+		    	jsonOneData.put("message", stylistInfo.getStylistMessage());
+		    	jsonOneData.put("years", stylistInfo.getStylistYearsNumber());
 		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
 		    	stylistArray.add(jsonOneData);
 		    }

@@ -45,16 +45,29 @@ public class GetHairStyleFavoriteService {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 		    
+			/*
+			 *   hair_lists: [
+			    {
+			       id: 1,
+			       image1: "http://exsample.com/minibobex.png",
+			       good_count: 1,
+			       stylistID: 1
+			    },
+			 */
+			
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray HairStyleArray = new JSONArray();
 		    for(HairStyleInfo HairStyleInfo : HairStyleInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", HairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("name", HairStyleInfo.getHairStyleName());
-		    	jsonOneData.put("image", HairStyleInfo.getHairStyleImagePath());
-		    	jsonOneData.put("shopId", HairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("isgood", HairStyleInfo.getIsGood());
+		    	//jsonOneData.put("image", HairStyleInfo.getHairStyleImagePath());
+		    	int i=0;
+		    	for(String str : HairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	jsonOneData.put("good_count", HairStyleInfo.getFavoriteNumber());
+		    	jsonOneData.put("stylistID", HairStyleInfo.getStylistId());
 		    	HairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("HairStyle_lists",HairStyleArray);		    

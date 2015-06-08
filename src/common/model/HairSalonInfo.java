@@ -3,6 +3,8 @@ package common.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.util.ListUtilities;
+
 public class HairSalonInfo {
 
 	private int hairSalonId = Integer.MIN_VALUE;
@@ -49,8 +51,12 @@ public class HairSalonInfo {
 		this.hairSalonImagePath = hairSalonImagePath != null ? hairSalonImagePath : "";
 	}
 	
-	public String getHairSalonImagePath(){
-		return hairSalonImagePath;
+	public List<String> getHairSalonImagePath(){
+		List<String> imgPathList = new ArrayList<String>();
+		ListUtilities listUtilities = new ListUtilities();
+		imgPathList = listUtilities.separateData(hairSalonImagePath);
+		return imgPathList;
+		//return hairSalonImagePath;
 	}	
 
 	public void setAreaNameList(List<String> areaNameList){

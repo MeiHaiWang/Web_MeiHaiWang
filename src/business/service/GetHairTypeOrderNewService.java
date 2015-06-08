@@ -25,17 +25,17 @@ public class GetHairTypeOrderNewService {
 		
 		HttpSession session = request.getSession();
 
-/**
-	 * categoryID=0
-	ヘアカタログID
-	stylistID=0
-	スタイリストID
-	menu=0&menu=1&menu=2
-	メニュー
-	face=0&face=1
-	顔型
-	page=0
- */
+		/**
+			 * categoryID=0
+			ヘアカタログID
+			stylistID=0
+			スタイリストID
+			menu=0&menu=1&menu=2
+			メニュー
+			face=0&face=1
+			顔型
+			page=0
+		 */
         int categoryId = request.getParameter("categoryID")!= null
         		?Integer.parseInt(request.getParameter("categoryID")) : -1;
         int stylistId = request.getParameter("stylistID")!= null
@@ -50,6 +50,9 @@ public class GetHairTypeOrderNewService {
 		//リクエストにどちらかのidが付加されてくる
 		categoryId = 1;
 		stylistId = -1;
+		menu=-1;
+		face=-1;
+		page=-1;
 
         int responseStatus = HttpServletResponse.SC_OK;
 				
@@ -58,6 +61,7 @@ public class GetHairTypeOrderNewService {
 			JSONObject jsonObject = new JSONObject();
 			List<HairStyleInfo> HairStyleOrderNewList  = new ArrayList<HairStyleInfo>();
 			java.sql.Connection conn = dbConnection.connectDB();
+			System.out.println("test_size:" + HairStyleOrderNewList.size());
 			
 			if(categoryId >= 0 && stylistId < 0){
 				HairTypeInfo hairTypeInfo = new HairTypeInfo();

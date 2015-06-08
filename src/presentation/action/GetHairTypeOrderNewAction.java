@@ -76,6 +76,9 @@ public class GetHairTypeOrderNewAction extends HttpServlet{
 			response.setLocale(Locale.CHINA);
 		}
 		
+		//debug
+		System.out.println("Start :GetHairTypeOrderNewServlet: ");
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		

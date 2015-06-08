@@ -49,28 +49,13 @@ public class GetHairStyleDetailService {
 		    for(HairStyleInfo hairStyleInfo : infoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
-
-		    	
-		    	/*
-		    	String str = hairStyleInfo.getHairStyleImagePath();
-		    	String str2 = str;
-		    	int i = 0, num = 1;
-		    	while(i<=str.length()){
-		    		int idx = str.indexOf(',', i);
-		    		if(idx>0){
-				    	str2 = str.substring(i, idx);		    			
-		    		}
-			    	jsonOneData.put("image"+Integer.toString(num++), str2);
-			    	i+=(str2.length()+1);
-		    	}
-		    	 */		
 		    	int i = 0;
 		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
 		    		i++;
 		    		jsonOneData.put("image"+i, str);		    		
 		    	}
-		    	
 		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
+		    	jsonOneData.put("good_count", hairStyleInfo.getFavoriteNumber());
 		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
 		    	hairStyleArray.add(jsonOneData);
 		    }

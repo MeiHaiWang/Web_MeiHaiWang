@@ -1,5 +1,10 @@
 package common.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import common.util.ListUtilities;
+
 public class StylistInfo {
 	private int stylistId = Integer.MIN_VALUE;
 	private String stylistName ="";
@@ -44,8 +49,11 @@ public class StylistInfo {
 		this.stylistImagePath = stylistImagePath != null ? stylistImagePath : "";
 	}
 	
-	public String getStylistImagePath(){
-		return stylistImagePath;
+	public List<String> getStylistImagePath(){
+		List<String> imgPathList = new ArrayList<String>();
+		ListUtilities listUtilities = new ListUtilities();
+		imgPathList = listUtilities.separateData(stylistImagePath);
+		return imgPathList;
 	}	
 	
 	public void setSalonId(int salonId){
@@ -76,8 +84,8 @@ public class StylistInfo {
 		this.yearsNumber = yearsNumber;
 	}
 	
-	public int getStylistYearsNumber(){
-		return yearsNumber;
+	public String getStylistYearsNumber(){
+		return yearsNumber+"年間";
 	}
 
 	public void setStylistMessage(String stylistMessage){
