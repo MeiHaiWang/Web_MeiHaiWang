@@ -42,7 +42,7 @@ public class GetReviewsAction extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		//do nothing
 	}
 
 	/**
@@ -57,7 +57,6 @@ public class GetReviewsAction extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
 			response.setLocale(Locale.JAPAN);

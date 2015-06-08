@@ -33,7 +33,7 @@ public class GetReviewsService {
         		?Integer.parseInt(request.getParameter("id")) : -1;
         //TODO テスト用
         shopId = 1;
-        pageNum = 1;
+        pageNum = 0;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

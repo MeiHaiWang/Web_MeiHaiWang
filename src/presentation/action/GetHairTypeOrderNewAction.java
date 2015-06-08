@@ -21,7 +21,7 @@ import business.service.GetHairTypeOrderNewService;
 	Param: categoryID=0 or stylistID=0
  */
 
-@WebServlet(name="GetHairTypeOrderNewServlet",urlPatterns={"/api/:version/catalog/list/new"})
+@WebServlet(name="GetHairTypeOrderNewActionServlet",urlPatterns={"/api/:version/catalog/list/new"})
 public class GetHairTypeOrderNewAction extends HttpServlet{
 
 	/**

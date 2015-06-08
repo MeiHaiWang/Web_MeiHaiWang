@@ -25,8 +25,8 @@ public class ReviewDao {
 		Statement statement = dbConnection.getStatement();
 		
 		//ページ対応
-		int searchNum_start = (pageNum-1) * Constant.ONE_PAGE_NUM;
-		int searchNum_end = pageNum * Constant.ONE_PAGE_NUM;
+		int searchNum_start = pageNum * Constant.ONE_PAGE_NUM;
+		int searchNum_end = (pageNum+1) * Constant.ONE_PAGE_NUM;
 		/*
 		int searchNum_start = (pageNum-1) * 2;
 		int searchNum_end = pageNum * 2;

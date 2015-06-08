@@ -52,7 +52,7 @@ public class GetHairTypeOrderNewService {
 		stylistId = -1;
 		menu=-1;
 		face=-1;
-		page=-1;
+		page=0;
 
         int responseStatus = HttpServletResponse.SC_OK;
 				
@@ -61,14 +61,13 @@ public class GetHairTypeOrderNewService {
 			JSONObject jsonObject = new JSONObject();
 			List<HairStyleInfo> HairStyleOrderNewList  = new ArrayList<HairStyleInfo>();
 			java.sql.Connection conn = dbConnection.connectDB();
-			System.out.println("test_size:" + HairStyleOrderNewList.size());
 			
 			if(categoryId >= 0 && stylistId < 0){
 				HairTypeInfo hairTypeInfo = new HairTypeInfo();
 				if(conn!=null){
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId, page);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -88,7 +87,7 @@ public class GetHairTypeOrderNewService {
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					StylistDao stylistDao = new StylistDao();
 					stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId, page);
 					dbConnection.close();
 				}
 
@@ -105,7 +104,12 @@ public class GetHairTypeOrderNewService {
 		    for(HairStyleInfo hairStyleInfo : HairStyleOrderNewList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	//jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	int i = 0;
+		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	HairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("cataloglist", HairStyleArray);

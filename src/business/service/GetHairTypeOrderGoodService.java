@@ -24,15 +24,24 @@ public class GetHairTypeOrderGoodService {
 		
 		HttpSession session = request.getSession();
 
-
-		/*  int userId = request.getHeader(Constant.HEADER_USERID) != null ?
-			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
+        int categoryId = request.getParameter("categoryID")!= null
+        		?Integer.parseInt(request.getParameter("categoryID")) : -1;
+        int stylistId = request.getParameter("stylistID")!= null
+           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
+        int menu = request.getParameter("menu")!= null
+           		?Integer.parseInt(request.getParameter("menu")) : -1;
+        int face = request.getParameter("face")!= null
+           		?Integer.parseInt(request.getParameter("face")) : -1;
+        int page = request.getParameter("page")!= null
+           		?Integer.parseInt(request.getParameter("page")) : -1;
 		//TODO テスト用
 		//リクエストにどちらかのidが付加されてくる
-		int categoryId = 1;
-		int stylistId = -1;
-
+		categoryId = 1;
+		stylistId = -1;
+		menu=-1;
+		face=-1;
+		page=0;
+		
         int responseStatus = HttpServletResponse.SC_OK;
 				
 		try{
@@ -46,7 +55,7 @@ public class GetHairTypeOrderGoodService {
 				if(conn!=null){
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -66,7 +75,7 @@ public class GetHairTypeOrderGoodService {
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					StylistDao stylistDao = new StylistDao();
 					stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page);
 					dbConnection.close();
 				}
 
@@ -83,7 +92,12 @@ public class GetHairTypeOrderGoodService {
 		    for(HairStyleInfo hairStyleInfo : HairStyleOrderNewList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
-		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	//jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	int i = 0;
+		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	HairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("cataloglist", HairStyleArray);

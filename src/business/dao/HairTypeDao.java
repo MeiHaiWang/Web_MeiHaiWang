@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.HairStyleInfo;
 import common.model.HairTypeInfo;
@@ -60,16 +61,20 @@ public class HairTypeDao {
 
 	
 	
-	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber) throws SQLException{
 		String sql = "";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
 		if(categoryId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_updateDate` DESC";
+					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_updateDate` DESC "
+					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
+					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else if(stylistId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_updateDate` DESC";
+					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_updateDate` DESC "
+					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
+					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else{
 			infoList.add(retNull());
 	 		return infoList;
@@ -91,16 +96,20 @@ public class HairTypeDao {
 		return infoList;
 	}	
 
-	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber) throws SQLException{
 		String sql = "";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
 		if(categoryId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_goodNumber` DESC";
+					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_goodNumber` DESC "
+					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
+					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else if(stylistId>=0){
-			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_goodNumber` DESC";
+			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` " 
+					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_goodNumber` DESC " 
+					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
+					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else{
 			infoList.add(retNull());
 	 		return infoList;
