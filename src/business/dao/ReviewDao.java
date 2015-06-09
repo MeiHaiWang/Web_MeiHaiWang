@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
@@ -16,7 +17,7 @@ import common.util.DBConnection;
 
 public class ReviewDao {
 
-	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> idList, int pageNum) throws SQLException{
+	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> idList, int pageNum, JSONObject jsonObject) throws SQLException{
 		List<ReviewInfo> ReviewInfoList = new ArrayList<ReviewInfo>();
 		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "
 				+ "`t_review_text`, `t_review_evaluation_point`, `t_user_name`, `t_user_sex`, `t_user_birth` "
@@ -38,6 +39,8 @@ public class ReviewDao {
 			reviewIdList.add(idList.get(i));			
 		}
 		
+		int hitNum=0;
+		
 		try {			
 			for(int reviewId : reviewIdList){
 				ResultSet rs = statement.executeQuery(sql+reviewId);
@@ -53,6 +56,7 @@ public class ReviewDao {
 					reviewInfo.setReviewText(rs.getString("t_review_text"));
 					reviewInfo.setReviewPoint(rs.getDouble("t_review_evaluation_point"));
 					ReviewInfoList.add(reviewInfo);
+					hitNum++;
 				}
 			}	
 			
@@ -60,6 +64,15 @@ public class ReviewDao {
 			e.printStackTrace();
 			throw e;
 		}
+		
+
+		if(Constant.ONE_PAGE_NUM * pageNum + Constant.ONE_PAGE_NUM >= hitNum){
+			jsonObject.put("next", 0);
+		}
+		else{
+			jsonObject.put("next", 1);
+		}
+		
 		return ReviewInfoList;
 	}
 	

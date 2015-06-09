@@ -55,7 +55,7 @@ public class GetHairTypeOrderGoodService {
 				if(conn!=null){
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -75,7 +75,7 @@ public class GetHairTypeOrderGoodService {
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					StylistDao stylistDao = new StylistDao();
 					stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject);
 					dbConnection.close();
 				}
 

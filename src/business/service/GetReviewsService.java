@@ -43,7 +43,10 @@ public class GetReviewsService {
 			List<ReviewInfo> reviewInfoList = new ArrayList<ReviewInfo>();
 			//List<EvaluationInfo> evaluationInfoList = new ArrayList<EvaluationInfo>();
 			List<UserInfo> userInfoList = new ArrayList<UserInfo>();
-			
+
+			//レスポンスに設定するJSON Object
+			JSONObject jsonObject = new JSONObject();
+
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				ReviewDao reviewDao = new ReviewDao();
@@ -51,7 +54,7 @@ public class GetReviewsService {
 				//EvaluationDao evaluationDao = new EvaluationDao();
 				
 				reviewIdList = salonDao.getHairSalonReviewIdList(dbConnection, shopId);
-				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList, pageNum);
+				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList, pageNum, jsonObject);
 				userInfoList = userDao.getReviewerUserInfo(dbConnection, reviewIdList);
 				
 				dbConnection.close();
@@ -60,9 +63,6 @@ public class GetReviewsService {
 				throw new Exception("DabaBase Connect Error");
 			}
 			
-			//レスポンスに設定するJSON Object
-			JSONObject jsonObject = new JSONObject();
-
 		    // 返却用サロンデータ（jsonデータの作成）
 			JSONArray ReviewArray = new JSONArray();
 			int i=0;

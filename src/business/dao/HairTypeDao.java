@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.HairStyleInfo;
@@ -61,7 +62,7 @@ public class HairTypeDao {
 
 	
 	
-	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject) throws SQLException{
 		String sql = "";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
@@ -79,7 +80,8 @@ public class HairTypeDao {
 			infoList.add(retNull());
 	 		return infoList;
 		}
-				
+
+		int hitNum=0;
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
@@ -88,15 +90,24 @@ public class HairTypeDao {
 				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
 				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
 				infoList.add(hairStyleInfo);
+				hitNum++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
+		
+		if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+			jsonObject.put("next", 0);
+		}
+		else{
+			jsonObject.put("next", 1);
+		}
+
 		return infoList;
 	}	
 
-	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject) throws SQLException{
 		String sql = "";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
@@ -115,6 +126,7 @@ public class HairTypeDao {
 	 		return infoList;
 		}
 				
+		int hitNum = 0;
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
@@ -123,11 +135,20 @@ public class HairTypeDao {
 				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
 				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
 				infoList.add(hairStyleInfo);
+				hitNum++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
+		
+		if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+			jsonObject.put("next", 0);
+		}
+		else{
+			jsonObject.put("next", 1);
+		}
+		
 		return infoList;
 	}	
 
