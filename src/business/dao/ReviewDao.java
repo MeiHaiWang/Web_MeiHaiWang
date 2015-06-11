@@ -16,7 +16,6 @@ import common.model.UserInfo;
 import common.util.DBConnection;
 
 public class ReviewDao {
-
 	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> idList, int pageNum, JSONObject jsonObject) throws SQLException{
 		List<ReviewInfo> ReviewInfoList = new ArrayList<ReviewInfo>();
 		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "

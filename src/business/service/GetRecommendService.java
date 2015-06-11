@@ -1,6 +1,7 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,6 @@ import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class GetRecommendService {
-
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -69,7 +69,12 @@ public class GetRecommendService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
 		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-		    	jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+		    	//jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+		    	int i = 0;
+		    	for(String str : hairSalonInfo.getHairSalonImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	jsonOneData.put("message", hairSalonInfo.getMessage());
 		    	//オススメサロンを返却する際は地域レベル１の地名を返却すればいい
 		    	jsonOneData.put("place", hairSalonInfo.getAreaNameList().get(0));
@@ -85,14 +90,19 @@ public class GetRecommendService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairStyleInfo.getHairStyleId());
 		    	jsonOneData.put("name", hairStyleInfo.getHairStyleName());
-		    	jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	//jsonOneData.put("image", hairStyleInfo.getHairStyleImagePath());
+		    	int i = 0;
+		    	for(String str : hairStyleInfo.getHairStyleImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	jsonOneData.put("shopId", hairStyleInfo.getSalonId());
 		    	jsonOneData.put("stylistId", hairStyleInfo.getStylistId());
 		    	jsonOneData.put("isgood", hairStyleInfo.getIsGood());
 		    	jsonOneData.put("good_count", hairStyleInfo.getFavoriteNumber());
 		    	hairStyleArray.add(jsonOneData);
 		    }
-		    jsonObject.put("style_lists",hairStyleArray);
+		    jsonObject.put("hair_lists",hairStyleArray);
 			
 		    //返却用スタイリストデータの(JSONデータの作成)
 		    JSONArray stylistArray = new JSONArray();
@@ -100,7 +110,12 @@ public class GetRecommendService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", stylistInfo.getStylistId());
 		    	jsonOneData.put("name", stylistInfo.getStylistName());
-		    	jsonOneData.put("image", stylistInfo.getStylistImagePath());
+		    	//jsonOneData.put("image", stylistInfo.getStylistImagePath());
+		    	int i = 0;
+		    	for(String str : stylistInfo.getStylistImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
 		    	jsonOneData.put("shopId", stylistInfo.getSalonId());
 		    	jsonOneData.put("isgood", stylistInfo.getIsGood());
 		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
@@ -111,9 +126,10 @@ public class GetRecommendService {
 		    //返却用インフォーメーション用データ(Jsonデータの作成)
 		    JSONArray informationArray = new JSONArray();
 		    JSONObject jsonOneData = new JSONObject();
-		    jsonOneData.put("published_at_salon",lastUpdateSalon.toString());
-		    jsonOneData.put("published_at_hair",lastUpdateHair.toString());
-		    jsonOneData.put("published_at_stylist",lastUpdateStylist.toString());
+		    SimpleDateFormat sdf1 = new SimpleDateFormat("YYYYMMDDHHmm");
+		    jsonOneData.put("published_at_salon",sdf1.format(lastUpdateSalon));
+		    jsonOneData.put("published_at_hair",sdf1.format(lastUpdateHair));
+		    jsonOneData.put("published_at_stylist",sdf1.format(lastUpdateStylist));
 		    informationArray.add(jsonOneData);
 		    jsonObject.put("information",informationArray);
 		    

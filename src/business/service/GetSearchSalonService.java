@@ -42,8 +42,19 @@ public class GetSearchSalonService {
 	int onePageDisplayNum = request.getParameter("onePageNum") != null ?
 			Integer.valueOf(request.getParameter("onePageNum").toString()) : Constant.ONE_PAGE_NUM;
 	
-	
 	int responseStatus = HttpServletResponse.SC_OK;
+	
+	/**
+	 *  リクエストの値に応じて、なんらかのエラー対応をした方がいいと思われる。
+	 *  例えばこんなかんじで。。。
+	 * 			if(salonIdList.size()<=0){
+				//Error
+				System.out.println("Error :: salonIdList is Empty.");
+				return response;
+			}
+
+	 */
+	
 	try{
 		DBConnection dbConnection = new DBConnection();
 		java.sql.Connection conn = dbConnection.connectDB();

@@ -340,7 +340,11 @@ public class SalonDao {
 	
 	public List<HairSalonInfo> getSalonListBySearchCondition(DBConnection dbConnection, List<String> searchConditionIdList,List<String> salonIdList,int pageNumber,JSONObject jsonObject) throws SQLException{
 		
-		String sql1 = "SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , `t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId IN(";
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , "
+				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
+				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId IN(";
 		String sql2 =  ") AND FIND_IN_SET(";
 		String sql3 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
 		String sql4 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
@@ -351,7 +355,10 @@ public class SalonDao {
 		int hitNum = 0;
 		try {
 			for(String conditionId : searchConditionIdList){
-				ResultSet rs = statement.executeQuery(sql1 + String.join(",", salonIdList)+ sql2 + conditionId + sql3);
+				String sql = sql1 + String.join(",", salonIdList)+ sql2 + conditionId + sql3;
+				//debug
+				System.out.println(sql);
+				ResultSet rs = statement.executeQuery(sql);
 				List<String> reviewIdList = new ArrayList<String>();
 				HairSalonInfo salonInfo = new HairSalonInfo();
 				while(rs.next()){
