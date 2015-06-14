@@ -23,8 +23,9 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     // 出力ファイル: 元ファイル
-                    'WebContent/js/index.min.js': 'WebContent/js/concat/concat.js'
-                }
+                    'WebContent/js/app.min.js': 'WebContent/js/concat/concat.js',
+                    'WebContent/js/index.min.js': 'WebContent/js/src/index/index.js'
+                },
             }
         },
 
@@ -40,6 +41,10 @@ module.exports = function (grunt) {
             js: {
                 files: 'WebContent/js/src/*.js',
                 tasks: ['concat', 'uglify']
+            },
+            index: {
+                files: 'WebContent/js/src/index/index.js',
+                tasks: ['uglify']
             },
             css: {
                 files: ['WebContent/css/src/*.css'],
