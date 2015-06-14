@@ -1,8 +1,16 @@
 $(function(){
 
-    var session_id = getSessionId();
-
-    if (session_id === null) {
-        location.href = "./index.html";
-    }
+    $.ajax({
+        type: "POST",
+        url: "./checkSession",
+        success: function(response){
+            response = JSON.parse(response);
+            console.log(response);
+            if (response.status === "false") {
+                location.href = "./index.html";
+            }
+            else {
+            }
+        }
+    });
 });
