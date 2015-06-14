@@ -3,6 +3,7 @@ npm-debug.log
 WebContent/js/concat/
 WebContent/js/app.min.js
 WebContent/js/index.min.js
+WebContent/js/common.min.js
 WebContent/css/concat/
 WebContent/css/style.min.css
 WebContent/exsample/dest
