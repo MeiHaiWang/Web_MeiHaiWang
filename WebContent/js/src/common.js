@@ -1,26 +1,15 @@
-// セッションIDを取得する関数
-var getSessionId = (function(){
+// セッション情報を取得する関数
+var getSessionInfo = (function(){
     return function() {
-        var session_id = null;
+        var response = $.ajax({
+            type: "POST",
+            url: "./checkSession",
+            async: false,
+        }).responseText;
 
-        var cookies = new Array();
-        cookies = document.cookie.split(";");
+        response = JSON.parse(response);
 
-        var exp = new RegExp(" ", "g");   // すべての半角スペースを表す正規表現
-
-        // Cookieを分けてセッションIDだけを取得する
-        for( var index = 0; index < cookies.length; index++ )
-        {
-            var cookie = cookies[index].split("=");
-            cookie[0] = cookie[0].replace(exp, "");
-
-            if( cookie[0] == "Session_id")
-            {
-                session_id = cookie[1];
-                break;
-            }
-        }
-
-        return session_id;
+        return response;
     };
 })();
+
