@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beauty Hair Net Manager - Stylist</title>
+    <link href="css/application.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
+    <!--[if IE 9]>
+        <link href="css/application-ie9-part2.css" rel="stylesheet">
+    <![endif]-->
+    <link rel="shortcut icon" href="img/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body class="nav-static">
+
+<nav id="sidebar" class="sidebar" role="navigation">
+    <div class="js-sidebar-content">
+        <header class="logo hidden-xs">
+            <a href="index.html"><img src="./img/logo.png" width="190" height="75"></a>
+        </header>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="./salon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </span>
+                    サロン情報管理
+                </a>
+            </li>
+            <li>
+                <a href="./stylist.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    スタッフ情報管理
+                </a>
+            </li>
+            <li>
+                <a href="./service.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </span>
+                    サービス情報管理
+                </a>
+            </li>
+            <li>
+                <a href="./coupon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>
+                    クーポン情報管理
+                </a>
+            </li>
+            <li>
+                <a href="./album.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-camera"></i>
+                    </span>
+                    アルバム管理
+                </a>
+            </li>
+            <li>
+                <a href="./map.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </span>
+                    地図情報管理
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<nav class="page-controls navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li class="ml-sm mr-n-xs hidden-xs">
+                    <a href="#">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
+                    &nbsp;
+                    <strong>User Admin</strong>
+                    &nbsp;
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<div class="content-wrap">
+    <main id="content" class="content" role="main">
+        <h1 class="page-title">スタッフ情報管理</h1>
+        <div class="row">
+            <div class="col-md-10">
+                <section class="widget bg-transparent">
+                    <div class="widget-body">
+                    <dl id="stylist_page">
+                        <dt id="stylist_regist_area">スタッフ登録</dt>
+                        <dd>
+                        <table id="stylist_info">
+                            <tr>
+                                <td>
+                                    <label for="stylist_name">氏名：</label>
+                                </td>
+                                <td>
+                                    <input id="stylist_name" type="text" size="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="stylist_sex">性別：</label>
+                                </td>
+                                <td>
+                                    <select name="stylist_sex">
+                                        <option value="man">男</option>
+                                        <option value="woman">女</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label for="stylist_birth_year">生年月日：</label>
+                                </td>
+                                <td id="stylist_birth_year">
+                                    <select name="stylist_birth_year">
+                                        <option value="1991">1991</option>
+                                        <option value="1992">1992</option>
+                                    </select>
+                                </td>
+                                <td id="stylist_birth_month">
+                                    <select name="stylist_birth_month">
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                    </select>
+                                </td>
+                                <td id="stylist_birth_day">
+                                    <select name="stylist_birth_day">
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="stylist_phone_number">電話番号：</label>
+                                </td>
+                                <td>
+                                    <input id="stylist_phone_number" type="text" size="20">
+                                </td>
+                                <td>
+                                    <label for="stylist_position">役職：</label>
+                                </td>
+                                <td colspan="3">
+                                    <input id="stylist_position" type="text" size="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="stylist_mail">E-mail：</label>
+                                </td>
+                                <td>
+                                    <input id="stylist_mail" type="text" size="20">
+                                </td>
+                                <td>
+                                    <label for="stylist_experience_year">経験年数：</label>
+                                </td>
+                                <td colspan="3">
+                                    <select name="stylist_experience_year">
+                                        <option value="1">1年</option>
+                                        <option value="2">2年</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="stylist_image">スタッフ写真：</label>
+                                </td>
+                                <td>
+                                    <button id="stylist_image">写真選択（jpg, png）</button>
+                                </td>
+                                <td>
+                                    <label for="stylist_special_menu">特技：</label>
+                                </td>
+                                <td colspan="3">
+                                    <input id="stylist_special_menu" type="text" size="20">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    <div class="stylist_image_path">No Picture</div>
+                                </td>
+                                <td>
+                                    <label for="stylist_message">自己PR：</label>
+                                </td>
+                                <td colspan="3">
+                                    <textarea id="stylist_message"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <div id="stylist_regist">
+                                        <button id="stylist_regist_button" class="btn-warning">登録</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        </dd>
+                        <dt id="stylist_service_maping_area">Service Maping</dt>
+                        <dd>
+                            <table id="stylist_service_maping_info">
+                                <tr>
+                                    <td>
+                                        <label for="stylist_service_maping_name">スタッフ名：</label>
+                                    </td>
+                                    <td>
+                                        <select name="stylist_service_maping_name">
+                                            <option value="hoge">hoge</option>
+                                            <option value="piyo">piyo</option>
+                                        </select>
+                                    </td>
+                                    <td colspan="4">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="stylist_service_maping_service">サービス名：</label>
+                                    </td>
+                                    <td>
+                                        <select name="stylist_service_maping_service">
+                                            <option value="hoge">hoge</option>
+                                            <option value="piyo">piyo</option>
+                                        </select>
+                                    </td>
+                                    <td colspan="4">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="stylist_service_maping_regist">
+                                            <button id="stylist_service_maping_regist_button" class="btn-warning">登録</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div id="stylist_service_maping_delete">
+                                            <button id="stylist_service_maping_delete_button" class="btn-danger">削除</button>
+                                        </div>
+                                    </td>
+                                    <td colspan="4">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </dd>
+                        <dt id="stylist_list_area">スタッフ一覧</dt>
+                        <dd>
+                            <table id="stylist_list_info">
+                            <tr><th>No.</th><th>氏名</th><th>役職</th><th>連絡先</th><th>対応可能なサービス</th><th>編集</th></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            </table>
+                        </dd>
+                        </dl>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<!-- The Loader. Is shown when pjax happens -->
+<div class="loader-wrap hiding hide">
+    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+</div>
+
+<!-- common libraries. required for every page-->
+<script src="vendor/jquery/dist/jquery.min.js"></script>
+<script src="vendor/jquery-pjax/jquery.pjax.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+<script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="vendor/widgster/widgster.js"></script>
+<script src="vendor/pace.js/pace.min.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+
+<!-- common app js -->
+<script src="js/index.min.js"></script>
+
+<!-- common app js -->
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+
+<!-- page specific libs -->
+<script id="test" src="vendor/underscore/underscore.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/d3/d3.min.js"></script>
+<script src="vendor/rickshaw/rickshaw.min.js"></script>
+<script src="vendor/raphael/raphael-min.js"></script>
+<script src="vendor/jQuery-Mapael/js/jquery.mapael.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/usa_states.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/world_countries.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+<script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script>
+<script src="vendor/jquery-animateNumber/jquery.animateNumber.min.js"></script>
+
+
+</body>
+</html>

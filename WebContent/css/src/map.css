@@ -1,0 +1,49 @@
+#map_info label {
+  display: block;
+  text-align: right;
+}
+
+#map_info td {
+  width: 300px;
+  height: 50px;
+  padding: 5px 5px;
+}
+
+#map_info {
+  margin: 0 auto;
+}
+
+#map_info input[type="text"],
+#map_info textarea,
+#map_info select,
+#map_info option {
+  width: 100%;
+  height: 100%;
+}
+
+#map_info textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+#map_regist {
+  text-align: center;
+}
+
+#map_regist button {
+  width: 200px;
+}
+
+div.map_image_path {
+  position: relative;
+  background-color: white;
+  width: 100%;
+  height: 400px;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+.map_image_trash {
+  text-align: center;
+}
