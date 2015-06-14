@@ -1,35 +1,50 @@
 $(function(){
 
-    var session_id = getSessionId();
+    $.ajax({
+        type: "POST",
+        url: "./checkSession",
+        success: function(response){
+            response = JSON.parse(response);
 
-    if (session_id === null) {
-        location.href = "./index.html";
-    }
+            if (response.status === "false") {
+
+            }
+            else {
+                location.href = "./salon.html";
+            }
+        }
+    });
+
+
+    // ログインボタン押下時
+    $('#login_button').on('click', function() {
+        loginSystem($('#mail_address').val(), $('#password').val());
+    });
+
 });
 
 
-// セッションIDを取得する関数
-function getSessionId()
-{
-    var session_id = null;
+var loginSystem = (function(mail_address, password){
+    return function() {
+        var data = {
+            mail_address: mail_address,
+            password: password
+        };
 
-    var cookies = new Array();
-    cookies = document.cookie.split(";");
+        $.ajax({
+            type: "POST",
+            url: "./checkLogin",
+            data: data,
+            success: function(response){
+                response = JSON.parse(response);
 
-    var exp = new RegExp(" ", "g");   // すべての半角スペースを表す正規表現
-
-    // Cookieを分けてセッションIDだけを取得する
-    for( var index = 0; index < cookies.length; index++ )
-    {
-        var cookie = cookies[index].split("=");
-        cookie[0] = cookie[0].replace(exp, "");
-
-        if( cookie[0] == "Session_id")
-        {
-            session_id = cookie[1];
-            break;
-        }
-    }
-
-    return session_id;
-}
+                if (response.result === "false") {
+                    alert("Login faild.");
+                }
+                else {
+                    location.href = "./salon.html";
+                }
+            }
+        });
+    };
+})();
