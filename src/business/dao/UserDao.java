@@ -232,5 +232,57 @@ public class UserDao {
 		}
 		return status;
 	}
+	
+	public UserInfo getUserInfoByLoginInfo(DBConnection dbConnection, String pw, String tel) throws SQLException { 
+		UserInfo userInfo = null;
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel + " AND `t_user_passward` =" + pw ;		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;		
+	}
+	
+	public UserInfo getUserInfoByHash(DBConnection dbConnection, String hash) throws SQLException { 
+		UserInfo userInfo = null;
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` =" + hash;	
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;		
+	}
+	
+	public int updateUserHash(DBConnection dbConnection, Integer userId, String userHash) throws SQLException { 
+		int result = -1;
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_cookie` =" + userHash;
+		String sql2 = " WHERE `t_user`.`t_user_Id` = " + userId.toString() + ";";
+		Statement statement = dbConnection.getStatement();
+		//debug
+		System.out.println(sql1 + sql2);		
+		try {						
+			result = statement.executeUpdate(sql1 + sql2);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
+	}
 
 }
