@@ -28,6 +28,9 @@ public class GetSalonDetailService {
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
         
+		//test用パラメータ
+        salonId=1; userId=1;
+        		
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
@@ -53,11 +56,16 @@ public class GetSalonDetailService {
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
 		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-		    	jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+		    	int i = 0;
+		    	for(String str : hairSalonInfo.getHairSalonImagePath()){
+		    		i++;
+		    		jsonOneData.put("image"+i, str);		    		
+		    	}
+		    	//jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
 		    	jsonOneData.put("star_count", hairSalonInfo.getEvaluationPointMid());
 		    	jsonOneData.put("message", hairSalonInfo.getMessage());
 		    	jsonOneData.put("tel", hairSalonInfo.getTel());
-		    	jsonOneData.put("place",hairSalonInfo.getAreaNameList().toArray(new String[0]));
+		    	jsonOneData.put("adress",hairSalonInfo.getAreaNameList().toArray(new String[0]));
 		    	jsonOneData.put("business_hours", hairSalonInfo.getBusinessHour());
 		    	jsonOneData.put("regular_holiday", hairSalonInfo.getRegularHoliday());
 		    	jsonOneData.put("multilingual", hairSalonInfo.getMultiLingual());

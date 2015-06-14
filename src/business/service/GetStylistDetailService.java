@@ -51,7 +51,13 @@ public class GetStylistDetailService {
 			jsonOneData.put("shopID", stylistInfoList.get(0).getSalonId());
 			jsonOneData.put("name", stylistInfoList.get(0).getStylistName());
 			jsonOneData.put("gender", stylistInfoList.get(0).getStylistGender());
-			jsonOneData.put("image", stylistInfoList.get(0).getStylistImagePath());
+	    	int i = 0;
+	    	for(String str : stylistInfoList.get(0).getStylistImagePath()){
+	    		i++;
+	    		jsonOneData.put("image"+i, str);		    		
+	    	}
+
+			//jsonOneData.put("image", stylistInfoList.get(0).getStylistImagePath());
 			jsonOneData.put("message", stylistInfoList.get(0).getStylistMessage());
 			jsonOneData.put("years", stylistInfoList.get(0).getStylistYearsNumber());
 			jsonOneData.put("isgood", stylistInfoList.get(0).getIsGood());

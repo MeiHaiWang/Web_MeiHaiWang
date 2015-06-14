@@ -30,13 +30,17 @@ public class SalonDao {
 	public List<HairSalonInfo> getSalonDetailInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
 
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_evaluationId`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` =" + salonId.toString();		
+		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` =" + salonId.toString();		
+		String sql2 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
+		String sql3 = ",t_review_id)";
 		Statement statement = dbConnection.getStatement();
 		try {
 			List<String> reviewIdList =  new ArrayList<String>();
 			List<String> evaluationIdList = new ArrayList<String>();
 			List<String> availabuleCountryIdList = new ArrayList<String>();
 			
+			//debug
+			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			HairSalonInfo salonInfo = new HairSalonInfo();
 			while(rs.next()){
@@ -61,14 +65,17 @@ public class SalonDao {
 						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
 				salonInfo.setWordOfMonth(reviewIdList.size());
 				
+				/*
 				evaluationIdList = rs.getString("t_hairSalonMaster_evaluationId") != null?
 						Arrays.asList(rs.getString("t_hairSalonMaster_evaluationId").split(",")) : new ArrayList<String>();
+				*/
 						
 				availabuleCountryIdList = rs.getString("t_hairSalonMaster_availableCountryId") != null?
 						Arrays.asList(rs.getString("t_hairSalonMaster_availableCountryId").split(",")) : new ArrayList<String>();
 			}	
 
-			String innerSql = "SELECT `t_evaluation_point` FROM `t_evaluation` WHERE FIND_IN_SET(t_evaluation_evaluationId,'" + String.join(",", evaluationIdList.toArray(new String[0])).toString() + "')";
+			/*
+			String innerSql = "SELECT `t_evaluation_point` FROM `t_evaluation` WHERE FIND_IN_SET(t_evaluation_evaluationId,'" + String.join(",", evaluationIdList.toArray(new String[0])).toString() + "')"; 
 			System.out.println(innerSql);
 			ResultSet innerRs = statement.executeQuery(innerSql);
 			Double evaluationPoint = 0.0;
@@ -78,6 +85,25 @@ public class SalonDao {
 				i++;
 			}
 			salonInfo.setEvaluationPointMid(evaluationPoint / i);
+			*/
+			
+			double reviewPoint = 0.0;
+			int reviewNumber = 0;
+			for(String reviewId : reviewIdList){
+				ResultSet rsReview = statement.executeQuery(sql2 +reviewId + sql3);
+				while(rsReview.next()){
+					reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+					reviewNumber++;
+				}
+			}
+			if(reviewNumber > 0){ //zero-divide
+				salonInfo.setEvaluationPointMid(reviewPoint/reviewNumber);
+			}else{
+				salonInfo.setEvaluationPointMid(0);	
+			}
+			salonInfo.setWordOfMonth(reviewNumber);
+
+
 				
 			String innerSql2 ="SELECT t_country_countryName FROM t_masterCountry WHERE FIND_IN_SET(t_country_countryId,'" + String.join(",",availabuleCountryIdList.toArray(new String[0])).toString() +"')";
 			ResultSet innerRs2 = statement.executeQuery(innerSql2);
@@ -389,8 +415,14 @@ public class SalonDao {
 						reviewNumber++;
 					}
 				}
-				salonInfo.setEvaluationPointMid(reviewPoint/reviewNumber);
+				if(reviewNumber > 0){ //zero-divide
+					salonInfo.setEvaluationPointMid(reviewPoint/reviewNumber);
+				}else{
+					salonInfo.setEvaluationPointMid(0);	
+				}
 				salonInfo.setWordOfMonth(reviewNumber);
+
+				//重複確認
 				boolean addFlag = true;
 				for(HairSalonInfo info : salonInfoList){
 					if(info.getHairSalonId() ==  salonInfo.getHairSalonId()){

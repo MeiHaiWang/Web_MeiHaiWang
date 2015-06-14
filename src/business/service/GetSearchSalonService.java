@@ -30,11 +30,15 @@ public class GetSearchSalonService {
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 	if(areaIdList.isEmpty()){
 		areaIdList.add("-1");
+		//テスト用パラメータ
+		//areaIdList.add("1");
 	}
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 	if(searchConditionIdList.isEmpty()){
 		searchConditionIdList.add("-1");
+		//テスト用パラメータ
+		//searchConditionIdList.add("1");
 	}
 	int pageNumber = request.getParameter("page") != null ?
 			Integer.valueOf(request.getParameter("page").toString()) : 0;
@@ -44,16 +48,7 @@ public class GetSearchSalonService {
 	
 	int responseStatus = HttpServletResponse.SC_OK;
 	
-	/**
-	 *  リクエストの値に応じて、なんらかのエラー対応をした方がいいと思われる。
-	 *  例えばこんなかんじで。。。
-	 * 			if(salonIdList.size()<=0){
-				//Error
-				System.out.println("Error :: salonIdList is Empty.");
-				return response;
-			}
-
-	 */
+	
 	
 	try{
 		DBConnection dbConnection = new DBConnection();
@@ -61,24 +56,31 @@ public class GetSearchSalonService {
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		//レスポンスに設定するJSON Object
 		JSONObject jsonObject = new JSONObject();
+		SalonDao dao = new SalonDao();
+		RecommendDao recomendDao = new RecommendDao();
 		if(conn!=null){
-			SalonDao dao = new SalonDao();
-			RecommendDao recomendDao = new RecommendDao();
 			List<String> salonIdList = dao.getSalonIdListByArea(dbConnection, areaIdList);
-			salonInfoList = dao.getSalonListBySearchCondition(dbConnection, searchConditionIdList, salonIdList,pageNumber,jsonObject);
+			if(salonIdList.size() > 0){
+				salonInfoList = dao.getSalonListBySearchCondition(dbConnection, searchConditionIdList, salonIdList,pageNumber,jsonObject);
+			}
 			recomendDao.setIsFavoriteSalon(userId, salonInfoList, dbConnection);
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			throw new Exception("DabaBase Connect Error");
 		}
-		
+
 		// 返却用サロンデータ（jsonデータの作成）
 		JSONArray salonArray = new JSONArray();
 		for(HairSalonInfo hairSalonInfo : salonInfoList){
 			JSONObject jsonOneData = new JSONObject();
 			jsonOneData.put("id", hairSalonInfo.getHairSalonId());
 			jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-			jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+			//jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
+	    	int i = 0;
+	    	for(String str : hairSalonInfo.getHairSalonImagePath()){
+	    		i++;
+	    		jsonOneData.put("image"+i, str);		    		
+	    	}
 			jsonOneData.put("star_count", hairSalonInfo.getEvaluationPointMid());
 			jsonOneData.put("message", hairSalonInfo.getMessage());
 			jsonOneData.put("address", hairSalonInfo.getAddress());
@@ -90,9 +92,11 @@ public class GetSearchSalonService {
 			salonArray.add(jsonOneData);
 		}
 		jsonObject.put("shop_list",salonArray);
+		//debug
+		System.out.println(jsonObject.toString(4));
 		PrintWriter out = response.getWriter();
 		out.print(jsonObject);
-		out.flush();	    
+		out.flush();
 		
 	}catch(Exception e){
 		responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

@@ -27,23 +27,40 @@ public class GetSearchStylistService {
 	List<String> areaIdList = request.getParameter("area") != null ?
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 	if(areaIdList.isEmpty()){
-			areaIdList.add("-1");
+			//areaIdList.add("-1");
 	}	
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 	if(searchConditionIdList.isEmpty()){
 			searchConditionIdList.add("-1");
 	}
+	List<String> searchLikingIdList = request.getParameter("linking") != null ?
+			Arrays.asList(request.getParameter("linking").split(",")) : new ArrayList<String>();	
+	if(searchLikingIdList.isEmpty()){
+			searchLikingIdList.add("-1");
+	}
+	searchConditionIdList.addAll(searchLikingIdList);
 	
 	int pageNumber = request.getParameter("page") != null ?
-			Integer.valueOf(request.getParameter("page").toString()) : 1;
+			Integer.valueOf(request.getParameter("page").toString()) : 0;
 	
+	/*
 	int onePageDisplayNum = request.getParameter("onePageNum") != null ?
 			Integer.valueOf(request.getParameter("onePageNum").toString()) : Constant.ONE_PAGE_NUM;
+	*/
 	
 	int salonId = request.getParameter("shopId") != null ?
 			Integer.valueOf(request.getParameter("shopId").toString()) : -1;
 
+	//test用パラメータ
+	userId=1;
+	pageNumber = 0;
+	//onePageDisplayNum = 20;
+	salonId = 1;
+	searchConditionIdList.add("1");
+	areaIdList.add("1");
+	
+				
 	int responseStatus = HttpServletResponse.SC_OK;
 	try{
 		DBConnection dbConnection = new DBConnection();
@@ -54,7 +71,7 @@ public class GetSearchStylistService {
 		if(conn!=null){
 			StylistDao dao = new StylistDao();
 			RecommendDao recomendDao = new RecommendDao();
-			stylistInfoList = dao.getStylistInfoList(dbConnection, salonId,areaIdList,searchConditionIdList,pageNumber,jsonObject);
+			stylistInfoList = dao.getStylistInfoList(dbConnection, salonId,areaIdList,searchConditionIdList, pageNumber,jsonObject);
 			recomendDao.setIsFavoriteStylist(userId, stylistInfoList, dbConnection);
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -69,7 +86,12 @@ public class GetSearchStylistService {
 			jsonOneData.put("shopID", stylistInfo.getSalonId());
 			jsonOneData.put("name", stylistInfo.getStylistName());
 			jsonOneData.put("gender", stylistInfo.getStylistGender());
-			jsonOneData.put("image", stylistInfo.getStylistImagePath());
+	    	int i = 0;
+	    	for(String str : stylistInfo.getStylistImagePath()){
+	    		i++;
+	    		jsonOneData.put("image"+i, str);		    		
+	    	}
+			//jsonOneData.put("image", stylistInfo.getStylistImagePath());
 			jsonOneData.put("message", stylistInfo.getStylistMessage());
 			jsonOneData.put("years", stylistInfo.getStylistYearsNumber());
 			jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
