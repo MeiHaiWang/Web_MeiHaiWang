@@ -285,4 +285,29 @@ public class UserDao {
 		return result;
 	}
 
+	public boolean getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
+		boolean retFlag = false;
+		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` LIKE'";
+		String sql2 = "' AND `t_user_passward` LIKE '";
+	    String sql3 = "'";
+
+	    String sql = sql1 + mail + sql2 + password + sql3;
+		Statement statement = dbConnection.getStatement();
+		UserInfo userInfo = null;
+
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retFlag;
+	}
+	
 }
