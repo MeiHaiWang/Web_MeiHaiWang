@@ -299,8 +299,9 @@ public class UserDao {
 		try {
 			rs = statement.executeQuery(sql);
 			while(rs.next()){
-				userInfo = new UserInfo();
-				userInfo.setUserId(rs.getInt("t_user_Id"));
+				//userInfo = new UserInfo();
+				//userInfo.setUserId(rs.getInt("t_user_Id"));
+				retFlag = true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
