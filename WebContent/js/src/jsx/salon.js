@@ -6,27 +6,27 @@ $(function(){
 
 
   // コンポーネントの定義
-  var SalonName = React.createClass({displayName: "SalonName",
+  var SalonName = React.createClass({
 
-    getInitialState:function() {
+    getInitialState() {
       return {
         t_hairSalonMaster_salon_name: ""
       };
     },
-    changeText:function(e) {
+    changeText(e) {
       this.setState({t_hairSalonMaster_salon_name: e.target.value});
     },
-    render:function() {
+    render() {
       return (
-        React.createElement("div", null, 
-          React.createElement("input", {type: "text", value: this.state.t_hairSalonMaster_salon_name, onChange: this.changeText})
-        )
+        <div>
+          <input type="text" value={this.state.t_hairSalonMaster_salon_name} onChange={this.changeText} />
+        </div>
       );
     }
   });
 
   // コンポーネントをエレメントに割り当てる
-  var component_salon_name = React.render(React.createElement(SalonName, null), document.getElementById('salon_salon_name'));
+  var component_salon_name = React.render(<SalonName />, document.getElementById('salon_salon_name'));
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_salon_name.setState(salon_info);
