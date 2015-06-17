@@ -27,6 +27,7 @@ public class HairSalonInfo {
     private String salonMapInfo = "";
     private String salonMapImagePath = "";
     private int salonReviewId = Integer.MIN_VALUE;
+    private String salonContactName = "";
     
 	public HairSalonInfo(){
 		
@@ -193,6 +194,14 @@ public class HairSalonInfo {
 	
 	public int getSalonReviewId(){
 		return salonReviewId;
+	}
+
+	public void setSalonContactUserName(String name){
+		this.salonContactName = name != null ? name : "";
+	}
+	
+	public String getSalonContactName(){
+		return salonContactName;
 	}
 
 

@@ -147,6 +147,7 @@ public class SalonDao {
 		return salonInfo;		
 	}
 	
+	
 	/*
 	 * History
 	 * */
@@ -444,4 +445,27 @@ public class SalonDao {
 		}
 		return salonInfoList;		
 	}
+	
+	//
+	public String getCheckSession(DBConnection dbConnection, Integer salonId) throws SQLException{
+		String sql ="SELECT `t_hairSalonMaster_contactUserName` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId = " + salonId; 		
+		Statement statement = dbConnection.getStatement();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		//contactUserName だけかも?
+		String contactUserName = "";
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				String salon_contactUserName = rs.getString("t_hairSalonMaster_contactUserName");
+				salonInfo.setSalonContactUserName(salon_contactUserName);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		contactUserName = salonInfo.getSalonContactName();
+		return contactUserName;		
+	}
+
+	
 }

@@ -63,7 +63,6 @@ public class GetCheckLoginService {
 				session.setAttribute("salonId", salonId_str);
 				//cookie write?
 			}
-
 			
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
@@ -71,8 +70,7 @@ public class GetCheckLoginService {
 			/* output
 			 *{ result:ログイン成否 }
 			 */
-			
-			
+						
 		    /*
 			JSONArray userArray = new JSONArray();
 		    for(UserInfo userInfo : infoList){
@@ -86,9 +84,11 @@ public class GetCheckLoginService {
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();
+
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
+
 		}
 	    
 		response.setStatus(responseStatus);

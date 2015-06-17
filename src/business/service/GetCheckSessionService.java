@@ -26,8 +26,22 @@ public class GetCheckSessionService {
 
 		boolean result = false;
 		HttpSession session = request.getSession(false);
+		
+		if (session == null){
+		  // まだ認証されていない
+		  session = request.getSession(true);
+		  //response.sendRedirect("/auth/Login");
+		}else{
+		  Object loginCheck = session.getAttribute("login");
+		  if (loginCheck == null){
+		    // まだ認証されていない
+		    //response.sendRedirect("/auth/Login");
+		  }
+		}
+		
 		String salonId_str = "";
-		int salonId;
+		String salonContactUserName = "";
+		int salonId = 0;
 		if(session != null){
 			salonId_str = (String)session.getAttribute("salonId");
 			salonId = Integer.parseInt(salonId_str);
@@ -43,7 +57,7 @@ public class GetCheckSessionService {
 				java.sql.Connection conn = dbConnection.connectDB();
 				if(conn!=null){
 					SalonDao salonDao = new SalonDao();
-					//result = salonDao.getCheckSession(dbConnection, salonId);
+					salonContactUserName = salonDao.getCheckSession(dbConnection, salonId);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -62,12 +76,18 @@ public class GetCheckSessionService {
 			*/
 						
 			JSONArray salonArray = new JSONArray();
-		    for(HairSalonInfo salonInfo : infoList){
+			/*
+			for(HairSalonInfo salonInfo : infoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("t_hairSalonMaster_salonId", salonInfo.getHairSalonId());		    	
+		    	//jsonOneData.put("t_hairSalonMaster_salonId", salonInfo.getHairSalonId());		    	
 		    	//jsonOneData.put("t_hairSalonMaster_contactUserName", salonInfo.getContactUserName());		    	
 		    	salonArray.add(jsonOneData);
 		    }
+		    */
+	    	JSONObject jsonOneData = new JSONObject();
+	    	jsonOneData.put("t_hairSalonMaster_salonId", salonId);		    	
+	    	jsonOneData.put("t_hairSalonMaster_contactUserName", salonContactUserName);		    	
+	    	salonArray.add(jsonOneData);
 		    jsonObject.put("", salonArray);
 		    
 		    PrintWriter out = response.getWriter();
