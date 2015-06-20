@@ -63,3 +63,8 @@ var getAreasByCountryName = (function(country_area_info, country_name){
         return new Array();
     };
 })();
+
+// リロードボタン押下時
+$('#reload_button').on('click', function() {
+    window.location.reload();
+});
