@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetCheckLoginService;
-import business.service.GetConditionForSalonSearchService;
+import business.service.GetAreaService;
+import business.service.GetStylistListService;
 
-@WebServlet(name="GetCheckLogin",urlPatterns={"/api/:version/checkLogin"})
-public class GetCheckLoginAction extends HttpServlet{
+@WebServlet(name="GetStylistListServlet",urlPatterns={"/api/:version/getStylistList"})
+public class GetStylistListAction extends HttpServlet{
+
 	/**
 	 *
 	 */
@@ -23,7 +24,7 @@ public class GetCheckLoginAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCheckLoginAction() {
+	public GetStylistListAction() {
 		super();
 	}
 
@@ -55,6 +56,7 @@ public class GetCheckLoginAction extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
 			response.setLocale(Locale.JAPAN);
@@ -71,12 +73,8 @@ public class GetCheckLoginAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCheckLoginService service = new GetCheckLoginService();
-		service.excuteService(request, response);
-
-	}	
-	
-	
-	
-	
+		GetStylistListService newsservice = new GetStylistListService();
+		newsservice.excuteService(request, response);
+	    
+	}
 }

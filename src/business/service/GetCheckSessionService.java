@@ -1,5 +1,6 @@
 package business.service;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
 public class GetCheckSessionService {
+	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -26,28 +28,41 @@ public class GetCheckSessionService {
 
 		boolean result = false;
 		HttpSession session = request.getSession(false);
+		//debug
+		//System.out.println("login: " + session.getAttribute("salonId"));
 		
+		//認証しているかを確認
 		if (session == null){
 		  // まだ認証されていない
 		  session = request.getSession(true);
-		  //response.sendRedirect("/auth/Login");
+		  try {
+			response.sendRedirect("/CheckLogin");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}else{
 		  Object loginCheck = session.getAttribute("login");
 		  if (loginCheck == null){
 		    // まだ認証されていない
-		    //response.sendRedirect("/auth/Login");
+		    try {
+				response.sendRedirect("/CheckLogin");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		  }
 		}
 		
 		String salonId_str = "";
 		String salonContactUserName = "";
 		int salonId = 0;
-		if(session != null){
-			salonId_str = (String)session.getAttribute("salonId");
+		salonId_str = (String)session.getAttribute("salonId");
+		if(salonId_str != null){
 			salonId = Integer.parseInt(salonId_str);
 			result = true;
 		}else{
-			//session is null.
+			result = false;
 		}
 		
 		try{

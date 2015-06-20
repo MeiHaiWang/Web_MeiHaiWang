@@ -253,7 +253,9 @@ public class UserDao {
 	
 	public UserInfo getUserInfoByHash(DBConnection dbConnection, String hash) throws SQLException { 
 		UserInfo userInfo = null;
-		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` =" + hash;	
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` = '" + hash + "'";	
+		//debug
+		System.out.println(sql);
 		Statement statement = dbConnection.getStatement();
 		try {			
 			ResultSet rs = statement.executeQuery(sql);
@@ -271,8 +273,8 @@ public class UserDao {
 	
 	public int updateUserHash(DBConnection dbConnection, Integer userId, String userHash) throws SQLException { 
 		int result = -1;
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_cookie` =" + userHash;
-		String sql2 = " WHERE `t_user`.`t_user_Id` = " + userId.toString() + ";";
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_cookie` = '" + userHash;
+		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId.toString() + ";";
 		Statement statement = dbConnection.getStatement();
 		//debug
 		System.out.println(sql1 + sql2);		
@@ -285,8 +287,8 @@ public class UserDao {
 		return result;
 	}
 
-	public boolean getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
-		boolean retFlag = false;
+	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
+		//boolean retFlag = false;
 		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` LIKE'";
 		String sql2 = "' AND `t_user_passward` LIKE '";
 	    String sql3 = "'";
@@ -299,16 +301,42 @@ public class UserDao {
 		try {
 			rs = statement.executeQuery(sql);
 			while(rs.next()){
-				//userInfo = new UserInfo();
-				//userInfo.setUserId(rs.getInt("t_user_Id"));
-				retFlag = true;
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+				//retFlag = true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return retFlag;
+		return userInfo.getUserId();
+	}
+	
+	public int getMsterSalonId(DBConnection dbConnection, int userId){
+		int retSalonId = -1;
+		String sql = "SELECT `t_user_MasterSalonId` FROM `t_user` WHERE `t_user_Id` = " + userId;
+
+		Statement statement = dbConnection.getStatement();
+		UserInfo userInfo = null;
+
+		//debug
+		System.out.println(sql);
+		
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserMasterSalonId(rs.getInt("t_user_MasterSalonId"));
+				retSalonId = rs.getInt("t_user_MasterSalonId");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retSalonId;
 	}
 	
 }

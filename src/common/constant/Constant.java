@@ -10,7 +10,8 @@ public  class Constant {
 	public static final String HEADER_USERID = "userID";
 	public static final String ID = "id";
 	public static final int ONE_PAGE_NUM = 20;
-
+	public static final int COUNTRY_NUMBER = 20; //国の数、定数にする？
+	
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
 	public static final String TITLE_FOR_STYLIST_CODITION = "スタイリスト検索条件";
 	public static final String TITLE_FOR_STYLIST_LIKE = "スタイリスト検索好み";

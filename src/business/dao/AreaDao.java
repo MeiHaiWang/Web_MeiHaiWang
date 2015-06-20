@@ -50,7 +50,31 @@ public class AreaDao {
 		}
 		return AreaInfoList;
 	}	
+	
+	public List<AreaInfo> getAreaInfoListForCountry(DBConnection dbConnection, int countryId) throws SQLException{
+		String sql = "SELECT `t_area_areaId`, `t_area_areaName`, `t_area_level`, "
+				+ "`t_area_isDetailFlag` FROM `t_masterArea` WHERE `t_area_countryId` = " + countryId;
 
+		ArrayList<AreaInfo> AreaInfoList = new ArrayList<AreaInfo>();
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs;
+			rs = statement.executeQuery(sql);
+			
+			while(rs.next()){
+				AreaInfo AreaInfo = new AreaInfo();
+				AreaInfo.setAreaId(rs.getInt("t_area_areaid"));
+				AreaInfo.setAreaName(rs.getString("t_area_areaName"));
+				AreaInfo.setisDetailFlag(rs.getInt("t_area_isDetailFlag"));
+				AreaInfoList.add(AreaInfo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return AreaInfoList;
+	}
 
 	
 }

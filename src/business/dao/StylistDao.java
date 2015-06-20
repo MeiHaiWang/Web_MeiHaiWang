@@ -292,7 +292,33 @@ public class StylistDao {
 			throw e;
 		}
 		return stylistInfoList;
-}	
+	}	
 
-
+	public List<StylistInfo> getStylistListInfo(DBConnection dbConnection, List<Integer> stylist_id_list) throws SQLException{
+		String sql = 
+				"SELECT `t_stylist_Id`, `t_stylist_name` FROM `t_stylist` WHERE t_stylist_Id=";
+		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
+		
+	 	if(stylist_id_list.isEmpty()) {
+	 		stylistInfoList.add(retNull());
+	 		return stylistInfoList;
+	 	}
+		
+		Statement statement = dbConnection.getStatement();
+		for(int index: stylist_id_list){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				while(rs.next()){
+					StylistInfo stylistInfo = new StylistInfo();
+					stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+					stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+					stylistInfoList.add(stylistInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		return stylistInfoList;
+	}	
 }

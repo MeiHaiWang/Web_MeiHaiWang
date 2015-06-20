@@ -467,5 +467,40 @@ public class SalonDao {
 		return contactUserName;		
 	}
 
+	public List<Integer> getMenuIdList(DBConnection dbConnection, Integer salonId){
+		String sql ="SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		Statement statement = dbConnection.getStatement();
+		List<Integer> menuIdList = new ArrayList<Integer>();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				int menuId = rs.getInt("t_hairSalonMaster_menuId");
+				//salonInfo.setSalonContactUserName(salon_contactUserName);
+				menuIdList.add(menuId);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return menuIdList;	
+	}
+
+	public List<Integer> getStylistIdList(DBConnection dbConnection, Integer salonId){
+		String sql ="SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		Statement statement = dbConnection.getStatement();
+		List<Integer> stylistIdList = new ArrayList<Integer>();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				int stylistId = rs.getInt("t_hairSalonMaster_stylistId");
+				//salonInfo.setSalonContactUserName(salon_contactUserName);
+				stylistIdList.add(stylistId);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stylistIdList;	
+	}
 	
 }

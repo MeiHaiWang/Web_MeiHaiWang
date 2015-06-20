@@ -10,20 +10,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetCheckLoginService;
-import business.service.GetConditionForSalonSearchService;
+import business.service.GetServiceListService;
 
-@WebServlet(name="GetCheckLogin",urlPatterns={"/api/:version/checkLogin"})
-public class GetCheckLoginAction extends HttpServlet{
+@WebServlet(name="GetServiceListServlet",urlPatterns={"/api/:version/getServiceList"})
+public class GetServiceListAction extends HttpServlet{
+
 	/**
 	 *
+    getServiceList
+        概要：サービス一覧取得
+        入力：{ t_hairSalonMaster_salonId }
+        出力：
+
+		    {
+		      menu:[
+		        {
+		          t_menu_menuId,
+		          t_menu_name
+		        },
+		        ...
+		      ]
+		    }
 	 */
 	private static final long serialVersionUID = 1L;
 	public static Logger myLog = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCheckLoginAction() {
+	public GetServiceListAction() {
 		super();
 	}
 
@@ -55,6 +69,7 @@ public class GetCheckLoginAction extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
 			response.setLocale(Locale.JAPAN);
@@ -71,12 +86,8 @@ public class GetCheckLoginAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCheckLoginService service = new GetCheckLoginService();
-		service.excuteService(request, response);
-
-	}	
-	
-	
-	
-	
+		GetServiceListService newsservice = new GetServiceListService();
+		newsservice.excuteService(request, response);
+	    
+	}
 }

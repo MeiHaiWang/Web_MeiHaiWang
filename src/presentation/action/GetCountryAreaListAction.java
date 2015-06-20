@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetCheckLoginService;
-import business.service.GetConditionForSalonSearchService;
+import business.service.GetCountryAreaListService;
+import business.service.GetCouponListService;
 
-@WebServlet(name="GetCheckLogin",urlPatterns={"/api/:version/checkLogin"})
-public class GetCheckLoginAction extends HttpServlet{
+@WebServlet(name="GetCountryAreaListServlet",urlPatterns={"/api/:version/getCounrtyAreaList"})
+public class GetCountryAreaListAction extends HttpServlet{
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class GetCheckLoginAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCheckLoginAction() {
+	public GetCountryAreaListAction() {
 		super();
 	}
 
@@ -37,10 +37,9 @@ public class GetCheckLoginAction extends HttpServlet{
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
+		//do nothing		
 	}
 
 	/**
@@ -71,12 +70,28 @@ public class GetCheckLoginAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCheckLoginService service = new GetCheckLoginService();
+		GetCountryAreaListService service = new GetCountryAreaListService();
 		service.excuteService(request, response);
 
+		
+		/**  output
+		 *     {
+			      country:[
+			        {
+			          t_counrty_id,
+			          t_country_name,
+			          area:[
+			            {
+			              t_area_id,
+			              t_area_name
+			            },
+			            ...
+			          ]
+			        },
+			        ...
+			      ]
+			    }
+		 */
 	}	
-	
-	
-	
-	
 }
+

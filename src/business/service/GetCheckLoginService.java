@@ -16,42 +16,88 @@ import common.constant.Constant;
 import common.model.AreaInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
+import common.util.EncryptUtil;
 
 public class GetCheckLoginService {
+	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
+		/**
+		 * header 取得
+		 */
         int responseStatus = HttpServletResponse.SC_OK;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        String[] mail = request.getParameterValues("mail");
-        String mail_1;
-        if(mail!=null){
-           mail_1  = mail[0];
+        String[] mailList = request.getParameterValues("mail");
+        String mail;
+        String[] passwordList = request.getParameterValues("password");
+        String password;
+		String userHash = request.getParameter("userHash") != null ?
+				request.getParameter("userHash").toString() : null;
+
+        if(mailList!=null){
+           mail  = mailList[0];
         }else{
         	//test
-            mail_1  = "mail.test.com";        	
+            mail  = "mail.test.com";        	
         }
-        String[] password = request.getParameterValues("password");
-        String password_1;
-        if(password!=null){
-        	password_1 = password[0];        	
+        if(passwordList!=null){
+        	password = passwordList[0];        	
         }else{
-        	password_1 = "password";
+        	password = "password";
         }
-		boolean result = false;
+        
+        /*
+        //dubug
+        System.out.println("mail: " + mail);
+        System.out.println("password: " + password);
+        System.out.println("userHash: " + userHash);
+        */
+        //header ここまで
+        
+        boolean result = false;
+        int masterUserId = -1;
 		int salonId = -1;
 		String salonId_str = "";
-		
+				
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			//List<UserInfo> infoList = new ArrayList<UserInfo>();
+			UserDao userDao = new UserDao();
+			UserInfo info = null;
+	        String retHash="";
+	        int updated=-1;
+			
 			if(conn!=null){
-				UserDao userDao = new UserDao();
-				result = userDao.getCheckLoginInfo(dbConnection, mail_1, password_1);
-				//salonId = userDao.getUserSalonId(dbConnection, userId);
+				//自動ログイン
+				if(userHash != null){
+					info = userDao.getUserInfoByHash(dbConnection, userHash);
+					//自動ログイン成功
+					if(info != null){
+						result = true;
+					}
+				}
+				else{
+					//info = userDao.getUserInfoByLoginInfo(dbConnection, mail, password);
+					masterUserId = userDao.getCheckLoginInfo(dbConnection, mail, password);
+					if(masterUserId >= 0) result = true;
+					//ログイン成功 Hash値を再計算してユーザテーブルに格納する
+					if(result){
+						salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
+						retHash = EncryptUtil.getHashValue(mail + password);
+						updated = userDao.updateUserHash(dbConnection, masterUserId, retHash);
+					}
+				}
+				
+				/*
+				//userTable にユーザIDが存在するかを確認。
+				result = userDao.getCheckLoginInfo(dbConnection, mail, password);
+				salonId = userDao.getMsterSalonId(dbConnection, userId);
+				*/
 				dbConnection.close();
+				
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");
@@ -60,8 +106,11 @@ public class GetCheckLoginService {
 			if(result){
 				HttpSession session = request.getSession();
 				salonId_str = Integer.toString(salonId);
+				session.setAttribute("login", "logined");
 				session.setAttribute("salonId", salonId_str);
 				//cookie write?
+			}else{
+				System.out.println("ログイン失敗.");
 			}
 			
 			//レスポンスに設定するJSON Object
