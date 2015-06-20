@@ -7,7 +7,7 @@ module.exports = function (grunt) {
         concat: {
             files: {
                 // 元ファイルの指定
-                src : 'WebContent/js/src/*.js',
+                src : 'WebContent/js/src/concat/*.js',
                 // 出力ファイルの指定
                 dest: 'WebContent/js/concat/concat.js'
             },
@@ -23,8 +23,11 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     // 出力ファイル: 元ファイル
-                    'WebContent/js/index.min.js': 'WebContent/js/concat/concat.js'
-                }
+                    'WebContent/js/app.min.js': 'WebContent/js/concat/concat.js',
+                    'WebContent/js/index.min.js': 'WebContent/js/src/index.js',
+                    'WebContent/js/common.min.js': 'WebContent/js/src/common.js',
+                    'WebContent/js/salon.min.js': 'WebContent/js/src/salon.js'
+                },
             }
         },
 
@@ -37,9 +40,13 @@ module.exports = function (grunt) {
         },
 
         watch: {
+            index: {
+                files: 'WebContent/js/src/concat/*.js',
+                tasks: ['concat', 'uglify']
+            },
             js: {
                 files: 'WebContent/js/src/*.js',
-                tasks: ['concat', 'uglify']
+                tasks: ['uglify']
             },
             css: {
                 files: ['WebContent/css/src/*.css'],
