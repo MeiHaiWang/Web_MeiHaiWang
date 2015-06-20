@@ -122,10 +122,7 @@
                                     <label for="service_category">カテゴリー：</label>
                                 </td>
                                 <td>
-                                    <select name="service_category">
-                                        <option value="hoge">hoge</option>
-                                        <option value="piyo">piyo</option>
-                                    </select>
+                                    <div id="service_category" name="service_category"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -133,7 +130,7 @@
                                     <label for="service_name">サービス名：</label>
                                 </td>
                                 <td>
-                                    <input id="service_name" type="text" size="20">
+                                    <div id="service_name"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -141,7 +138,7 @@
                                     <label for="service_detail_text">サービス内容：</label>
                                 </td>
                                 <td>
-                                    <textarea id="service_detail_text"></textarea>
+                                    <div id="service_detail_text"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -149,7 +146,7 @@
                                     <label for="service_price">￥価格：</label>
                                 </td>
                                 <td>
-                                    <input id="service_price" type="text" size="20">
+                                    <div id="service_price"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -165,7 +162,7 @@
                                     &nbsp;
                                 </td>
                                 <td>
-                                    <div class="service_image_path">No Picture</div>
+                                    <div id="service_image_path"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -179,13 +176,8 @@
                         </dd>
                         <dt id="service_list_area">メニュー一覧</dt>
                         <dd>
-                            <table id="service_list_info">
-                            <tr><th>No.</th><th>カテゴリー</th><th>サービス名</th><th>写真</th><th>編集</th></tr>
-                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                            </table>
+                            <div id="service_list_info">
+                            </div>
                         </dd>
                         </dl>
                     </div>
@@ -216,9 +208,14 @@
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
+<!-- react -->
+<script src="js/react.min.js"></script>
+<script src="js/JSXTransformer.js"></script>
+
 <!-- common app js -->
 <script src="js/app.min.js"></script>
 <script src="js/common.min.js"></script>
+<script src="js/service.min.js"></script>
 
 <!-- common app js -->
 <script src="js/settings.js"></script>
