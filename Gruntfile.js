@@ -25,7 +25,8 @@ module.exports = function (grunt) {
                     // 出力ファイル: 元ファイル
                     'WebContent/js/app.min.js': 'WebContent/js/concat/concat.js',
                     'WebContent/js/index.min.js': 'WebContent/js/src/index.js',
-                    'WebContent/js/common.min.js': 'WebContent/js/src/common.js'
+                    'WebContent/js/common.min.js': 'WebContent/js/src/common.js',
+                    'WebContent/js/salon.min.js': 'WebContent/js/src/salon.js'
                 },
             }
         },
@@ -39,16 +40,12 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            js: {
+            index: {
                 files: 'WebContent/js/src/concat/*.js',
                 tasks: ['concat', 'uglify']
             },
-            index: {
-                files: 'WebContent/js/src/index.js',
-                tasks: ['uglify']
-            },
-            common: {
-                files: 'WebContent/js/src/common.js',
+            js: {
+                files: 'WebContent/js/src/*.js',
                 tasks: ['uglify']
             },
             css: {
