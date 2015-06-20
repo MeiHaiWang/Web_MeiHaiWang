@@ -300,6 +300,24 @@ $(function(){
     }
   });
 
+  var SalonImagePath = React.createClass({displayName: "SalonImagePath",
+    getInitialState:function() {
+      return {
+        t_hairSalonMaster_salonImagePath: ["img/notfound.jpg", "img/notfound.jpg", "img/notfound.jpg", "img/notfound.jpg"]
+      };
+    },
+    render:function() {
+      var images = this.state.t_hairSalonMaster_salonImagePath.map(function(images) {
+        return React.createElement("div", {className: "salon_image_path_div"}, React.createElement("img", {className: "salon_image_img", src: images}));
+      });
+      return (
+        React.createElement("div", null, 
+          images
+        )
+      );
+    }
+  });
+
 
   /*
     Component Render
@@ -315,6 +333,7 @@ $(function(){
   var component_salon_credit_available = React.render(React.createElement(SalonCreditAvailable, null), document.getElementById('salon_credit_available'));
   var component_salon_car_park_available = React.render(React.createElement(SalonCarParkAvailable, null), document.getElementById('salon_car_park_available'));
   var component_salon_japanese_available = React.render(React.createElement(SalonJapaneseAvailable, null), document.getElementById('salon_japanese_available'));
+  var component_salon_image_path = React.render(React.createElement(SalonImagePath, null), document.getElementById('salon_image_path'));
 
 
   /*
@@ -336,6 +355,13 @@ $(function(){
   // areaを参照しやすい形に変換
   var areas = getAreasByCountryName(country_area_info.country, salon_info.t_country_name);
 
+  // image画像情報を長さ4の配列に変換し、画像指定のない要素にnotfoundを表示するように
+  var salon_image_path = new Array();
+  salon_image_path = salon_info.t_hairSalonMaster_salonImagePath.split(',');
+  for (var i = salon_image_path.length; i < 4; i++) {
+    salon_image_path[i] = 'img/notfound.jpg';
+  }
+  salon_info.t_hairSalonMaster_salonImagePath = salon_image_path;
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_salon_name.setState(salon_info);
@@ -350,5 +376,6 @@ $(function(){
   component_salon_credit_available.setState(salon_info);
   component_salon_car_park_available.setState(salon_info);
   component_salon_japanese_available.setState(salon_info);
+  component_salon_image_path.setState(salon_info);
 
 });
