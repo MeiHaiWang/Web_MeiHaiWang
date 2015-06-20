@@ -11,11 +11,11 @@ $(function(){
     },
     getInitialState() {
       return {
-        t_menuCategory_categoryId: '',
+        t_menu_categoryId: '',
       };
     },
     onChangeSelectValue(e) {
-      this.setState({t_menuCategory_categoryId: e.target.value});
+      this.setState({t_menu_categoryId: e.target.value});
     },
     render() {
       var options = this.props.category.map(function(category) {
@@ -23,7 +23,7 @@ $(function(){
       });
       return (
         <div>
-          <select value={this.state.t_menuCategory_categoryId} onChange={this.onChangeSelectValue}>
+          <select value={this.state.t_menu_categoryId} onChange={this.onChangeSelectValue}>
             {options}
           </select>
         </div>
@@ -97,12 +97,51 @@ $(function(){
     render() {
       return (
         <div>
-          <img className="salon_image_img" src={this.state.t_menu_imagePath} />
+          <img className="service_image_img" src={this.state.t_menu_imagePath} />
         </div>
       );
     }
   });
 
+  var ServiceList = React.createClass({
+    getInitialState() {
+      return {
+        service_list: [{
+          "t_menu_categoryId": "&nbsp;",
+          "t_menu_menuId": "&nbsp;",
+          "t_menu_name": "&nbsp;",
+          "t_menu_price": "&nbsp;",
+          "t_menu_detailText": "&nbsp;",
+          "t_menu_imagePath": "img/notfound.jpg"}]
+      };
+    },
+    render() {
+      var service = this.state.service_list.map(function(service) {
+        return <tr><td>{service.t_menu_menuId}</td><td>{categorys[service.t_menu_categoryId]}</td><td>{service.t_menu_name}</td><td><img src={service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+      });
+      return (
+        <div>
+          <table>
+            <tr><th>No.</th><th>カテゴリー</th><th>サービス名</th><th>写真</th><th>編集</th></tr>
+            {service}
+          </table>
+        </div>
+      );
+    }
+  });
+
+
+  /*
+    List
+  */
+  var service_category_info = getServiceCategoryList();
+  // categoryを参照しやすい形に変換
+  var categorys = new Array();
+  for (var i = 0; i < service_category_info.category.length; i++) {
+    var category_id = service_category_info.category[i].t_menuCategory_categoryId;
+    var category_name = service_category_info.category[i].t_menuCategory_name;
+    categorys[category_id] = category_name;
+  }
 
 
   /*
@@ -114,6 +153,7 @@ $(function(){
   var component_service_detail_text = React.render(<ServiceDetailText />, document.getElementById('service_detail_text'));
   var component_service_price = React.render(<ServicePrice />, document.getElementById('service_price'));
   var component_service_image_path = React.render(<ServiceImagePath />, document.getElementById('service_image_path'));
+  var component_service_list = React.render(<ServiceList />, document.getElementById('service_list_info'));
 
 
   /*
@@ -123,7 +163,6 @@ $(function(){
   var session_info = getSessionInfo();
   var service_info = getMenuInfo(session_info.t_hairSalonMaster_salonId);
 
-  var service_category_info = getServiceCategoryList();
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_service_category.setState(service_info.menu[0]);
@@ -132,4 +171,8 @@ $(function(){
   component_service_detail_text.setState(service_info.menu[0]);
   component_service_price.setState(service_info.menu[0]);
   component_service_image_path.setState(service_info.menu[0]);
+
+  // メニュー一覧
+  component_service_list.setState({"service_list":service_info.menu});
+
 });
