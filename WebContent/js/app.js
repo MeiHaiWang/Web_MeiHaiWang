@@ -523,11 +523,7 @@ $(function(){
 
     SingAppView.prototype.log = function(message){
         if (this.debug){
-            console.log("SingApp: "
-                    + message
-                    + " - " + arguments.callee.caller.toString().slice(0, 30).split('\n')[0]
-                    + " - " + this.extractPageName(location.href)
-            );
+            window.location.reload();
         }
     };
 
