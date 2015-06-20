@@ -26,7 +26,12 @@ module.exports = function (grunt) {
                     'WebContent/js/app.min.js': 'WebContent/js/concat/concat.js',
                     'WebContent/js/index.min.js': 'WebContent/js/src/index.js',
                     'WebContent/js/common.min.js': 'WebContent/js/src/common.js',
-                    'WebContent/js/salon.min.js': 'WebContent/js/src/salon.js'
+                    'WebContent/js/salon.min.js': 'WebContent/js/src/salon.js',
+                    'WebContent/js/stylist.min.js': 'WebContent/js/src/stylist.js',
+                    'WebContent/js/service.min.js': 'WebContent/js/src/service.js',
+                    'WebContent/js/coupon.min.js': 'WebContent/js/src/coupon.js',
+                    'WebContent/js/album.min.js': 'WebContent/js/src/album.js',
+                    'WebContent/js/map.min.js': 'WebContent/js/src/map.js',
                 },
             }
         },
