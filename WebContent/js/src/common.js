@@ -64,6 +64,35 @@ var getAreasByCountryName = (function(country_area_info, country_name){
     };
 })();
 
+// サービス情報を取得する関数
+var getMenuInfo = (function(data){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getMenuInfo",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// サービスカテゴリ一覧を取得する関数
+var getServiceCategoryList = (function(){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getServiceCategoryList",
+            async: false,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
