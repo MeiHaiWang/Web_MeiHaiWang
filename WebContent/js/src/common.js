@@ -108,6 +108,50 @@ var getCouponInfo = (function(data){
     };
 })();
 
+// アルバム情報を取得する関数
+var getAlbumInfo = (function(data){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getAlbumInfo",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// スタイリスト一覧情報を取得する関数
+var getStylistList = (function(data){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getStylistList",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// ヘアスタイルタイプ一覧を取得する関数
+var getHairTypeList = (function(){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getHairTypeList",
+            async: false,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
