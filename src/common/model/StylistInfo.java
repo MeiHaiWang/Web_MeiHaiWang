@@ -1,6 +1,7 @@
 package common.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import common.util.ListUtilities;
@@ -16,6 +17,15 @@ public class StylistInfo {
 	private int yearsNumber = Integer.MIN_VALUE;
 	private String stylistMessage="";
 	private int isNetReservation = Integer.MIN_VALUE;
+	
+	//for Master
+	private String phoneNumber = "";
+	private String mail = "";
+	private String imagePath = "";
+	private Date birth = new Date();
+	private String position = "";
+	private String specialMenu = "";
+	private String menuId = "";
 	
 	public StylistInfo(){
 		
@@ -98,8 +108,59 @@ public class StylistInfo {
 	public void setIsNetReservation(int isNetReservation){
 		this.isNetReservation = isNetReservation;
 	}
-	
 	public int getIsNetReservation(){
 		return isNetReservation;
 	}
+
+	public void setPhoneNumber(String phone){
+		this.phoneNumber = phoneNumber != null ? phoneNumber : "";
+	}
+	public String getPhoneNumber(){
+		return phoneNumber;
+	}
+
+	public void setMail(String mail){
+		this.mail = mail != null ? mail : "";
+	}
+	public String getMail(){
+		return mail;
+	}
+
+	public void setImagePath(String imagePath){
+		this.imagePath = imagePath != null ? imagePath : "";
+	}
+	public String getImagePath(){
+		return imagePath;
+	}
+
+	public void setBirth(Date birth){
+		this.birth = birth != null ? birth : new Date(0);
+	}
+	public Date getBirth(){
+		return birth;
+	}
+
+	public void setPosition(String position){
+		this.position = position != null ? position : "";
+	}
+	public String getPosition(){
+		return position;
+	}
+
+	public void setSpecialMenu(String spMenu){
+		this.specialMenu = spMenu != null ? spMenu : "";
+	}
+	public String getSpecialMenu(){
+		return specialMenu;
+	}
+
+	public void setMenuId(String menuId){
+		this.menuId = menuId != null ? menuId : "";
+	}
+	public String getMenuId(){
+		return menuId;
+	}
+
 }
+
+

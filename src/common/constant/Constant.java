@@ -23,4 +23,10 @@ public  class Constant {
 	public static final String TITLE_NAME_LIST_FOR_STYLIST_LIKE = "'性別','年齢'";
 	public static final String TITLE_NAME_LIST_FOR_HAIRSTYLE_MENU = "'カラー','イメージ'";
 	public static final String TITLE_NAME_LIST_FOR_HAIRSTYLE_FACE = "'顔型'";
+	
+	public static final int MEN = 0;
+	public static final int WOMEN = 1;
+	
+	public static final int JAPANESE_COUNTRY_ID = 0; //TODO: 決め打ちしないほうがいいかも
+	
 }

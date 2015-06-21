@@ -3,9 +3,19 @@ package business.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import common.constant.Constant;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -312,7 +322,7 @@ public class UserDao {
 		
 		return userInfo.getUserId();
 	}
-	
+
 	public int getMsterSalonId(DBConnection dbConnection, int userId){
 		int retSalonId = -1;
 		String sql = "SELECT `t_user_MasterSalonId` FROM `t_user` WHERE `t_user_Id` = " + userId;
@@ -339,4 +349,108 @@ public class UserDao {
 		return retSalonId;
 	}
 	
+	public boolean setSalonInfo(
+			DBConnection dbConnection, 
+			int salonId,
+		    String t_hairSalonMaster_name,
+		    String t_area_id,
+		    String t_hairSalonMaster_detailText,
+		    String t_hairSalonMaster_openTime,
+		    String t_hairSalonMaster_closeTime,
+		    String t_hairSalonMaster_closeDay,
+		    String t_hairSalonMaster_creditAvailable,
+		    String t_hairSalonMaster_carParkAvailable,
+		    String t_hairSalonImagePath,
+		    String t_hairSalonMaster_japaneseAvailable
+			){
+
+		boolean result = false;
+		
+		/**
+		 * salonId からサロン情報があるかどうか確認。
+		 * salonがテーブルに存在したらupdate
+		 * salonが存在しなければinsertする
+		 */
+
+
+		/**
+		 * SQL 例:
+		*/
+		
+		/**
+		 * UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = 'name2', `t_hairSalonMaster_areaId` = '1,2' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 5;
+		 */
+
+		String sql1 = "SELECT * FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 
+		String sql2 = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = '";
+				//+ "SalonName" +
+		String sql3 = "', `t_hairSalonMaster_areaId` = '";
+				//+ "AreaId list" +
+		String sql4 = "', `t_hairSalonMaster_detailText` = '";
+		//+ "detailText" +
+		String sql5 = "', `t_hairSalonMaster_openTime` = '";
+		//+ "openTime" +
+		String sql6 = "', `t_hairSalonMaster_closeTime` = '";
+		//+ "closeTime" +
+		String sql7 = "', `t_hairSalonMaster_closeDay` = '";
+		//+ "closeDay" +
+		String sql8 = "', `t_hairSalonMaster_creditAvailable` = '";
+		//+ "creditAvailable" +
+		String sql9 = "', `t_hairSalonMaster_carParkAvailable` = '";
+		//+ "carParkAvailable" +
+		String sql10 = "', `t_hairSalonMaster_salonImagePath` = '";
+		//+ "salonImagePathList <- string " +
+		String sql11 = "', `t_hairSalonMaster_availableCountryId` = '";
+		//+ "japaneseAvailable " +
+		String sql_end = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = " + salonId + ";";;
+
+		Statement statement = dbConnection.getStatement();
+		UserInfo userInfo = null;
+		int japaneseAvailable = -1;
+		if(t_hairSalonMaster_japaneseAvailable!=null && t_hairSalonMaster_japaneseAvailable.compareTo("true") == 0){
+			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
+		}
+
+		//date '2015-06-03 00:00:00' format sample.
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+		    format.setLenient(false);
+		    format.parse(t_hairSalonMaster_openTime); //Exception check
+		    format.parse(t_hairSalonMaster_closeTime); //Exception check
+		} catch (ParseException e) {
+		    //失敗時の処理…
+		}
+		
+		String sql = sql2 + t_hairSalonMaster_name
+			 +sql3 + t_area_id
+			 +sql4 + t_hairSalonMaster_detailText
+			 +sql5 + t_hairSalonMaster_openTime
+			 +sql6 + t_hairSalonMaster_closeTime
+			 +sql7 + t_hairSalonMaster_closeDay
+			 +sql8 + t_hairSalonMaster_creditAvailable
+			 +sql9 + t_hairSalonMaster_carParkAvailable
+			 +sql10 + t_hairSalonImagePath
+			 +sql11 + japaneseAvailable
+			 +sql_end;
+		//debug
+		System.out.println(sql);
+		
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql1);
+			if(rs == null){
+				//salon がtableにない = insert? error?
+				result = false;
+			}else{
+				//salon がtableにある = update
+				int result_int = statement.executeUpdate(sql);
+				if(result_int >= 0) result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

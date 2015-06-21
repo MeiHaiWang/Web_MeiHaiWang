@@ -1,6 +1,7 @@
 package common.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import common.util.ListUtilities;
@@ -28,6 +29,17 @@ public class HairSalonInfo {
     private String salonMapImagePath = "";
     private int salonReviewId = Integer.MIN_VALUE;
     private String salonContactName = "";
+    
+    //for SalonMaster
+    //private String salonCountryName = "";
+    private String salonDetailText = "";
+    private String openTime = "";
+    private String closeTime = "";
+    private String closeDay = "";
+    private String countryName = "";
+    private boolean creditAvailable = false;
+    private boolean carParkAvailable = false;
+    private boolean japaneseAvailable = false;
     
 	public HairSalonInfo(){
 		
@@ -205,5 +217,70 @@ public class HairSalonInfo {
 	}
 
 
+	public void setSalonDetailText(String detailText){
+		this.salonDetailText = detailText != null ? detailText : "";
+	}
+	
+	public String getSalonDetailText(){
+		return salonDetailText;
+	}
+
+	public void setSalonOpenTime(String openTime){
+		this.openTime = openTime;
+	}
+	
+	public String getSalonOpenTime(){
+		return openTime;
+	}
+
+	public void setSalonCloseTime(String closeTime){
+		this.closeTime = closeTime;
+	}
+	
+	public String getSalonCloseTime(){
+		return closeTime;
+	}
+
+	public void setSalonCloseDay(String closeDay){
+		this.closeDay = closeDay != null ? closeDay : "";
+	}
+	
+	public String getSalonCloseDay(){
+		return closeDay;
+	}
+
+	public void setSalonCountryName(String countryName){
+		this.countryName = countryName != null ? countryName : "";
+	}
+	
+	public String getSalonCountryName(){
+		return countryName;
+	}
+
+	public void setSalonCreditAvailable(boolean creditAvailable){
+		this.creditAvailable = creditAvailable;
+	}
+	
+	public boolean getSalonCreditAvailable(){
+		return creditAvailable;
+	}
+
+	public void setSalonCarParkAvailable(boolean carParkAvailable){
+		this.carParkAvailable = carParkAvailable;
+	}
+	
+	public boolean getSalonCarParkAvailable(){
+		return carParkAvailable;
+	}
+
+	public void setSalonJapaneseAvailable(boolean japaneseAvailable){
+		this.japaneseAvailable = japaneseAvailable;
+	}
+	
+	public boolean getJapaneseParkAvailable(){
+		return japaneseAvailable;
+	}
+
 }
+
 

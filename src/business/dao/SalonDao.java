@@ -502,5 +502,78 @@ public class SalonDao {
 		}
 		return stylistIdList;	
 	}
+
+	public List<HairSalonInfo> getSalonInfo(DBConnection dbConnection, Integer salonId){
+		
+		/**
+		 * 
+	     {
+		      t_hairSalonMaster_salon_name,
+		      t_country_name,
+		      t_area_name,
+		      t_hairSalonMaster_detailText,
+		      t_hairSalonMaster_openTime,
+		      t_hairSalonMaster_closeTime,
+		      t_hairSalonMaster_closeDay,
+		      t_hairSalonMaster_creditAvailable,
+		      t_hairSalonMaster_carParkAvailable,
+		      t_hairSalonMaster_salonImagePath,
+		      t_hairSalonMaster_japaneseAvailable,
+		    }
+		 */
+		
+		String sql ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_detailText`, "
+				+ "`t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, "
+				+ "`t_hairSalonMaster_closeDay`, `t_hairSalonMaster_creditAvailable`, `t_hairSalonMaster_carParkAvailable`, "
+				+ "`t_hairSalonMaster_availableCountryId`, "
+				+ "`t_area_areaName`, `t_area_areaId`, "
+				+ "`t_country_countryName` "
+				+ "FROM `t_hairSalonMaster` "
+				+ "JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId "
+				+ "JOIN t_masterCountry ON t_area_countryId = t_country_countryId "
+				+ "WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+
+		Statement statement = dbConnection.getStatement();
+		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+		//debug
+		System.out.println(sql);
+		
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+
+				salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
+				salonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
+
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
+						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
+				Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
+						rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
+				salonInfo.setSalonOpenTime(sdf.format(openTime).toString());
+				salonInfo.setSalonCloseTime(sdf.format(closeTime).toString());
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+
+				salonInfo.setSalonCreditAvailable(rs.getBoolean("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getBoolean("t_hairSalonMaster_carParkAvailable"));
+
+				boolean japaneseAvailable = false;
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				
+				SalonInfoList.add(salonInfo);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return SalonInfoList;	
+	}
 	
 }

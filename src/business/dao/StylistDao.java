@@ -321,4 +321,76 @@ public class StylistDao {
 		}
 		return stylistInfoList;
 	}	
+	
+	public List<StylistInfo> getStylistInfoForMaster(DBConnection dbConnection, List<Integer> stylist_id_list) throws SQLException{
+		/**
+		 *
+		    {
+		      stylist:[
+		        {
+		          t_stylist_Id,
+		          t_stylist_name,
+		          t_stylist_sex,
+		          t_stylist_phoneNumber,
+		          t_stylist_mail,
+		          t_stylist_imagePath,
+		          t_stylist_birth,
+		          t_stylist_position,
+		          t_stylist_experienceYear,
+		          t_stylist_specialMenu,
+		          t_stylist_message,
+		          t_menu_t_menu_id:カンマ区切りの文字列,
+		        },
+		        ...
+		      ]
+		    }
+		 */
+		
+		String sql = 
+				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_phoneNumber`, "
+				+ "`t_stylist_mail`, `t_stylist_imagePath`, `t_stylist_birth`,"
+				+ "`t_stylist_position`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_message`, "
+				+ "`t_stylist_menuId` FROM `t_stylist` WHERE t_stylist_Id="; 
+		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
+		
+	 	if(stylist_id_list.isEmpty()) {
+	 		stylistInfoList.add(retNull());
+	 		return stylistInfoList;
+	 	}
+	 	
+		//debug
+	 	System.out.println(sql);
+	 	
+		Statement statement = dbConnection.getStatement();
+		for(int index: stylist_id_list){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				while(rs.next()){
+					StylistInfo stylistInfo = new StylistInfo();
+					stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+					stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+					stylistInfo.setStylistGender(rs.getInt("t_stylist_sex"));
+					stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+					stylistInfo.setMail(rs.getString("t_stylist_mail"));
+					stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
+					stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+					stylistInfo.setPosition(rs.getString("t_stylist_position"));
+					stylistInfo.setStylistYears(rs.getInt("t_stylist_experienceYear"));
+					stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+					stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
+					stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+					stylistInfoList.add(stylistInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		return stylistInfoList;
+		
+		
+
+	}
+	
+	
 }
