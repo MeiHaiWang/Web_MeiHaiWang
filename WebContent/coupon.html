@@ -122,7 +122,7 @@
                                     <label for="coupon_name">クーポン名：</label>
                                 </td>
                                 <td>
-                                    <input id="coupon_name" type="text" size="20">
+                                    <div id="coupon_name"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -130,7 +130,7 @@
                                     <label for="coupon_detail_text">クーポン内容：</label>
                                 </td>
                                 <td>
-                                    <textarea id="coupon_detail_text"></textarea>
+                                    <div id="coupon_detail_text"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -138,7 +138,7 @@
                                     <label for="coupon_price">￥価格：</label>
                                 </td>
                                 <td>
-                                    <input id="coupon_price" type="text" size="20">
+                                    <div id="coupon_price"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -146,7 +146,7 @@
                                     <label for="coupon_dead_line">有効期間：</label>
                                 </td>
                                 <td>
-                                    <input id="coupon_dead_line" type="text" size="20">
+                                    <div id="coupon_dead_line"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -154,7 +154,7 @@
                                     <label for="coupon_presentation_condition">提示条件：</label>
                                 </td>
                                 <td>
-                                    <input id="coupon_presentation_condition" type="text" size="20">
+                                    <div id="coupon_presentation_condition"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -162,7 +162,7 @@
                                     <label for="coupon_use_condition">利用条件：</label>
                                 </td>
                                 <td>
-                                    <input id="coupon_use_condition" type="text" size="20">
+                                    <div id="coupon_use_condition"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -178,7 +178,7 @@
                                     &nbsp;
                                 </td>
                                 <td>
-                                    <div class="coupon_image_path">No Picture</div>
+                                    <div id="coupon_image_path"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -229,9 +229,14 @@
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
+<!-- react -->
+<script src="js/react.min.js"></script>
+<script src="js/JSXTransformer.js"></script>
+
 <!-- common app js -->
 <script src="js/app.min.js"></script>
 <script src="js/common.min.js"></script>
+<script src="js/coupon.min.js"></script>
 
 <!-- common app js -->
 <script src="js/settings.js"></script>

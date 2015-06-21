@@ -93,6 +93,21 @@ var getServiceCategoryList = (function(){
     };
 })();
 
+// クーポン情報を取得する関数
+var getCouponInfo = (function(data){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getCouponInfo",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
