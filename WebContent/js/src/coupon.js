@@ -131,18 +131,32 @@ $(function(){
     }
   });
 
+  var CouponList = React.createClass({displayName: "CouponList",
+    getInitialState:function() {
+      return {
+        coupon_list: [{
+          "t_coupon_Id": "",
+          "t_coupon_name": "",
+          "t_coupon_detailText": "",
+          "t_coupon_price": "",
+          "t_coupon_imagePath": "img/notfound.jpg"}]
+      };
+    },
+    render:function() {
+      var coupon = this.state.coupon_list.map(function(coupon) {
+        return React.createElement("tr", null, React.createElement("td", null, coupon.t_coupon_Id), React.createElement("td", null, coupon.t_coupon_name), React.createElement("td", null, coupon.t_coupon_price), React.createElement("td", null, coupon.t_coupon_detailText), React.createElement("td", null, React.createElement("img", {src: coupon.t_coupon_imagePath?coupon.t_coupon_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+      });
+      return (
+        React.createElement("div", null, 
+          React.createElement("table", null, 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "クーポン名"), React.createElement("th", null, "価格"), React.createElement("th", null, "クーポン内容"), React.createElement("th", null, "写真"), React.createElement("th", null, "編集")), 
+            coupon
+          )
+        )
+      );
+    }
+  });
 
-  /*
-    List
-  */
-  // var service_category_info = getServiceCategoryList();
-  // // categoryを参照しやすい形に変換
-  // var categorys = new Array();
-  // for (var i = 0; i < service_category_info.category.length; i++) {
-  //   var category_id = service_category_info.category[i].t_menuCategory_categoryId;
-  //   var category_name = service_category_info.category[i].t_menuCategory_name;
-  //   categorys[category_id] = category_name;
-  // }
 
 
   /*
@@ -156,6 +170,8 @@ $(function(){
   var component_coupon_presentation_condition = React.render(React.createElement(CouponPresentationCondition, null), document.getElementById('coupon_presentation_condition'));
   var component_coupon_use_condition = React.render(React.createElement(CouponUseCondition, null), document.getElementById('coupon_use_condition'));
   var component_coupon_image_path = React.render(React.createElement(CouponImagePath, null), document.getElementById('coupon_image_path'));
+  var component_coupon_list = React.render(React.createElement(CouponList, null), document.getElementById('coupon_list_info'));
+
 
   /*
     Main Part
@@ -173,5 +189,8 @@ $(function(){
   component_coupon_presentation_condition.setState(coupon_info.coupon[0]);
   component_coupon_use_condition.setState(coupon_info.coupon[0]);
   component_coupon_image_path.setState(coupon_info.coupon[0]);
+
+  // クーポン一覧
+  component_coupon_list.setState({"coupon_list":coupon_info.coupon});
 
 });

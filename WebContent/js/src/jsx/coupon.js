@@ -131,18 +131,32 @@ $(function(){
     }
   });
 
+  var CouponList = React.createClass({
+    getInitialState() {
+      return {
+        coupon_list: [{
+          "t_coupon_Id": "",
+          "t_coupon_name": "",
+          "t_coupon_detailText": "",
+          "t_coupon_price": "",
+          "t_coupon_imagePath": "img/notfound.jpg"}]
+      };
+    },
+    render() {
+      var coupon = this.state.coupon_list.map(function(coupon) {
+        return <tr><td>{coupon.t_coupon_Id}</td><td>{coupon.t_coupon_name}</td><td>{coupon.t_coupon_price}</td><td>{coupon.t_coupon_detailText}</td><td><img src={coupon.t_coupon_imagePath?coupon.t_coupon_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+      });
+      return (
+        <div>
+          <table>
+            <tr><th>No.</th><th>クーポン名</th><th>価格</th><th>クーポン内容</th><th>写真</th><th>編集</th></tr>
+            {coupon}
+          </table>
+        </div>
+      );
+    }
+  });
 
-  /*
-    List
-  */
-  // var service_category_info = getServiceCategoryList();
-  // // categoryを参照しやすい形に変換
-  // var categorys = new Array();
-  // for (var i = 0; i < service_category_info.category.length; i++) {
-  //   var category_id = service_category_info.category[i].t_menuCategory_categoryId;
-  //   var category_name = service_category_info.category[i].t_menuCategory_name;
-  //   categorys[category_id] = category_name;
-  // }
 
 
   /*
@@ -156,6 +170,8 @@ $(function(){
   var component_coupon_presentation_condition = React.render(<CouponPresentationCondition />, document.getElementById('coupon_presentation_condition'));
   var component_coupon_use_condition = React.render(<CouponUseCondition />, document.getElementById('coupon_use_condition'));
   var component_coupon_image_path = React.render(<CouponImagePath />, document.getElementById('coupon_image_path'));
+  var component_coupon_list = React.render(<CouponList />, document.getElementById('coupon_list_info'));
+
 
   /*
     Main Part
@@ -173,5 +189,8 @@ $(function(){
   component_coupon_presentation_condition.setState(coupon_info.coupon[0]);
   component_coupon_use_condition.setState(coupon_info.coupon[0]);
   component_coupon_image_path.setState(coupon_info.coupon[0]);
+
+  // クーポン一覧
+  component_coupon_list.setState({"coupon_list":coupon_info.coupon});
 
 });
