@@ -92,6 +92,32 @@ $(function(){
     }
   });
 
+  var AlbumList = React.createClass({
+    getInitialState() {
+      return {
+        album_list: [{
+          "t_hairStyle_id": "",
+          "t_hairStyle_hairTypeId": "",
+          "t_hairStyle_name": "",
+          "t_hairStyle_stylistId": "",
+          "t_hairStyle_imagePath": "img/notfound.jpg"}]
+      };
+    },
+    render() {
+      var album = this.state.album_list.map(function(album) {
+        return <tr><td>{album.t_hairStyle_id}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{stylists[album.t_hairStyle_stylistId]}</td><td><img src={album.t_menu_imagePath?album.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+      });
+      return (
+        <div>
+          <table>
+            <tr><th>No.</th><th>カテゴリー</th><th>ヘアスタイル名</th><th>スタイリスト名</th><th>写真</th><th>編集</th></tr>
+            {album}
+          </table>
+        </div>
+      );
+    }
+  });
+
 
   /*
     List
@@ -104,7 +130,15 @@ $(function(){
     var hairtype_name = hairtype_info.type[i].t_hairType_name;
     hairtypes[hairtype_id] = hairtype_name;
   }
+
   var stylist_info = getStylistList();
+  // stylistを参照しやすい形に変換
+  var stylists = new Array();
+  for (var i = 0; i < stylist_info.stylist.length; i++) {
+    var stylist_id = stylist_info.stylist[i].t_stylist_Id;
+    var stylist_name = stylist_info.stylist[i].t_stylist_name;
+    stylists[stylist_id] = stylist_name;
+  }
 
 
   /*
@@ -115,6 +149,7 @@ $(function(){
   var component_album_name = React.render(<AlbumName />, document.getElementById('album_name'));
   var component_album_stylist_name = React.render(<AlbumStylistName />, document.getElementById('album_stylist_name'));
   var component_album_image_path = React.render(<AlbumImagePath />, document.getElementById('album_image_path'));
+  var component_album_list = React.render(<AlbumList />, document.getElementById('album_list_info'));
 
 
   /*
@@ -132,5 +167,8 @@ $(function(){
   component_album_stylist_name.setState(album_info.album[0]);
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
   component_album_image_path.setState(album_info.album[0]);
+
+  // アルバム一覧
+  component_album_list.setState({"album_list":album_info.album});
 
 });

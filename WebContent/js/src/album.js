@@ -92,6 +92,32 @@ $(function(){
     }
   });
 
+  var AlbumList = React.createClass({displayName: "AlbumList",
+    getInitialState:function() {
+      return {
+        album_list: [{
+          "t_hairStyle_id": "",
+          "t_hairStyle_hairTypeId": "",
+          "t_hairStyle_name": "",
+          "t_hairStyle_stylistId": "",
+          "t_hairStyle_imagePath": "img/notfound.jpg"}]
+      };
+    },
+    render:function() {
+      var album = this.state.album_list.map(function(album) {
+        return React.createElement("tr", null, React.createElement("td", null, album.t_hairStyle_id), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, stylists[album.t_hairStyle_stylistId]), React.createElement("td", null, React.createElement("img", {src: album.t_menu_imagePath?album.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+      });
+      return (
+        React.createElement("div", null, 
+          React.createElement("table", null, 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "カテゴリー"), React.createElement("th", null, "ヘアスタイル名"), React.createElement("th", null, "スタイリスト名"), React.createElement("th", null, "写真"), React.createElement("th", null, "編集")), 
+            album
+          )
+        )
+      );
+    }
+  });
+
 
   /*
     List
@@ -104,7 +130,15 @@ $(function(){
     var hairtype_name = hairtype_info.type[i].t_hairType_name;
     hairtypes[hairtype_id] = hairtype_name;
   }
+
   var stylist_info = getStylistList();
+  // stylistを参照しやすい形に変換
+  var stylists = new Array();
+  for (var i = 0; i < stylist_info.stylist.length; i++) {
+    var stylist_id = stylist_info.stylist[i].t_stylist_Id;
+    var stylist_name = stylist_info.stylist[i].t_stylist_name;
+    stylists[stylist_id] = stylist_name;
+  }
 
 
   /*
@@ -115,6 +149,7 @@ $(function(){
   var component_album_name = React.render(React.createElement(AlbumName, null), document.getElementById('album_name'));
   var component_album_stylist_name = React.render(React.createElement(AlbumStylistName, null), document.getElementById('album_stylist_name'));
   var component_album_image_path = React.render(React.createElement(AlbumImagePath, null), document.getElementById('album_image_path'));
+  var component_album_list = React.render(React.createElement(AlbumList, null), document.getElementById('album_list_info'));
 
 
   /*
@@ -132,5 +167,8 @@ $(function(){
   component_album_stylist_name.setState(album_info.album[0]);
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
   component_album_image_path.setState(album_info.album[0]);
+
+  // アルバム一覧
+  component_album_list.setState({"album_list":album_info.album});
 
 });
