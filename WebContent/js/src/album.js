@@ -155,7 +155,7 @@ $(function(){
   /*
     Main Part
   */
-  // セッションIDからサービス情報を取得する
+  // セッションIDからアルバム情報を取得する
   var session_info = getSessionInfo();
   var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
 

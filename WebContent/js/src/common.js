@@ -152,6 +152,21 @@ var getHairTypeList = (function(){
     };
 })();
 
+// 地図情報を取得する関数
+var getMapInfo = (function(data){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getMapInfo",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();

@@ -176,7 +176,7 @@ $(function(){
   /*
     Main Part
   */
-  // セッションIDからサービス情報を取得する
+  // セッションIDからクーポン情報を取得する
   var session_info = getSessionInfo();
   var coupon_info = getCouponInfo(session_info.t_hairSalonMaster_salonId);
 
