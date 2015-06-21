@@ -105,7 +105,7 @@ $(function(){
     },
     render() {
       var album = this.state.album_list.map(function(album) {
-        return <tr><td>{album.t_hairStyle_id}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{stylists[album.t_hairStyle_stylistId]}</td><td><img src={album.t_menu_imagePath?album.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{album.t_hairStyle_id}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{stylists[album.t_hairStyle_stylistId]}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>
