@@ -97,7 +97,7 @@ $(function(){
     render() {
       return (
         <div>
-          <img className="service_image_img" src={this.state.t_menu_imagePath} />
+          <img className="service_image_img" src={this.state.t_menu_imagePath?this.state.t_menu_imagePath:'img/notfound.jpg'} />
         </div>
       );
     }
