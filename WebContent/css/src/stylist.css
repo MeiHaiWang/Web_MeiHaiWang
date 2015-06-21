@@ -87,11 +87,11 @@ dt#stylist_list_area + dd {
   border: solid 1px #BAD8D9;
 }
 
-div.stylist_image_path {
+div#stylist_image_path {
   position: relative;
   background-color: white;
-  width: 100%;
-  height: 250px;
+  width: 180px;
+  height: 200px;
   color: #CCCCCC;
   text-align: center;
 }
