@@ -89,6 +89,22 @@ var getYearMonthDayByDateTime = (function(date_time){
 })();
 
 // サービス情報を取得する関数
+var getServiceList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getServiceList",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+
+// サービス情報を取得する関数
 var getMenuInfo = (function(data){
     return function(data) {
         var response = $.ajax({

@@ -329,6 +329,31 @@ $(function(){
     }
   });
 
+  var StylistList = React.createClass({
+    getInitialState() {
+      return {
+        stylist_list: [{
+          "t_stylist_Id": "2",
+          "t_stylist_name": "スタイリスト2",
+          "t_stylist_position": "チーフ",
+          "t_stylist_phoneNumber": "000-1234-5678",
+          "t_menu_t_menu_id": ["1", "2"]}]
+      };
+    },
+    render() {
+      var stylist = this.state.stylist_list.map(function(stylist) {
+        return <tr><td>{stylist.t_stylist_Id}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+      });
+      return (
+        <div>
+          <table>
+            <tr><th>No.</th><th>氏名</th><th>役職</th><th>連絡先</th><th>対応可能サービス</th><th>編集</th></tr>
+            {stylist}
+          </table>
+        </div>
+      );
+    }
+  });
 
   /*
     Component Render
@@ -346,6 +371,7 @@ $(function(){
   var component_stylist_special_menu = React.render(<StylistSpecialMenu />, document.getElementById('stylist_special_menu'));
   var component_stylist_message = React.render(<StylistMessage />, document.getElementById('stylist_message'));
   var component_stylist_image_path = React.render(<StylistImagePath />, document.getElementById('stylist_image_path'));
+  var component_stylist_list = React.render(<StylistList />, document.getElementById('stylist_list_info'));
 
 
   /*
@@ -354,6 +380,25 @@ $(function(){
   // セッションIDからスタッフ情報を取得する
   var session_info = getSessionInfo();
   var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
+
+  // サロンIDに紐づくサービス一覧を取得する
+  var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
+  // service_listを参照しやすい形に変換
+  var services = new Array();
+  for (var i = 0; i < service_list.menu.length; i++) {
+    var service_id = service_list.menu[i].t_menu_menuId;
+    var service_name = service_list.menu[i].t_menu_name;
+    services[service_id] = service_name;
+  }
+  // スタッフの対応可能サービス一覧をIDから文字列に変換
+  for (var i = 0; i < stylist_info.stylist.length; i++) {
+    var menu_ids = stylist_info.stylist[i].t_menu_t_menu_id.split(',');
+    var menu_name = new Array();
+    for (var j = 0; j < menu_ids.length; j++) {
+      menu_name.push(services[menu_ids[j]]);
+    }
+    stylist_info.stylist[i].t_menu_t_menu_name = menu_name.join(',');
+  }
 
   // MysqlのDATETIME型から年月日に変換する
   var ymd = getYearMonthDayByDateTime(stylist_info.stylist[0].t_stylist_birth);
@@ -371,5 +416,8 @@ $(function(){
   component_stylist_special_menu.setState(stylist_info.stylist[0]);
   component_stylist_message.setState(stylist_info.stylist[0]);
   component_stylist_image_path.setState(stylist_info.stylist[0]);
+
+  // アルバム一覧
+  component_stylist_list.setState({"stylist_list":stylist_info.stylist});
 
 });
