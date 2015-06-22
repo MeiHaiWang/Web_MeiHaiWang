@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
+import business.dao.SalonDao;
 import business.dao.UserDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
@@ -132,8 +133,8 @@ public class SetSalonInfoService {
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
-				UserDao userDao = new UserDao();
-				result = userDao.setSalonInfo(
+				SalonDao salonDao = new SalonDao();
+				result = salonDao.setSalonInfo(
 						dbConnection,
 						salonId,
 					    t_hairSalonMaster_name,

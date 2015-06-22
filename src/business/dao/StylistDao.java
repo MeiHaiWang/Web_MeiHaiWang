@@ -3,6 +3,9 @@ package business.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +18,7 @@ import java.util.Map.Entry;
 import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.StylistInfo;
+import common.model.UserInfo;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
@@ -390,6 +394,97 @@ public class StylistDao {
 		
 		
 
+	}
+
+	public int  setStylistInfoForMaster(DBConnection dbConnection, int salonId,
+			StylistInfo stylistInfo) {
+		int stylistId = -1;
+
+		boolean result = false;
+		
+		/**
+		 * stylistId からstylist情報があるかどうか確認。
+		 * idがテーブルに存在したらx
+		 * idが存在しなければinsertする
+		 */
+
+		/**
+		 * SQL 例:
+		 * 
+		 * SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = 1
+		 * 
+		 * INSERT INTO `MEIHAIWAN_TEST`.`t_stylist` (`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, `t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, `t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, `t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, `t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('
+		 * 10', 'name', '1', NULL, NULL, 'imagePath', 'position', 'message', '2', 'sp', NULL, NULL, 'mail.com', '090-', '2015-06-15 00:00:00', NULL, NULL, NULL, '0', '1', NULL, NULL);
+		 * 
+		*/
+		
+		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
+		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_stylist` ("
+				+ "`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, "
+				+ "`t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, "
+				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
+				+ "`t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, "
+				+ "`t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, "
+				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('";
+		String sql2 = "', '";
+		String sql3 = "NULL";
+		String sql4 = "0";
+		String sql_end = "');";
+
+		Statement statement = dbConnection.getStatement();
+		
+		for(int i=1; i<Integer.MAX_VALUE; i++){
+			try {
+				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+				if(!rs.next()){
+					stylistId = i;
+					break;
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+		//date '2015-06-03 00:00:00' format sample.
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(stylistInfo.getBirth());
+		
+		String sql = sql1 +stylistId + sql2
+				+ stylistInfo.getStylistName() + sql2
+				+ stylistInfo.getStylistGender()  + sql2
+				+ sql3 + sql2 //detail
+				+ sql4 + sql2 //userId
+				+ stylistInfo.getStylistImagePath()  + sql2
+				+ stylistInfo.getPosition()  + sql2
+				+ stylistInfo.getStylistMessage()  + sql2
+				+ stylistInfo.getStylistYearsNumber().charAt(0) + sql2
+				+ stylistInfo.getSpecialMenu() + sql2
+				+ sql4 + sql2 //goodNum
+				+ sql4 + sql2 //viewNum
+				+ stylistInfo.getMail() + sql2
+				+ stylistInfo.getPhoneNumber() + sql2
+				+ birth + sql2
+				+ sql3 + sql2 //MENU
+				+ sql4 + sql2 //hairStyleId
+				+ salonId + sql2 //salonId
+				+ sql4 + sql2 //favorite
+				+ sql4 + sql2 //isNetReserv
+				+ sql4 + sql2 //search
+				+ sql4 //areaId
+				+ sql_end;
+
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return stylistId;
 	}
 	
 	
