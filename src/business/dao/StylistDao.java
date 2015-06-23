@@ -486,6 +486,110 @@ public class StylistDao {
 	
 		return stylistId;
 	}
+
+	public boolean setStylistMenuForMaster(DBConnection dbConnection,
+			String t_stylist_Id, String t_menu_t_menu_id) {
+		boolean result = false;
+		
+		/**
+		 * stylistId からstylist情報があるかどうか確認。
+		 * idがテーブルに存在したらupdate
+		 * idが存在しなければx
+		 */
+
+		/**
+		 * SQL 例:
+		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 13;
+		 * 
+		*/
+		
+		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '";
+		String sql2 = "' WHERE `t_stylist`.`t_stylist_Id` = ";
+		String sql3 = ";";
+		Statement statement = dbConnection.getStatement();
+		
+		String sql = sql1 + t_menu_t_menu_id + sql2 + t_stylist_Id + sql3;
+
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
+
+	public boolean DeleteStylistMenuForMaster(DBConnection dbConnection,
+			String t_stylist_Id) {
+		boolean result = false;
+		
+		/**
+		 * stylistId からstylist情報があるかどうか確認。
+		 * idがテーブルに存在したらupdate
+		 * idが存在しなければx
+		 */
+
+		/**
+		 * SQL 例:
+		 *UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = 13;
+		 * 
+		*/
+		
+		String sql = "UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = ";
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql + t_stylist_Id);
+			if(result_int > 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
+	
+	public boolean DeleteStylistInfoForMaster(DBConnection dbConnection,
+			String t_stylist_Id) {
+			boolean result = false;
+			
+			/**
+			 * stylistId からstylist情報があるかどうか確認。
+			 * idがテーブルに存在したらupdate
+			 * idが存在しなければx
+			 */
+
+			/**
+			 * SQL 例:
+			 * DELETE FROM `MEIHAIWAN_TEST`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = 13
+			 * 
+			*/
+			
+			String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = ";
+			Statement statement = dbConnection.getStatement();
+			
+			//debug
+			System.out.println(sql);
+			
+			try {
+				int result_int = statement.executeUpdate(sql + t_stylist_Id);
+				System.out.println(result_int);
+				if(result_int > 0) result = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			return result;	
+		}
 	
 	
 }
