@@ -13,6 +13,7 @@ public class HairStyleInfo {
 	private int salonId = Integer.MIN_VALUE;
 	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
+	private int hairTypeId = -1;
 	public HairStyleInfo(){
 		
 	}
@@ -75,4 +76,13 @@ public class HairStyleInfo {
 	public int getIsGood(){
 		return isGood;
 	}	
+	
+	public void setHairTypeId(int hairTypeId){
+		this.hairTypeId = hairTypeId;
+	}
+	
+	public int getHairTypeId(){
+		return hairTypeId;
+	}
+
 }

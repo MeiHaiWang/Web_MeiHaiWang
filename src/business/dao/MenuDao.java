@@ -167,6 +167,39 @@ public class MenuDao {
 		}
 	
 		return menuId;
+	}
+
+	public boolean DeleteMenuInfoForMaster(DBConnection dbConnection,
+			String t_menu_menuId) {
+		boolean result = false;
+		
+		/**
+		 * stylistId からstylist情報があるかどうか確認。
+		 * idがテーブルに存在したらupdate
+		 * idが存在しなければx
+		 */
+
+		/**
+		 * SQL 例:
+		 *DELETE FROM `MEIHAIWAN_TEST`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = 2
+		 * 
+		*/
+		
+		String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = ";
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql + t_menu_menuId);
+			if(result_int > 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return result;
 	}	
 
 }

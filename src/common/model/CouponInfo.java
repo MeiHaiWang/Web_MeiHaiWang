@@ -12,6 +12,8 @@ public class CouponInfo {
 	private String deadLine = "";
 	private int isFirstFlag = Integer.MIN_VALUE;
 	private String useCondition ="";
+	private int couponKindId = -1;
+	private String imagePath = "";
 	
 	
 	public void setCouponId(int id){
@@ -91,5 +93,21 @@ public class CouponInfo {
 	
 	public String getUseCondition(){
 		return useCondition;
+	}
+
+	//for Master
+	public void setCouponKindId(int kindId){
+		this.couponKindId = kindId;
+	}
+
+	public int getCouponKindId() {
+		return couponKindId;
+	}
+
+	public void setImagePath(String imagePath){
+		this.imagePath = imagePath != null ? imagePath : "";
+	}
+	public String getImagePath() {
+		return imagePath;
 	}
 }

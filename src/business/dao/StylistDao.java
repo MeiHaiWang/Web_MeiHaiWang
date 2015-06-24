@@ -416,6 +416,9 @@ public class StylistDao {
 		 * INSERT INTO `MEIHAIWAN_TEST`.`t_stylist` (`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, `t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, `t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, `t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, `t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('
 		 * 10', 'name', '1', NULL, NULL, 'imagePath', 'position', 'message', '2', 'sp', NULL, NULL, 'mail.com', '090-', '2015-06-15 00:00:00', NULL, NULL, NULL, '0', '1', NULL, NULL);
 		 * 
+		 * SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = 1
+		 * UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '1,2,3,4' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 1;
+		 * 
 		*/
 		
 		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
@@ -430,6 +433,11 @@ public class StylistDao {
 		String sql3 = "NULL";
 		String sql4 = "0";
 		String sql_end = "');";
+		
+		String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
+		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
+		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+		String salon_sql2_after = ";";
 
 		Statement statement = dbConnection.getStatement();
 		
@@ -483,7 +491,34 @@ public class StylistDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
+		
+		//* stylist をsalon　に足さなきゃ
+		ResultSet rs;
+		String stylistIdList = "";
+		try {
+			rs = statement.executeQuery(salon_sql1+salonId);
+			while(rs.next()){
+				stylistIdList = rs.getString("t_hairSalonMaster_stylistId");
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if(stylistId != -1){
+			String salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;
+			System.out.println(salon_sql);
+			try {
+				int result_int = statement.executeUpdate(salon_sql);
+				if(result_int > 0) stylistId = -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				stylistId = -1;
+			}
+		}		
 		return stylistId;
 	}
 

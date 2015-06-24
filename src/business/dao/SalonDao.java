@@ -684,4 +684,23 @@ public class SalonDao {
 		
 		return result;
 	}
+
+	public List<Integer> getHairStyleIdList(DBConnection dbConnection,
+			int salonId) {
+		String sql ="SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		Statement statement = dbConnection.getStatement();
+		List<Integer> hairStyleIdList = new ArrayList<Integer>();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				int hairStyleId = rs.getInt("t_hairSalonMaster_hairStyleId");
+				//salonInfo.setSalonContactUserName(salon_contactUserName);
+				hairStyleIdList.add(hairStyleId);
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return hairStyleIdList;	
+	}
 }

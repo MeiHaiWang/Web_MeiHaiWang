@@ -196,4 +196,48 @@ public class HairStyleDao {
 
 	}
 
+	public List<HairStyleInfo> getHairStyleInfoForMaster(
+			DBConnection dbConnection, List<Integer> hairStyleIdList, int salonId) {
+		/**
+		 *     {
+			      album:[
+			        {
+			          t_hairStyle_id,
+			          t_hairSalonMaster_salonId,
+			          t_hairStyle_hairTypeId,
+			          t_hairStyle_name,
+			          t_hairStyle_stylistId,
+			          t_hairStyle_imagePath,
+			        },
+			      ]
+			    }
+		 */
+		
+		String sql = 
+				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_hairTypeId`, "
+				+ "`t_hairStyle_name`, `t_hairStyle_stylistId` FROM `t_hairStyle` WHERE t_hairStyle_id=";
+				
+		Statement statement = dbConnection.getStatement();
+		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
+
+		for(int hId : hairStyleIdList){
+			try {
+				ResultSet rs = statement.executeQuery(sql + hId);
+				while(rs.next()){
+					HairStyleInfo hairStyleInfo = new HairStyleInfo();
+					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_id"));
+					hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
+					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+					hairStyleInfo.setSalonId(salonId);
+					hairStyleInfo.setHairTypeId(rs.getInt("t_hairStyle_hairTypeId"));
+					hairStyleInfo.setHairStyleName(rs.getString("t_hairStyle_name"));
+					HairStyleInfoList.add(hairStyleInfo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return HairStyleInfoList;
+	}
+
 }
