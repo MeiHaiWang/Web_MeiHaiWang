@@ -77,7 +77,25 @@ public class SetSalonInfoService {
 				request.getParameter("t_area_id").toString() : null;
 		String t_hairSalonMaster_detailText = request.getParameter("t_hairSalonMaster_detailText") != null ?
 				request.getParameter("t_hairSalonMaster_detailText").toString() : null;
-		/*
+		String t_hairSalonMaster_openTime = request.getParameter("t_hairSalonMaster_openTime") != null ?
+				request.getParameter("t_hairSalonMaster_openTime").toString() : null;
+		String t_hairSalonMaster_closeTime = request.getParameter("t_hairSalonMaster_closeTime") != null ?
+				request.getParameter("t_hairSalonMaster_closeTime").toString() : null;
+		String t_hairSalonMaster_closeDay = request.getParameter("t_hairSalonMaster_closeDay") != null ?
+				request.getParameter("t_hairSalonMaster_closeDay").toString() : null;
+		String t_hairSalonMaster_creditAvailable = request.getParameter("t_hairSalonMaster_creditAvailable") != null ?
+				request.getParameter("t_hairSalonMaster_creditAvailable").toString() : null;
+		String t_hairSalonMaster_carParkAvailable = request.getParameter("t_hairSalonMaster_carParkAvailable") != null ?
+				request.getParameter("t_hairSalonMaster_carParkAvailable").toString() : null;
+		String t_hairSalonMaster_salonImagePath = request.getParameter("t_hairSalonMaster_salonImagePath");
+		String t_hairSalonMaster_japaneseAvailable = request.getParameter("t_hairSalonMaster_japaneseAvailable") != null ?
+				request.getParameter("t_hairSalonMaster_japaneseAvailable").toString() : null;
+				/*
+		List<String> salonImagePathList = request.getParameter("t_hairSalonMaster_salonImagePath") != null ?
+				Arrays.asList(request.getParameter("t_hairSalonMaster_salonImagePath").split(",")) : new ArrayList<String>();	
+				*/
+
+				/*
 		Date t_hairSalonMaster_openTime = null;
 		Date t_hairSalonMaster_closeTime = null;
 		try {
@@ -92,38 +110,23 @@ public class SetSalonInfoService {
 			e1.printStackTrace();
 		}
 		*/
-		String t_hairSalonMaster_openTime = request.getParameter("t_hairSalonMaster_openTime") != null ?
-				request.getParameter("t_hairSalonMaster_openTime").toString() : null;
-		String t_hairSalonMaster_closeTime = request.getParameter("t_hairSalonMaster_closeTime") != null ?
-				request.getParameter("t_hairSalonMaster_closeTime").toString() : null;
-		String t_hairSalonMaster_closeDay = request.getParameter("t_hairSalonMaster_closeDay") != null ?
-				request.getParameter("t_hairSalonMaster_closeDay").toString() : null;
-		String t_hairSalonMaster_creditAvailable = request.getParameter("t_hairSalonMaster_creditAvailable") != null ?
-				request.getParameter("t_hairSalonMaster_creditAvailable").toString() : null;
-		String t_hairSalonMaster_carParkAvailable = request.getParameter("t_hairSalonMaster_carParkAvailable") != null ?
-				request.getParameter("t_hairSalonMaster_carParkAvailable").toString() : null;
-				/*
-		List<String> salonImagePathList = request.getParameter("t_hairSalonMaster_salonImagePath") != null ?
-				Arrays.asList(request.getParameter("t_hairSalonMaster_salonImagePath").split(",")) : new ArrayList<String>();	
-				*/
-		String t_hairSalonMaster_salonImagePath = request.getParameter("t_hairSalonMaster_salonImagePath");
-		String t_hairSalonMaster_japaneseAvailable = request.getParameter("t_hairSalonMaster_japaneseAvailable") != null ?
-				request.getParameter("t_hairSalonMaster_japaneseAvailable").toString() : null;
-/*
- *      //salonInfo を渡したほうがきれいかも.
+				
+      //salonInfo を渡したほうがきれいかも.
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		salonInfo.setHairSalonId(salonId);
 		salonInfo.setHairSalonName(t_hairSalonMaster_name);
-		salonInfo.setAreaId(t_area_id);
+		int areaId = -1;
+		if(t_area_id != null) areaId = Integer.parseInt(t_area_id);
+		salonInfo.setSalonAreaId(areaId);
 		salonInfo.setSalonDetailText(t_hairSalonMaster_detailText);
 		salonInfo.setSalonOpenTime(t_hairSalonMaster_openTime);
 		salonInfo.setSalonCloseTime(t_hairSalonMaster_closeTime);
 		salonInfo.setSalonCloseDay(t_hairSalonMaster_closeDay);
-		salonInfo.setSalonCreditAvailable(t_hairSalonMaster_creditAvailable);
-		salonInfo.setSalonCarParkAvailable(t_hairSalonMaster_carParkAvailable);
-		salonInfo.setSalonImagePath(t_hairSalonMaster_salonImagePath);
-		salonInfo.setSalonAvailableCountries(t_hairSalonMaster_japaneseAvailable);
-*/
+		salonInfo.setSalonCreditAvailable(Boolean.getBoolean(t_hairSalonMaster_creditAvailable));
+		salonInfo.setSalonCarParkAvailable(Boolean.getBoolean(t_hairSalonMaster_carParkAvailable));
+		salonInfo.setHairSalonImagePath(t_hairSalonMaster_salonImagePath);
+		//salonInfo.setSalonAvailableCountries(t_hairSalonMaster_japaneseAvailable);
+		salonInfo.setSalonJapaneseAvailable(Boolean.getBoolean(t_hairSalonMaster_japaneseAvailable));
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -137,6 +140,8 @@ public class SetSalonInfoService {
 				result = salonDao.setSalonInfo(
 						dbConnection,
 						salonId,
+						salonInfo
+						/*
 					    t_hairSalonMaster_name,
 					    t_area_id,
 					    t_hairSalonMaster_detailText,
@@ -147,6 +152,7 @@ public class SetSalonInfoService {
 					    t_hairSalonMaster_carParkAvailable,
 					    t_hairSalonMaster_salonImagePath,
 					    t_hairSalonMaster_japaneseAvailable
+					    */
 						);
 				dbConnection.close();
 			}else{

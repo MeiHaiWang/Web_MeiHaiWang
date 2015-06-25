@@ -42,6 +42,8 @@ public class HairSalonInfo {
     private boolean carParkAvailable = false;
     private boolean japaneseAvailable = false;
     
+    private int areaId = -1;
+    
 	public HairSalonInfo(){
 		
 	}
@@ -278,7 +280,7 @@ public class HairSalonInfo {
 		this.japaneseAvailable = japaneseAvailable;
 	}
 	
-	public boolean getJapaneseParkAvailable(){
+	public boolean getJapaneseAvailable(){
 		return japaneseAvailable;
 	}
 
@@ -287,6 +289,13 @@ public class HairSalonInfo {
 	}
 	public String getSalonMapUrl(){
 		return salonMapUrl;
+	}
+
+	public void setSalonAreaId(int areaId) {
+		this.areaId = areaId;
+	}
+	public int getSalonAreaId(){
+		return areaId;
 	}
 
 }

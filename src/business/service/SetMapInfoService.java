@@ -41,8 +41,6 @@ public class SetMapInfoService {
 		HttpSession session = request.getSession(false);
 		String salonId_str = "";
 		int salonId = -1;
-		//TODO: test
-		salonId = 5;
 		
 		if (session != null){
 			salonId_str = (String)session.getAttribute("salonId");

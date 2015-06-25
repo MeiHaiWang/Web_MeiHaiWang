@@ -584,6 +584,8 @@ public class SalonDao {
 	public boolean setSalonInfo(
 			DBConnection dbConnection, 
 			int salonId,
+			HairSalonInfo salonInfo
+			/*
 		    String t_hairSalonMaster_name,
 		    String t_area_id,
 		    String t_hairSalonMaster_detailText,
@@ -594,6 +596,7 @@ public class SalonDao {
 		    String t_hairSalonMaster_carParkAvailable,
 		    String t_hairSalonImagePath,
 		    String t_hairSalonMaster_japaneseAvailable
+		    */
 			){
 
 		boolean result = false;
@@ -639,10 +642,16 @@ public class SalonDao {
 		Statement statement = dbConnection.getStatement();
 		UserInfo userInfo = null;
 		int japaneseAvailable = -1;
+		/*
 		if(t_hairSalonMaster_japaneseAvailable!=null && t_hairSalonMaster_japaneseAvailable.compareTo("true") == 0){
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
 		}
+		*/
+		if(salonInfo.getJapaneseAvailable()){
+			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
+		}
 
+		/*
 		//date '2015-06-03 00:00:00' format sample.
 		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -652,7 +661,8 @@ public class SalonDao {
 		} catch (ParseException e) {
 		    //失敗時の処理…
 		}
-		
+		*/
+		/*
 		String sql = sql2 + t_hairSalonMaster_name
 			 +sql3 + t_area_id
 			 +sql4 + t_hairSalonMaster_detailText
@@ -664,6 +674,18 @@ public class SalonDao {
 			 +sql10 + t_hairSalonImagePath
 			 +sql11 + japaneseAvailable
 			 +sql_end;
+			 */
+		String sql = sql2 + salonInfo.getHairSalonName()
+				 +sql3 + salonInfo.getSalonAreaId()
+				 +sql4 + salonInfo.getSalonDetailText()
+				 +sql5 + salonInfo.getSalonOpenTime()
+				 +sql6 + salonInfo.getSalonCloseTime()
+				 +sql7 + salonInfo.getSalonCloseDay()
+				 +sql8 + salonInfo.getSalonCreditAvailable()
+				 +sql9 + salonInfo.getSalonCarParkAvailable()
+				 +sql10 + salonInfo.getHairSalonImagePath()
+				 +sql11 + japaneseAvailable
+				 +sql_end;
 		//debug
 		System.out.println(sql);
 		

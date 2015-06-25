@@ -3,7 +3,10 @@ package business.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import common.model.HairStyleInfo;
@@ -295,8 +298,9 @@ public class HairStyleDao {
 			}
 		}
 		
+		Date oneDate = new Date(0);
+		DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 		String sql = sql1 +hairStyleId + sql2
-				+ hairStyleInfo.getHairStyleId() + sql2
 				+ hairStyleInfo.getHairStyleName()  + sql2
 				+ hairStyleInfo.getHairTypeId() +sql2
 				+ hairStyleInfo.getStylistId()  + sql2
@@ -304,7 +308,7 @@ public class HairStyleDao {
 				+ sql4 + sql2 
 				+ salonId + sql2
 				+ sql4 + sql2 
-				+ sql3 + sql2 				
+				+ sdf.format(oneDate) + sql2 				
 				+ hairStyleInfo.getHairStyleImagePath()
 				+ sql_end;
 
@@ -344,13 +348,14 @@ public class HairStyleDao {
 			System.out.println(salon_sql);
 			try {
 				int result_int = statement.executeUpdate(salon_sql);
-				if(result_int > 0) hairStyleId = -1;
+				if(result_int < 0) hairStyleId = -1;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				hairStyleId = -1;
 			}
 		}		
+		System.out.println(hairStyleId);
 		return hairStyleId;
 	}
 
