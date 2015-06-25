@@ -26,6 +26,7 @@ public class HairSalonInfo {
     private Double salonLatitude = Double.MIN_VALUE;
     private Double salonLongitude = Double.MIN_VALUE;
     private String salonMapInfo = "";
+    private String salonMapUrl = "";
     private String salonMapImagePath = "";
     private int salonReviewId = Integer.MIN_VALUE;
     private String salonContactName = "";
@@ -279,6 +280,13 @@ public class HairSalonInfo {
 	
 	public boolean getJapaneseParkAvailable(){
 		return japaneseAvailable;
+	}
+
+	public void setSalonMapUrl(String mapUrl) {
+		this.salonMapUrl = mapUrl != null ? mapUrl : "";		
+	}
+	public String getSalonMapUrl(){
+		return salonMapUrl;
 	}
 
 }

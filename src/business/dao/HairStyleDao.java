@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.model.HairStyleInfo;
-import common.model.HairStyleInfo;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
@@ -239,5 +238,154 @@ public class HairStyleDao {
 		}
 		return HairStyleInfoList;
 	}
+
+	
+	public int setAlbumInfoForMaster(DBConnection dbConnection, int salonId,
+			HairStyleInfo hairStyleInfo) throws SQLException{
+		
+		int hairStyleId = -1;
+		boolean result = false;
+		
+		/**
+		 * hairStyleId からhairStyle情報があるかどうか確認。
+		 * idがテーブルに存在したらx
+		 * idが存在しなければinsertする
+		 * 
+		    {
+		      t_hairSalonMaster_salonId,
+		      t_hairStyle_hairTypeId,
+		      t_hairStyle_name,
+		      t_hairStyle_stylistId,
+		      t_hairStyle_imagePath,
+		    }
+		 */
+
+		/**
+		 * SQL 例:
+		 * 
+		 * SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = 1
+		 * 
+			INSERT INTO `MEIHAIWAN_TEST`.`t_hairStyle` (`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, 
+			`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_stylistId`, `t_hairStyle_areaId`, 
+			`t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_updateDate`, `t_hairStyle_favoriteNumber`) VALUES ('
+			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');		
+		*/
+		
+		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = "; // hairStyleId 
+		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_hairStyle` ("
+				+ "`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
+				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
+				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`) VALUES ('";
+		String sql2 = "', '";
+		String sql3 = "NULL";
+		String sql4 = "0";
+		String sql_end = "');";
+
+		Statement statement = dbConnection.getStatement();
+		
+		for(int i=1; i<Integer.MAX_VALUE; i++){
+			try {
+				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+				if(!rs.next()){
+					hairStyleId = i;
+					break;
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+		String sql = sql1 +hairStyleId + sql2
+				+ hairStyleInfo.getHairStyleId() + sql2
+				+ hairStyleInfo.getHairStyleName()  + sql2
+				+ hairStyleInfo.getHairTypeId() +sql2
+				+ hairStyleInfo.getStylistId()  + sql2
+				+ sql4 + sql2 
+				+ sql4 + sql2 
+				+ salonId + sql2
+				+ sql4 + sql2 
+				+ sql3 + sql2 				
+				+ hairStyleInfo.getHairStyleImagePath()
+				+ sql_end;
+
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+						// TODO Auto-generated catch block
+			e.printStackTrace();
+			hairStyleId = -1;
+		}
+	
+		//* hairStyle をsalon　に足さなきゃ
+		String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
+		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
+		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+		String salon_sql2_after = ";";
+		
+		ResultSet rs;
+		String hairStyleIdList = "";
+		try {
+			rs = statement.executeQuery(salon_sql1+salonId);
+			while(rs.next()){
+				hairStyleIdList = rs.getString("t_hairSalonMaster_hairStyleId");
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if(hairStyleId != -1){
+			String salon_sql =  salon_sql2_before + hairStyleIdList + "," + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;
+			System.out.println(salon_sql);
+			try {
+				int result_int = statement.executeUpdate(salon_sql);
+				if(result_int > 0) hairStyleId = -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				hairStyleId = -1;
+			}
+		}		
+		return hairStyleId;
+	}
+
+	public boolean DeleteHairStyleInfoForMaster(DBConnection dbConnection,
+			String t_hairStyle_Id) {
+		boolean result = false;
+		
+		/**
+		 * stylistId からstylist情報があるかどうか確認。
+		 * idがテーブルに存在したらupdate
+		 * idが存在しなければx
+		 */
+
+		/**
+		 * SQL 例:
+		 *DELETE FROM `MEIHAIWAN_TEST`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_hairStyleid` = 2
+		 * 
+		*/
+		
+		String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_id` = ";
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql + t_hairStyle_Id);
+			if(result_int > 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return result;
+	}	
+
 
 }

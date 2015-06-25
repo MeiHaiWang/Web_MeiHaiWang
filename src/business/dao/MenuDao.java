@@ -166,6 +166,37 @@ public class MenuDao {
 			e.printStackTrace();
 		}
 	
+		//* menu をsalon　に足さなきゃ
+		String salon_sql1 = "SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
+		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_menuId` = '";
+		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+		String salon_sql2_after = ";";
+		
+		ResultSet rs;
+		String menuIdList = "";
+		try {
+			rs = statement.executeQuery(salon_sql1+salonId);
+			while(rs.next()){
+				menuIdList = rs.getString("t_hairSalonMaster_menuId");
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if(menuId != -1){
+			String salon_sql =  salon_sql2_before + menuIdList + "," + menuId + salon_sql2_middle + salonId + salon_sql2_after;
+			System.out.println(salon_sql);
+			try {
+				int result_int = statement.executeUpdate(salon_sql);
+				if(result_int > 0) menuId = -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				menuId = -1;
+			}
+		}		
 		return menuId;
 	}
 

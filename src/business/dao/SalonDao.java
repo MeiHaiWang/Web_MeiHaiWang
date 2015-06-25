@@ -130,6 +130,7 @@ public class SalonDao {
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
+				salonInfo.setSalonMapUrl(rs.getString("t_hairSalonMaster_mapUrl"));
 				salonInfo.setSalonMapImagePath(rs.getString("t_hairSalonMaster_mapImagePath"));
 				/*
 				salonInfo.setSalonLatitude(rs.getDouble("t_hairSalonMaster_mapLatitude"));
@@ -675,7 +676,7 @@ public class SalonDao {
 			}else{
 				//salon がtableにある = update
 				int result_int = statement.executeUpdate(sql);
-				if(result_int >= 0) result = true;
+				if(result_int > 0) result = true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -702,5 +703,32 @@ public class SalonDao {
 			e.printStackTrace();
 		}
 		return hairStyleIdList;	
+	}
+
+	public boolean setSalonMapInfo(DBConnection dbConnection, int salonId,
+			String t_hairSalonMaster_mapUrl,
+			String t_hairSalonMaster_mapImagePath) {
+		/**
+		 *     UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '
+		 *     mapUrl', `t_hairSalonMaster_mapImagePath` = 'image' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 7;
+		 */
+
+		boolean result = false;
+		String sql1 ="UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '"; 		
+		String sql2 ="', `t_hairSalonMaster_mapImagePath` = '"; 		
+		String sql3 ="' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "; 		
+		String sql4 =";";
+		Statement statement = dbConnection.getStatement();
+		
+		String sql = sql1 + t_hairSalonMaster_mapUrl + sql2 + t_hairSalonMaster_mapImagePath + sql3 + salonId + sql4;
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;	
 	}
 }
