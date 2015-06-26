@@ -5,9 +5,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ import business.dao.SalonDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
+import common.util.PropertiesManager;
 
 public class UploadImageService {
 	@SuppressWarnings({ "unchecked", "unused" })
@@ -60,7 +63,21 @@ public class UploadImageService {
           List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
           // アップロードパス取得
-          String upPath = servletContext.getRealPath("/") + "upload/";
+          //String upPath = servletContext.getRealPath("/") + "upload/";
+          
+	  		InputStream inStream;
+			Properties config_ = new Properties();	
+			String configPath = "config.properties";
+			String[] configPaths = new String[]{configPath};
+	  		for(String confPath :configPaths){
+	  			inStream = PropertiesManager.class.getClassLoader().getResourceAsStream(confPath);
+	  			config_.load(inStream);
+	  		}
+			String imageurl = config_.getProperty("imagepath");
+          String upPath = imageurl;
+          //debug 
+          System.out.println(upPath);
+          
           byte[] buff = new byte[1024];
           int size = 0;
      
