@@ -14,7 +14,7 @@ var getSessionInfo = (function(){
 
 // サロン情報を取得する関数
 var getSalonInfo = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getSalonInfo",
@@ -64,9 +64,49 @@ var getAreasByCountryName = (function(country_area_info, country_name){
     };
 })();
 
+// スタッフ情報を取得する関数
+var getStaffInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getStaffInfo",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// MysqlのDateTime型から年月日のオブジェクトを取得する関数
+var getYearMonthDayByDateTime = (function(date_time){
+    return function(date_time) {
+        var tmp = date_time.split(' ');
+        var tmp_ymd = tmp[0].split('-');
+        return {'year': tmp_ymd[0], 'month': tmp_ymd[1], 'day': tmp_ymd[2]};
+    };
+})();
+
+// サービス情報を取得する関数
+var getServiceList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: "./getServiceList",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+
 // サービス情報を取得する関数
 var getMenuInfo = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getMenuInfo",
@@ -95,7 +135,7 @@ var getServiceCategoryList = (function(){
 
 // クーポン情報を取得する関数
 var getCouponInfo = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getCouponInfo",
@@ -110,7 +150,7 @@ var getCouponInfo = (function(data){
 
 // アルバム情報を取得する関数
 var getAlbumInfo = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getAlbumInfo",
@@ -125,7 +165,7 @@ var getAlbumInfo = (function(data){
 
 // スタイリスト一覧情報を取得する関数
 var getStylistList = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getStylistList",
@@ -154,7 +194,7 @@ var getHairTypeList = (function(){
 
 // 地図情報を取得する関数
 var getMapInfo = (function(data){
-    return function() {
+    return function(data) {
         var response = $.ajax({
             type: "POST",
             url: "./getMapInfo",
