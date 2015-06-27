@@ -355,6 +355,63 @@ $(function(){
     }
   });
 
+  var StylistServiceMapingName = React.createClass({displayName: "StylistServiceMapingName",
+    getDefaultProps:function() {
+      return {
+        name: ['']
+      };
+    },
+    getInitialState:function() {
+      return {
+        t_stylist_name: '',
+      };
+    },
+    onChangeSelectValue:function(e) {
+      this.setState({t_stylist_name: e.target.value});
+    },
+    render:function() {
+      var options = this.props.name.map(function(name) {
+        return React.createElement("option", {value: name.t_stylist_name}, name.t_stylist_name);
+      });
+      return (
+        React.createElement("div", null, 
+          React.createElement("select", {value: this.state.t_stylist_name, onChange: this.onChangeSelectValue}, 
+            options
+          )
+        )
+      );
+    }
+  });
+
+  var StylistServiceMapingService = React.createClass({displayName: "StylistServiceMapingService",
+    getDefaultProps:function() {
+      return {
+        services: ['']
+      };
+    },
+    getInitialState:function() {
+      return {
+        t_menu_name: '',
+      };
+    },
+    onChangeSelectValue:function(e) {
+      this.setState({t_menu_name: e.target.value});
+    },
+    render:function() {
+      var options = this.props.services.map(function(services) {
+        return React.createElement("option", {value: services.t_menu_menuId}, services.t_menu_name);
+      });
+      return (
+        React.createElement("div", null, 
+          React.createElement("select", {value: this.state.t_menu_menuId, onChange: this.onChangeSelectValue}, 
+            options
+          )
+        )
+      );
+    }
+  });
+
+
   /*
     Component Render
   */
@@ -372,6 +429,8 @@ $(function(){
   var component_stylist_message = React.render(React.createElement(StylistMessage, null), document.getElementById('stylist_message'));
   var component_stylist_image_path = React.render(React.createElement(StylistImagePath, null), document.getElementById('stylist_image_path'));
   var component_stylist_list = React.render(React.createElement(StylistList, null), document.getElementById('stylist_list_info'));
+  var component_stylist_service_maping_name = React.render(React.createElement(StylistServiceMapingName, null), document.getElementById('stylist_service_maping_name'));
+  var component_stylist_service_maping_service = React.render(React.createElement(StylistServiceMapingService, null), document.getElementById('stylist_service_maping_service'));
 
 
   /*
@@ -420,4 +479,14 @@ $(function(){
   // アルバム一覧
   component_stylist_list.setState({"stylist_list":stylist_info.stylist});
 
+
+  // service maping
+  component_stylist_service_maping_name.setProps({name: stylist_info.stylist});
+  component_stylist_service_maping_service.setProps({services: service_list.menu});
+
+
+  // 編集ボタン押下時
+  $('.edit').on('click', function() {
+
+  });
 });

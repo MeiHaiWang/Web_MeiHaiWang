@@ -355,6 +355,63 @@ $(function(){
     }
   });
 
+  var StylistServiceMapingName = React.createClass({
+    getDefaultProps() {
+      return {
+        name: ['']
+      };
+    },
+    getInitialState() {
+      return {
+        t_stylist_name: '',
+      };
+    },
+    onChangeSelectValue(e) {
+      this.setState({t_stylist_name: e.target.value});
+    },
+    render() {
+      var options = this.props.name.map(function(name) {
+        return <option value={name.t_stylist_name}>{name.t_stylist_name}</option>;
+      });
+      return (
+        <div>
+          <select value={this.state.t_stylist_name} onChange={this.onChangeSelectValue}>
+            {options}
+          </select>
+        </div>
+      );
+    }
+  });
+
+  var StylistServiceMapingService = React.createClass({
+    getDefaultProps() {
+      return {
+        services: ['']
+      };
+    },
+    getInitialState() {
+      return {
+        t_menu_name: '',
+      };
+    },
+    onChangeSelectValue(e) {
+      this.setState({t_menu_name: e.target.value});
+    },
+    render() {
+      var options = this.props.services.map(function(services) {
+        return <option value={services.t_menu_menuId}>{services.t_menu_name}</option>;
+      });
+      return (
+        <div>
+          <select value={this.state.t_menu_menuId} onChange={this.onChangeSelectValue}>
+            {options}
+          </select>
+        </div>
+      );
+    }
+  });
+
+
   /*
     Component Render
   */
@@ -372,6 +429,8 @@ $(function(){
   var component_stylist_message = React.render(<StylistMessage />, document.getElementById('stylist_message'));
   var component_stylist_image_path = React.render(<StylistImagePath />, document.getElementById('stylist_image_path'));
   var component_stylist_list = React.render(<StylistList />, document.getElementById('stylist_list_info'));
+  var component_stylist_service_maping_name = React.render(<StylistServiceMapingName />, document.getElementById('stylist_service_maping_name'));
+  var component_stylist_service_maping_service = React.render(<StylistServiceMapingService />, document.getElementById('stylist_service_maping_service'));
 
 
   /*
@@ -420,4 +479,14 @@ $(function(){
   // アルバム一覧
   component_stylist_list.setState({"stylist_list":stylist_info.stylist});
 
+
+  // service maping
+  component_stylist_service_maping_name.setProps({name: stylist_info.stylist});
+  component_stylist_service_maping_service.setProps({services: service_list.menu});
+
+
+  // 編集ボタン押下時
+  $('.edit').on('click', function() {
+
+  });
 });
