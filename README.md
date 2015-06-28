@@ -23,6 +23,14 @@ $ npm install
 $ grunt
 ```
 
+## watch at develop
+
+* grunt
+
+```sh
+$ grunt watch
+```
+
 * React.js
 
 ```sh
