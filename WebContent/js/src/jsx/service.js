@@ -130,6 +130,17 @@ $(function(){
     }
   });
 
+  // set state to component
+  function componentSetState(menu) {
+    // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+    component_service_category.setState(menu);
+    component_service_category.setProps({category: service_category_info.category});
+    component_service_name.setState(menu);
+    component_service_detail_text.setState(menu);
+    component_service_price.setState(menu);
+    component_service_image_path.setState(menu);
+  }
+
 
   /*
     List
@@ -163,14 +174,8 @@ $(function(){
   var session_info = getSessionInfo();
   var service_info = getMenuInfo(session_info.t_hairSalonMaster_salonId);
 
-
-  // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-  component_service_category.setState(service_info.menu[0]);
-  component_service_category.setProps({category: service_category_info.category});
-  component_service_name.setState(service_info.menu[0]);
-  component_service_detail_text.setState(service_info.menu[0]);
-  component_service_price.setState(service_info.menu[0]);
-  component_service_image_path.setState(service_info.menu[0]);
+  // set component
+  componentSetState(service_info.menu[0]);
 
   // メニュー一覧
   component_service_list.setState({"service_list":service_info.menu});
@@ -196,6 +201,28 @@ $(function(){
     }
     else {
       alert('Regist Failed');
+    }
+  });
+
+  // 編集ボタン押下時
+  $('.edit').on('click', function() {
+    // component set state
+    var id = $(".edit").index(this);
+    componentSetState(service_info.menu[id]);
+  });
+
+  // 削除ボタン押下時
+  $('.delete').on('click', function() {
+    var id = $(".delete").index(this);
+    var data = {t_menu_menuId: service_info.menu[id].t_menu_menuId};
+
+    var result = deleteMenuInfo(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
     }
   });
 

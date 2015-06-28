@@ -194,6 +194,21 @@ var setMenuInfo = (function(data){
     };
 })();
 
+// アルバム情報を削除する関数
+var deleteMenuInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteMenuInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // サービスカテゴリ一覧を取得する関数
 var getServiceCategoryList = (function(){
     return function() {
