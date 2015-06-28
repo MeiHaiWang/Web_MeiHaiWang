@@ -192,6 +192,35 @@ var getCouponInfo = (function(data){
     };
 })();
 
+// クーポン情報を登録する関数
+var setCouponInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetCouponInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// クーポン種別一覧を取得する関数
+var getCouponKindList = (function(){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "GetCouponKindListAction.java",
+            async: false,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // アルバム情報を取得する関数
 var getAlbumInfo = (function(data){
     return function(data) {
