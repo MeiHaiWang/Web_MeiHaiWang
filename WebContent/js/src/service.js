@@ -175,4 +175,28 @@ $(function(){
   // メニュー一覧
   component_service_list.setState({"service_list":service_info.menu});
 
+
+  /*
+    Button Handler
+  */
+  // 登録ボタン押下時
+  $('#service_regist_button').on('click', function() {
+    var data = {
+      t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
+      t_menu_categoryId:         component_service_category.state.t_menu_categoryId,
+      t_menu_name:               component_service_name.state.t_menu_name,
+      t_menu_price:              component_service_price.state.t_menu_price,
+      t_menu_detailText:         component_service_detail_text.state.t_menu_detailText,
+      t_menu_imagePath:          component_service_image_path.state.t_menu_imagePath,
+    }
+    var result = setMenuInfo(data);
+    if (result.result == "true") {
+      alert('Regist Success');
+      window.location.reload();
+    }
+    else {
+      alert('Regist Failed');
+    }
+  });
+
 });
