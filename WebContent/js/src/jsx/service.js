@@ -146,6 +146,8 @@ $(function(){
     List
   */
   var service_category_info = getServiceCategoryList();
+  sanitaize.decode(service_category_info);
+
   // categoryを参照しやすい形に変換
   var categorys = new Array();
   for (var i = 0; i < service_category_info.category.length; i++) {
@@ -173,6 +175,7 @@ $(function(){
   // セッションIDからサービス情報を取得する
   var session_info = getSessionInfo();
   var service_info = getMenuInfo(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(service_info);
 
   // set component
   componentSetState(service_info.menu[0]);
@@ -194,6 +197,10 @@ $(function(){
       t_menu_detailText:         component_service_detail_text.state.t_menu_detailText,
       t_menu_imagePath:          component_service_image_path.state.t_menu_imagePath,
     }
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setMenuInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
@@ -215,6 +222,9 @@ $(function(){
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
     var data = {t_menu_menuId: service_info.menu[id].t_menu_menuId};
+
+    // サニタイズ
+    sanitaize.encode(data);
 
     var result = deleteMenuInfo(data);
     if (result.result == "true") {

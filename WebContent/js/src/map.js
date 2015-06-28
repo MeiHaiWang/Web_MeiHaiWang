@@ -51,6 +51,7 @@ $(function(){
   // セッションIDから地図情報を取得する
   var session_info = getSessionInfo();
   var map_info = getMapInfo(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(map_info);
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_map_url.setState(map_info);
@@ -66,6 +67,10 @@ $(function(){
       t_hairSalonMaster_mapUrl:       component_map_url.state.t_hairSalonMaster_mapUrl,
       t_hairSalonMaster_mapImagePath: component_map_image_path.state.t_hairSalonMaster_mapImagePath,
     }
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setMapInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
