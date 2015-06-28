@@ -66,11 +66,11 @@ dt#coupon_list_area + dd {
   border: solid 1px #BAD8D9;
 }
 
-div.coupon_image_path {
+img.coupon_image_img {
   position: relative;
   background-color: white;
   width: 180px;
-  height: 250px;
+  height: 200px;
   color: #CCCCCC;
   text-align: center;
 }
@@ -101,4 +101,13 @@ div.coupon_image_path {
   background-color: #fafafa;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+}
+
+#coupon_list_info img {
+  width: 180px;
+  height: 200px;
+}
+
+.edit, .delete {
+  cursor: pointer;
 }

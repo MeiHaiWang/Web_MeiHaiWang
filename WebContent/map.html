@@ -63,7 +63,7 @@
                     アルバム管理
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="./map.html">
                     <span class="icon">
                         <i class="glyphicon glyphicon-map-marker"></i>
@@ -82,7 +82,7 @@
         <div class="navbar-header">
             <ul class="nav navbar-nav">
                 <li class="ml-sm mr-n-xs hidden-xs">
-                    <a href="#">
+                    <a id="reload_button" href="#">
                         <i class="fa fa-refresh fa-lg"></i>
                     </a>
                 </li>
@@ -119,7 +119,7 @@
                                     <label for="map_url">Baidu API(リンク)：</label>
                                 </td>
                                 <td>
-                                    <input id="map_url" type="text" size="20">
+                                    <div id="map_url"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -132,7 +132,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <div class="map_image_path">No Picture</div>
+                                    <div id="map_image_path"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -178,9 +178,14 @@
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
+<!-- react -->
+<script src="js/react.min.js"></script>
+<script src="js/JSXTransformer.js"></script>
+
 <!-- common app js -->
 <script src="js/app.min.js"></script>
 <script src="js/common.min.js"></script>
+<script src="js/map.min.js"></script>
 
 <!-- common app js -->
 <script src="js/settings.js"></script>

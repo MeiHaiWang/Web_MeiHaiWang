@@ -31,11 +31,19 @@ td.salon_hyphen {
   text-align: center;
 }
 
-div.salon_image_path {
+td#salon_image_path {
+  padding: 5px 0px;
+}
+
+div.salon_image_path_div {
   position: relative;
-  background-color: white;
-  width: 100%;
+  width: 200px;
   height: 250px;
-  color: #CCCCCC;
-  text-align: center;
+  padding: 5px 5px;
+  display: inline-block;
+}
+
+.salon_image_img {
+  width: 190px;
+  height: 250px;
 }

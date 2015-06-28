@@ -66,11 +66,11 @@ dt#service_list_area + dd {
   border: solid 1px #BAD8D9;
 }
 
-div.service_image_path {
+img.service_image_img {
   position: relative;
   background-color: white;
   width: 180px;
-  height: 250px;
+  height: 200px;
   color: #CCCCCC;
   text-align: center;
 }
@@ -96,9 +96,18 @@ div.service_image_path {
   border-bottom: 1px solid #ccc;
 }
 
-#service_list_info td{
+#service_list_info td {
   padding: 4px;
   background-color: #fafafa;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+}
+
+#service_list_info img {
+  width: 180px;
+  height: 200px;
+}
+
+.edit, .delete {
+  cursor: pointer;
 }
