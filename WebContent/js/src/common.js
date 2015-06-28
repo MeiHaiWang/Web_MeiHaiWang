@@ -207,6 +207,21 @@ var getAlbumInfo = (function(data){
     };
 })();
 
+// アルバム情報を登録する関数
+var setAlbumInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetAlbumInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // スタイリスト一覧情報を取得する関数
 var getStylistList = (function(data){
     return function(data) {
