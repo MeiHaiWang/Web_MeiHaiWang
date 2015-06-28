@@ -148,6 +148,21 @@ var getMenuInfo = (function(data){
     };
 })();
 
+// サービス情報を登録する関数
+var setMenuInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetMenuInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // サービスカテゴリ一覧を取得する関数
 var getServiceCategoryList = (function(){
     return function() {
