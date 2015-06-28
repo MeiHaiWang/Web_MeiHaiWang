@@ -333,11 +333,11 @@ $(function(){
     getInitialState:function() {
       return {
         stylist_list: [{
-          "t_stylist_Id": "2",
-          "t_stylist_name": "スタイリスト2",
-          "t_stylist_position": "チーフ",
-          "t_stylist_phoneNumber": "000-1234-5678",
-          "t_menu_t_menu_id": ["1", "2"]}]
+          "t_stylist_Id": "",
+          "t_stylist_name": "",
+          "t_stylist_position": "",
+          "t_stylist_phoneNumber": "",
+          "t_menu_t_menu_id": [""]}]
       };
     },
     render:function() {
@@ -358,24 +358,24 @@ $(function(){
   var StylistServiceMapingName = React.createClass({displayName: "StylistServiceMapingName",
     getDefaultProps:function() {
       return {
-        name: ['']
+        stylists: ['']
       };
     },
     getInitialState:function() {
       return {
-        t_stylist_name: '',
+        t_stylist_Id: '',
       };
     },
     onChangeSelectValue:function(e) {
-      this.setState({t_stylist_name: e.target.value});
+      this.setState({t_stylist_Id: e.target.value});
     },
     render:function() {
-      var options = this.props.name.map(function(name) {
-        return React.createElement("option", {value: name.t_stylist_name}, name.t_stylist_name);
+      var options = this.props.stylists.map(function(stylist) {
+        return React.createElement("option", {value: stylist.t_stylist_Id}, stylist.t_stylist_name);
       });
       return (
         React.createElement("div", null, 
-          React.createElement("select", {value: this.state.t_stylist_name, onChange: this.onChangeSelectValue}, 
+          React.createElement("select", {value: this.state.t_stylist_Id, onChange: this.onChangeSelectValue}, 
             options
           )
         )
@@ -391,11 +391,11 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_menu_name: '',
+        t_menu_menuId: '',
       };
     },
     onChangeSelectValue:function(e) {
-      this.setState({t_menu_name: e.target.value});
+      this.setState({t_menu_menuId: e.target.value});
     },
     render:function() {
       var options = this.props.services.map(function(services) {
@@ -410,6 +410,26 @@ $(function(){
       );
     }
   });
+
+  // set state to component
+  function componentSetState(stylist) {
+    // MysqlのDATETIME型から年月日に変換する
+    var ymd = getYearMonthDayByDateTime(stylist.t_stylist_birth);
+
+    // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+    component_stylist_name.setState(stylist);
+    component_stylist_sex.setState(stylist);
+    component_stylist_birth_year.setState(ymd);
+    component_stylist_birth_month.setState(ymd);
+    component_stylist_birth_day.setState(ymd);
+    component_stylist_phone_number.setState(stylist);
+    component_stylist_position.setState(stylist);
+    component_stylist_mail.setState(stylist);
+    component_stylist_experience_year.setState(stylist);
+    component_stylist_special_menu.setState(stylist);
+    component_stylist_message.setState(stylist);
+    component_stylist_image_path.setState(stylist);
+  }
 
 
   /*
@@ -459,30 +479,18 @@ $(function(){
     stylist_info.stylist[i].t_menu_t_menu_name = menu_name.join(',');
   }
 
-  // MysqlのDATETIME型から年月日に変換する
-  var ymd = getYearMonthDayByDateTime(stylist_info.stylist[0].t_stylist_birth);
-
-  // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-  component_stylist_name.setState(stylist_info.stylist[0]);
-  component_stylist_sex.setState(stylist_info.stylist[0]);
-  component_stylist_birth_year.setState(ymd);
-  component_stylist_birth_month.setState(ymd);
-  component_stylist_birth_day.setState(ymd);
-  component_stylist_phone_number.setState(stylist_info.stylist[0]);
-  component_stylist_position.setState(stylist_info.stylist[0]);
-  component_stylist_mail.setState(stylist_info.stylist[0]);
-  component_stylist_experience_year.setState(stylist_info.stylist[0]);
-  component_stylist_special_menu.setState(stylist_info.stylist[0]);
-  component_stylist_message.setState(stylist_info.stylist[0]);
-  component_stylist_image_path.setState(stylist_info.stylist[0]);
+  // component set state
+  componentSetState(stylist_info.stylist[0]);
 
   // アルバム一覧
   component_stylist_list.setState({"stylist_list":stylist_info.stylist});
 
 
   // service maping
-  component_stylist_service_maping_name.setProps({name: stylist_info.stylist});
+  component_stylist_service_maping_name.setProps({stylists: stylist_info.stylist});
+  component_stylist_service_maping_name.setState(stylist_info.stylist[0]);
   component_stylist_service_maping_service.setProps({services: service_list.menu});
+  component_stylist_service_maping_service.setState(service_list.menu[0]);
 
 
   /*
@@ -490,9 +498,10 @@ $(function(){
   */
   // 登録ボタン押下時
   $('#stylist_regist_button').on('click', function() {
-    var birthday = component_stylist_birth_year.state.year +
-      component_stylist_birth_month.state.month +
-      component_stylist_birth_day.state.day;
+    var birthday =
+      component_stylist_birth_year.state.year   + '-' +
+      component_stylist_birth_month.state.month + '-' +
+      component_stylist_birth_day.state.day + '00:00:00';
     var data = {
       t_stylist_name:           component_stylist_name.state.t_stylist_name,
       t_stylist_sex:            component_stylist_sex.state.t_stylist_sex,
@@ -504,8 +513,8 @@ $(function(){
       t_stylist_experienceYear: component_stylist_experience_year.state.t_stylist_experienceYear,
       t_stylist_specialMenu:    component_stylist_special_menu.state.t_stylist_specialMenu,
       t_stylist_message:        component_stylist_message.state.t_stylist_message,
-    }
-    var result = setMapInfo(data);
+    };
+    var result = setStaffInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
       window.location.reload();
@@ -517,6 +526,80 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    // component set state
+    var id = $(".edit").index(this);
+    componentSetState(stylist_info.stylist[id]);
+  });
 
+  // 削除ボタン押下時
+  $('.delete').on('click', function() {
+    var id = $(".delete").index(this);
+    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
+
+    var result = deleteStaffInfo(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
+    }
+  });
+
+  // ServiceMaping登録ボタン押下時
+  $('#stylist_service_maping_regist_button').on('click', function() {
+
+    var id = $('#stylist_service_maping_name select').prop("selectedIndex");
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
+
+    // スタッフの対応可能サービス一覧を追加する
+    var menu_ids = stylist_info.stylist[id].t_menu_t_menu_id.split(',');
+    var regist_menu_id = component_stylist_service_maping_service.state.t_menu_menuId;
+    var menu_id = new Array();
+    for (var i = 0; i < menu_ids.length; i++) {
+      menu_id.push(menu_ids[i]);
+    }
+
+    // すでに登録されているサービスの場合はエラー
+    if (menu_id.indexOf(regist_menu_id) !== -1) {
+      alert('Already exists');
+    }
+    else {
+      menu_id.push(regist_menu_id);
+      menu_id = menu_id.join(',');
+
+      var data = {
+        t_stylist_Id:     stylist_id,
+        t_menu_t_menu_id: menu_id,
+      };
+
+      var result = setStaffMenu(data);
+      if (result.result == "true") {
+        alert('Regist Success');
+        window.location.reload();
+      }
+      else {
+        alert('Regist Failed');
+      }
+    }
+  });
+
+  // ServiceMaping削除ボタン押下時
+  $('#stylist_service_maping_delete_button').on('click', function() {
+
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
+
+      var data = {
+        t_stylist_Id: stylist_id,
+      };
+
+      var result = deleteStaffMenu(data);
+      if (result.result == "true") {
+        alert('Delete Success');
+        window.location.reload();
+      }
+      else {
+        alert('Delete Failed');
+      }
   });
 });

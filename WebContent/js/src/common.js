@@ -123,6 +123,52 @@ var setStaffInfo = (function(data){
     };
 })()
 
+// スタッフ情報を削除する関数
+var deleteStaffInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteStaffInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// スタッフのサービス情報を登録する関数
+var setStaffMenu = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetStaffMenuAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})()
+
+// スタッフのサービス情報を削除する関数
+var deleteStaffMenu = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteStaffMenuAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+
 // MysqlのDateTime型から年月日のオブジェクトを取得する関数
 var getYearMonthDayByDateTime = (function(date_time){
     return function(date_time) {
@@ -178,6 +224,21 @@ var setMenuInfo = (function(data){
     };
 })();
 
+// アルバム情報を削除する関数
+var deleteMenuInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteMenuInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // サービスカテゴリ一覧を取得する関数
 var getServiceCategoryList = (function(){
     return function() {
@@ -222,6 +283,21 @@ var setCouponInfo = (function(data){
     };
 })();
 
+// クーポン情報を削除する関数
+var deleteCouponInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteCouponInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // クーポン種別一覧を取得する関数
 var getCouponKindList = (function(){
     return function() {
@@ -257,6 +333,21 @@ var setAlbumInfo = (function(data){
         var response = $.ajax({
             type: "POST",
             url: API_PATH + "SetAlbumInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// アルバム情報を削除する関数
+var deleteAlbumInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteAlbumInfoAction.java",
             async: false,
             data: data,
         }).responseText;
