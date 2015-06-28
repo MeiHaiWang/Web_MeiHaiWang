@@ -1,11 +1,11 @@
-const API_PATH = '../src/presentation/action/';
+const API_PATH = '/cgi-bin/';
 
 // セッション情報を取得する関数
 var getSessionInfo = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "checkSession",
+            url: API_PATH + "GetCheckSessionAction.java",
             async: false,
         }).responseText;
 
@@ -19,7 +19,7 @@ var getSalonInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getSalonInfo",
+            url: API_PATH + "GetSalonInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -34,7 +34,7 @@ var getCountryAreaList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getCountryAreaList",
+            url: API_PATH + "GetCountryAreaListAction.java",
             async: false,
         }).responseText;
 
@@ -71,7 +71,7 @@ var getStaffInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getStaffInfo",
+            url: API_PATH + "GetStaffInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -95,7 +95,7 @@ var getServiceList = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getServiceList",
+            url: API_PATH + "GetServiceListAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -111,7 +111,7 @@ var getMenuInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getMenuInfo",
+            url: API_PATH + "GetMenuInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -126,7 +126,7 @@ var getServiceCategoryList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getServiceCategoryList",
+            url: API_PATH + "GetServiceCategoryListAction.java",
             async: false,
         }).responseText;
 
@@ -140,7 +140,7 @@ var getCouponInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getCouponInfo",
+            url: API_PATH + "GetCouponInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -155,7 +155,7 @@ var getAlbumInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getAlbumInfo",
+            url: API_PATH + "GetAlbumInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -170,7 +170,7 @@ var getStylistList = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getStylistList",
+            url: API_PATH + "GetStylistListAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -185,7 +185,7 @@ var getHairTypeList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getHairTypeList",
+            url: API_PATH + "GetHairTypeListAction.java",
             async: false,
         }).responseText;
 
@@ -199,7 +199,7 @@ var getMapInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "getMapInfo",
+            url: API_PATH + "GetMapInfoAction.java",
             async: false,
             data: data,
         }).responseText;
