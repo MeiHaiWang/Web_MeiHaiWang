@@ -2,7 +2,7 @@ $(function(){
 
     $.ajax({
         type: "POST",
-        url: "./checkSession",
+        url: API_PATH + "checkSession",
         success: function(response){
             response = JSON.parse(response);
 
@@ -11,6 +11,9 @@ $(function(){
             }
             else {
             }
+        },
+        error: function() {
+            location.href = "./index.html";
         }
     });
 });
