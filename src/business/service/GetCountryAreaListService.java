@@ -19,45 +19,67 @@ import common.model.CountryInfo;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
+/**
+ * 
+ * @author kanijunnari
+ *
+ * 
+
+    getCounrtyAreaList
+        概要：都市、地域一覧取得
+        入力：なし
+        出力：
+
+    {
+      country:[
+        {
+          t_counrty_id,
+          t_country_name,
+          area:[
+            {
+              t_area_id,
+              t_area_name
+            },
+            ...
+          ]
+        },
+        ...
+      ]
+    }
+ */
+
 public class GetCountryAreaListService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
-		HttpSession session = request.getSession();
+		/**
+		 * Declaration value
+		 */
+		boolean result = true;
         int responseStatus = HttpServletResponse.SC_OK;
-        //TODO: country number
-        //int COUNTRY_NUMBER = 20;
-        int CountryNumber = -1;
+		List<Integer> areaList  = new ArrayList<Integer>();
+		List<CountryInfo> countryInfoList = new ArrayList<CountryInfo>();			
+		List<AreaInfo>[] areaInfoList = new ArrayList[Constant.COUNTRY_NUMBER]; //country Number?
+		for (int i = 0; i < areaInfoList.length; i++) {
+			areaInfoList[i] = new ArrayList<AreaInfo>();
+		}
         
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<Integer> areaList  = new ArrayList<Integer>();
-			//List<AreaInfo> areaInfoAllList = new ArrayList<AreaInfo>();
-			//国ごとのarealist二次元リストに整列する?
-			List<CountryInfo> countryInfoList = new ArrayList<CountryInfo>();
-			
-			List<AreaInfo>[] areaInfoList = new ArrayList[Constant.COUNTRY_NUMBER];
-			for (int i = 0; i < areaInfoList.length; i++) {
-				areaInfoList[i] = new ArrayList();
-			}
-			
-			/*
-			int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-			//TODO テスト用
-			userId =1;			
-			*/
-			
+						
 			if(conn!=null){
 				CountryDao countryDao = new CountryDao();
-				countryInfoList = countryDao.getCountryListInfo(dbConnection);	
-				//CountryNumber = countryInfoList.size();
-				
 				AreaDao areaDao = new AreaDao();
+				
+				//get CountryInfoDatas
+				countryInfoList = countryDao.getCountryListInfo(dbConnection);	
+
+				//get AreaIngoDatas
 				for(CountryInfo cInfo: countryInfoList){
-					areaInfoList[cInfo.getCountryId()] = areaDao.getAreaInfoListForCountry(dbConnection, cInfo.getCountryId());
+					areaInfoList[cInfo.getCountryId()] 
+							= areaDao.getAreaInfoListForCountry(dbConnection, cInfo.getCountryId());
 				}
 				
 				dbConnection.close();
@@ -69,7 +91,6 @@ public class GetCountryAreaListService {
 			
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
-		    
 			/*
 			    {
 			      country:[
@@ -88,14 +109,13 @@ public class GetCountryAreaListService {
 			      ]
 			    }
 			 */
-			
 		    // 返却用サロンデータ（jsonデータの作成）
 			JSONArray countryArray = new JSONArray();
-		    JSONArray areaArray = new JSONArray();
 		    for(CountryInfo cInfo : countryInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("t_country_id", cInfo.getCountryId());
 		    	jsonOneData.put("t_country_name", cInfo.getCountryName());
+		    	JSONArray areaArray = new JSONArray();
 			    for(AreaInfo areaInfo : areaInfoList[cInfo.getCountryId()]){
 			    	JSONObject jsonTwoData = new JSONObject();
 			    	jsonTwoData.put("t_area_id", areaInfo.getAreaId());
