@@ -13,6 +13,15 @@ Need Platform for compile.
 $ brew update
 $ brew install nodebrew
 $ nodebrew install latest
+$ nodebrew list
+v0.12.5
+
+current: none
+
+$ nodebrew use v0.12.5
+$ echo 'export PATH=$PATH:/Users/ユーザー名/.nodebrew/current/bin' >> ~/.bashrc
+$ node -v
+$ npm -v
 ```
 
 * grunt
