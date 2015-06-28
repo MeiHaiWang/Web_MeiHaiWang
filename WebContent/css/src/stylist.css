@@ -1,0 +1,125 @@
+#stylist_info label,
+#stylist_service_maping_info label {
+  display: block;
+  text-align: right;
+}
+
+#stylist_info td,
+#stylist_service_maping_info td {
+  width: 180px;
+  height: 50px;
+  padding: 5px 5px;
+}
+
+#stylist_service_maping_info {
+  margin: 0 auto;
+}
+
+#stylist_info input[type="text"],
+#stylist_info textarea,
+#stylist_info select,
+#stylist_info option,
+#stylist_service_maping_info select,
+#stylist_service_maping_info option {
+  width: 100%;
+  height: 100%;
+}
+
+#stylist_info textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+#stylist_regist,
+#stylist_service_maping_regist,
+#stylist_service_maping_delete {
+  text-align: center;
+}
+
+#stylist_regist button {
+  width: 200px;
+}
+
+#stylist_service_maping_regist button,
+#stylist_service_maping_delete button {
+  width: 100px;
+}
+
+td#stylist_birth_year,
+td#stylist_birth_month,
+td#stylist_birth_day {
+  width: 100px;
+}
+
+
+#stylist_page dt {
+  text-align: center;
+  font-weight: bold;
+}
+dt#stylist_regist_area {
+  color: #F2AECF;
+  border: solid 1px #F2AECF;
+}
+dt#stylist_service_maping_area {
+  color: #F2BF6B;
+  border: solid 1px #F2BF6B;
+}
+dt#stylist_list_area {
+  color: #BAD8D9;
+  border: solid 1px #BAD8D9;
+}
+
+#stylist_page dd {
+  padding: 1em;
+  margin-left: 0em;
+  margin-top: 0.5em;
+  margin-bottom: 3em;
+}
+
+dt#stylist_regist_area + dd {
+  border: solid 1px #F2AECF;
+}
+dt#stylist_service_maping_area + dd {
+  border: solid 1px #F2BF6B;
+}
+dt#stylist_list_area + dd {
+  border: solid 1px #BAD8D9;
+}
+
+div#stylist_image_path {
+  position: relative;
+  background-color: white;
+  width: 180px;
+  height: 200px;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+#stylist_list_info {
+  width:100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+#stylist_list_info th {
+  width: 16%;
+  padding: 4px;
+  text-align: center;
+  vertical-align: top;
+  color: #EDF6F5;
+  background-color: #75BFBF;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+#stylist_list_info td{
+  padding: 4px;
+  background-color: #fafafa;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}

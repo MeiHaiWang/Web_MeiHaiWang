@@ -1,0 +1,17 @@
+.DS_Store
+node_modules
+npm-debug.log
+WebContent/js/concat/
+WebContent/js/app.min.js
+WebContent/js/index.min.js
+WebContent/js/common.min.js
+WebContent/js/salon.min.js
+WebContent/js/coupon.min.js
+WebContent/js/album.min.js
+WebContent/js/service.min.js
+WebContent/js/stylist.min.js
+WebContent/js/map.min.js
+WebContent/js/src/.module-cache/
+WebContent/css/concat/
+WebContent/css/style.min.css
+WebContent/exsample/dest
