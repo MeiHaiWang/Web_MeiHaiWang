@@ -420,3 +420,30 @@ var setMapInfo = (function(data){
 $('#reload_button').on('click', function() {
     window.location.reload();
 });
+
+// サニタイズ
+var sanitaize = {
+  encode : function (obj) {
+    for(var key in obj){
+      if(obj[key] instanceof Array || obj[key] instanceof Object){
+        return arguments.callee(obj[key]);
+      }
+      else {
+        obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+    }
+    return obj;
+  },
+
+  decode : function (obj) {
+    for(var key in obj){
+      if(obj[key] instanceof Array || obj[key] instanceof Object){
+        return arguments.callee(obj[key]);
+      }
+      else {
+        obj[key] = obj[key].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, '\'').replace(/&amp;/g, '&');
+      }
+    }
+    return obj;
+  }
+};

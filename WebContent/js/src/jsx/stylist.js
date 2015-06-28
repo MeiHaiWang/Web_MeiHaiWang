@@ -459,9 +459,12 @@ $(function(){
   // セッションIDからスタッフ情報を取得する
   var session_info = getSessionInfo();
   var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(stylist_info);
 
   // サロンIDに紐づくサービス一覧を取得する
   var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(service_list);
+
   // service_listを参照しやすい形に変換
   var services = new Array();
   for (var i = 0; i < service_list.menu.length; i++) {
@@ -514,6 +517,10 @@ $(function(){
       t_stylist_specialMenu:    component_stylist_special_menu.state.t_stylist_specialMenu,
       t_stylist_message:        component_stylist_message.state.t_stylist_message,
     };
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setStaffInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
@@ -535,6 +542,9 @@ $(function(){
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
     var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
+
+    // サニタイズ
+    sanitaize.encode(data);
 
     var result = deleteStaffInfo(data);
     if (result.result == "true") {
@@ -573,6 +583,9 @@ $(function(){
         t_menu_t_menu_id: menu_id,
       };
 
+      // サニタイズ
+      sanitaize.encode(data);
+
       var result = setStaffMenu(data);
       if (result.result == "true") {
         alert('Regist Success');
@@ -589,17 +602,20 @@ $(function(){
 
     var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
 
-      var data = {
-        t_stylist_Id: stylist_id,
-      };
+    var data = {
+      t_stylist_Id: stylist_id,
+    };
 
-      var result = deleteStaffMenu(data);
-      if (result.result == "true") {
-        alert('Delete Success');
-        window.location.reload();
-      }
-      else {
-        alert('Delete Failed');
-      }
+    // サニタイズ
+    sanitaize.encode(data);
+
+    var result = deleteStaffMenu(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
+    }
   });
 });

@@ -222,6 +222,8 @@ $(function(){
   var session_info = getSessionInfo();
   var coupon_info = getCouponInfo(session_info.t_hairSalonMaster_salonId);
   var coupon_kind_info = getCouponKindList();
+  sanitaize.decode(coupon_info);
+  sanitaize.decode(coupon_kind_info);
 
   // set component
   componentSetState(coupon_info.coupon[0]);
@@ -246,6 +248,10 @@ $(function(){
       t_coupon_useCondition:          component_coupon_use_condition.state.t_coupon_useCondition,
       t_coupon_imagePath:             component_coupon_image_path.state.t_coupon_imagePath,
     }
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setAlbumInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
@@ -267,6 +273,9 @@ $(function(){
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
     var data = {t_coupon_Id: coupon_info.coupon[id].t_coupon_Id};
+
+    // サニタイズ
+    sanitaize.encode(data);
 
     var result = deleteCouponInfo(data);
     if (result.result == "true") {
