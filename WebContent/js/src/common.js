@@ -29,6 +29,21 @@ var getSalonInfo = (function(data){
     };
 })();
 
+// サロン情報を登録する関数
+var setSalonInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetSalonInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // 国・地域情報を取得する関数
 var getCountryAreaList = (function(){
     return function() {
@@ -66,6 +81,18 @@ var getAreasByCountryName = (function(country_area_info, country_name){
     };
 })();
 
+// Areaの集合からnameと一致するidを取得する関数
+var getAreaIdByAreaName = (function(area_name, areas){
+    return function(area_name, areas) {
+        for (var i = 0; i < areas.length; i++) {
+            if (areas[i].t_area_name == area_name) {
+                return areas[i].t_area_id;
+            }
+        }
+        return null;
+    };
+})();
+
 // スタッフ情報を取得する関数
 var getStaffInfo = (function(data){
     return function(data) {
@@ -80,6 +107,21 @@ var getStaffInfo = (function(data){
         return response;
     };
 })();
+
+// スタッフ情報を登録する関数
+var setStaffInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetStaffInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})()
 
 // MysqlのDateTime型から年月日のオブジェクトを取得する関数
 var getYearMonthDayByDateTime = (function(date_time){
@@ -121,6 +163,21 @@ var getMenuInfo = (function(data){
     };
 })();
 
+// サービス情報を登録する関数
+var setMenuInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetMenuInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // サービスカテゴリ一覧を取得する関数
 var getServiceCategoryList = (function(){
     return function() {
@@ -150,12 +207,56 @@ var getCouponInfo = (function(data){
     };
 })();
 
+// クーポン情報を登録する関数
+var setCouponInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetCouponInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// クーポン種別一覧を取得する関数
+var getCouponKindList = (function(){
+    return function() {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "GetCouponKindListAction.java",
+            async: false,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // アルバム情報を取得する関数
 var getAlbumInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
             url: API_PATH + "GetAlbumInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// アルバム情報を登録する関数
+var setAlbumInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetAlbumInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -208,6 +309,21 @@ var getMapInfo = (function(data){
         return response;
     };
 })();
+
+// 地図情報を登録する関数
+var setMapInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetMapInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})()
 
 // リロードボタン押下時
 $('#reload_button').on('click', function() {

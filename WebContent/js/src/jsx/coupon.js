@@ -3,6 +3,34 @@ $(function(){
     Component for React
   */
   // コンポーネントの定義
+  var CouponKind = React.createClass({
+    getDefaultProps() {
+      return {
+        kind: ['']
+      };
+    },
+    getInitialState() {
+      return {
+        t_coupon_couponKindId: '',
+      };
+    },
+    onChangeSelectValue(e) {
+      this.setState({t_coupon_couponKindId: e.target.value});
+    },
+    render() {
+      var options = this.props.kind.map(function(kind) {
+        return <option value={kind.t_couponKind_id}>{kind.t_couponKind_name}</option>;
+      });
+      return (
+        <div>
+          <select value={this.state.t_coupon_couponKindId} onChange={this.onChangeSelectValue}>
+            {options}
+          </select>
+        </div>
+      );
+    }
+  });
+
   var CouponName = React.createClass({
     getInitialState() {
       return {
@@ -163,6 +191,7 @@ $(function(){
     Component Render
   */
   // コンポーネントをエレメントに割り当てる
+  var component_coupon_kind = React.render(<CouponKind />, document.getElementById('coupon_kind'));
   var component_coupon_name = React.render(<CouponName />, document.getElementById('coupon_name'));
   var component_coupon_detail_text = React.render(<CouponDetailText />, document.getElementById('coupon_detail_text'));
   var component_coupon_price = React.render(<CouponPrice />, document.getElementById('coupon_price'));
@@ -179,9 +208,11 @@ $(function(){
   // セッションIDからクーポン情報を取得する
   var session_info = getSessionInfo();
   var coupon_info = getCouponInfo(session_info.t_hairSalonMaster_salonId);
-
+  var coupon_kind_info = getCouponKindList();
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+  component_coupon_kind.setState(coupon_info.coupon[0]);
+  component_coupon_kind.setProps({kind: coupon_kind_info.kind});
   component_coupon_name.setState(coupon_info.coupon[0]);
   component_coupon_detail_text.setState(coupon_info.coupon[0]);
   component_coupon_price.setState(coupon_info.coupon[0]);
@@ -192,5 +223,32 @@ $(function(){
 
   // クーポン一覧
   component_coupon_list.setState({"coupon_list":coupon_info.coupon});
+
+
+  /*
+    Button Handler
+  */
+  // 登録ボタン押下時
+  $('#coupon_regist_button').on('click', function() {
+    var data = {
+      t_hairSalonMaster_salonId:      session_info.t_hairSalonMaster_salonId,
+      t_coupon_couponKindId:          component_coupon_kind.state.t_coupon_couponKindId,
+      t_coupon_name:                  component_coupon_name.state.t_coupon_name,
+      t_coupon_detailText:            component_coupon_detail_text.state.t_coupon_detailText,
+      t_coupon_price:                 component_coupon_price.state.t_coupon_price,
+      t_coupon_deadLine:              component_coupon_dead_line.state.t_coupon_deadLine,
+      t_coupon_presentationCondition: component_coupon_presentation_condition.state.t_coupon_presentationCondition,
+      t_coupon_useCondition:          component_coupon_use_condition.state.t_coupon_useCondition,
+      t_coupon_imagePath:             component_coupon_image_path.state.t_coupon_imagePath,
+    }
+    var result = setAlbumInfo(data);
+    if (result.result == "true") {
+      alert('Regist Success');
+      window.location.reload();
+    }
+    else {
+      alert('Regist Failed');
+    }
+  });
 
 });

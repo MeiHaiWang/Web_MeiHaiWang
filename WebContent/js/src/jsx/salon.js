@@ -378,4 +378,31 @@ $(function(){
   component_salon_japanese_available.setState(salon_info);
   component_salon_image_path.setState(salon_info);
 
+
+  /*
+    Button Handler
+  */
+  // 登録ボタン押下時
+  $('#salon_regist_button').on('click', function() {
+    var data = {
+      t_hairSalonMaster_name:              component_salon_name.state.t_hairSalonMaster_salon_name,
+      t_area_id:                           getAreaIdByAreaName(component_salon_area.state.t_area_name, areas),
+      t_hairSalonMaster_detailText:        component_salon_detail_text.state.t_hairSalonMaster_detailText,
+      t_hairSalonMaster_openTime:          component_salon_open_time.state.t_hairSalonMaster_openTime,
+      t_hairSalonMaster_closeTime:         component_salon_close_time.state.t_hairSalonMaster_closeTime,
+      t_hairSalonMaster_closeDay:          component_salon_close_day.state.t_hairSalonMaster_closeDay,
+      t_hairSalonMaster_creditAvailable:   component_salon_credit_available.state.t_hairSalonMaster_creditAvailable,
+      t_hairSalonMaster_carParkAvailable:  component_salon_car_park_available.state.t_hairSalonMaster_carParkAvailable,
+      t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
+      t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
+    }
+    var result = setSalonInfo(data);
+    if (result.result == "true") {
+      alert('Regist Success');
+      window.location.reload();
+    }
+    else {
+      alert('Regist Failed');
+    }
+  });
 });

@@ -55,4 +55,25 @@ $(function(){
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_map_url.setState(map_info);
   component_map_image_path.setState(map_info);
+
+
+  /*
+    Button Handler
+  */
+  // 登録ボタン押下時
+  $('#map_regist_button').on('click', function() {
+    var data = {
+      t_hairSalonMaster_mapUrl:       component_map_url.state.t_hairSalonMaster_mapUrl,
+      t_hairSalonMaster_mapImagePath: component_map_image_path.state.t_hairSalonMaster_mapImagePath,
+    }
+    var result = setMapInfo(data);
+    if (result.result == "true") {
+      alert('Regist Success');
+      window.location.reload();
+    }
+    else {
+      alert('Regist Failed');
+    }
+  });
+
 });
