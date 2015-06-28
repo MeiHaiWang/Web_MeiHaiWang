@@ -86,7 +86,7 @@ public class UserLoginAction extends HttpServlet {
 				Integer.parseInt(request.getParameter("snsLink").toString()) : 0;
 		String userHash = request.getParameter("userHash") != null ?
 				request.getParameter("userHash").toString() : null;
-		
+		if(userHash == "NULL") userHash = null;
 		
 		try {
 			byte[] tel = EncryptUtil.decrypt(key, etelIv, eTel);

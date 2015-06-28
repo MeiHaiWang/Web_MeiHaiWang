@@ -3,7 +3,7 @@ package common.model;
 import java.util.Date;
 
 public class UserInfo {
-	private int UserId = Integer.MIN_VALUE;
+	private int UserId = -1;
 	private String UserMail = "";
 	private String UserPass = "";
 	private String UserCookie = "";
@@ -24,8 +24,8 @@ public class UserInfo {
 		
 	}
 	
-	public void setUserId(int UserId){
-		this.UserId = UserId;
+	public void setUserId(int userId){
+		this.UserId = userId;
 	}
 	
 	public int getUserId(){

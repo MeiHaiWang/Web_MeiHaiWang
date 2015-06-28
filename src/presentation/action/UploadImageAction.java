@@ -29,13 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
-
 import business.service.UploadImageService;
 import business.service.UserLoginService;
 import common.util.EncryptUtil;
@@ -55,7 +48,7 @@ uploadImage
 
 @WebServlet(name="UploadImageServlet",urlPatterns={"/api/:version/uploadImage"})
 @MultipartConfig(location="/tmp/files", maxFileSize=1000000, maxRequestSize=1000000, fileSizeThreshold=1000000)
-public class GetUploadImageAction extends HttpServlet {
+public class UploadImageAction extends HttpServlet {
 	
 	/**
 	 *
@@ -72,7 +65,7 @@ public class GetUploadImageAction extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetUploadImageAction() {
+	public UploadImageAction() {
 		super();
 	}
 

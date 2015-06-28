@@ -265,7 +265,7 @@ public class UserDao {
 		UserInfo userInfo = null;
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` = '" + hash + "'";	
 		//debug
-		System.out.println(sql);
+		System.out.println("Check Auto Login: " +sql);
 		Statement statement = dbConnection.getStatement();
 		try {			
 			ResultSet rs = statement.executeQuery(sql);
@@ -273,7 +273,6 @@ public class UserDao {
 				userInfo = new UserInfo();
 				userInfo.setUserId(rs.getInt("t_user_Id"));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -298,12 +297,15 @@ public class UserDao {
 	}
 
 	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
-		//boolean retFlag = false;
 		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` LIKE'";
 		String sql2 = "' AND `t_user_passward` LIKE '";
 	    String sql3 = "'";
-
+	    int retUserId = -1;
+	    
 	    String sql = sql1 + mail + sql2 + password + sql3;
+	    //debug
+	    System.out.println("Manual-Login: " + sql);
+	    
 		Statement statement = dbConnection.getStatement();
 		UserInfo userInfo = null;
 
@@ -313,14 +315,14 @@ public class UserDao {
 			while(rs.next()){
 				userInfo = new UserInfo();
 				userInfo.setUserId(rs.getInt("t_user_Id"));
-				//retFlag = true;
+				retUserId = userInfo.getUserId();
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return userInfo.getUserId();
+		return retUserId;
 	}
 
 	public int getMsterSalonId(DBConnection dbConnection, int userId){
@@ -331,7 +333,7 @@ public class UserDao {
 		UserInfo userInfo = null;
 
 		//debug
-		System.out.println(sql);
+		System.out.println("Master-SalonId for Master-userId : " + sql);
 		
 		ResultSet rs;
 		try {

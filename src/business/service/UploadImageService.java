@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -36,18 +36,16 @@ public class UploadImageService {
 			HttpServletResponse response,
 			ServletContext servletContext){
 		
-        int responseStatus = HttpServletResponse.SC_OK;
+		/**
+		 * Declaration values
+		 */
+		
+		int responseStatus = HttpServletResponse.SC_OK;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 
 		boolean result = false;
 		HttpSession session = request.getSession(false);
-		//debug
-		//System.out.println("login: " + session.getAttribute("salonId"));		
-
-		/**
-		 * 
-		 */
 
 		String ImageUrl = "";
 		
@@ -63,24 +61,23 @@ public class UploadImageService {
           List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
           // アップロードパス取得
-          //String upPath = servletContext.getRealPath("/") + "upload/";
-          
-	  		InputStream inStream;
+			String upPath = null;
+			InputStream inStream;
 			Properties config_ = new Properties();	
 			String configPath = "config.properties";
 			String[] configPaths = new String[]{configPath};
-	  		for(String confPath :configPaths){
-	  			inStream = PropertiesManager.class.getClassLoader().getResourceAsStream(confPath);
-	  			config_.load(inStream);
-	  		}
+			for(String confPath :configPaths){
+				inStream = PropertiesManager.class.getClassLoader().getResourceAsStream(confPath);
+				config_.load(inStream);
+			}
 			String imageurl = config_.getProperty("imagepath");
-          String upPath = imageurl;
-          //debug 
+			upPath = imageurl;
+          //TODO : test 
+          upPath = servletContext.getRealPath("/") + "upload/";
           System.out.println(upPath);
           
           byte[] buff = new byte[1024];
           int size = 0;
-     
           for (FileItem item : items) {
             // (4) アップロードファイルの処理
             if (!item.isFormField()) {
