@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetCheckLoginService;
-import business.service.GetConditionForSalonSearchService;
+import business.service.CheckLoginService;
+import business.service.LogoutSessionService;
 
-@WebServlet(name="GetCheckLogin",urlPatterns={"/api/:version/checkLogin"})
-public class GetCheckLoginAction extends HttpServlet{
+@WebServlet(name="LogoutSession",urlPatterns={"/api/:version/logoutSession"})
+public class LogoutSessionAction extends HttpServlet{
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class GetCheckLoginAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCheckLoginAction() {
+	public LogoutSessionAction() {
 		super();
 	}
 
@@ -71,7 +71,7 @@ public class GetCheckLoginAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCheckLoginService service = new GetCheckLoginService();
+		LogoutSessionService service = new LogoutSessionService();
 		service.excuteService(request, response);
 
 	}	

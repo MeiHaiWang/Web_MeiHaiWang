@@ -10,10 +10,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetCheckSessionService;
+import business.service.CheckSessionService;
 
-@WebServlet(name="GetCheckSession",urlPatterns={"/api/:version/checkSession"})
-public class GetCheckSessionAction extends HttpServlet{
+/**
+ * 
+ * @author kanijunnari
+ *
+
+    checkSession
+        概要：セッションが確立されているか確認し、確立されていればサロンIDを取得
+        入力：なし
+        処理：getSession
+        出力：
+
+    {
+      status:セッション有無,
+      t_hairSalonMaster_salonId,
+      t_hairSalonMaster_contactUserName
+    }
+ */
+
+@WebServlet(name="CheckSession",urlPatterns={"/api/:version/checkSession"})
+public class CheckSessionAction extends HttpServlet{
 	/**
 	 *
 	 */
@@ -22,7 +40,7 @@ public class GetCheckSessionAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCheckSessionAction() {
+	public CheckSessionAction() {
 		super();
 	}
 
@@ -70,7 +88,7 @@ public class GetCheckSessionAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCheckSessionService service = new GetCheckSessionService();
+		CheckSessionService service = new CheckSessionService();
 		service.excuteService(request, response);
 	    
 

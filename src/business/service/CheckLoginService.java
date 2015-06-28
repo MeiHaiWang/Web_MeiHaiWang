@@ -18,35 +18,57 @@ import common.model.UserInfo;
 import common.util.DBConnection;
 import common.util.EncryptUtil;
 
-public class GetCheckLoginService {
+/**
+ * 
+ * @author kanijunnari
+ * 
+ * 概要：認証＆セッションの確立セット
+ * 入力：{ mail:メールアドレス, passowrd：パスワード ｝
+	処理：ユーザのメアドとパスワードが一致しているかチェックし、ログインできればセッションにログイン済みであることをセットする。
+	同時にセッション情報にサロンIDをセットする。
+	出力：{ result:ログイン成否 } 
+ */
+
+public class CheckLoginService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
 		/**
-		 * header 取得
+		 * Declaration values
 		 */
         int responseStatus = HttpServletResponse.SC_OK;
+        //user-Id
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        String[] mailList = request.getParameterValues("mail");
-        String mail;
-        String[] passwordList = request.getParameterValues("password");
-        String password;
+        //user-Idがあればすでにログイン済
+        if(userId != -1){
+    		response.setStatus(responseStatus);
+    		return response;
+        }
+        		
+        //user-cookie for auto-login
 		String userHash = request.getParameter("userHash") != null ?
 				request.getParameter("userHash").toString() : null;
+		if(userHash == "NULL") userHash = null;
 
+		//user-input for manual-login
+		String[] mailList = request.getParameterValues("mail")!=null
+        		?request.getParameterValues("mail") : null;
+        String[] passwordList = request.getParameterValues("password")!=null
+        		?request.getParameterValues("password") : null;
+        String mail = null;
+        String password = null;
         if(mailList!=null){
            mail  = mailList[0];
-        }else{
-        	//test
-            mail  = "mail.test.com";        	
         }
         if(passwordList!=null){
         	password = passwordList[0];        	
-        }else{
-        	password = "password";
         }
+
+        //TODO: test
+        //mail  = "mail.test.com";        	
+    	//password = "password";
         
         /*
         //dubug
@@ -54,21 +76,28 @@ public class GetCheckLoginService {
         System.out.println("password: " + password);
         System.out.println("userHash: " + userHash);
         */
-        //header ここまで
         
-        boolean result = false;
+    	//result of sql
+    	boolean result = false;
+    	//master-userId
         int masterUserId = -1;
-		int salonId = -1;
-		String salonId_str = "";
+        //master-salonId
+        int salonId = -1;
+		String salonId_str = null;
+		
+		//userDao
+		UserDao userDao = new UserDao();
+		UserInfo info = null;
+
+		//return-value
+		String retHash="";
+
+		//updated-flag
+		int updated=-1;
 				
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			//List<UserInfo> infoList = new ArrayList<UserInfo>();
-			UserDao userDao = new UserDao();
-			UserInfo info = null;
-	        String retHash="";
-	        int updated=-1;
 			
 			if(conn!=null){
 				//自動ログイン
@@ -80,14 +109,21 @@ public class GetCheckLoginService {
 					}
 				}
 				else{
-					//info = userDao.getUserInfoByLoginInfo(dbConnection, mail, password);
 					masterUserId = userDao.getCheckLoginInfo(dbConnection, mail, password);
 					if(masterUserId >= 0) result = true;
-					//ログイン成功 Hash値を再計算してユーザテーブルに格納する
+					//ログイン成功
 					if(result){
+						//Master-salonId by userId
 						salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
-						retHash = EncryptUtil.getHashValue(mail + password);
-						updated = userDao.updateUserHash(dbConnection, masterUserId, retHash);
+						//debug
+						System.out.println("Got a SalonId: " + salonId);
+						//Hash値を再計算してユーザテーブルに格納する
+						if(salonId>=0){
+							retHash = EncryptUtil.getHashValue(mail + password);
+							updated = userDao.updateUserHash(dbConnection, masterUserId, retHash);
+						}else{
+							result = false;
+						}
 					}
 				}
 				
@@ -103,6 +139,7 @@ public class GetCheckLoginService {
 				throw new Exception("DabaBase Connect Error");
 			}
 			
+			//Create Session and add SalonId to session.
 			if(result){
 				HttpSession session = request.getSession();
 				salonId_str = Integer.toString(salonId);
@@ -113,21 +150,11 @@ public class GetCheckLoginService {
 				System.out.println("ログイン失敗.");
 			}
 			
-			//レスポンスに設定するJSON Object
-			JSONObject jsonObject = new JSONObject();
-		    
 			/* output
 			 *{ result:ログイン成否 }
 			 */
-						
-		    /*
-			JSONArray userArray = new JSONArray();
-		    for(UserInfo userInfo : infoList){
-		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", AreaInfo.getAreaId());		    	
-		    	AreaArray.add(jsonOneData);
-		    }
-		    */
+			//レスポンスに設定するJSON Object
+			JSONObject jsonObject = new JSONObject();
 		    jsonObject.put("result", result);
 
 		    PrintWriter out = response.getWriter();

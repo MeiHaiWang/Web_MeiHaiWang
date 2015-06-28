@@ -55,7 +55,7 @@ uploadImage
 
 @WebServlet(name="UploadImageServlet",urlPatterns={"/api/:version/uploadImage"})
 @MultipartConfig(location="/tmp/files", maxFileSize=1000000, maxRequestSize=1000000, fileSizeThreshold=1000000)
-public class GetUploadImageAction extends HttpServlet {
+public class UploadImageAction extends HttpServlet {
 	
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetUploadImageAction extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetUploadImageAction() {
+	public UploadImageAction() {
 		super();
 	}
 
