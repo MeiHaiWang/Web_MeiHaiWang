@@ -22,24 +22,27 @@ public class GetMenuInfoService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
+        int responseStatus = HttpServletResponse.SC_OK;
 		HttpSession session = request.getSession(false);
+		//salonId kokokara
+	    int salonId = -1;
+	    //get a salonId by session
 		String salonId_str = "";
-		int salonId = -1;
-		//TODO: test
-		salonId = 5;
-		
 		if (session != null){
 			salonId_str = (String)session.getAttribute("salonId");
-		}else{
-			//session is null.
 		}
-		if(salonId_str.compareTo("") != 0){
-			salonId = Integer.parseInt(salonId_str);
-		}else{
-			//salonId is null.
+		if(salonId_str != null){			
+			if(salonId_str.compareTo("") != 0){
+				salonId = Integer.parseInt(salonId_str);
+			}
+		}   
+		if(salonId < 0){
+	        //get a salonId by parameter
+	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
 		}
-
-        int responseStatus = HttpServletResponse.SC_OK;
+		//salonId kokomade
+		
 				
 		try{
 			DBConnection dbConnection = new DBConnection();

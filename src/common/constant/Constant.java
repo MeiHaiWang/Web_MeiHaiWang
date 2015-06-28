@@ -8,6 +8,7 @@ public  class Constant {
 	public static final  int FLAG_OFF = 0;
 	public static final  int USER_NOT_LOGIN = -1;
 	public static final String HEADER_USERID = "userID";
+	public static final String PARAMETER_SALONID = "t_hairSalonMaster_salonId";
 	public static final String ID = "id";
 	public static final int ONE_PAGE_NUM = 20;
 	public static final int COUNTRY_NUMBER = 20; //TODO: 国の数、定数にする？

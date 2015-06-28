@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.MenuDao;
-
 import common.constant.Constant;
 import common.model.MenuInfo;
 import common.util.DBConnection;
@@ -47,29 +46,25 @@ public class SetMenuInfoService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        userId = 1;
-        
   		HttpSession session = request.getSession(false);
-		String salonId_str = "";
-		int salonId = -1;
-		//TODO: test
-		salonId = 5;
-		
-		if (session != null){
-			salonId_str = (String)session.getAttribute("salonId");
-		}else{
-			//session is null.
-		}
-		if(salonId_str.compareTo("") != 0){
-			salonId = Integer.parseInt(salonId_str);
-		}else{
-			//salonId is null.
-		}
-		
+  		//salonId kokokara
+  	    int salonId = -1;
+  	    //get a salonId by session
+  		String salonId_str = "";
+  		if (session != null){
+  			salonId_str = (String)session.getAttribute("salonId");
+  		}
+  		if(salonId_str != null){			
+  			if(salonId_str.compareTo("") != 0){
+  				salonId = Integer.parseInt(salonId_str);
+  			}
+  		}   
+  		if(salonId < 0){
+  	        //get a salonId by parameter
+  	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+  			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+  		}
+  		//salonId kokomade		
 		String t_menu_categoryId = request.getParameter("t_menu_categoryId") != null ?
 				request.getParameter("t_menu_categoryId").toString() : null;
 		String t_menu_name = request.getParameter("t_menu_name") != null ?
@@ -120,8 +115,7 @@ public class SetMenuInfoService {
 			      result:レコード更新成否,
 			      t_menu_menuId:登録したサービスのID,
 			    }
-			 */
-			
+			 */		
 		    jsonObject.put("result",result);
 		    jsonObject.put("t_menu_menuId", menuId);
 			

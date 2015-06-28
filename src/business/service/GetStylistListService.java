@@ -12,8 +12,30 @@ import business.dao.SalonDao;
 import business.dao.StylistDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
+
+/**
+ * 
+ * @author kanijunnari
+ *
+    getStylistList
+        概要：スタイリスト一覧取得
+        入力：{ t_hairSalonMaster_salonId }
+        出力：
+
+    {
+      stylist:[
+        {
+          t_stylist_Id,
+          t_stylist_name
+        },
+        ...
+      ]
+    }
+ *
+ */
 
 public class GetStylistListService {
 	@SuppressWarnings({ "unchecked", "unused" })
@@ -22,14 +44,26 @@ public class GetStylistListService {
 		
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
-
-        /*
-		int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
-		//TODO テスト用
-        int salonId = 1;
-        
+ 
+		//salonId kokokara
+        int salonId = -1;
+        //get a salonId by session
+		String salonId_str = "";
+		if (session != null){
+			salonId_str = (String)session.getAttribute("salonId");
+		}
+		if(salonId_str != null){			
+			if(salonId_str.compareTo("") != 0){
+				salonId = Integer.parseInt(salonId_str);
+			}
+		}   
+		if(salonId < 0){
+	        //get a salonId by parameter
+	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+		}
+		//salonId kokomade
+		
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
@@ -39,10 +73,16 @@ public class GetStylistListService {
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
 				StylistDao stylistDao = new StylistDao();
+
+				//stylistIdList for salonId in salonTable
+				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
+
+				//stylistInfoList for stylistIdList in stylistTable
 				stylistInfoList = stylistDao.getStylistListInfo(dbConnection, stylistIdList);	
+
 				dbConnection.close();
+
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");

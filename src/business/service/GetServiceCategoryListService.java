@@ -17,29 +17,42 @@ import common.model.MenuCategoryInfo;
 import common.model.MenuInfo;
 import common.util.DBConnection;
 
+/**
+ * 
+ * @author kanijunnari
+ *
+    getServiceCategoryList
+        概要：サービスカテゴリ一覧取得
+        入力：なし
+        出力：
+
+    {
+      category:[
+        {
+          t_menuCategory_categoryId,
+          t_menuCategory_name
+        },
+        ...
+      ]
+    }
+ *
+ */
 public class GetServiceCategoryListService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
-		
+
+		/**
+		 * Declaration value
+		 */
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
-
-        /*
-		int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
         
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-
-			//List<Integer> menuIdList = new ArrayList<Integer>();
 			List<MenuCategoryInfo> menuCategoryList  = new ArrayList<MenuCategoryInfo>();
-			
 			if(conn!=null){
-				//SalonDao salonDao = new SalonDao();
-				//menuIdList = salonDao.getMenuIdList(dbConnection, salonId);
 				MenuCategoryDao menuCatDao = new MenuCategoryDao();
 				menuCategoryList = menuCatDao.getMenuCategoryListInfo(dbConnection);	
 				dbConnection.close();
@@ -49,8 +62,7 @@ public class GetServiceCategoryListService {
 			}
 			
 			//レスポンスに設定するJSON Object
-			JSONObject jsonObject = new JSONObject();
-		    
+			JSONObject jsonObject = new JSONObject();		    
 			/**
 			 * 
 				{
@@ -62,8 +74,7 @@ public class GetServiceCategoryListService {
 			        ...
 			      ]
 			    }
-			 */
-			
+			 */			
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray menuCatArray = new JSONArray();
 		    for(MenuCategoryInfo info : menuCategoryList){

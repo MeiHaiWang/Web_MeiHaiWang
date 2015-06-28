@@ -19,8 +19,16 @@ import common.util.DBConnection;
  * 
  * @author kanijunnari
  *
-    出力：
+ *
+    getCouponInfo
+        概要：クーポン情報管理ページ表示用データを取得する
+        入力：
 
+    {
+      t_hairSalonMaster_salonId,
+    }
+    
+    出力：
     {
       coupon:[
         {
@@ -43,29 +51,27 @@ public class GetCouponInfoService {
 			HttpServletResponse response) {
 
 		int responseStatus = HttpServletResponse.SC_OK;
-		/*
-		int salonId = request.getParameter(Constant.ID) != null ?
-		Integer.parseInt(request.getParameter(Constant.ID)) : -1;
-        */
-		
 		HttpSession session = request.getSession(false);
-		String salonId_str = "";
-		int salonId = -1;
-		//TODO: test
-		salonId = 1;
-		
-		if (session != null){
-			salonId_str = (String)session.getAttribute("salonId");
-		}else{
-			//session is null.
-		}
-		if(salonId_str.compareTo("") != 0){
-			salonId = Integer.parseInt(salonId_str);
-		}else{
-			//salonId is null.
-		}
-		
-		try{
+  		//salonId kokokara
+  	    int salonId = -1;
+  	    //get a salonId by session
+  		String salonId_str = "";
+  		if (session != null){
+  			salonId_str = (String)session.getAttribute("salonId");
+  		}
+  		if(salonId_str != null){			
+  			if(salonId_str.compareTo("") != 0){
+  				salonId = Integer.parseInt(salonId_str);
+  			}
+  		}   
+  		if(salonId < 0){
+  	        //get a salonId by parameter
+  	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+  			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+  		}
+  		//salonId kokomade			
+
+  		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<CouponInfo> infoList = new ArrayList<CouponInfo>();
@@ -81,9 +87,9 @@ public class GetCouponInfoService {
 			}
 			
 			//レスポンスに設定するJSON Object
+			JSONObject jsonObject = new JSONObject();
 			/*
 			    出力：
-			
 			    {
 			      coupon:[
 			        {
@@ -100,9 +106,6 @@ public class GetCouponInfoService {
 			      ]
 			    }
 			 */
-			
-			JSONObject jsonObject = new JSONObject();
-		    
 		    // 返却用クーポンデータ（jsonデータの作成）
 			JSONArray AreaArray = new JSONArray();
 		    for(CouponInfo couponInfo : infoList){

@@ -15,6 +15,27 @@ import common.constant.Constant;
 import common.model.HairTypeInfo;
 import common.util.DBConnection;
 
+/**
+ * 
+ * @author kanijunnari
+ *
+    getHairTypeList
+        概要：ヘアスタイルタイプ一覧取得
+        入力：なし
+        出力：
+
+    {
+      type:[
+        {
+          t_hairType_id,
+          t_hairType_name
+        },
+        ...
+      ]
+    }
+ *
+ */
+
 public class GetHairTypeListService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
@@ -23,11 +44,6 @@ public class GetHairTypeListService {
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
 
-        /*
-		int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
-        
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();

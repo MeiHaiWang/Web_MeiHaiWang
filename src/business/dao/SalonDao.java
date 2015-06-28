@@ -474,32 +474,40 @@ public class SalonDao {
 	public List<Integer> getMenuIdList(DBConnection dbConnection, Integer salonId){
 		String sql ="SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
+		List<String> menuIdListStr = new ArrayList<String>();
 		List<Integer> menuIdList = new ArrayList<Integer>();
-		HairSalonInfo salonInfo = new HairSalonInfo();
+
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				int menuId = rs.getInt("t_hairSalonMaster_menuId");
-				//salonInfo.setSalonContactUserName(salon_contactUserName);
-				menuIdList.add(menuId);
+				String menuId = rs.getString("t_hairSalonMaster_menuId");
+				menuIdListStr = Arrays.asList(menuId.split(","));				
+				for(String mId : menuIdListStr){
+					menuIdList.add(Integer.parseInt(mId));
+				}
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return menuIdList;	
 	}
 
 	public List<Integer> getStylistIdList(DBConnection dbConnection, Integer salonId){
 		String sql ="SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
+		List<String> stylistIdListStr = new ArrayList<String>();
 		List<Integer> stylistIdList = new ArrayList<Integer>();
-		HairSalonInfo salonInfo = new HairSalonInfo();
+		//HairSalonInfo salonInfo = new HairSalonInfo();
+
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				int stylistId = rs.getInt("t_hairSalonMaster_stylistId");
-				//salonInfo.setSalonContactUserName(salon_contactUserName);
-				stylistIdList.add(stylistId);
+				String stylistId = rs.getString("t_hairSalonMaster_stylistId");
+				stylistIdListStr = Arrays.asList(stylistId.split(","));				
+				for(String sId : stylistIdListStr){
+					stylistIdList.add(Integer.parseInt(sId));
+				}
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -713,13 +721,16 @@ public class SalonDao {
 		String sql ="SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
 		List<Integer> hairStyleIdList = new ArrayList<Integer>();
-		HairSalonInfo salonInfo = new HairSalonInfo();
+		List<String> hairStyleIdListStr = new ArrayList<String>();
+		
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				int hairStyleId = rs.getInt("t_hairSalonMaster_hairStyleId");
-				//salonInfo.setSalonContactUserName(salon_contactUserName);
-				hairStyleIdList.add(hairStyleId);
+				String hairStyleId = rs.getString("t_hairSalonMaster_hairStyleId");
+				hairStyleIdListStr = Arrays.asList(hairStyleId.split(","));				
+				for(String sId : hairStyleIdListStr){
+					hairStyleIdList.add(Integer.parseInt(sId));
+				}
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();

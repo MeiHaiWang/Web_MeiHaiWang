@@ -17,31 +17,65 @@ import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
+/**
+ * 
+ * @author kanijunnari
+ *
+    getSalonInfo
+        概要：サロン情報管理ページ表示用データを取得する
+        入力：{ t_hairSalonMaster_salonId }
+        出力：
+
+    {
+      t_hairSalonMaster_salon_name,
+      t_country_name,
+      t_area_name,
+      t_hairSalonMaster_detailText,
+      t_hairSalonMaster_openTime,
+      t_hairSalonMaster_closeTime,
+      t_hairSalonMaster_closeDay,
+      t_hairSalonMaster_creditAvailable,
+      t_hairSalonMaster_carParkAvailable,
+      t_hairSalonMaster_salonImagePath,
+      t_hairSalonMaster_japaneseAvailable,
+    }
+ *
+ */
 public class GetSalonInfoService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){
 
+	/**
+	 * Declaration value
+	 */
 	HttpSession session = request.getSession();
     int responseStatus = HttpServletResponse.SC_OK;
 
-	/*
-	int userId = request.getHeader(Constant.HEADER_USERID) != null ?
-			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-	 */
-	/*
-	int salonId = request.getParameter("salonId") != null ?
-			Integer.valueOf(request.getParameter("salonId").toString()) : -1;
-			*/
-	//TODO: test
-	int salonId = 1;
+	//salonId kokokara
+    int salonId = -1;
+    //get a salonId by session
+	String salonId_str = "";
+	if (session != null){
+		salonId_str = (String)session.getAttribute("salonId");
+	}
+	if(salonId_str != null){			
+		if(salonId_str.compareTo("") != 0){
+			salonId = Integer.parseInt(salonId_str);
+		}
+	}   
+	if(salonId < 0){
+        //get a salonId by parameter
+        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+		?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+	}
+	//salonId kokomade
 	
 	try{
 		DBConnection dbConnection = new DBConnection();
 		java.sql.Connection conn = dbConnection.connectDB();
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-		//レスポンスに設定するJSON Object
-		JSONObject jsonObject = new JSONObject();
+
 		SalonDao dao = new SalonDao();
 		if(conn!=null){
 			salonInfoList = dao.getSalonInfo(dbConnection, salonId);
@@ -50,6 +84,8 @@ public class GetSalonInfoService {
 			throw new Exception("DabaBase Connect Error");
 		}
 
+		//レスポンスに設定するJSON Object
+		JSONObject jsonObject = new JSONObject();
 		/**
 		 * 
 	     {
@@ -80,20 +116,15 @@ public class GetSalonInfoService {
 			jsonOneData.put("t_hairSalonMaster_closeDay", hairSalonInfo.getSalonCloseDay());
 			jsonOneData.put("t_hairSalonMaster_creditAvailable", hairSalonInfo.getSalonCreditAvailable());
 			jsonOneData.put("t_hairSalonMaster_carParkAvailable", hairSalonInfo.getSalonCarParkAvailable());
-
 			int i = 0;
 	    	for(String str : hairSalonInfo.getHairSalonImagePath()){
 	    		i++;
 	    		jsonOneData.put("t_hairSalonMaster_salonImagePath"+i, str);		    		
 	    	}
-
 	    	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getSalonCarParkAvailable());
-
 			salonArray.add(jsonOneData);
 		}
 		jsonObject.put("",salonArray);
-		//debug
-		System.out.println(jsonObject.toString(4));
 		PrintWriter out = response.getWriter();
 		out.print(jsonObject);
 		out.flush();

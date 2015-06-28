@@ -20,22 +20,56 @@ import common.model.CountryInfo;
 import common.model.MenuInfo;
 import common.util.DBConnection;
 
+/**
+ * 
+ * @author kanijunnari
+ *
+    getServiceList
+        概要：サービス一覧取得
+        入力：{ t_hairSalonMaster_salonId }
+        出力：
+
+    {
+      menu:[
+        {
+          t_menu_menuId,
+          t_menu_name
+        },
+        ...
+      ]
+    }
+    
+ */
+
 public class GetServiceListService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
-		
+
+		/*
+		 * Declaration value
+		 */
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
 
-        /*
-		int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
-		//TODO テスト用
-        int salonId = 1;
-        
-        try{
+        int salonId = -1;
+        //get a salonId by session
+		String salonId_str = "";
+		if (session != null){
+			salonId_str = (String)session.getAttribute("salonId");
+		}
+		if(salonId_str != null){			
+			if(salonId_str.compareTo("") != 0){
+				salonId = Integer.parseInt(salonId_str);
+			}
+		}   
+		if(salonId < 0){
+	        //get a salonId by parameter
+	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+		}
+
+		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 
@@ -44,9 +78,14 @@ public class GetServiceListService {
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				menuIdList = salonDao.getMenuIdList(dbConnection, salonId);
 				MenuDao menuDao = new MenuDao();
+
+				//menuIdList for salonId in HairSalon-Table 
+				menuIdList = salonDao.getMenuIdList(dbConnection, salonId);
+
+				//menuInfoList for menuIdList in Menu-Table 
 				menuInfoList = menuDao.getMenuListInfo(dbConnection, menuIdList);	
+
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -54,27 +93,7 @@ public class GetServiceListService {
 			}
 			
 			//レスポンスに設定するJSON Object
-			JSONObject jsonObject = new JSONObject();
-		    
-			/*
-			    {
-			      country:[
-			        {
-			          t_counrty_id,
-			          t_country_name,
-			          area:[
-			            {
-			              t_area_id,
-			              t_area_name
-			            },
-			            ...
-			          ]
-			        },
-			        ...
-			      ]
-			    }
-			 */
-			
+			JSONObject jsonObject = new JSONObject();			
 			/**
 			 *
 			    {

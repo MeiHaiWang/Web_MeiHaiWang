@@ -35,13 +35,7 @@ public class SetStaffMenuService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        userId = 1;
-        
-  		HttpSession session = request.getSession(false);
+   		HttpSession session = request.getSession(false);
 		
 		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
 				request.getParameter("t_stylist_Id").toString() : null;
