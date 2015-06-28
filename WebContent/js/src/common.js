@@ -295,6 +295,21 @@ var getMapInfo = (function(data){
     };
 })();
 
+// 地図情報を登録する関数
+var setMapInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetMapInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})()
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
