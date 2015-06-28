@@ -185,6 +185,19 @@ $(function(){
     }
   });
 
+  // set state to component
+  function componentSetState(coupon) {
+    // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+    component_coupon_kind.setState(coupon);
+    component_coupon_kind.setProps({kind: coupon_kind_info.kind});
+    component_coupon_name.setState(coupon);
+    component_coupon_detail_text.setState(coupon);
+    component_coupon_price.setState(coupon);
+    component_coupon_dead_line.setState(coupon);
+    component_coupon_presentation_condition.setState(coupon);
+    component_coupon_use_condition.setState(coupon);
+    component_coupon_image_path.setState(coupon);
+  }
 
 
   /*
@@ -210,16 +223,8 @@ $(function(){
   var coupon_info = getCouponInfo(session_info.t_hairSalonMaster_salonId);
   var coupon_kind_info = getCouponKindList();
 
-  // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-  component_coupon_kind.setState(coupon_info.coupon[0]);
-  component_coupon_kind.setProps({kind: coupon_kind_info.kind});
-  component_coupon_name.setState(coupon_info.coupon[0]);
-  component_coupon_detail_text.setState(coupon_info.coupon[0]);
-  component_coupon_price.setState(coupon_info.coupon[0]);
-  component_coupon_dead_line.setState(coupon_info.coupon[0]);
-  component_coupon_presentation_condition.setState(coupon_info.coupon[0]);
-  component_coupon_use_condition.setState(coupon_info.coupon[0]);
-  component_coupon_image_path.setState(coupon_info.coupon[0]);
+  // set component
+  componentSetState(coupon_info.coupon[0]);
 
   // クーポン一覧
   component_coupon_list.setState({"coupon_list":coupon_info.coupon});
@@ -248,6 +253,28 @@ $(function(){
     }
     else {
       alert('Regist Failed');
+    }
+  });
+
+  // 編集ボタン押下時
+  $('.edit').on('click', function() {
+    // component set state
+    var id = $(".edit").index(this);
+    componentSetState(coupon_info.coupon[id]);
+  });
+
+  // 削除ボタン押下時
+  $('.delete').on('click', function() {
+    var id = $(".delete").index(this);
+    var data = {t_coupon_Id: coupon_info.coupon[id].t_coupon_Id};
+
+    var result = deleteCouponInfo(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
     }
   });
 

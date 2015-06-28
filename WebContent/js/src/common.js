@@ -128,7 +128,7 @@ var deleteStaffInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetStaffInfoAction.java",
+            url: API_PATH + "DeleteStaffInfoAction.java",
             async: false,
             data: data,
         }).responseText;
@@ -229,6 +229,21 @@ var setCouponInfo = (function(data){
         var response = $.ajax({
             type: "POST",
             url: API_PATH + "SetCouponInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+// クーポン情報を削除する関数
+var deleteCouponInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "DeleteCouponInfoAction.java",
             async: false,
             data: data,
         }).responseText;
