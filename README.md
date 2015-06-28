@@ -8,6 +8,13 @@ Need Platform for compile.
 
 **Need compile to start product.**
 
+* Node.js
+```sh
+$ brew update
+$ brew install nodebrew
+$ nodebrew install latest
+```
+
 * grunt
 
 ```sh
