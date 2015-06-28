@@ -171,4 +171,27 @@ $(function(){
   // アルバム一覧
   component_album_list.setState({"album_list":album_info.album});
 
+
+  /*
+    Button Handler
+  */
+  // 登録ボタン押下時
+  $('#album_regist_button').on('click', function() {
+    var data = {
+      t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
+      t_hairStyle_hairTypeId:    component_album_category.state.t_hairStyle_hairTypeId,
+      t_hairStyle_name:          component_album_name.state.t_hairStyle_name,
+      t_hairStyle_stylistId:     component_album_stylist_name.state.t_hairStyle_stylistId,
+      t_hairStyle_imagePath:     component_album_image_path.state.t_hairStyle_imagePath,
+    }
+    var result = setAlbumInfo(data);
+    if (result.result == "true") {
+      alert('Regist Success');
+      window.location.reload();
+    }
+    else {
+      alert('Regist Failed');
+    }
+  });
+
 });
