@@ -62,6 +62,9 @@ public class AreaDao {
 			ResultSet rs;
 			rs = statement.executeQuery(sql);
 			
+			//debug
+			System.out.println("AreaInfoList : "+sql);
+			
 			while(rs.next()){
 				AreaInfo AreaInfo = new AreaInfo();
 				AreaInfo.setAreaId(rs.getInt("t_area_areaid"));

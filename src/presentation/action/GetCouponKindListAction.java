@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetConditionForSalonSearchService;
+import business.service.GetCouponKindListService;
 import business.service.GetCouponListService;
 
-@WebServlet(name="GetCouponListServlet",urlPatterns={"/api/:version/CouponList"})
-public class GetCouponListAction  extends HttpServlet{
+@WebServlet(name="GetCouponKindListServlet",urlPatterns={"/api/:version/getCouponKindList"})
+public class GetCouponKindListAction extends HttpServlet{
 	/**
 	 *
 	 */
@@ -23,7 +23,7 @@ public class GetCouponListAction  extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetCouponListAction() {
+	public GetCouponKindListAction() {
 		super();
 	}
 
@@ -70,7 +70,7 @@ public class GetCouponListAction  extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetCouponListService service = new GetCouponListService();
+		GetCouponKindListService service = new GetCouponKindListService();
 		service.excuteService(request, response);
 	}	
 }

@@ -9,32 +9,53 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import business.dao.AreaDao;
+import business.dao.CouponDao;
+import business.dao.CouponKindDao;
 import common.constant.Constant;
-import common.model.AreaInfo;
+import common.model.CouponInfo;
+import common.model.CouponKindInfo;
 import common.util.DBConnection;
 
-public class GetAreaService {
+/**
+ * 
+ * @author kanijunnari
+ *
+ *
+        概要：クーポン種別一覧取得
+        入力：なし
+        出力：
+
+    {
+      kind:[
+        {
+          t_couponKind_id,
+          t_couponKind_name
+        },
+        ...
+      ]
+    }
+    
+    SELECT * FROM `t_masterCouponKind`
+    
+ */
+
+public class GetCouponKindListService {
 	public HttpServletResponse excuteService(HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response) {
 
 		/**
 		 * Declaration value
-		 */
-        int responseStatus = HttpServletResponse.SC_OK;
-
-        //area-Id
-        int areaId = request.getParameter("id")!= null
-        		?Integer.parseInt(request.getParameter("id")) : -1;
-		 // areaIdがパラメータ。なかったら-1を入れておく。
+		 */		
+		int responseStatus = HttpServletResponse.SC_OK;
         
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<AreaInfo> infoList = new ArrayList<AreaInfo>();
+			List<CouponKindInfo> infoList = new ArrayList<CouponKindInfo>();
+			
 			if(conn!=null){
-				AreaDao AreaDao = new AreaDao();
-				infoList = AreaDao.getAreaInfo(dbConnection, areaId);
+				CouponKindDao couponKindDao = new CouponKindDao();
+				infoList = couponKindDao.getCouponKindInfo(dbConnection);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -44,20 +65,20 @@ public class GetAreaService {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 		    
-		    // 返却用サロンデータ（jsonデータの作成）
+		    // 返却用クーポンデータ（jsonデータの作成）
 			JSONArray AreaArray = new JSONArray();
-		    for(AreaInfo AreaInfo : infoList){
+		    for(CouponKindInfo couponKindInfo : infoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", AreaInfo.getAreaId());		    	
-		    	jsonOneData.put("name", AreaInfo.getAreaName());
-		    	jsonOneData.put("isDetail", AreaInfo.getisDetailFlag());
+		    	jsonOneData.put("t_couponKind_id", couponKindInfo.getCouponKindId());		    	
+		    	jsonOneData.put("t_couponKind_Name", couponKindInfo.getCouponKindName());
 		    	AreaArray.add(jsonOneData);
 		    }
-		    jsonObject.put("areaList",AreaArray);
+		    jsonObject.put("kind", AreaArray);
 
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();
+
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
