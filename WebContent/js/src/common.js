@@ -29,6 +29,21 @@ var getSalonInfo = (function(data){
     };
 })();
 
+// サロン情報を登録する関数
+var setSalonInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "SetSalonInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
 // 国・地域情報を取得する関数
 var getCountryAreaList = (function(){
     return function() {
@@ -63,6 +78,18 @@ var getAreasByCountryName = (function(country_area_info, country_name){
             }
         }
         return new Array();
+    };
+})();
+
+// Areaの集合からnameと一致するidを取得する関数
+var getAreaIdByAreaName = (function(area_name, areas){
+    return function(area_name, areas) {
+        for (var i = 0; i < areas.length; i++) {
+            if (areas[i].t_area_name == area_name) {
+                return areas[i].t_area_id;
+            }
+        }
+        return null;
     };
 })();
 
