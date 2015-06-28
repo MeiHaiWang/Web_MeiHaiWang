@@ -333,11 +333,11 @@ $(function(){
     getInitialState:function() {
       return {
         stylist_list: [{
-          "t_stylist_Id": "2",
-          "t_stylist_name": "スタイリスト2",
-          "t_stylist_position": "チーフ",
-          "t_stylist_phoneNumber": "000-1234-5678",
-          "t_menu_t_menu_id": ["1", "2"]}]
+          "t_stylist_Id": "",
+          "t_stylist_name": "",
+          "t_stylist_position": "",
+          "t_stylist_phoneNumber": "",
+          "t_menu_t_menu_id": [""]}]
       };
     },
     render:function() {
@@ -411,6 +411,26 @@ $(function(){
     }
   });
 
+  // set state to component
+  function componentSetState(stylist) {
+    // MysqlのDATETIME型から年月日に変換する
+    var ymd = getYearMonthDayByDateTime(stylist.t_stylist_birth);
+
+    // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+    component_stylist_name.setState(stylist);
+    component_stylist_sex.setState(stylist);
+    component_stylist_birth_year.setState(ymd);
+    component_stylist_birth_month.setState(ymd);
+    component_stylist_birth_day.setState(ymd);
+    component_stylist_phone_number.setState(stylist);
+    component_stylist_position.setState(stylist);
+    component_stylist_mail.setState(stylist);
+    component_stylist_experience_year.setState(stylist);
+    component_stylist_special_menu.setState(stylist);
+    component_stylist_message.setState(stylist);
+    component_stylist_image_path.setState(stylist);
+  }
+
 
   /*
     Component Render
@@ -459,22 +479,8 @@ $(function(){
     stylist_info.stylist[i].t_menu_t_menu_name = menu_name.join(',');
   }
 
-  // MysqlのDATETIME型から年月日に変換する
-  var ymd = getYearMonthDayByDateTime(stylist_info.stylist[0].t_stylist_birth);
-
-  // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-  component_stylist_name.setState(stylist_info.stylist[0]);
-  component_stylist_sex.setState(stylist_info.stylist[0]);
-  component_stylist_birth_year.setState(ymd);
-  component_stylist_birth_month.setState(ymd);
-  component_stylist_birth_day.setState(ymd);
-  component_stylist_phone_number.setState(stylist_info.stylist[0]);
-  component_stylist_position.setState(stylist_info.stylist[0]);
-  component_stylist_mail.setState(stylist_info.stylist[0]);
-  component_stylist_experience_year.setState(stylist_info.stylist[0]);
-  component_stylist_special_menu.setState(stylist_info.stylist[0]);
-  component_stylist_message.setState(stylist_info.stylist[0]);
-  component_stylist_image_path.setState(stylist_info.stylist[0]);
+  // component set state
+  componentSetState(stylist_info.stylist[0]);
 
   // アルバム一覧
   component_stylist_list.setState({"stylist_list":stylist_info.stylist});
@@ -490,9 +496,10 @@ $(function(){
   */
   // 登録ボタン押下時
   $('#stylist_regist_button').on('click', function() {
-    var birthday = component_stylist_birth_year.state.year +
-      component_stylist_birth_month.state.month +
-      component_stylist_birth_day.state.day;
+    var birthday =
+      component_stylist_birth_year.state.year   + '-' +
+      component_stylist_birth_month.state.month + '-' +
+      component_stylist_birth_day.state.day + '00:00:00';
     var data = {
       t_stylist_name:           component_stylist_name.state.t_stylist_name,
       t_stylist_sex:            component_stylist_sex.state.t_stylist_sex,
@@ -504,7 +511,7 @@ $(function(){
       t_stylist_experienceYear: component_stylist_experience_year.state.t_stylist_experienceYear,
       t_stylist_specialMenu:    component_stylist_special_menu.state.t_stylist_specialMenu,
       t_stylist_message:        component_stylist_message.state.t_stylist_message,
-    }
+    };
     var result = setMapInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
@@ -517,6 +524,23 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    // component set state
+    var id = $(".edit").index(this);
+    componentSetState(stylist_info.stylist[id]);
+  });
 
+  // 削除ボタン押下時
+  $('.delete').on('click', function() {
+    var id = $(".delete").index(this);
+    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
+
+    var result = deleteStaffInfo(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
+    }
   });
 });

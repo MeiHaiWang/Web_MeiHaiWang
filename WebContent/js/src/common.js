@@ -123,6 +123,22 @@ var setStaffInfo = (function(data){
     };
 })()
 
+// スタッフ情報を削除する関数
+var deleteStaffInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "GetStaffInfoAction.java",
+            async: false,
+            data: data,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})();
+
+
 // MysqlのDateTime型から年月日のオブジェクトを取得する関数
 var getYearMonthDayByDateTime = (function(date_time){
     return function(date_time) {
