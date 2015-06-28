@@ -118,6 +118,17 @@ $(function(){
     }
   });
 
+  // set state to component
+    function componentSetState(album) {
+    // コンポーネントにjsonを渡して関係する部分だけ書き換わる
+    component_album_category.setState(album);
+    component_album_category.setProps({hairtype: hairtype_info.type});
+    component_album_name.setState(album);
+    component_album_stylist_name.setState(album);
+    component_album_stylist_name.setProps({stylist: stylist_info.stylist});
+    component_album_image_path.setState(album);
+  }
+
 
   /*
     List
@@ -159,14 +170,8 @@ $(function(){
   var session_info = getSessionInfo();
   var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
 
-
-  // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-  component_album_category.setState(album_info.album[0]);
-  component_album_category.setProps({hairtype: hairtype_info.type});
-  component_album_name.setState(album_info.album[0]);
-  component_album_stylist_name.setState(album_info.album[0]);
-  component_album_stylist_name.setProps({stylist: stylist_info.stylist});
-  component_album_image_path.setState(album_info.album[0]);
+  // set component
+  componentSetState(album_info.album[0])
 
   // アルバム一覧
   component_album_list.setState({"album_list":album_info.album});
@@ -191,6 +196,28 @@ $(function(){
     }
     else {
       alert('Regist Failed');
+    }
+  });
+
+  // 編集ボタン押下時
+  $('.edit').on('click', function() {
+    // component set state
+    var id = $(".edit").index(this);
+    componentSetState(album_info.album[id]);
+  });
+
+  // 削除ボタン押下時
+  $('.delete').on('click', function() {
+    var id = $(".delete").index(this);
+    var data = {t_hairStyle_id: album_info.album[id].t_hairStyle_id};
+
+    var result = deleteAlbumInfo(data);
+    if (result.result == "true") {
+      alert('Delete Success');
+      window.location.reload();
+    }
+    else {
+      alert('Delete Failed');
     }
   });
 
