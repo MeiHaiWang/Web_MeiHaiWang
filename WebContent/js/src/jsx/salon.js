@@ -343,6 +343,8 @@ $(function(){
   var session_info = getSessionInfo();
   var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
   var country_area_info = getCountryAreaList();
+  sanitaize.decode(salon_info);
+  sanitaize.decode(country_area_info);
 
   // countryを参照しやすい形に変換
   var countrys = new Array();
@@ -396,6 +398,10 @@ $(function(){
       t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
       t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
     }
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setSalonInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
