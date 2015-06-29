@@ -33,7 +33,7 @@ var loginSystem = (function(mail_address, password){
 
         $.ajax({
             type: "POST",
-            url: API_PATH + "GetCheckLoginAction.java",
+            url: API_PATH + "CheckLoginAction.java",
             data: data,
             success: function(response){
                 response = JSON.parse(response);
