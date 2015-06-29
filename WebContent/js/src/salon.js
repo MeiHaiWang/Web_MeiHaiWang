@@ -425,11 +425,11 @@ $(function(){
       }
       var result = uploadImage(data);
       if (result.result == "true") {
-        var salon_image_path = new Array();
-        salon_image_path = result.image_path.split(',');
-        for (var i = salon_image_path.length; i < 4; i++) {
-          salon_image_path[i] = 'img/notfound.jpg';
-        }
+        var salon_image_path = new Array(result.image_path);
+        var current_image_path = component_salon_image_path.state.t_hairSalonMaster_salonImagePath;
+
+        // 常に画像は4つまでしか管理しない
+        salon_image_path = salon_image_path.concat(current_image_path).slice(0, 4);
 
         component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: salon_image_path});
       }
