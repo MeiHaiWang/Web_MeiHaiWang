@@ -1,2 +1,2 @@
 // APIルート
-const API_PATH = './';
+const API_PATH = '/api/:version/';
