@@ -2,7 +2,7 @@ $(function(){
 
     $.ajax({
         type: "POST",
-        url: API_PATH + "GetCheckSessionAction.java",
+        url: API_PATH + "CheckSessionAction.java",
         success: function(response){
             response = JSON.parse(response);
 

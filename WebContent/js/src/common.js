@@ -5,7 +5,7 @@ var getSessionInfo = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetCheckSessionAction.java",
+            url: API_PATH + "CheckSessionAction.java",
             async: false,
         }).responseText;
 
