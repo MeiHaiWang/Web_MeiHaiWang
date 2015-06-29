@@ -387,6 +387,7 @@ $(function(){
   // 登録ボタン押下時
   $('#salon_regist_button').on('click', function() {
     var data = {
+      t_hairSalonMaster_salonId:           session_info.t_hairSalonMaster_salonId,
       t_hairSalonMaster_name:              component_salon_name.state.t_hairSalonMaster_salon_name,
       t_area_id:                           getAreaIdByAreaName(component_salon_area.state.t_area_name, areas),
       t_hairSalonMaster_detailText:        component_salon_detail_text.state.t_hairSalonMaster_detailText,

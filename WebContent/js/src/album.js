@@ -189,6 +189,7 @@ $(function(){
   $('#album_regist_button').on('click', function() {
     var data = {
       t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
+      t_hairStyle_id:            component_album_category.state.t_hairStyle_id,
       t_hairStyle_hairTypeId:    component_album_category.state.t_hairStyle_hairTypeId,
       t_hairStyle_name:          component_album_name.state.t_hairStyle_name,
       t_hairStyle_stylistId:     component_album_stylist_name.state.t_hairStyle_stylistId,
