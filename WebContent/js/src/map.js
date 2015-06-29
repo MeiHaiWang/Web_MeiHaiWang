@@ -64,6 +64,7 @@ $(function(){
   // 登録ボタン押下時
   $('#map_regist_button').on('click', function() {
     var data = {
+      t_hairSalonMaster_salonId:      session_info.t_hairSalonMaster_salonId,
       t_hairSalonMaster_mapUrl:       component_map_url.state.t_hairSalonMaster_mapUrl,
       t_hairSalonMaster_mapImagePath: component_map_image_path.state.t_hairSalonMaster_mapImagePath,
     }

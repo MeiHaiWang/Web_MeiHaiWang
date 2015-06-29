@@ -239,6 +239,7 @@ $(function(){
   $('#coupon_regist_button').on('click', function() {
     var data = {
       t_hairSalonMaster_salonId:      session_info.t_hairSalonMaster_salonId,
+      t_coupon_Id:                    component_coupon_kind.state.t_coupon_Id,
       t_coupon_couponKindId:          component_coupon_kind.state.t_coupon_couponKindId,
       t_coupon_name:                  component_coupon_name.state.t_coupon_name,
       t_coupon_detailText:            component_coupon_detail_text.state.t_coupon_detailText,

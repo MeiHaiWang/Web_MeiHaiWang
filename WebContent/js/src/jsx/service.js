@@ -107,11 +107,11 @@ $(function(){
     getInitialState() {
       return {
         service_list: [{
-          "t_menu_categoryId": "&nbsp;",
-          "t_menu_menuId": "&nbsp;",
-          "t_menu_name": "&nbsp;",
-          "t_menu_price": "&nbsp;",
-          "t_menu_detailText": "&nbsp;",
+          "t_menu_categoryId": "",
+          "t_menu_menuId": "",
+          "t_menu_name": "",
+          "t_menu_price": "",
+          "t_menu_detailText": "",
           "t_menu_imagePath": "img/notfound.jpg"}]
       };
     },
@@ -191,6 +191,7 @@ $(function(){
   $('#service_regist_button').on('click', function() {
     var data = {
       t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
+      t_menu_menuId:             component_service_category.state.t_menu_menuId,
       t_menu_categoryId:         component_service_category.state.t_menu_categoryId,
       t_menu_name:               component_service_name.state.t_menu_name,
       t_menu_price:              component_service_price.state.t_menu_price,

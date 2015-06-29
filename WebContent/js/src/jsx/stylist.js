@@ -506,16 +506,18 @@ $(function(){
       component_stylist_birth_month.state.month + '-' +
       component_stylist_birth_day.state.day + '00:00:00';
     var data = {
-      t_stylist_name:           component_stylist_name.state.t_stylist_name,
-      t_stylist_sex:            component_stylist_sex.state.t_stylist_sex,
-      t_stylist_phoneNumber:    component_stylist_phone_number.state.t_stylist_phoneNumber,
-      t_stylist_mail:           component_stylist_mail.state.t_stylist_mail,
-      t_stylist_imagePath:      component_stylist_image_path.state.t_stylist_imagePath,
-      t_stylist_birth:          birthday,
-      t_stylist_position:       component_stylist_position.state.t_stylist_position,
-      t_stylist_experienceYear: component_stylist_experience_year.state.t_stylist_experienceYear,
-      t_stylist_specialMenu:    component_stylist_special_menu.state.t_stylist_specialMenu,
-      t_stylist_message:        component_stylist_message.state.t_stylist_message,
+      t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
+      t_stylist_Id:              component_stylist_name.state.t_stylist_Id,
+      t_stylist_name:            component_stylist_name.state.t_stylist_name,
+      t_stylist_sex:             component_stylist_sex.state.t_stylist_sex,
+      t_stylist_phoneNumber:     component_stylist_phone_number.state.t_stylist_phoneNumber,
+      t_stylist_mail:            component_stylist_mail.state.t_stylist_mail,
+      t_stylist_imagePath:       component_stylist_image_path.state.t_stylist_imagePath,
+      t_stylist_birth:           birthday,
+      t_stylist_position:        component_stylist_position.state.t_stylist_position,
+      t_stylist_experienceYear:  component_stylist_experience_year.state.t_stylist_experienceYear,
+      t_stylist_specialMenu:     component_stylist_special_menu.state.t_stylist_specialMenu,
+      t_stylist_message:         component_stylist_message.state.t_stylist_message,
     };
 
     // サニタイズ
