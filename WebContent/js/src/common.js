@@ -414,6 +414,24 @@ var setMapInfo = (function(data){
     };
 })()
 
+// 画像をアップロードしファイルURLを取得する関数
+var uploadImage = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "uploadImage",
+            async: false,
+            processData: false,
+            data: data,
+            dataType: 'json',
+            contentType: false,
+        }).responseText;
+
+        response = JSON.parse(response);
+        return response;
+    };
+})()
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
