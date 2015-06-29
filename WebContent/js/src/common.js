@@ -3,7 +3,7 @@ var getSessionInfo = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "CheckSessionAction.java",
+            url: API_PATH + "checkSession",
             async: false,
         }).responseText;
 
@@ -17,7 +17,7 @@ var getSalonInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetSalonInfoAction.java",
+            url: API_PATH + "getSalonInfo",
             async: false,
             data: data,
         }).responseText;
@@ -32,7 +32,7 @@ var setSalonInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetSalonInfoAction.java",
+            url: API_PATH + "setSalonInfo",
             async: false,
             data: data,
         }).responseText;
@@ -47,7 +47,7 @@ var getCountryAreaList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetCountryAreaListAction.java",
+            url: API_PATH + "getCountryAreaList",
             async: false,
         }).responseText;
 
@@ -96,7 +96,7 @@ var getStaffInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetStaffInfoAction.java",
+            url: API_PATH + "getStaffInfo",
             async: false,
             data: data,
         }).responseText;
@@ -111,7 +111,7 @@ var setStaffInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetStaffInfoAction.java",
+            url: API_PATH + "setStaffInfo",
             async: false,
             data: data,
         }).responseText;
@@ -126,7 +126,7 @@ var deleteStaffInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "DeleteStaffInfoAction.java",
+            url: API_PATH + "deleteStaffInfo",
             async: false,
             data: data,
         }).responseText;
@@ -141,7 +141,7 @@ var setStaffMenu = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetStaffMenuAction.java",
+            url: API_PATH + "setStaffMenu",
             async: false,
             data: data,
         }).responseText;
@@ -156,7 +156,7 @@ var deleteStaffMenu = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "DeleteStaffMenuAction.java",
+            url: API_PATH + "deleteStaffMenu",
             async: false,
             data: data,
         }).responseText;
@@ -181,7 +181,7 @@ var getServiceList = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetServiceListAction.java",
+            url: API_PATH + "getServiceList",
             async: false,
             data: data,
         }).responseText;
@@ -197,7 +197,7 @@ var getMenuInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetMenuInfoAction.java",
+            url: API_PATH + "getMenuInfo",
             async: false,
             data: data,
         }).responseText;
@@ -212,7 +212,7 @@ var setMenuInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetMenuInfoAction.java",
+            url: API_PATH + "setMenuInfo",
             async: false,
             data: data,
         }).responseText;
@@ -227,7 +227,7 @@ var deleteMenuInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "DeleteMenuInfoAction.java",
+            url: API_PATH + "deleteMenuInfo",
             async: false,
             data: data,
         }).responseText;
@@ -242,7 +242,7 @@ var getServiceCategoryList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetServiceCategoryListAction.java",
+            url: API_PATH + "getServiceCategoryList",
             async: false,
         }).responseText;
 
@@ -256,7 +256,7 @@ var getCouponInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetCouponInfoAction.java",
+            url: API_PATH + "getCouponInfo",
             async: false,
             data: data,
         }).responseText;
@@ -271,7 +271,7 @@ var setCouponInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetCouponInfoAction.java",
+            url: API_PATH + "setCouponInfo",
             async: false,
             data: data,
         }).responseText;
@@ -286,7 +286,7 @@ var deleteCouponInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "DeleteCouponInfoAction.java",
+            url: API_PATH + "deleteCouponInfo",
             async: false,
             data: data,
         }).responseText;
@@ -301,7 +301,7 @@ var getCouponKindList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetCouponKindListAction.java",
+            url: API_PATH + "getCouponKindList",
             async: false,
         }).responseText;
 
@@ -315,7 +315,7 @@ var getAlbumInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetAlbumInfoAction.java",
+            url: API_PATH + "getAlbumInfo",
             async: false,
             data: data,
         }).responseText;
@@ -330,7 +330,7 @@ var setAlbumInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetAlbumInfoAction.java",
+            url: API_PATH + "setAlbumInfo",
             async: false,
             data: data,
         }).responseText;
@@ -345,7 +345,7 @@ var deleteAlbumInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "DeleteAlbumInfoAction.java",
+            url: API_PATH + "deleteAlbumInfo",
             async: false,
             data: data,
         }).responseText;
@@ -360,7 +360,7 @@ var getStylistList = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetStylistListAction.java",
+            url: API_PATH + "getStylistList",
             async: false,
             data: data,
         }).responseText;
@@ -375,7 +375,7 @@ var getHairTypeList = (function(){
     return function() {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetHairTypeListAction.java",
+            url: API_PATH + "getHairTypeList",
             async: false,
         }).responseText;
 
@@ -389,7 +389,7 @@ var getMapInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "GetMapInfoAction.java",
+            url: API_PATH + "getMapInfo",
             async: false,
             data: data,
         }).responseText;
@@ -404,7 +404,7 @@ var setMapInfo = (function(data){
     return function(data) {
         var response = $.ajax({
             type: "POST",
-            url: API_PATH + "SetMapInfoAction.java",
+            url: API_PATH + "setMapInfo",
             async: false,
             data: data,
         }).responseText;
