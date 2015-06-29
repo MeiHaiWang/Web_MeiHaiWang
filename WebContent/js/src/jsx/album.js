@@ -134,6 +134,8 @@ $(function(){
     List
   */
   var hairtype_info = getHairTypeList();
+  sanitaize.decode(hairtype_info);
+
   // hairtypeを参照しやすい形に変換
   var hairtypes = new Array();
   for (var i = 0; i < hairtype_info.type.length; i++) {
@@ -143,6 +145,7 @@ $(function(){
   }
 
   var stylist_info = getStylistList();
+  sanitaize.decode(stylist_info);
   // stylistを参照しやすい形に変換
   var stylists = new Array();
   for (var i = 0; i < stylist_info.stylist.length; i++) {
@@ -170,6 +173,8 @@ $(function(){
   var session_info = getSessionInfo();
   var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
 
+  sanitaize.decode(album_info);
+
   // set component
   componentSetState(album_info.album[0])
 
@@ -189,6 +194,10 @@ $(function(){
       t_hairStyle_stylistId:     component_album_stylist_name.state.t_hairStyle_stylistId,
       t_hairStyle_imagePath:     component_album_image_path.state.t_hairStyle_imagePath,
     }
+
+    // サニタイズ
+    sanitaize.encode(data);
+
     var result = setAlbumInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
@@ -210,6 +219,9 @@ $(function(){
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
     var data = {t_hairStyle_id: album_info.album[id].t_hairStyle_id};
+
+    // サニタイズ
+    sanitaize.encode(data);
 
     var result = deleteAlbumInfo(data);
     if (result.result == "true") {
