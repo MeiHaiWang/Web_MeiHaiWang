@@ -3,6 +3,7 @@ $(function(){
     $.ajax({
         type: "POST",
         url: API_PATH + "checkSession",
+        dataType: "text"
         success: function(response){
             response = JSON.parse(response);
 
