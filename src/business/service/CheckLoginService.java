@@ -53,8 +53,8 @@ public class CheckLoginService {
 		if(userHash == "NULL") userHash = null;
 
 		//user-input for manual-login
-		String[] mailList = request.getParameterValues("mail")!=null
-        		?request.getParameterValues("mail") : null;
+		String[] mailList = request.getParameterValues("mail_address")!=null
+        		?request.getParameterValues("mail_address") : null;
         String[] passwordList = request.getParameterValues("password")!=null
         		?request.getParameterValues("password") : null;
         String mail = null;
