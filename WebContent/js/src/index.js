@@ -25,7 +25,7 @@ $(function(){
 
 
 var loginSystem = (function(mail_address, password){
-    return function() {
+    return function(mail_address, password) {
         var data = {
             mail_address: mail_address,
             password: password
