@@ -439,4 +439,12 @@ $(function(){
     }
   });
 
+  // 画像削除ボタン
+  $('.salon_image_trash_button').on('click', function() {
+    var id = $(".salon_image_trash_button").index(this);
+    var current_image_path = component_salon_image_path.state.t_hairSalonMaster_salonImagePath;
+    current_image_path[id] = 'img/notfound.jpg';
+    component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: current_image_path});
+  });
+
 });
