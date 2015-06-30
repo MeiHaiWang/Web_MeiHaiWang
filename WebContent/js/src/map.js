@@ -101,4 +101,9 @@ $(function(){
       }
     }
   });
+
+  // 画像削除ボタン
+  $('.map_image_trash_button').on('click', function() {
+    component_map_image_path.setState({t_hairSalonMaster_mapImagePath: 'img/notfound.jpg'});
+  });
 });
