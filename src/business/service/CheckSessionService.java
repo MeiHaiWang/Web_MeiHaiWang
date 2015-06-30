@@ -120,7 +120,8 @@ public class CheckSessionService {
 		 	*/					
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
-	    	jsonObject.put("status", result);		    	
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("status", resultStr);		    	
 	    	jsonObject.put("t_hairSalonMaster_salonId", salonId);		    	
 	    	jsonObject.put("t_hairSalonMaster_contactUserName", salonContactUserName);		    	
 		    

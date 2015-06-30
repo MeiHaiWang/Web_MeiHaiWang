@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
-
 import common.constant.Constant;
 import common.util.DBConnection;
 
@@ -55,7 +54,8 @@ public class DeleteStaffInfoService {
 			 * 
 			 */
 			
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 			
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

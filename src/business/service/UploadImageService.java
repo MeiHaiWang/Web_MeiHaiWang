@@ -117,7 +117,8 @@ public class UploadImageService {
          * { result:アップロード成否, image_path:画像URL }
          */
         JSONObject jsonObject = new JSONObject();
-	    jsonObject.put("result", result);
+		String resultStr = String.valueOf( result );
+    	jsonObject.put("result", resultStr);		    	
 	    jsonObject.put("image_path", ImageUrl);
 	    
 	    PrintWriter out;

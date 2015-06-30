@@ -143,7 +143,8 @@ public class SetStaffInfoService {
 			 * 
 			 */
 			
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 		    jsonObject.put("t_stylist_Id", stylistId);
 			
 		    PrintWriter out = response.getWriter();

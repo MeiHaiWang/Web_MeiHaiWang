@@ -116,7 +116,8 @@ public class SetMenuInfoService {
 			      t_menu_menuId:登録したサービスのID,
 			    }
 			 */		
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 		    jsonObject.put("t_menu_menuId", menuId);
 			
 		    PrintWriter out = response.getWriter();

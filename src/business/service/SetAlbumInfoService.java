@@ -112,7 +112,8 @@ public class SetAlbumInfoService {
 			    }
 			 */
 			
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 		    jsonObject.put("t_hairStyle_Id", hairStyleId);
 			
 		    PrintWriter out = response.getWriter();

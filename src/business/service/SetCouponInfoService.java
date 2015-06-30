@@ -127,7 +127,8 @@ public class SetCouponInfoService {
 			    }
 			 */
 			
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 		    jsonObject.put("t_coupon_Id", couponId);
 			
 		    PrintWriter out = response.getWriter();

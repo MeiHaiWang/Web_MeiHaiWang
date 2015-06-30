@@ -157,7 +157,8 @@ public class SetSalonInfoService {
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");
 			}
-		    jsonObject.put("result",result);
+			String resultStr = String.valueOf( result );
+	    	jsonObject.put("result", resultStr);		    	
 			
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

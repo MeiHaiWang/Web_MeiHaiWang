@@ -57,7 +57,8 @@ public class LogoutSessionService {
 			 */
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
-		    jsonObject.put("result", result);
+			String resultStr = String.valueOf( result );
+			jsonObject.put("result", resultStr);
 	
 		    PrintWriter out;
 			out = response.getWriter();
