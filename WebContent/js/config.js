@@ -1,2 +1,2 @@
 // APIルート
-const API_PATH = '/api/:version/';
+const API_PATH = '/MeiHaiWangWebProject/api/:version/';

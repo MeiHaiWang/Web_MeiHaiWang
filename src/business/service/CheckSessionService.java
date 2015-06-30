@@ -59,29 +59,6 @@ public class CheckSessionService {
         }
 
 		HttpSession session = request.getSession(false);
-		//Whether session is created
-		if (session == null){
-		  // まだ認証されていない
-		  session = request.getSession(true);
-		  	try {
-				response.sendRedirect("/checkLogin");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		//認証しているかを確認
-		}else{
-		  Object loginCheck = session.getAttribute("login");
-		  if (loginCheck == null){
-		    // まだ認証されていない
-		    try {
-				response.sendRedirect("/checkLogin");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  }
-		}
 		
 		//get salonId in session-info
 		String salonId_str = "";
