@@ -118,7 +118,8 @@ div#stylist_image_path {
 }
 
 #stylist_list_info td{
-  padding: 4px;
+  text-align: center;
+  padding: 4px 10px;
   background-color: #fafafa;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;

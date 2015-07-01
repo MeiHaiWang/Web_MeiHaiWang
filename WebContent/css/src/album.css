@@ -97,7 +97,8 @@ div.album_image_path {
 }
 
 #album_list_info td{
-  padding: 4px;
+  text-align: center;
+  padding: 4px 10px;
   background-color: #fafafa;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
