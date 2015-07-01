@@ -119,13 +119,11 @@ $(function(){
   });
 
   // set state to component
-    function componentSetState(album) {
+  function componentSetState(album) {
     // コンポーネントにjsonを渡して関係する部分だけ書き換わる
     component_album_category.setState(album);
-    component_album_category.setProps({hairtype: hairtype_info.type});
     component_album_name.setState(album);
     component_album_stylist_name.setState(album);
-    component_album_stylist_name.setProps({stylist: stylist_info.stylist});
     component_album_image_path.setState(album);
   }
 
@@ -176,7 +174,9 @@ $(function(){
   sanitaize.decode(album_info);
 
   // set component
-  componentSetState(album_info.album[0])
+  component_album_category.setProps({hairtype: hairtype_info.type});
+  component_album_stylist_name.setProps({stylist: stylist_info.stylist});
+
 
   // アルバム一覧
   component_album_list.setState({"album_list":album_info.album});
