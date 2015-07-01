@@ -482,8 +482,6 @@ $(function(){
     stylist_info.stylist[i].t_menu_t_menu_name = menu_name.join(',');
   }
 
-  // component set state
-  componentSetState(stylist_info.stylist[0]);
 
   // アルバム一覧
   component_stylist_list.setState({"stylist_list":stylist_info.stylist});

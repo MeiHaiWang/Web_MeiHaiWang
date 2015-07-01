@@ -134,7 +134,6 @@ $(function(){
   function componentSetState(menu) {
     // コンポーネントにjsonを渡して関係する部分だけ書き換わる
     component_service_category.setState(menu);
-    component_service_category.setProps({category: service_category_info.category});
     component_service_name.setState(menu);
     component_service_detail_text.setState(menu);
     component_service_price.setState(menu);
@@ -178,7 +177,7 @@ $(function(){
   sanitaize.decode(service_info);
 
   // set component
-  componentSetState(service_info.menu[0]);
+  component_service_category.setProps({category: service_category_info.category});
 
   // メニュー一覧
   component_service_list.setState({"service_list":service_info.menu});
