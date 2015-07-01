@@ -3,6 +3,7 @@ $(function(){
     $.ajax({
         type: "POST",
         url: API_PATH + "checkSession",
+        dataType: "text",
         success: function(response){
             response = JSON.parse(response);
 
@@ -35,6 +36,7 @@ var loginSystem = (function(mail_address, password){
             type: "POST",
             url: API_PATH + "checkLogin",
             data: data,
+            dataType: "text",
             success: function(response){
                 response = JSON.parse(response);
 
