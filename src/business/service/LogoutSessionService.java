@@ -25,9 +25,11 @@ public class LogoutSessionService {
 		 * Declaration values
 		 */
         int responseStatus = HttpServletResponse.SC_OK;
+        /*
         //user-Id
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+		*/
 
 		//session-invalidate
 		HttpSession session = request.getSession(false);
@@ -37,8 +39,11 @@ public class LogoutSessionService {
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;			
 		}
-		
+
+		/*
 		//Reset User-cookie
+		 * cookieでもログインできるようにしておく？
+		 * 
 		if(userId!=-1){
 			try {
 				DBConnection dbConnection = new DBConnection();
@@ -50,6 +55,7 @@ public class LogoutSessionService {
 				e1.printStackTrace();
 			}
 		}
+		*/
 		
 		try {
 			/* output

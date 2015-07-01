@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetCountryAreaListService;
 import business.service.GetCouponListService;
 
-@WebServlet(name="GetCountryAreaListServlet",urlPatterns={"/api/:version/getCounrtyAreaList"})
+@WebServlet(name="GetCountryAreaListServlet",urlPatterns={"/api/:version/getCountryAreaList"})
 public class GetCountryAreaListAction extends HttpServlet{
 	/**
 	 *

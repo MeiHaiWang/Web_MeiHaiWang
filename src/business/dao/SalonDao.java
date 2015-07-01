@@ -451,7 +451,7 @@ public class SalonDao {
 	}
 	
 	//
-	public String getCheckSession(DBConnection dbConnection, Integer salonId) throws SQLException{
+	public String getContactUserName(DBConnection dbConnection, Integer salonId) throws SQLException{
 		String sql ="SELECT `t_hairSalonMaster_contactUserName` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
 		HairSalonInfo salonInfo = new HairSalonInfo();

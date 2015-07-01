@@ -38,19 +38,13 @@ public class CheckLoginService {
 		 * Declaration values
 		 */
         int responseStatus = HttpServletResponse.SC_OK;
-        //user-Id
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        //user-Idがあればすでにログイン済
-        if(userId != -1){
-    		response.setStatus(responseStatus);
-    		return response;
-        }
         		
+        /*
         //user-cookie for auto-login
 		String userHash = request.getParameter("userHash") != null ?
 				request.getParameter("userHash").toString() : null;
 		if(userHash == "NULL") userHash = null;
+		*/
 
 		//user-input for manual-login
 		String[] mailList = request.getParameterValues("mail_address")!=null
@@ -107,7 +101,8 @@ public class CheckLoginService {
 					//Master-salonId by userId
 					salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
 					//debug
-					System.out.println("Got a SalonId: " + salonId);
+					//System.out.println("Got a SalonId: " + salonId);
+					/*
 					//Hash値を再計算してユーザテーブルに格納する
 					if(salonId>=0){
 						retHash = EncryptUtil.getHashValue(mail + password);
@@ -115,6 +110,7 @@ public class CheckLoginService {
 					}else{
 						result = false;
 					}
+					*/
 				}
 				
 				/*
@@ -136,6 +132,7 @@ public class CheckLoginService {
 				session.setAttribute("login", "logined");
 				session.setAttribute("salonId", salonId_str);
 				//cookie write?
+				
 			}else{
 				System.out.println("ログイン失敗.");
 			}

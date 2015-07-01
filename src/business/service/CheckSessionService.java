@@ -48,15 +48,6 @@ public class CheckSessionService {
         //result of sql
 		boolean result = false;
 
-		//user-Id
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        //user-Idがあればすでにログイン済
-        if(userId != -1){
-    		response.setStatus(responseStatus);
-    		return response;
-        }
-
         //whether salonid has, in session -> salonId response
 		HttpSession session = request.getSession(false);
 		int salonId = -1;
@@ -78,8 +69,7 @@ public class CheckSessionService {
 				DBConnection dbConnection = new DBConnection();
 				java.sql.Connection conn = dbConnection.connectDB();
 				if(conn!=null){
-					salonContactUserName = salonDao.getCheckSession(dbConnection, salonId);
-					if(salonContactUserName == "") result = false;
+					salonContactUserName = salonDao.getContactUserName(dbConnection, salonId);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -87,6 +77,9 @@ public class CheckSessionService {
 				}
 			}
 			
+			//TODO: どういう場合にresult = flaseにするか
+			if(salonContactUserName == "") result = false;
+
 			
 			/* output
 		    {
