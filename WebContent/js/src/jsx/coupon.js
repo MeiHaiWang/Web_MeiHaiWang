@@ -189,7 +189,6 @@ $(function(){
   function componentSetState(coupon) {
     // コンポーネントにjsonを渡して関係する部分だけ書き換わる
     component_coupon_kind.setState(coupon);
-    component_coupon_kind.setProps({kind: coupon_kind_info.kind});
     component_coupon_name.setState(coupon);
     component_coupon_detail_text.setState(coupon);
     component_coupon_price.setState(coupon);
@@ -226,7 +225,7 @@ $(function(){
   sanitaize.decode(coupon_kind_info);
 
   // set component
-  componentSetState(coupon_info.coupon[0]);
+  component_coupon_kind.setProps({kind: coupon_kind_info.kind});
 
   // クーポン一覧
   component_coupon_list.setState({"coupon_list":coupon_info.coupon});
