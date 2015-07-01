@@ -3,10 +3,8 @@ $(function(){
     $.ajax({
         type: "POST",
         url: API_PATH + "checkSession",
-        dataType: "text",
+        dataType: "json",
         success: function(response){
-            response = JSON.parse(response);
-
             if (response.status === "false") {
 
             }
@@ -36,10 +34,8 @@ var loginSystem = (function(mail_address, password){
             type: "POST",
             url: API_PATH + "checkLogin",
             data: data,
-            dataType: "text",
+            dataType: "json",
             success: function(response){
-                response = JSON.parse(response);
-
                 if (response.result === "false") {
                     alert("Login faild.");
                 }

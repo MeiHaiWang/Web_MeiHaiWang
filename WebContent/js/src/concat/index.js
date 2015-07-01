@@ -3,10 +3,8 @@ $(function(){
     $.ajax({
         type: "POST",
         url: API_PATH + "checkSession",
-        dataType: "text",
+        dataType: "json",
         success: function(response){
-            response = JSON.parse(response);
-
             if (response.status === "false") {
                 location.href = "./index.html";
             }
