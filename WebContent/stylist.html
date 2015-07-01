@@ -97,7 +97,23 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="login.html"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+<script>
+var logout = (function () {
+    var response = $.ajax({
+        type: "POST",
+        url: API_PATH + "logOutSession",
+        async: false,
+        processData: false,
+        dataType: 'text',
+        contentType: false,
+    }).responseText;
+
+    if (response.result == "true") {
+        location.href = "./index.html";
+    }
+});
+</script>
+                    <li><a id="logout" href="#" onClick="logout();"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
                 </ul>
             </li>
         </ul>
