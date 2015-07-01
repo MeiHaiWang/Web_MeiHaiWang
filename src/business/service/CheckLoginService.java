@@ -98,32 +98,22 @@ public class CheckLoginService {
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			
 			if(conn!=null){
-				//自動ログイン
-				if(userHash != null){
-					info = userDao.getUserInfoByHash(dbConnection, userHash);
-					//自動ログイン成功
-					if(info != null){
-						result = true;
-					}
-				}
-				else{
-					masterUserId = userDao.getCheckLoginInfo(dbConnection, mail, password);
-					if(masterUserId >= 0) result = true;
-					//ログイン成功
-					if(result){
-						//Master-salonId by userId
-						salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
-						//debug
-						System.out.println("Got a SalonId: " + salonId);
-						//Hash値を再計算してユーザテーブルに格納する
-						if(salonId>=0){
-							retHash = EncryptUtil.getHashValue(mail + password);
-							updated = userDao.updateUserHash(dbConnection, masterUserId, retHash);
-						}else{
-							result = false;
-						}
+				//do Login 
+				masterUserId = userDao.getCheckLoginInfo(dbConnection, mail, password);
+				if(masterUserId >= 0) result = true;
+				//ログイン成功
+				if(result){
+					//Master-salonId by userId
+					salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
+					//debug
+					System.out.println("Got a SalonId: " + salonId);
+					//Hash値を再計算してユーザテーブルに格納する
+					if(salonId>=0){
+						retHash = EncryptUtil.getHashValue(mail + password);
+						updated = userDao.updateUserHash(dbConnection, masterUserId, retHash);
+					}else{
+						result = false;
 					}
 				}
 				

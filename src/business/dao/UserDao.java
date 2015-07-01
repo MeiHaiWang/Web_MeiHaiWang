@@ -297,8 +297,8 @@ public class UserDao {
 	}
 
 	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
-		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` LIKE'";
-		String sql2 = "' AND `t_user_passward` LIKE '";
+		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` ='";
+		String sql2 = "' AND `t_user_passward` = '";
 	    String sql3 = "'";
 	    int retUserId = -1;
 	    

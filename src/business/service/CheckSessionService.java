@@ -43,7 +43,6 @@ public class CheckSessionService {
 		/**
 		 * Declaration values
 		 */
-
 		//Http-servlet-response
 		int responseStatus = HttpServletResponse.SC_OK;
         //result of sql
@@ -58,21 +57,22 @@ public class CheckSessionService {
     		return response;
         }
 
+        //whether salonid has, in session -> salonId response
 		HttpSession session = request.getSession(false);
-		
-		//get salonId in session-info
-		String salonId_str = "";
-		int salonId = 0;
-		salonId_str = (String)session.getAttribute("salonId");
-		if(salonId_str != null){
-			salonId = Integer.parseInt(salonId_str);
-			result = true;
+		int salonId = -1;
+		if(session != null){
+			//get salonId in session-info
+			String salonId_str = "";
+			salonId_str = (String)session.getAttribute("salonId");
+			if(salonId_str != null){
+				salonId = Integer.parseInt(salonId_str);
+				result = true;
+			}
 		}
 
 		//get Contact-user-name by SalonId in salonTable
 		String salonContactUserName = "";
 		SalonDao salonDao = new SalonDao();
-		
 		try{
 			if(result){
 				DBConnection dbConnection = new DBConnection();
