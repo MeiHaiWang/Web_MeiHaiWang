@@ -103,9 +103,7 @@ var logout = (function () {
         type: "POST",
         url: API_PATH + "logOutSession",
         async: false,
-        processData: false,
         dataType: 'json',
-        contentType: false,
     }).responseText;
 
     if (response.result == "true") {
