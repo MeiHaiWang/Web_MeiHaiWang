@@ -5,3 +5,14 @@
 body {
   overflow: scroll;
 }
+
+ul.sidebar-nav>li.active>a {
+  color: #FFFFFF;
+  background-color: #D99ABB;
+}
+ul.sidebar-nav>li>a {
+  margin: 3px 0;
+  border: none;
+  color: #848685;
+  background-color: #DDCAD4;
+}
