@@ -1,1 +1,7 @@
 /* style for login page */
+.content {
+  width: 1000px;
+}
+body {
+  overflow: scroll;
+}
