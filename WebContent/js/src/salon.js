@@ -346,18 +346,18 @@ $(function(){
   //sanitaize.decode(salon_info);
   //sanitaize.decode(country_area_info);
   var session_info_json = getSessionInfo();
-  console.log("session_info:"+session_info_json);
   var session_info = JSON.parse(session_info_json);
 
   var salon_info_json = getSalonInfo(session_info.t_hairSalonMaster_salonId);
-  console.log("salonId:"+session_info.t_hairSalonMaster_salonId);
-  console.log("salon_info:"+salon_info_json);
-
   var country_area_info_json = getCountryAreaList();
   sanitaize.decode(salon_info_json);
   sanitaize.decode(country_area_info_json);
   var salon_info = JSON.parse(salon_info_json);
   var country_area_info = JSON.parse(country_area_info_json);
+  console.log("salon_info:"+salon_info_json);
+  console.log("session_info_obj:"+session_info);
+  console.log("salon_info_obj:"+salon_info.t_hairSalonMaster_salon_name);
+  console.log("country_area_info_obj:"+country_area_info);
 
   // countryを参照しやすい形に変換
   var countrys = new Array();

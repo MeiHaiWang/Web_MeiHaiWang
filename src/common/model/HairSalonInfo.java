@@ -75,6 +75,10 @@ public class HairSalonInfo {
 		//return hairSalonImagePath;
 	}	
 
+	public String getHairSalonImagePathOneLine(){
+		return hairSalonImagePath;
+	}	
+
 	public void setAreaNameList(List<String> areaNameList){
 		this.areaNameList = areaNameList != null ? areaNameList : new ArrayList<String>();
 	}

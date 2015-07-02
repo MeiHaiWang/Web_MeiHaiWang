@@ -104,29 +104,21 @@ public class GetSalonInfoService {
 		 */
 		
 		// 返却用サロンデータ（jsonデータの作成）
-		JSONArray salonArray = new JSONArray();
-		for(HairSalonInfo hairSalonInfo : salonInfoList){
-			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("t_hairSalonMaster_salon_name", hairSalonInfo.getHairSalonName());
-			jsonOneData.put("t_country_name", hairSalonInfo.getSalonCountryName());
-	    	jsonOneData.put("t_area_name", hairSalonInfo.getAreaNameList().get(0));
-			jsonOneData.put("t_hairSalonMaster_detailText", hairSalonInfo.getSalonDetailText());
-			jsonOneData.put("t_hairSalonMaster_openTime", hairSalonInfo.getSalonOpenTime());
-			jsonOneData.put("t_hairSalonMaster_closeTime", hairSalonInfo.getSalonCloseTime());
-			jsonOneData.put("t_hairSalonMaster_closeDay", hairSalonInfo.getSalonCloseDay());
-			jsonOneData.put("t_hairSalonMaster_creditAvailable", hairSalonInfo.getSalonCreditAvailable());
-			jsonOneData.put("t_hairSalonMaster_carParkAvailable", hairSalonInfo.getSalonCarParkAvailable());
-			int i = 0;
-	    	for(String str : hairSalonInfo.getHairSalonImagePath()){
-	    		i++;
-	    		jsonOneData.put("t_hairSalonMaster_salonImagePath"+i, str);		    		
-	    	}
-	    	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getSalonCarParkAvailable());
-			salonArray.add(jsonOneData);
-		}
-		jsonObject.put("",salonArray);
+		HairSalonInfo hairSalonInfo = salonInfoList.get(0);
+		JSONObject jsonOneData = new JSONObject();
+		jsonOneData.put("t_hairSalonMaster_salon_name", hairSalonInfo.getHairSalonName());
+		jsonOneData.put("t_country_name", hairSalonInfo.getSalonCountryName());
+    	jsonOneData.put("t_area_name", hairSalonInfo.getAreaNameList().get(0));
+		jsonOneData.put("t_hairSalonMaster_detailText", hairSalonInfo.getSalonDetailText());
+		jsonOneData.put("t_hairSalonMaster_openTime", hairSalonInfo.getSalonOpenTime());
+		jsonOneData.put("t_hairSalonMaster_closeTime", hairSalonInfo.getSalonCloseTime());
+		jsonOneData.put("t_hairSalonMaster_closeDay", hairSalonInfo.getSalonCloseDay());
+		jsonOneData.put("t_hairSalonMaster_creditAvailable", hairSalonInfo.getSalonCreditAvailable());
+		jsonOneData.put("t_hairSalonMaster_carParkAvailable", hairSalonInfo.getSalonCarParkAvailable());
+		jsonOneData.put("t_hairSalonMaster_salonImagePath", hairSalonInfo.getHairSalonImagePathOneLine());		    		
+    	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getSalonCarParkAvailable());
 		PrintWriter out = response.getWriter();
-		out.print(jsonObject);
+		out.print(jsonOneData);
 		out.flush();
 		
 	}catch(Exception e){
