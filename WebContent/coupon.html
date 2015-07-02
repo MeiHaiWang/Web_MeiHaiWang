@@ -104,7 +104,7 @@ var logout = (function () {
         url: API_PATH + "logOutSession",
         async: false,
         processData: false,
-        dataType: 'text',
+        dataType: 'json',
         contentType: false,
     }).responseText;
 
@@ -126,7 +126,7 @@ var logout = (function () {
     <main id="content" class="content" role="main">
         <h1 class="page-title">クーポン情報管理</h1>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <section class="widget bg-transparent">
                     <div class="widget-body">
                     <dl id="coupon_page">
