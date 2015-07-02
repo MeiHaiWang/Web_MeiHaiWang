@@ -340,20 +340,41 @@ $(function(){
     Main Part
   */
   // セッションIDからサロン情報を取得する
-  var session_info = getSessionInfo();
-  var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
-  var country_area_info = getCountryAreaList();
-  sanitaize.decode(salon_info);
-  sanitaize.decode(country_area_info);
+  //var session_info = getSessionInfo();
+  //var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
+  //var country_area_info = getCountryAreaList();
+  //sanitaize.decode(salon_info);
+  //sanitaize.decode(country_area_info);
+  var session_info_json = getSessionInfo();
+  console.log("session_info:"+session_info_json);
+  var session_info = JSON.parse(session_info_json);
+
+  var salon_info_json = getSalonInfo(session_info.t_hairSalonMaster_salonId);
+  console.log("salonId:"+session_info.t_hairSalonMaster_salonId);
+  console.log("salon_info:"+salon_info_json);
+
+  var country_area_info_json = getCountryAreaList();
+  sanitaize.decode(salon_info_json);
+  sanitaize.decode(country_area_info_json);
+  var salon_info = JSON.parse(salon_info_json);
+  var country_area_info = JSON.parse(country_area_info_json);
 
   // countryを参照しやすい形に変換
   var countrys = new Array();
   var country_area_id_info = new Array();
+  for (var i = 0; i < Object.keys(country_area_info).length; i++) {
+    var country_id = country_area_info.country[i].t_country_id;
+    var country_name = country_area_info.country[i].t_country_name;
+    countrys[i] = {country_id: country_id, country_name: country_name};
+  }
+  /*
   for (var i = 0; i < country_area_info.country.length; i++) {
     var country_id = country_area_info.country[i].t_country_id;
     var country_name = country_area_info.country[i].t_country_name;
     countrys[i] = {country_id: country_id, country_name: country_name};
   }
+  */
+
   // areaを参照しやすい形に変換
   var areas = getAreasByCountryName(country_area_info.country, salon_info.t_country_name);
 

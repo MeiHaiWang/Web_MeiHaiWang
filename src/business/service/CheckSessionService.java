@@ -54,7 +54,7 @@ public class CheckSessionService {
 		if(session != null){
 			//get salonId in session-info
 			String salonId_str = "";
-			salonId_str = (String)session.getAttribute("salonId");
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
 			if(salonId_str != null){
 				salonId = Integer.parseInt(salonId_str);
 				result = true;

@@ -130,7 +130,7 @@ public class CheckLoginService {
 				HttpSession session = request.getSession();
 				salonId_str = Integer.toString(salonId);
 				session.setAttribute("login", "logined");
-				session.setAttribute("salonId", salonId_str);
+				session.setAttribute("t_hairSalonMaster_salonId", salonId_str);
 				//cookie write?
 				
 			}else{

@@ -73,7 +73,7 @@ public class GetCountryAreaListService {
 				CountryDao countryDao = new CountryDao();
 				AreaDao areaDao = new AreaDao();
 				
-				//get CountryInfoDatas
+				//get CountryInfoData
 				countryInfoList = countryDao.getCountryListInfo(dbConnection);	
 
 				//get AreaIngoDatas
