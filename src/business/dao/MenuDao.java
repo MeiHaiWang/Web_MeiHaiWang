@@ -30,6 +30,8 @@ public class MenuDao {
 		for(int menuId : menuIdList){
 			try {
 				ResultSet rs = statement.executeQuery(sql1 + menuId);
+				//debug
+				System.out.println(sql1 + menuId);
 				while(rs.next()){
 					MenuInfo menuInfo = new MenuInfo();
 					menuInfo.setMenuId(rs.getInt("t_menu_menuId"));

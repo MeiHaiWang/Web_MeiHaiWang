@@ -457,13 +457,24 @@ $(function(){
     Main Part
   */
   // セッションIDからスタッフ情報を取得する
-  var session_info = getSessionInfo();
-  var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
-  sanitaize.decode(stylist_info);
+  //var session_info = getSessionInfo();
+  var session_info_json = getSessionInfo();
+  var session_info = JSON.parse(session_info_json);
+  
+  //var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
+  //sanitaize.decode(stylist_info);
+  var stylist_info_json = getStaffInfo(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(stylist_info_json);
+  var stylist_info = JSON.parse(stylist_info_json);
 
   // サロンIDに紐づくサービス一覧を取得する
-  var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
-  sanitaize.decode(service_list);
+  //var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
+  //sanitaize.decode(service_list);
+  var service_list_json = getServiceList(session_info.t_hairSalonMaster_salonId);
+  sanitaize.decode(service_list_json);
+  var service_list = JSON.parse(service_list_json);
+  console.log("service_list_json:"+service_list_json);
+
 
   // service_listを参照しやすい形に変換
   var services = new Array();
