@@ -6,6 +6,15 @@ body {
   overflow: scroll;
 }
 
+#login_form tr {
+  height: 50px;
+}
+
+#login_form td {
+  text-align: center;
+  width: 150px;
+}
+
 ul.sidebar-nav>li.active>a {
   color: #FFFFFF;
   background-color: #D99ABB;
