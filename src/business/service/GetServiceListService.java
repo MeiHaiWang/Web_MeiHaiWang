@@ -52,11 +52,15 @@ public class GetServiceListService {
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
 
-        int salonId = -1;
-        //get a salonId by session
+		//salonId kokokara
+	    int salonId = -1;
+	    //get a salonId by session
 		String salonId_str = "";
 		if (session != null){
-			salonId_str = (String)session.getAttribute("salonId");
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
+			System.out.println("salonId_str: " + salonId_str);
+		}else{
+			System.out.println("session is null...");
 		}
 		if(salonId_str != null){			
 			if(salonId_str.compareTo("") != 0){
@@ -68,6 +72,7 @@ public class GetServiceListService {
 	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
 			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
 		}
+		//salonId kokomade
 
 		try{
 			DBConnection dbConnection = new DBConnection();

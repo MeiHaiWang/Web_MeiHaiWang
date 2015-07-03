@@ -29,7 +29,10 @@ public class GetMenuInfoService {
 	    //get a salonId by session
 		String salonId_str = "";
 		if (session != null){
-			salonId_str = (String)session.getAttribute("salonId");
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
+			System.out.println("salonId_str: " + salonId_str);
+		}else{
+			System.out.println("session is null...");
 		}
 		if(salonId_str != null){			
 			if(salonId_str.compareTo("") != 0){

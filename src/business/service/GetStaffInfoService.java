@@ -15,6 +15,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
+import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
@@ -25,17 +26,24 @@ public class GetStaffInfoService {
 		
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
-
-        /*
-		int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		*/
-    	/*
-    	int salonId = request.getParameter("salonId") != null ?
-    			Integer.valueOf(request.getParameter("salonId").toString()) : -1;
-    			*/
-		//TODO テスト用
-        int salonId = 1;
+		//salonId kokokara
+	    int salonId = -1;
+	    //get a salonId by session
+		String salonId_str = "";
+		if (session != null){
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
+		}
+		if(salonId_str != null){			
+			if(salonId_str.compareTo("") != 0){
+				salonId = Integer.parseInt(salonId_str);
+			}
+		}   
+		if(salonId < 0){
+	        //get a salonId by parameter
+	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+		}
+		//salonId kokomade
         
         try{
 			DBConnection dbConnection = new DBConnection();

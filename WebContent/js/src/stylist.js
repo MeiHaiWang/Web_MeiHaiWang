@@ -460,6 +460,8 @@ $(function(){
   //var session_info = getSessionInfo();
   var session_info_json = getSessionInfo();
   var session_info = JSON.parse(session_info_json);
+  //debug
+  console.log("salonId:"+session_info.t_hairSalonMaster_salonId);
   
   //var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
   //sanitaize.decode(stylist_info);
@@ -474,7 +476,6 @@ $(function(){
   sanitaize.decode(service_list_json);
   var service_list = JSON.parse(service_list_json);
   console.log("service_list_json:"+service_list_json);
-
 
   // service_listを参照しやすい形に変換
   var services = new Array();

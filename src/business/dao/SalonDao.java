@@ -506,9 +506,11 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				String stylistId = rs.getString("t_hairSalonMaster_stylistId");
-				stylistIdListStr = Arrays.asList(stylistId.split(","));				
-				for(String sId : stylistIdListStr){
-					stylistIdList.add(Integer.parseInt(sId));
+				if(stylistId!=null){
+					stylistIdListStr = Arrays.asList(stylistId.split(","));				
+					for(String sId : stylistIdListStr){
+						stylistIdList.add(Integer.parseInt(sId));
+					}
 				}
 			}	
 		} catch (SQLException e) {
