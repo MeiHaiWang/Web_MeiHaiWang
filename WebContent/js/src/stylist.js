@@ -475,7 +475,6 @@ $(function(){
   var service_list_json = getServiceList(session_info.t_hairSalonMaster_salonId);
   sanitaize.decode(service_list_json);
   var service_list = JSON.parse(service_list_json);
-  console.log("service_list_json:"+service_list_json);
 
   // service_listを参照しやすい形に変換
   var services = new Array();

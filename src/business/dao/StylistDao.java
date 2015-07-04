@@ -361,14 +361,13 @@ public class StylistDao {
 	 		stylistInfoList.add(retNull());
 	 		return stylistInfoList;
 	 	}
-	 	
-		//debug
-	 	System.out.println(sql);
-	 	
+	 		 	
 		Statement statement = dbConnection.getStatement();
 		for(int index: stylist_id_list){
 			try {
 				ResultSet rs = statement.executeQuery(sql+Integer.toString(index));
+				//debug
+			 	System.out.println(sql+Integer.toString(index));
 				while(rs.next()){
 					StylistInfo stylistInfo = new StylistInfo();
 					stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));

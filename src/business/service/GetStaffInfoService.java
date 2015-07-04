@@ -107,10 +107,10 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_experienceYear", info.getStylistYearsNumber());
 		    	jsonOneData.put("t_stylist_specialMenu", info.getSpecialMenu());
 		    	jsonOneData.put("t_stylist_message", info.getStylistMessage());
-		    	jsonOneData.put("t_menu_t_menu_id:", info.getMenuId());
+		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
 			    stylistArray.add(jsonOneData);
 		    }
-		    jsonObject.put("stylist",stylistArray);		    
+		    jsonObject.put("stylist",stylistArray);	
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

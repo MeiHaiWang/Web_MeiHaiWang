@@ -26,6 +26,7 @@ public class CouponDao {
 	 */
 	public List<CouponInfo> getCouponInfo(DBConnection dbConnection, String couponIdList,int salonId) throws SQLException{
 		String sql= "SELECT `t_coupon_Id`, `t_coupon_name`, (SELECT `t_couponKind_name` FROM `t_masterCouponKind` WHERE `t_couponKind_id` = `t_coupon_couponKindId`) AS CKINDNAME, `t_coupon_couponKindId`, `t_coupon_imagePath`, `t_coupon_detailText`, `t_coupon_useCondition`, `t_coupon_price`, `t_coupon_deadLine`, `t_coupon_isFirstFlag`, `t_coupon_presentationCondition` FROM `t_coupon` WHERE `t_coupon_Id` IN(" + couponIdList + ")";
+		//debug
 		System.out.println(sql);
 		List<CouponInfo> couponInfoList = new ArrayList<CouponInfo>();
 		Statement statement = dbConnection.getStatement();
@@ -67,6 +68,8 @@ public class CouponDao {
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			//debug
+			System.out.println(sql);
 			while(rs.next()){
 				couponIds = rs.getString("t_hairSalonMaster_couponId");
 				/*if(couponIds != null){

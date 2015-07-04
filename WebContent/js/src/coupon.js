@@ -217,13 +217,25 @@ $(function(){
   /*
     Main Part
   */
+  /*
   // セッションIDからクーポン情報を取得する
   var session_info = getSessionInfo();
   var coupon_info = getCouponInfo(session_info.t_hairSalonMaster_salonId);
   var coupon_kind_info = getCouponKindList();
   sanitaize.decode(coupon_info);
   sanitaize.decode(coupon_kind_info);
+  */
+  var session_info_json = getSessionInfo();
+  var session_info = JSON.parse(session_info_json);  
+  var coupon_info_json = getCouponInfo(session_info.t_hairSalonMaster_salonId);
+  var coupon_kind_info_json = getCouponKindList();
+  sanitaize.decode(coupon_info_json);
+  sanitaize.decode(coupon_kind_info_json);
+  var coupon_info = JSON.parse(coupon_info_json);
+  var coupon_kind_info = JSON.parse(coupon_kind_info_json);
+  console.log(coupon_info_json);
 
+  
   // set component
   component_coupon_kind.setProps({kind: coupon_kind_info.kind});
 

@@ -504,6 +504,8 @@ public class SalonDao {
 
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			//debug 
+			System.out.println(sql);
 			while(rs.next()){
 				String stylistId = rs.getString("t_hairSalonMaster_stylistId");
 				if(stylistId!=null){
