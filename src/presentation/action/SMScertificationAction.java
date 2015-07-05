@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.util.EncryptUtil;
 import business.service.AddHairStyleFavoriteService;
+import business.service.SMScertificationService;
 
 @WebServlet(name="UserRegistServlet",urlPatterns={"/api/:version/smscert"})
 public class SMScertificationAction extends HttpServlet {
@@ -84,11 +85,12 @@ public class SMScertificationAction extends HttpServlet {
 		byte[] epwIv = request.getParameter("pwIv").getBytes();
 		
 		try {
-			byte[] tel = EncryptUtil.decrypt(key, etelIv, eTel);
-			byte[] pw = EncryptUtil.decrypt(key, epwIv, epw);
-			
+			String tel = new String(EncryptUtil.decrypt(key, etelIv, eTel));
+			String pw = new String(EncryptUtil.decrypt(key, epwIv, epw));
+			//MEMO 暫定で登録する
 			//TODO SMS認証サービスを使用してワンタイムキーを返却する
-			
+			SMScertificationService service = new SMScertificationService();
+			service.excuteService(request, response, tel, pw);
 		} catch (InvalidKeyException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

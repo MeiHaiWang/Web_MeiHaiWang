@@ -351,5 +351,27 @@ public class UserDao {
 		return retSalonId;
 	}
 	
+	public boolean setUserAcount(DBConnection dbConnection, String tel , String pw){
+
+		String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
+		
+		Statement statement = dbConnection.getStatement();
+		boolean result = false;
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql + "'"+ tel + "'" + "," + "'" + pw + "'" + ")");
+			while(rs.next()){
+				result = true;
+				
+			}
+		} catch (SQLException e) {
+			result = false;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 
 }
