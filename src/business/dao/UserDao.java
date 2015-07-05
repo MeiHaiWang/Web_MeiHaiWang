@@ -296,7 +296,7 @@ public class UserDao {
 		}
 		return result;
 	}
-	/*
+	
 	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
 		String sql1 = "SELECT `t_hairSalonMaster_salonId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_mail` ='";
 		String sql2 = "' AND `t_hairSalonMaster_passward` ='";
@@ -325,8 +325,8 @@ public class UserDao {
 		
 		return retSalonId;
 	}
-	*/
-	/*
+	
+
 	public int getMsterSalonId(DBConnection dbConnection, int userId){
 		int retSalonId = -1;
 		String sql = "SELECT `t_user_MasterSalonId` FROM `t_user` WHERE `t_user_Id` = " + userId;
@@ -352,7 +352,7 @@ public class UserDao {
 		
 		return retSalonId;
 	}
-<<<<<<< HEAD
+
 	
 	public boolean setUserAcount(DBConnection dbConnection, String tel , String pw){
 
@@ -375,9 +375,4 @@ public class UserDao {
 		
 		return result;
 	}
-	
-=======
-*/	
->>>>>>> origin/master
-
 }
