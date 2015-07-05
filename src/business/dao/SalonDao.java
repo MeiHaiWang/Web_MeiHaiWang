@@ -483,9 +483,11 @@ public class SalonDao {
 			System.out.println(sql);
 			while(rs.next()){
 				String menuId = rs.getString("t_hairSalonMaster_menuId");
-				menuIdListStr = Arrays.asList(menuId.split(","));				
-				for(String mId : menuIdListStr){
-					menuIdList.add(Integer.parseInt(mId));
+				if(menuId != null){
+					menuIdListStr = Arrays.asList(menuId.split(","));				
+					for(String mId : menuIdListStr){
+						menuIdList.add(Integer.parseInt(mId));
+					}
 				}
 			}	
 		} catch (SQLException e) {
@@ -539,7 +541,7 @@ public class SalonDao {
 		      t_hairSalonMaster_japaneseAvailable,
 		    }
 		 */
-		
+		/*
 		String sql ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_detailText`, "
 				+ "`t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, "
 				+ "`t_hairSalonMaster_closeDay`, `t_hairSalonMaster_creditAvailable`, `t_hairSalonMaster_carParkAvailable`, "
@@ -550,7 +552,22 @@ public class SalonDao {
 				+ "JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId "
 				+ "JOIN t_masterCountry ON t_area_countryId = t_country_countryId "
 				+ "WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		*/
+		String sql1 ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_detailText`, "
+				+ "`t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, "
+				+ "`t_hairSalonMaster_closeDay`, `t_hairSalonMaster_creditAvailable`, `t_hairSalonMaster_carParkAvailable`, "
+				+ "`t_hairSalonMaster_availableCountryId`, `t_hairSalonMaster_areaId` ";
+		String sql3 = 
+				 "FROM `t_hairSalonMaster` ";
+		String sql5 = 
+				 "WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		String sql = sql1 + sql3 + sql5;
 
+		String t_area_areaId = null;
+		String t_country_countryId = null;
+		String areaSql = "SELECT `t_area_areaName`, `t_area_countryId` FROM `t_masterArea` WHERE `t_area_areaId` = ";
+		String countrySql = "SELECT `t_country_countryName` FROM `t_masterCountry` WHERE `t_country_countryId` = ";
+		
 		Statement statement = dbConnection.getStatement();
 		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
 		HairSalonInfo salonInfo = new HairSalonInfo();
@@ -566,9 +583,11 @@ public class SalonDao {
 				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
 				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
 
+				/*
 				salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
 				salonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
-
+				*/
+				
 				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
 				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
 						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
@@ -581,16 +600,52 @@ public class SalonDao {
 				salonInfo.setSalonCreditAvailable(rs.getBoolean("t_hairSalonMaster_creditAvailable"));
 				salonInfo.setSalonCarParkAvailable(rs.getBoolean("t_hairSalonMaster_carParkAvailable"));
 
+				t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				/*
 				boolean japaneseAvailable = false;
 				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
 				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				*/
+				//SalonInfoList.add(salonInfo);
 				
-				SalonInfoList.add(salonInfo);
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		if(t_area_areaId != null){
+			try {
+				//debug
+				System.out.println(areaSql + t_area_areaId);
+				ResultSet rs = statement.executeQuery(areaSql + t_area_areaId);
+				while(rs.next()){
+					salonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
+					t_country_countryId = rs.getString("t_area_countryId");
+				}	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if(t_country_countryId != null){
+			try {
+				//debug
+				System.out.println(countrySql + t_country_countryId);
+				ResultSet rs = statement.executeQuery(countrySql + t_country_countryId);
+				while(rs.next()){
+					salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
+					boolean japaneseAvailable = false;
+					int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+					if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
+					salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				}	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		SalonInfoList.add(salonInfo);
 		return SalonInfoList;	
 	}
 	
