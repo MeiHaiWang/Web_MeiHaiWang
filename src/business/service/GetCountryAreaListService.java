@@ -17,7 +17,9 @@ import common.constant.Constant;
 import common.model.AreaInfo;
 import common.model.CountryInfo;
 import common.model.HairStyleInfo;
+import common.util.AreaNode;
 import common.util.DBConnection;
+import common.util.TreeUtil;
 
 /**
  * 
@@ -92,6 +94,49 @@ public class GetCountryAreaListService {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 			/*
+			 * {
+				      area:[
+				        {
+				          t_area_id,
+				          t_area_name,
+				          area_slave:[
+				            {
+				              t_area_id,
+				              t_area_name
+				            },
+				          ]
+				        },
+				      ]
+				}
+			 */
+			AreaNode[] root = new AreaNode[countryInfoList.size()];			
+			JSONArray ja = new JSONArray();
+			root[countryInfoList.get(0).getCountryId()]
+					= TreeUtil.createTreeObject(areaInfoList[countryInfoList.get(0).getCountryId()]);
+			//debug
+			System.out.println("r"+root[countryInfoList.get(0).getCountryId()]);
+			jsonObject = root[countryInfoList.get(0).getCountryId()].output();
+			/*
+			for(CountryInfo cInfo: countryInfoList){
+				//tree
+				root[cInfo.getCountryId()]
+						= TreeUtil.createTreeObject(areaInfoList[cInfo.getCountryId()]);
+				//output
+				ja.add(root[cInfo.getCountryId()].output());
+			}
+			*/
+			//jsonObject.put("country", ja);
+
+			PrintWriter out = response.getWriter();
+		    out.print(jsonObject);
+		    out.flush();
+	    }catch(Exception e){
+			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+			
+			
+			/*
 			    {
 			      country:[
 			        {
@@ -108,7 +153,6 @@ public class GetCountryAreaListService {
 			        ...
 			      ]
 			    }
-			 */
 		    // 返却用サロンデータ（jsonデータの作成）
 			JSONArray countryArray = new JSONArray();
 		    for(CountryInfo cInfo : countryInfoList){
@@ -133,6 +177,7 @@ public class GetCountryAreaListService {
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
+			 */
 	    
 		response.setStatus(responseStatus);
 		return response;

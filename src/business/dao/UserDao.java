@@ -19,6 +19,7 @@ import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 
 public class UserDao {
@@ -122,7 +123,7 @@ public class UserDao {
 		int result = -1;
 		String sql_before = "SELECT `t_user_favoriteSalonId` FROM `t_user` WHERE t_user_id = ";
 		String sql_after="";
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteSalonId` = '";
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET `t_user_favoriteSalonId` = '";
 		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
 		
 		Statement statement = dbConnection.getStatement();
@@ -162,7 +163,7 @@ public class UserDao {
 		int result = -1, status = -1;
 		String sql_before = "SELECT `t_user_favoriteStylistId` FROM `t_user` WHERE t_user_id = ";
 		String sql_after="";
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteStylistId` = '";
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET `t_user_favoriteStylistId` = '";
 		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
 		
 		Statement statement = dbConnection.getStatement();
@@ -205,7 +206,7 @@ public class UserDao {
 		int result = -1, status = -1;
 		String sql_before = "SELECT `t_user_favoriteHairStyleId` FROM `t_user` WHERE t_user_id = ";
 		String sql_after="";
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_favoriteHairStyleId` = '";
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET `t_user_favoriteHairStyleId` = '";
 		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId + ";";
 		
 		Statement statement = dbConnection.getStatement();
@@ -283,7 +284,7 @@ public class UserDao {
 	
 	public int updateUserHash(DBConnection dbConnection, Integer userId, String userHash) throws SQLException { 
 		int result = -1;
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_cookie` = '" + userHash;
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET `t_user_cookie` = '" + userHash;
 		String sql2 = "' WHERE `t_user`.`t_user_Id` = " + userId.toString() + ";";
 		Statement statement = dbConnection.getStatement();
 		//debug

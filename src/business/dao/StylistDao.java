@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.StylistInfo;
 import common.model.UserInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
@@ -412,16 +413,16 @@ public class StylistDao {
 		 * 
 		 * SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = 1
 		 * 
-		 * INSERT INTO `MEIHAIWAN_TEST`.`t_stylist` (`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, `t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, `t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, `t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, `t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('
+		 * INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` (`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, `t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, `t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, `t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, `t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('
 		 * 10', 'name', '1', NULL, NULL, 'imagePath', 'position', 'message', '2', 'sp', NULL, NULL, 'mail.com', '090-', '2015-06-15 00:00:00', NULL, NULL, NULL, '0', '1', NULL, NULL);
 		 * 
 		 * SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = 1
-		 * UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '1,2,3,4' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 1;
+		 * UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '1,2,3,4' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 1;
 		 * 
 		*/
 		
 		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
-		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_stylist` ("
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` ("
 				+ "`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, "
 				+ "`t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, "
 				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
@@ -434,7 +435,7 @@ public class StylistDao {
 		String sql_end = "');";
 		
 		String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
-		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
+		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 
@@ -533,11 +534,11 @@ public class StylistDao {
 
 		/**
 		 * SQL 例:
-		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 13;
+		 * UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_menuId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 13;
 		 * 
 		*/
 		
-		String sql1 = "UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '";
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_menuId` = '";
 		String sql2 = "' WHERE `t_stylist`.`t_stylist_Id` = ";
 		String sql3 = ";";
 		Statement statement = dbConnection.getStatement();
@@ -570,11 +571,11 @@ public class StylistDao {
 
 		/**
 		 * SQL 例:
-		 *UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = 13;
+		 *UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = 13;
 		 * 
 		*/
 		
-		String sql = "UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = ";
+		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = ";
 		Statement statement = dbConnection.getStatement();
 		
 		//debug
@@ -603,11 +604,11 @@ public class StylistDao {
 
 			/**
 			 * SQL 例:
-			 * DELETE FROM `MEIHAIWAN_TEST`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = 13
+			 * DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = 13
 			 * 
 			*/
 			
-			String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = ";
+			String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = ";
 			Statement statement = dbConnection.getStatement();
 			
 			//debug

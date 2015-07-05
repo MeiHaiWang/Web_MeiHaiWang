@@ -1,5 +1,11 @@
 package common.constant;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import common.util.PropertiesManager;
+
 public  class Constant {
 	private Constant(){
 		//インスタンス生成禁止

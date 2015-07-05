@@ -11,6 +11,7 @@ import java.util.List;
 
 import common.model.AreaInfo;
 import common.model.CouponInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 
 public class CouponDao {
@@ -100,11 +101,12 @@ public class CouponDao {
 		 * 
 		 * SELECT * FROM `t_coupon` WHERE `t_coupon_Id` = 1
 		 * 
-			INSERT INTO `MEIHAIWAN_TEST`.`t_coupon` (`t_coupon_Id`, `t_coupon_name`, `t_coupon_couponKindId`, `t_coupon_detailText`, `t_coupon_useCondition`, `t_coupon_imagePath`, `t_coupon_price`, `t_coupon_deadLine`, `t_coupon_isFirstFlag`, `t_coupon_presentationCondition`) VALUES ('10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL);		 * 
+			INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_coupon` (`t_coupon_Id`, `t_coupon_name`, `t_coupon_couponKindId`, `t_coupon_detailText`, `t_coupon_useCondition`, `t_coupon_imagePath`, `t_coupon_price`, `t_coupon_deadLine`, `t_coupon_isFirstFlag`, `t_coupon_presentationCondition`) VALUES ('10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL);		 * 
 		*/
+		String a = "\"";
 		
 		String sql_before = "SELECT * FROM `t_coupon` WHERE `t_coupon_Id` = "; // couponId 
-		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_coupon` ("
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_coupon` ("
 				+ "`t_coupon_Id`, `t_coupon_name`, `t_coupon_couponKindId`, `t_coupon_detailText`, "
 				+ "`t_coupon_useCondition`, `t_coupon_imagePath`, `t_coupon_price`, `t_coupon_deadLine`, "
 				+ "`t_coupon_isFirstFlag`, `t_coupon_presentationCondition`) VALUES ('";
@@ -114,7 +116,7 @@ public class CouponDao {
 		String sql_end = "');";
 		
 		String salon_sql1 = "SELECT `t_hairSalonMaster_couponId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
-		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_couponId` = '";
+		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_couponId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 
@@ -197,11 +199,11 @@ public class CouponDao {
 
 		/**
 		 * SQL 例:
-		 * DELETE FROM `MEIHAIWAN_TEST`.`t_coupon` WHERE `t_coupon`.`t_coupon_Id` = 13
+		 * DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_coupon` WHERE `t_coupon`.`t_coupon_Id` = 13
 		 * 
 		*/
 		
-		String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_coupon` WHERE `t_coupon`.`t_coupon_Id` = ";
+		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_coupon` WHERE `t_coupon`.`t_coupon_Id` = ";
 		Statement statement = dbConnection.getStatement();
 		
 		//debug

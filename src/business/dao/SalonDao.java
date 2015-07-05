@@ -21,6 +21,7 @@ import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
 import common.model.UserInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
@@ -623,19 +624,25 @@ public class SalonDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		if(t_area_areaId != null){
-			try {
-				//debug
-				System.out.println(areaSql + t_area_areaId);
-				ResultSet rs = statement.executeQuery(areaSql + t_area_areaId);
-				while(rs.next()){
-					salonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
-					t_country_countryId = rs.getString("t_area_countryId");
-				}	
-			} catch (SQLException e) {
-				e.printStackTrace();
+			List<String> areaIdList = new ArrayList<String>();
+			List<String> areaNameList = new ArrayList<String>();
+			areaIdList = Arrays.asList(t_area_areaId.split(","));				
+			for(String areaId : areaIdList){
+				try {
+					//debug
+					System.out.println(areaSql + areaId);
+					ResultSet rs = statement.executeQuery(areaSql + areaId);
+					while(rs.next()){
+						areaNameList.add(rs.getString("t_area_areaName"));
+						t_country_countryId = rs.getString("t_area_countryId");
+					}	
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
+			salonInfo.setAreaNameList(areaNameList);
 		}
 
 		if(t_country_countryId != null){
@@ -691,11 +698,11 @@ public class SalonDao {
 		*/
 		
 		/**
-		 * UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = 'name2', `t_hairSalonMaster_areaId` = '1,2' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 5;
+		 * UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = 'name2', `t_hairSalonMaster_areaId` = '1,2' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 5;
 		 */
 
 		String sql1 = "SELECT * FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 
-		String sql2 = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = '";
+		String sql2 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = '";
 				//+ "SalonName" +
 		String sql3 = "', `t_hairSalonMaster_areaId` = '";
 				//+ "AreaId list" +
@@ -819,12 +826,12 @@ public class SalonDao {
 			String t_hairSalonMaster_mapUrl,
 			String t_hairSalonMaster_mapImagePath) {
 		/**
-		 *     UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '
+		 *     UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '
 		 *     mapUrl', `t_hairSalonMaster_mapImagePath` = 'image' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 7;
 		 */
 
 		boolean result = false;
-		String sql1 ="UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '"; 		
+		String sql1 ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '"; 		
 		String sql2 ="', `t_hairSalonMaster_mapImagePath` = '"; 		
 		String sql3 ="' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "; 		
 		String sql4 =";";

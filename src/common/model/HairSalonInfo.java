@@ -42,7 +42,7 @@ public class HairSalonInfo {
     private boolean carParkAvailable = false;
     private boolean japaneseAvailable = false;
     
-    private int areaId = -1;
+    private String areaId = "";
     
 	public HairSalonInfo(){
 		
@@ -295,10 +295,10 @@ public class HairSalonInfo {
 		return salonMapUrl;
 	}
 
-	public void setSalonAreaId(int areaId) {
+	public void setSalonAreaId(String areaId) {
 		this.areaId = areaId;
 	}
-	public int getSalonAreaId(){
+	public String getSalonAreaId(){
 		return areaId;
 	}
 

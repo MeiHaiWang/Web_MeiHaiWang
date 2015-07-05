@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.model.MenuInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 
 public class MenuDao {
@@ -122,12 +123,12 @@ public class MenuDao {
 		 * 
 		 * SELECT * FROM `t_menu` WHERE `t_menu_Id` = 1
 		 * 
-			INSERT INTO `MEIHAIWAN_TEST`.`t_menu` (`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, 
+			INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` (`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, 
 			`t_menu_detailText`, `t_menu_imagePath`) VALUES ('2', 'name', '1000', '1', 'detail', 'imagePath');		 * 
 		*/
 		
 		String sql_before = "SELECT * FROM `t_menu` WHERE `t_menu_menuId` = "; // menuId 
-		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_menu` ("
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` ("
 				+ "`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, `t_menu_detailText`, "
 				+ "`t_menu_imagePath`) VALUES ('";
 		String sql2 = "', '";
@@ -170,7 +171,7 @@ public class MenuDao {
 	
 		//* menu をsalon　に足さなきゃ
 		String salon_sql1 = "SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
-		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_menuId` = '";
+		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_menuId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 		
@@ -214,11 +215,11 @@ public class MenuDao {
 
 		/**
 		 * SQL 例:
-		 *DELETE FROM `MEIHAIWAN_TEST`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = 2
+		 *DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = 2
 		 * 
 		*/
 		
-		String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = ";
+		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = ";
 		Statement statement = dbConnection.getStatement();
 		
 		//debug

@@ -6,6 +6,7 @@ public class AreaInfo {
 	private int AreaLevel = Integer.MIN_VALUE;
 	private int AreaCountryId = Integer.MIN_VALUE;
 	private int isDetailFlag = Integer.MIN_VALUE;
+	private int parentId = -1;
 	
 	public AreaInfo(){
 	}
@@ -48,6 +49,13 @@ public class AreaInfo {
 	
 	public int getisDetailFlag(){
 		return isDetailFlag;
+	}
+
+	public void setParent(int parentId){
+		this.parentId = parentId;
+	}
+	public int getParent() {
+		return parentId;
 	}
 
 }

@@ -27,6 +27,7 @@ import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.PropertiesManager;
 
@@ -61,6 +62,7 @@ public class UploadImageService {
           List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
           // アップロードパス取得
+          /*
 			String upPath = null;
 			InputStream inStream;
 			Properties config_ = new Properties();	
@@ -72,6 +74,8 @@ public class UploadImageService {
 			}
 			String imageurl = config_.getProperty("imagepath");
 			upPath = imageurl;
+			*/
+          String upPath = ConfigUtil.getConfig("imagepath");
           //TODO : test : 通し番号をつけたい
           upPath = servletContext.getRealPath("/") + "upload/";
           System.out.println(upPath);

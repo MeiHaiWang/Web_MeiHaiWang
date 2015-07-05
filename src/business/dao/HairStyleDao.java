@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import common.model.HairStyleInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
@@ -268,14 +269,14 @@ public class HairStyleDao {
 		 * 
 		 * SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = 1
 		 * 
-			INSERT INTO `MEIHAIWAN_TEST`.`t_hairStyle` (`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, 
+			INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` (`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, 
 			`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_stylistId`, `t_hairStyle_areaId`, 
 			`t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_updateDate`, `t_hairStyle_favoriteNumber`) VALUES ('
 			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');		
 		*/
 		
 		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = "; // hairStyleId 
-		String sql1 = "INSERT INTO `MEIHAIWAN_TEST`.`t_hairStyle` ("
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` ("
 				+ "`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
 				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`) VALUES ('";
@@ -326,7 +327,7 @@ public class HairStyleDao {
 	
 		//* hairStyle をsalon　に足さなきゃ
 		String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
-		String salon_sql2_before = "UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
+		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 		
@@ -371,11 +372,11 @@ public class HairStyleDao {
 
 		/**
 		 * SQL 例:
-		 *DELETE FROM `MEIHAIWAN_TEST`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_hairStyleid` = 2
+		 *DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_hairStyleid` = 2
 		 * 
 		*/
 		
-		String sql = "DELETE FROM `MEIHAIWAN_TEST`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_id` = ";
+		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_id` = ";
 		Statement statement = dbConnection.getStatement();
 		
 		//debug

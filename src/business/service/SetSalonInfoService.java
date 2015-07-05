@@ -113,9 +113,7 @@ public class SetSalonInfoService {
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		salonInfo.setHairSalonId(salonId);
 		salonInfo.setHairSalonName(t_hairSalonMaster_name);
-		int areaId = -1;
-		if(t_area_id != null) areaId = Integer.parseInt(t_area_id);
-		salonInfo.setSalonAreaId(areaId);
+		salonInfo.setSalonAreaId(t_area_id);
 		salonInfo.setSalonDetailText(t_hairSalonMaster_detailText);
 		salonInfo.setSalonOpenTime(t_hairSalonMaster_openTime);
 		salonInfo.setSalonCloseTime(t_hairSalonMaster_closeTime);
