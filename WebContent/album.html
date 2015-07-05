@@ -103,9 +103,9 @@ var logout = (function () {
         type: "POST",
         url: API_PATH + "logOutSession",
         async: false,
-        dataType: "json",
+        dataType: "text",
     }).responseText;
-
+    response = JSON.parse(response);
     if (response.result == "true") {
         location.href = "./index.html";
     }

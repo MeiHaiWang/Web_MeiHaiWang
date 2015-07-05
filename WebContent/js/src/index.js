@@ -5,6 +5,7 @@ $(function(){
         url: API_PATH + "checkSession",
         dataType: "json",
         success: function(response){
+
             if (response.status === "false") {
 
             }

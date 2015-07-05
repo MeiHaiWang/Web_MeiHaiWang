@@ -128,15 +128,13 @@ $(function(){
   }
 
 
+
   /*
     List
   */
-  //var hairtype_info = getHairTypeList();
-  //sanitaize.decode(hairtype_info);
-  var hairtype_info_json = getHairTypeList();
-  sanitaize.decode(hairtype_info_json);
-  var hairtype_info = JSON.parse(hairtype_info_json);  
-  
+  var hairtype_info = getHairTypeList();
+  sanitaize.decode(hairtype_info);
+
   // hairtypeを参照しやすい形に変換
   var hairtypes = new Array();
   for (var i = 0; i < hairtype_info.type.length; i++) {
@@ -145,12 +143,8 @@ $(function(){
     hairtypes[hairtype_id] = hairtype_name;
   }
 
-  //var stylist_info = getStylistList();
-  //sanitaize.decode(stylist_info);
-  var stylist_info_json = getStylistList();
-  sanitaize.decode(stylist_info_json);
-  var stylist_info = JSON.parse(stylist_info_json);  
-  
+  var stylist_info = getStylistList();
+  sanitaize.decode(stylist_info);
   // stylistを参照しやすい形に変換
   var stylists = new Array();
   for (var i = 0; i < stylist_info.stylist.length; i++) {
@@ -175,20 +169,14 @@ $(function(){
     Main Part
   */
   // セッションIDからアルバム情報を取得する
-  //var session_info = getSessionInfo();
-  var session_info_json = getSessionInfo();
-  var session_info = JSON.parse(session_info_json);  
-  //var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
-  //sanitaize.decode(album_info);
-  var album_info_json = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
-  sanitaize.decode(album_info_json);
-  var album_info = JSON.parse(album_info_json);
-  console.log(album_info_json);
+  var session_info = getSessionInfo();
+  var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
+
+  sanitaize.decode(album_info);
 
   // set component
   component_album_category.setProps({hairtype: hairtype_info.type});
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
-
 
   // アルバム一覧
   component_album_list.setState({"album_list":album_info.album});

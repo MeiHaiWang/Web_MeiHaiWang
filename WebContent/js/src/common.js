@@ -5,9 +5,9 @@ var getSessionInfo = (function(){
             type: "POST",
             url: API_PATH + "checkSession",
             async: false,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -20,10 +20,10 @@ var getSalonInfo = (function(data){
             type: "POST",
             url: API_PATH + "getSalonInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -36,10 +36,10 @@ var setSalonInfo = (function(data){
             type: "POST",
             url: API_PATH + "setSalonInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -52,9 +52,9 @@ var getCountryAreaList = (function(){
             type: "POST",
             url: API_PATH + "getCountryAreaList",
             async: false,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -103,9 +103,9 @@ var getStaffInfo = (function(data){
             url: API_PATH + "getStaffInfo",
             async: false,
             data: data,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -119,9 +119,9 @@ var setStaffInfo = (function(data){
             url: API_PATH + "setStaffInfo",
             async: false,
             data: data,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -135,9 +135,9 @@ var deleteStaffInfo = (function(data){
             url: API_PATH + "deleteStaffInfo",
             async: false,
             data: data,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -151,9 +151,9 @@ var setStaffMenu = (function(data){
             url: API_PATH + "setStaffMenu",
             async: false,
             data: data,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -167,9 +167,9 @@ var deleteStaffMenu = (function(data){
             url: API_PATH + "deleteStaffMenu",
             async: false,
             data: data,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -192,10 +192,10 @@ var getServiceList = (function(data){
             type: "POST",
             url: API_PATH + "getServiceList",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -209,10 +209,10 @@ var getMenuInfo = (function(data){
             type: "POST",
             url: API_PATH + "getMenuInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -225,10 +225,10 @@ var setMenuInfo = (function(data){
             type: "POST",
             url: API_PATH + "setMenuInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -241,10 +241,10 @@ var deleteMenuInfo = (function(data){
             type: "POST",
             url: API_PATH + "deleteMenuInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -257,9 +257,9 @@ var getServiceCategoryList = (function(){
             type: "POST",
             url: API_PATH + "getServiceCategoryList",
             async: false,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -272,10 +272,11 @@ var getCouponInfo = (function(data){
             type: "POST",
             url: API_PATH + "getCouponInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
 
+        response = JSON.parse(response);
 
         return response;
     };
@@ -288,10 +289,10 @@ var setCouponInfo = (function(data){
             type: "POST",
             url: API_PATH + "setCouponInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -304,10 +305,10 @@ var deleteCouponInfo = (function(data){
             type: "POST",
             url: API_PATH + "deleteCouponInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -320,9 +321,9 @@ var getCouponKindList = (function(){
             type: "POST",
             url: API_PATH + "getCouponKindList",
             async: false,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -335,10 +336,11 @@ var getAlbumInfo = (function(data){
             type: "POST",
             url: API_PATH + "getAlbumInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
 
+        response = JSON.parse(response);
 
         return response;
     };
@@ -351,10 +353,10 @@ var setAlbumInfo = (function(data){
             type: "POST",
             url: API_PATH + "setAlbumInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -367,10 +369,10 @@ var deleteAlbumInfo = (function(data){
             type: "POST",
             url: API_PATH + "deleteAlbumInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -383,10 +385,10 @@ var getStylistList = (function(data){
             type: "POST",
             url: API_PATH + "getStylistList",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -399,9 +401,9 @@ var getHairTypeList = (function(){
             type: "POST",
             url: API_PATH + "getHairTypeList",
             async: false,
-            dataType: "json",
+            dataType: "text",
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -414,10 +416,10 @@ var getMapInfo = (function(data){
             type: "POST",
             url: API_PATH + "getMapInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -430,10 +432,10 @@ var setMapInfo = (function(data){
             type: "POST",
             url: API_PATH + "setMapInfo",
             async: false,
-            dataType: "json",
+            dataType: "text",
             data: data,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -448,10 +450,10 @@ var uploadImage = (function(data){
             async: false,
             processData: false,
             data: data,
-            dataType: 'json',
+            dataType: 'text',
             contentType: false,
         }).responseText;
-
+        response = JSON.parse(response);
 
         return response;
     };
@@ -470,7 +472,11 @@ var sanitaize = {
         return arguments.callee(obj[key]);
       }
       else {
-        if (typeof obj[key] !== "undefined") {
+        if (obj[key] === null) {
+          obj[key] = "";
+        }
+        else if (typeof obj[key] !== "undefined") {
+          obj[key] = obj[key].toString();
           obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
       }
@@ -485,6 +491,7 @@ var sanitaize = {
       }
       else {
         if (typeof obj[key] !== "undefined") {
+          obj[key] = obj[key].toString();
           obj[key] = obj[key].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, '\'').replace(/&amp;/g, '&');
         }
       }
