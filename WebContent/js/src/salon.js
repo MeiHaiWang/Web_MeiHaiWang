@@ -355,6 +355,7 @@ $(function(){
   var salon_info = JSON.parse(salon_info_json);
   var country_area_info = JSON.parse(country_area_info_json);
   console.log("salon_info:"+salon_info_json);
+  console.log("country_area_info:"+country_area_info_json);
   //console.log("session_info_obj:"+session_info);
   //console.log("salon_info_obj:"+salon_info.t_hairSalonMaster_salon_name);
   //console.log("country_area_info_obj:"+country_area_info);
@@ -377,6 +378,8 @@ $(function(){
 
   // areaを参照しやすい形に変換
   var areas = getAreasByCountryName(country_area_info.country, salon_info.t_country_name);
+	console.log("ca"+country_area_info.country);
+	console.log("si"+salon_info.t_country_name);
 
   // image画像情報を長さ4の配列に変換し、画像指定のない要素にnotfoundを表示するように
   var salon_image_path = new Array();
@@ -424,7 +427,7 @@ $(function(){
     console.log(data);
 
     // サニタイズ
-    sanitaize.encode(data);
+    // sanitaize.encode(data);
 
     var result = setSalonInfo(data);
     if (result.result == "true") {

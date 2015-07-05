@@ -42,7 +42,7 @@ public class SetMapInfoService {
 		int salonId = -1;
 		
 		if (session != null){
-			salonId_str = (String)session.getAttribute("salonId");
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
 		}else{
 			//session is null.
 		}

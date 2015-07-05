@@ -72,7 +72,7 @@ public class UploadImageService {
 			}
 			String imageurl = config_.getProperty("imagepath");
 			upPath = imageurl;
-          //TODO : test 
+          //TODO : test : 通し番号をつけたい
           upPath = servletContext.getRealPath("/") + "upload/";
           System.out.println(upPath);
           

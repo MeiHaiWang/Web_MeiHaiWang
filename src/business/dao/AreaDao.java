@@ -33,8 +33,12 @@ public class AreaDao {
 			ResultSet rs;
 			if(AreaId<0){
 				rs = statement.executeQuery(sql_1);
+				//debug
+				System.out.println(sql_1);
 			}else{
 				rs = statement.executeQuery(sql_2);				
+				//debug
+				System.out.println(sql_2);
 			}
 			
 			while(rs.next()){
