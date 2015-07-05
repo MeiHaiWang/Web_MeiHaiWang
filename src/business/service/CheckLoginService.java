@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.AreaDao;
+import business.dao.SalonDao;
 import business.dao.UserDao;
 import common.constant.Constant;
 import common.model.AreaInfo;
@@ -80,9 +81,10 @@ public class CheckLoginService {
 		String salonId_str = null;
 		
 		//userDao
-		UserDao userDao = new UserDao();
-		UserInfo info = null;
-
+		//UserDao userDao = new UserDao();
+		//UserInfo info = null;
+		SalonDao salonDao = new SalonDao();
+		
 		//return-value
 		String retHash="";
 
@@ -94,12 +96,13 @@ public class CheckLoginService {
 			java.sql.Connection conn = dbConnection.connectDB();
 			if(conn!=null){
 				//do Login 
-				masterUserId = userDao.getCheckLoginInfo(dbConnection, mail, password);
-				if(masterUserId >= 0) result = true;
+				salonId = salonDao.getCheckLoginInfo(dbConnection, mail, password);
+				if(salonId >= 0) result = true;
+				//if(masterUserId >= 0) result = true;
 				//ログイン成功
-				if(result){
+//				if(result){
 					//Master-salonId by userId
-					salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
+					//salonId = userDao.getMsterSalonId(dbConnection, masterUserId);
 					//debug
 					//System.out.println("Got a SalonId: " + salonId);
 					/*
@@ -111,7 +114,7 @@ public class CheckLoginService {
 						result = false;
 					}
 					*/
-				}
+//				}
 				
 				/*
 				//userTable にユーザIDが存在するかを確認。

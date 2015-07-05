@@ -52,7 +52,7 @@ public class SetMenuInfoService {
   	    //get a salonId by session
   		String salonId_str = "";
   		if (session != null){
-  			salonId_str = (String)session.getAttribute("salonId");
+  			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
   		}
   		if(salonId_str != null){			
   			if(salonId_str.compareTo("") != 0){

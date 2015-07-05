@@ -555,7 +555,7 @@ $(function(){
     var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
 
     // サニタイズ
-    sanitaize.encode(data);
+    // sanitaize.encode(data);
 
     var result = deleteStaffInfo(data);
     if (result.result == "true") {

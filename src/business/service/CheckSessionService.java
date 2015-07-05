@@ -55,8 +55,6 @@ public class CheckSessionService {
 			//get salonId in session-info
 			String salonId_str = "";
 			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
-			//debug
-			System.out.println(salonId_str);
 			if(salonId_str != null){
 				salonId = Integer.parseInt(salonId_str);
 				result = true;

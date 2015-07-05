@@ -55,11 +55,14 @@ public class SalonDao {
 				salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
 				salonInfo.setTelNumber(rs.getString("t_hairSalonMaster_phoneNumber"));
 				salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
+				/*
 				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
 						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
 				Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
 						rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
 				salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
+				*/
+				salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));				
 				salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 				salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
 				salonInfo.setIsNetReservation(rs.getInt("t_hairSalonMaster_isNetReservation"));
@@ -401,11 +404,14 @@ public class SalonDao {
 							Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
 					salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
 					salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
+					/*
 					Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
 							rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
 					Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
 							rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
 					salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
+					*/
+					salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));
 					salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 					salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
 					hitNum++;
@@ -567,6 +573,7 @@ public class SalonDao {
 		String t_country_countryId = null;
 		String areaSql = "SELECT `t_area_areaName`, `t_area_countryId` FROM `t_masterArea` WHERE `t_area_areaId` = ";
 		String countrySql = "SELECT `t_country_countryName` FROM `t_masterCountry` WHERE `t_country_countryId` = ";
+		int countryId = -1;
 		
 		Statement statement = dbConnection.getStatement();
 		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
@@ -589,18 +596,21 @@ public class SalonDao {
 				*/
 				
 				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				/*
 				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
 						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
 				Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
 						rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
-				salonInfo.setSalonOpenTime(sdf.format(openTime).toString());
-				salonInfo.setSalonCloseTime(sdf.format(closeTime).toString());
+						*/
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
 				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
 
 				salonInfo.setSalonCreditAvailable(rs.getBoolean("t_hairSalonMaster_creditAvailable"));
 				salonInfo.setSalonCarParkAvailable(rs.getBoolean("t_hairSalonMaster_carParkAvailable"));
 
 				t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 				/*
 				boolean japaneseAvailable = false;
 				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
@@ -636,7 +646,6 @@ public class SalonDao {
 				while(rs.next()){
 					salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
 					boolean japaneseAvailable = false;
-					int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 					if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
 					salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
 				}	
@@ -722,7 +731,7 @@ public class SalonDao {
 
 		/*
 		//date '2015-06-03 00:00:00' format sample.
-		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+ 		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 		    format.setLenient(false);
 		    format.parse(t_hairSalonMaster_openTime); //Exception check
@@ -744,14 +753,19 @@ public class SalonDao {
 			 +sql11 + japaneseAvailable
 			 +sql_end;
 			 */
+		//boolean -> int
+		int creditAvailable =  salonInfo.getSalonCreditAvailable() ? 1 : 0;
+		int carParkAvailable =  salonInfo.getSalonCarParkAvailable() ? 1 : 0;
+		
+		//combine sql sentense.
 		String sql = sql2 + salonInfo.getHairSalonName()
 				 +sql3 + salonInfo.getSalonAreaId()
 				 +sql4 + salonInfo.getSalonDetailText()
 				 +sql5 + salonInfo.getSalonOpenTime()
 				 +sql6 + salonInfo.getSalonCloseTime()
 				 +sql7 + salonInfo.getSalonCloseDay()
-				 +sql8 + salonInfo.getSalonCreditAvailable()
-				 +sql9 + salonInfo.getSalonCarParkAvailable()
+				 +sql8 + creditAvailable
+				 +sql9 + carParkAvailable
 				 +sql10 + salonInfo.getHairSalonImagePath()
 				 +sql11 + japaneseAvailable
 				 +sql_end;
@@ -788,9 +802,11 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				String hairStyleId = rs.getString("t_hairSalonMaster_hairStyleId");
-				hairStyleIdListStr = Arrays.asList(hairStyleId.split(","));				
-				for(String sId : hairStyleIdListStr){
-					hairStyleIdList.add(Integer.parseInt(sId));
+				if(hairStyleId != null){
+					hairStyleIdListStr = Arrays.asList(hairStyleId.split(","));				
+					for(String sId : hairStyleIdListStr){
+						hairStyleIdList.add(Integer.parseInt(sId));
+					}
 				}
 			}	
 		} catch (SQLException e) {
@@ -824,5 +840,34 @@ public class SalonDao {
 			e.printStackTrace();
 		}
 		return result;	
+	}
+	
+	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_mail` ='";
+		String sql2 = "' AND `t_hairSalonMaster_passward` ='";
+	    String sql3 = "'";
+	    int retSalonId = -1;
+	    
+	    String sql = sql1 + mail + sql2 + password + sql3;
+	    //debug
+	    System.out.println("Manual-Login: " + sql);
+	    
+		Statement statement = dbConnection.getStatement();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql);
+			while(rs.next()){
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				retSalonId = salonInfo.getHairSalonId();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retSalonId;
 	}
 }
