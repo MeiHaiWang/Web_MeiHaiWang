@@ -472,7 +472,11 @@ var sanitaize = {
         return arguments.callee(obj[key]);
       }
       else {
-        if (typeof obj[key] !== "undefined") {
+        if (obj[key] === null) {
+          obj[key] = "";
+        }
+        else if (typeof obj[key] !== "undefined") {
+          obj[key] = obj[key].toString();
           obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
       }
