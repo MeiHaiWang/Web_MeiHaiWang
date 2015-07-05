@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import com.mysql.jdbc.PreparedStatement;
 
 import common.constant.Constant;
+import common.model.HairSalonInfo;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -295,36 +296,37 @@ public class UserDao {
 		}
 		return result;
 	}
-
+	/*
 	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
-		String sql1 = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_mail` ='";
-		String sql2 = "' AND `t_user_passward` = '";
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_mail` ='";
+		String sql2 = "' AND `t_hairSalonMaster_passward` ='";
 	    String sql3 = "'";
-	    int retUserId = -1;
+	    int retSalonId = -1;
 	    
 	    String sql = sql1 + mail + sql2 + password + sql3;
 	    //debug
 	    System.out.println("Manual-Login: " + sql);
 	    
 		Statement statement = dbConnection.getStatement();
-		UserInfo userInfo = null;
-
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		
 		ResultSet rs;
 		try {
 			rs = statement.executeQuery(sql);
 			while(rs.next()){
-				userInfo = new UserInfo();
-				userInfo.setUserId(rs.getInt("t_user_Id"));
-				retUserId = userInfo.getUserId();
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				retSalonId = salonInfo.getHairSalonId();
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return retUserId;
+		return retSalonId;
 	}
-
+	*/
+	/*
 	public int getMsterSalonId(DBConnection dbConnection, int userId){
 		int retSalonId = -1;
 		String sql = "SELECT `t_user_MasterSalonId` FROM `t_user` WHERE `t_user_Id` = " + userId;
@@ -350,6 +352,6 @@ public class UserDao {
 		
 		return retSalonId;
 	}
-	
+*/	
 
 }

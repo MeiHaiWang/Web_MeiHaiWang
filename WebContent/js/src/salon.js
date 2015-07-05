@@ -427,7 +427,7 @@ $(function(){
     console.log(data);
 
     // サニタイズ
-    // sanitaize.encode(data);
+    sanitaize.encode(data);
 
     var result = setSalonInfo(data);
     if (result.result == "true") {

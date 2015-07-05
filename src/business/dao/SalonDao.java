@@ -841,4 +841,33 @@ public class SalonDao {
 		}
 		return result;	
 	}
+	
+	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_mail` ='";
+		String sql2 = "' AND `t_hairSalonMaster_passward` ='";
+	    String sql3 = "'";
+	    int retSalonId = -1;
+	    
+	    String sql = sql1 + mail + sql2 + password + sql3;
+	    //debug
+	    System.out.println("Manual-Login: " + sql);
+	    
+		Statement statement = dbConnection.getStatement();
+		HairSalonInfo salonInfo = new HairSalonInfo();
+		
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery(sql);
+			while(rs.next()){
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				retSalonId = salonInfo.getHairSalonId();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retSalonId;
+	}
 }
