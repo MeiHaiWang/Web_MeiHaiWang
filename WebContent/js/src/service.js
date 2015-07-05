@@ -144,11 +144,8 @@ $(function(){
   /*
     List
   */
-  //var service_category_info = getServiceCategoryList();
-  //sanitaize.decode(service_category_info);
-  var service_category_info_json = getServiceCategoryList();
-  sanitaize.decode(service_category_info_json);
-  var service_category_info = JSON.parse(service_category_info_json);
+  var service_category_info = getServiceCategoryList();
+  sanitaize.decode(service_category_info);
 
   // categoryを参照しやすい形に変換
   var categorys = new Array();
@@ -175,18 +172,10 @@ $(function(){
     Main Part
   */
   // セッションIDからサービス情報を取得する
-  /*
   var session_info = getSessionInfo();
   var service_info = getMenuInfo(session_info.t_hairSalonMaster_salonId);
   sanitaize.decode(service_info);
-  */
-  var session_info_json = getSessionInfo();
-  var session_info = JSON.parse(session_info_json);  
-  var service_info_json = getMenuInfo(session_info.t_hairSalonMaster_salonId);
-  sanitaize.decode(service_info_json);
-  var service_info = JSON.parse(service_info_json);  
-  console.log(service_info_json);
-  
+
   // set component
   component_service_category.setProps({category: service_category_info.category});
 

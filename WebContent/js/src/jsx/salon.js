@@ -341,6 +341,7 @@ $(function(){
   */
   // セッションIDからサロン情報を取得する
   var session_info = getSessionInfo();
+console.log(session_info);
   var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
   var country_area_info = getCountryAreaList();
   sanitaize.decode(salon_info);

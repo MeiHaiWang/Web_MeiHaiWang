@@ -128,6 +128,7 @@ $(function(){
   }
 
 
+
   /*
     List
   */
@@ -176,7 +177,6 @@ $(function(){
   // set component
   component_album_category.setProps({hairtype: hairtype_info.type});
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
-
 
   // アルバム一覧
   component_album_list.setState({"album_list":album_info.album});
