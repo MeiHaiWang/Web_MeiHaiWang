@@ -470,7 +470,9 @@ var sanitaize = {
         return arguments.callee(obj[key]);
       }
       else {
-        obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        if (typeof obj[key] !== "undefined") {
+          obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
       }
     }
     return obj;
@@ -482,7 +484,9 @@ var sanitaize = {
         return arguments.callee(obj[key]);
       }
       else {
-        obj[key] = obj[key].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, '\'').replace(/&amp;/g, '&');
+        if (typeof obj[key] !== "undefined") {
+          obj[key] = obj[key].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, '\'').replace(/&amp;/g, '&');
+        }
       }
     }
     return obj;
