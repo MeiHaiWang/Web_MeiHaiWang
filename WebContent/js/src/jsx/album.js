@@ -179,8 +179,9 @@ $(function(){
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
 
   // アルバム一覧
-  component_album_list.setState({"album_list":album_info.album});
-
+  if (album_info.album.length != 0) {
+    component_album_list.setState({"album_list":album_info.album});
+  }
 
   /*
     Button Handler

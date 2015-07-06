@@ -483,9 +483,10 @@ $(function(){
   }
 
 
-  // アルバム一覧
-  component_stylist_list.setState({"stylist_list":stylist_info.stylist});
-
+  // スタッフ一覧
+  if (stylist_info.stylist.length != 0) {
+    component_stylist_list.setState({"stylist_list":stylist_info.stylist});
+  }
 
   // service maping
   component_stylist_service_maping_name.setProps({stylists: stylist_info.stylist});

@@ -180,8 +180,9 @@ $(function(){
   component_service_category.setProps({category: service_category_info.category});
 
   // メニュー一覧
-  component_service_list.setState({"service_list":service_info.menu});
-
+  if (service_info.menu.length != 0) {
+    component_service_list.setState({"service_list":service_info.menu});
+  }
 
   /*
     Button Handler

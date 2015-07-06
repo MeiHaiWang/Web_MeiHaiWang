@@ -380,7 +380,6 @@ $(function(){
   component_salon_japanese_available.setState(salon_info);
   component_salon_image_path.setState(salon_info);
 
-
   /*
     Button Handler
   */

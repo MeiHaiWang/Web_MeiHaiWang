@@ -228,8 +228,9 @@ $(function(){
   component_coupon_kind.setProps({kind: coupon_kind_info.kind});
 
   // クーポン一覧
-  component_coupon_list.setState({"coupon_list":coupon_info.coupon});
-
+  if (coupon_info.coupon.length != 0) {
+    component_coupon_list.setState({"coupon_list":coupon_info.coupon});
+  }
 
   /*
     Button Handler
