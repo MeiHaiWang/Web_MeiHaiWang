@@ -479,6 +479,9 @@ var sanitaize = {
           obj[key] = obj[key].toString();
           obj[key] = obj[key].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
+        else if (typeof obj[key] === "undefined") {
+          obj[key] = "";
+        }
       }
     }
     return obj;
