@@ -19,7 +19,7 @@ $(function(){
     },
     render:function() {
       var options = this.props.kind.map(function(kind) {
-        return React.createElement("option", {value: kind.t_couponKind_id}, kind.t_couponKind_name);
+        return React.createElement("option", {value: kind.t_couponKind_id}, kind.t_couponKind_Name);
       });
       return (
         React.createElement("div", null, 
@@ -226,6 +226,7 @@ $(function(){
 
   // set component
   component_coupon_kind.setProps({kind: coupon_kind_info.kind});
+  component_coupon_kind.setState({t_coupon_couponKindId: component_coupon_kind.props.kind[0].t_couponKind_id});
 
   // クーポン一覧
   if (coupon_info.coupon.length != 0) {

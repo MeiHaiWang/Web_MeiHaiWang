@@ -483,16 +483,16 @@ $(function(){
   }
 
 
+  // service maping
+  component_stylist_service_maping_name.setProps({stylists: stylist_info.stylist});
+  component_stylist_service_maping_service.setProps({services: service_list.menu});
+
   // スタッフ一覧
   if (stylist_info.stylist.length != 0) {
     component_stylist_list.setState({"stylist_list":stylist_info.stylist});
+    component_stylist_service_maping_name.setState(stylist_info.stylist[0]);
+    component_stylist_service_maping_service.setState(service_list.menu[0]);
   }
-
-  // service maping
-  component_stylist_service_maping_name.setProps({stylists: stylist_info.stylist});
-  component_stylist_service_maping_name.setState(stylist_info.stylist[0]);
-  component_stylist_service_maping_service.setProps({services: service_list.menu});
-  component_stylist_service_maping_service.setState(service_list.menu[0]);
 
 
   /*

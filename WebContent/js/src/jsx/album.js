@@ -65,7 +65,7 @@ $(function(){
     },
     render() {
       var options = this.props.stylist.map(function(stylist) {
-        return <option value={stylist.t_stylist_Id}>{stylist.t_stylist_name}</option>;
+        return <option value={stylist.t_stylist_stylist_id}>{stylist.t_stylist_name}</option>;
       });
       return (
         <div>
@@ -182,6 +182,9 @@ $(function(){
   if (album_info.album.length != 0) {
     component_album_list.setState({"album_list":album_info.album});
   }
+
+  component_album_category.setState({t_hairStyle_hairTypeId: component_album_category.props.hairtype[0].t_hairType_id});
+  component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
 
   /*
     Button Handler
