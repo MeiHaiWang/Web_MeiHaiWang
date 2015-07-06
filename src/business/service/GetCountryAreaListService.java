@@ -2,12 +2,15 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import jdk.nashorn.internal.scripts.JO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.AreaDao;
@@ -83,7 +86,6 @@ public class GetCountryAreaListService {
 					areaInfoList[cInfo.getCountryId()] 
 							= areaDao.getAreaInfoListForCountry(dbConnection, cInfo.getCountryId());
 				}
-				
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -109,13 +111,29 @@ public class GetCountryAreaListService {
 				      ]
 				}
 			 */
+			
+			Map<Integer,AreaNode> areaNodeMap = new HashMap<Integer, AreaNode>();
+			for(CountryInfo ci : countryInfoList){
+				areaNodeMap.put(ci.getCountryId(), TreeUtil.createTreeObject(areaInfoList[ci.getCountryId()]));
+			}
+
+			/*
 			AreaNode[] root = new AreaNode[countryInfoList.size()];			
-			JSONArray ja = new JSONArray();
 			root[countryInfoList.get(0).getCountryId()]
 					= TreeUtil.createTreeObject(areaInfoList[countryInfoList.get(0).getCountryId()]);
+			*/
+			JSONArray ja = new JSONArray();
 			//debug
-			System.out.println("r"+root[countryInfoList.get(0).getCountryId()]);
-			jsonObject = root[countryInfoList.get(0).getCountryId()].output();
+			//System.out.println("r"+root[countryInfoList.get(0).getCountryId()]);
+			//jsonObject = root[countryInfoList.get(0).getCountryId()].output();
+
+			for(CountryInfo ci : countryInfoList){
+				JSONObject jo = new JSONObject();
+				jo = areaNodeMap.get(ci.getCountryId()).output();
+				ja.add(jo);
+			}
+			jsonObject.put("country", ja);
+			
 			/*
 			for(CountryInfo cInfo: countryInfoList){
 				//tree
