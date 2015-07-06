@@ -193,7 +193,7 @@ public class MenuDao {
 			System.out.println(salon_sql);
 			try {
 				int result_int = statement.executeUpdate(salon_sql);
-				if(result_int > 0) menuId = -1;
+				if(result_int < 0) menuId = -1;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
