@@ -811,7 +811,7 @@ public class SalonDao {
 			System.out.println(sql);
 			while(rs.next()){
 				String hairStyleId = rs.getString("t_hairSalonMaster_hairStyleId");
-				if(hairStyleId != ""){
+				if(hairStyleId != "" && hairStyleId != null){
 					hairStyleIdListStr = Arrays.asList(hairStyleId.split(","));				
 					for(String sId : hairStyleIdListStr){
 						hairStyleIdList.add(Integer.parseInt(sId));

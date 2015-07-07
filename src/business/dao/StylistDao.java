@@ -462,7 +462,7 @@ public class StylistDao {
 				+ stylistInfo.getStylistGender()  + sql2
 				+ sql3 + sql2 //detail
 				+ sql4 + sql2 //userId
-				+ stylistInfo.getStylistImagePath()  + sql2
+				+ stylistInfo.getStylistImagePathStr()  + sql2
 				+ stylistInfo.getPosition()  + sql2
 				+ stylistInfo.getStylistMessage()  + sql2
 				+ stylistInfo.getStylistYearsNumber().charAt(0) + sql2

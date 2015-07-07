@@ -37,6 +37,10 @@ public class HairStyleInfo {
 		this.hairStyleImagePath = hairStyleImagePath != null ? hairStyleImagePath : "";
 	}
 	
+	public String getHairStyleImagePathStr(){
+		return hairStyleImagePath;
+	}
+	
 	public List<String> getHairStyleImagePath(){
     	//imageがコンマで連結している場合がある↓
 		List<String> imgPathList = new ArrayList<String>();

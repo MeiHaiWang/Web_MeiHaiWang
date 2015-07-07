@@ -312,7 +312,7 @@ public class HairStyleDao {
 				+ salonId + sql2
 				+ sql4 + sql2 
 				+ sdf.format(oneDate) + sql2 				
-				+ hairStyleInfo.getHairStyleImagePath()
+				+ hairStyleInfo.getHairStyleImagePathStr()
 				+ sql_end;
 
 		//debug
@@ -345,9 +345,13 @@ public class HairStyleDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		String salon_sql = null;
 		if(hairStyleId != -1){
-			String salon_sql =  salon_sql2_before + hairStyleIdList + "," + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;
+			if(hairStyleIdList==""){
+				salon_sql =  salon_sql2_before + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;								
+			}else{
+				salon_sql =  salon_sql2_before + hairStyleIdList + "," + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;				
+			}
 			System.out.println(salon_sql);
 			try {
 				int result_int = statement.executeUpdate(salon_sql);
