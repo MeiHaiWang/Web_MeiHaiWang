@@ -58,6 +58,10 @@ public class StylistInfo {
 	public void setStylistImagePath(String stylistImagePath){
 		this.stylistImagePath = stylistImagePath != null ? stylistImagePath : "";
 	}
+
+	public String getStylistImagePathStr(){
+		return stylistImagePath;
+	}
 	
 	public List<String> getStylistImagePath(){
 		List<String> imgPathList = new ArrayList<String>();
