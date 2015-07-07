@@ -28,6 +28,8 @@ public class MenuCategoryDao {
 
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			//debug
+			System.out.println(sql);
 			while(rs.next()){
 				MenuCategoryInfo menuCatInfo = new MenuCategoryInfo();
 				menuCatInfo.setMenuCategoryId(rs.getInt("t_menuCategory_categoryId"));
