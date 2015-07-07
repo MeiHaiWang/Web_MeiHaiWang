@@ -61,22 +61,36 @@ var getCountryAreaList = (function(){
 })();
 
 // CountryIDからAreaの集合を取得する関数
-var getAreasByCountryId = (function(country_area_info, country_id){
-    return function(country_area_info, country_id) {
+var getAreasByCountryId = (function(country_area_info, area_id){
+    return function(country_area_info, area_id) {
         for (var i = 0; i < country_area_info.length; i++) {
-            if (country_area_info[i].t_country_id == country_id) {
-                return country_area_info[i].area;
+            if (country_area_info[i].t_area_id == area_id) {
+                return country_area_info[i].area_slave;
             }
         }
     };
 })();
 
-// CountryNameからAreaの集合を取得する関数
-var getAreasByCountryName = (function(country_area_info, country_name){
-    return function(country_area_info, country_name) {
-        for (var i = 0; i < country_area_info.length; i++) {
-            if (country_area_info[i].t_country_name == country_name) {
-                return country_area_info[i].area;
+// SlaveAreaNameからAreaIdを取得する関数
+var getAreaNameBySlaveAreaName = (function(area_info, area_name){
+    return function(area_info, area_name) {
+        for (var i = 0; i < area_info.length; i++) {
+            for (var j = 0; j < area_info[i].area_slave.length; j++) {
+                if (area_info[i].area_slave[j].t_area_name == area_name) {
+                    return area_info[i].t_area_name;
+                }
+            }
+        }
+        return new Array();
+    };
+})();
+
+// AreaからAreaSlaveの集合を取得する関数
+var getSlaveAreasByAreaName = (function(area_info, area_name){
+    return function(area_info, area_name) {
+        for (var i = 0; i < area_info.length; i++) {
+            if (area_info[i].t_area_name == area_name) {
+                return area_info[i].area_slave;
             }
         }
         return new Array();
