@@ -363,19 +363,19 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_stylist_Id: '',
+        t_stylist_stylist_id: '',
       };
     },
     onChangeSelectValue:function(e) {
-      this.setState({t_stylist_Id: e.target.value});
+      this.setState({t_stylist_stylist_id: e.target.value});
     },
     render:function() {
       var options = this.props.stylists.map(function(stylist) {
-        return React.createElement("option", {value: stylist.t_stylist_Id}, stylist.t_stylist_name);
+        return React.createElement("option", {value: stylist.t_stylist_stylist_id}, stylist.t_stylist_name);
       });
       return (
         React.createElement("div", null, 
-          React.createElement("select", {value: this.state.t_stylist_Id, onChange: this.onChangeSelectValue}, 
+          React.createElement("select", {value: this.state.t_stylist_stylist_id, onChange: this.onChangeSelectValue}, 
             options
           )
         )
@@ -463,15 +463,17 @@ $(function(){
 
   // サロンIDに紐づくサービス一覧を取得する
   var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
+
   sanitaize.decode(service_list);
 
   // service_listを参照しやすい形に変換
   var services = new Array();
   for (var i = 0; i < service_list.menu.length; i++) {
-    var service_id = service_list.menu[i].t_menu_menuId;
+    var service_id = service_list.menu[i].t_menu_menu_id;
     var service_name = service_list.menu[i].t_menu_name;
     services[service_id] = service_name;
   }
+
   // スタッフの対応可能サービス一覧をIDから文字列に変換
   for (var i = 0; i < stylist_info.stylist.length; i++) {
     var menu_ids = stylist_info.stylist[i].t_menu_t_menu_id.split(',');
@@ -503,10 +505,10 @@ $(function(){
     var birthday =
       component_stylist_birth_year.state.year   + '-' +
       component_stylist_birth_month.state.month + '-' +
-      component_stylist_birth_day.state.day + '00:00:00';
+      component_stylist_birth_day.state.day + ' 00:00:00';
     var data = {
       t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
-      t_stylist_Id:              component_stylist_name.state.t_stylist_Id,
+      t_stylist_Id:              component_stylist_name.state.t_stylist_stylist_id,
       t_stylist_name:            component_stylist_name.state.t_stylist_name,
       t_stylist_sex:             component_stylist_sex.state.t_stylist_sex,
       t_stylist_phoneNumber:     component_stylist_phone_number.state.t_stylist_phoneNumber,
@@ -542,7 +544,7 @@ $(function(){
   // 削除ボタン押下時
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
-    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
+    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_stylist_id};
 
     // サニタイズ
     sanitaize.encode(data);
@@ -561,11 +563,11 @@ $(function(){
   $('#stylist_service_maping_regist_button').on('click', function() {
 
     var id = $('#stylist_service_maping_name select').prop("selectedIndex");
-    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
 
     // スタッフの対応可能サービス一覧を追加する
     var menu_ids = stylist_info.stylist[id].t_menu_t_menu_id.split(',');
-    var regist_menu_id = component_stylist_service_maping_service.state.t_menu_menuId;
+    var regist_menu_id = component_stylist_service_maping_service.state.t_menu_menu_id;
     var menu_id = new Array();
     for (var i = 0; i < menu_ids.length; i++) {
       menu_id.push(menu_ids[i]);
@@ -601,7 +603,7 @@ $(function(){
   // ServiceMaping削除ボタン押下時
   $('#stylist_service_maping_delete_button').on('click', function() {
 
-    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
 
     var data = {
       t_stylist_Id: stylist_id,
