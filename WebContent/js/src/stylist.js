@@ -505,7 +505,7 @@ $(function(){
     var birthday =
       component_stylist_birth_year.state.year   + '-' +
       component_stylist_birth_month.state.month + '-' +
-      component_stylist_birth_day.state.day + '00:00:00';
+      component_stylist_birth_day.state.day + ' 00:00:00';
     var data = {
       t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
       t_stylist_Id:              component_stylist_name.state.t_stylist_stylist_id,
@@ -544,7 +544,7 @@ $(function(){
   // 削除ボタン押下時
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
-    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_id};
+    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_stylist_id};
 
     // サニタイズ
     sanitaize.encode(data);
