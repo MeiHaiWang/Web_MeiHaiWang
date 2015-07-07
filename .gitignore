@@ -21,3 +21,7 @@ WebContent/exsample/dest
 .project
 
 .project
+
+.externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator (1).launch
+
+.project

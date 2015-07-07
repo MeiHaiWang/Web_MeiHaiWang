@@ -99,7 +99,7 @@ public class SetStaffInfoService {
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date birth = new Date(0);
 		try {
-			if(t_stylist_birth != "--00:00:00")
+			if(!t_stylist_birth.equals("--00:00:00"))
 				birth = sdf.parse(t_stylist_birth);
 			stylistInfo.setBirth(birth);
 		} catch (ParseException e1) {
