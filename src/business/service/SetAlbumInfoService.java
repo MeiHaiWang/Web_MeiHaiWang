@@ -74,11 +74,11 @@ public class SetAlbumInfoService {
 		//hairStyleInfo を渡したほうがきれいかも.
 		HairStyleInfo hairStyleInfo = new HairStyleInfo();
 		int hairTypeId = -1;
-		if(t_hairStyle_hairTypeId != null) hairTypeId = Integer.parseInt(t_hairStyle_hairTypeId);
+		if(t_hairStyle_hairTypeId != null && t_hairStyle_hairTypeId != "") hairTypeId = Integer.parseInt(t_hairStyle_hairTypeId);
 		hairStyleInfo.setHairTypeId(hairTypeId);
 		hairStyleInfo.setHairStyleName(t_hairStyle_name);
 		int stylistId = -1;
-		if(t_hairStyle_stylistId != null) stylistId = Integer.parseInt(t_hairStyle_stylistId);
+		if(t_hairStyle_stylistId != null && t_hairStyle_stylistId != "") stylistId = Integer.parseInt(t_hairStyle_stylistId);
 		hairStyleInfo.setStylistId(stylistId);
 		hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
 

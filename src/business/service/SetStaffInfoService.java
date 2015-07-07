@@ -90,7 +90,8 @@ public class SetStaffInfoService {
 		stylistInfo.setStylistName(t_stylist_name);
 		//stylistInfo.setStylistGender(Integer.parseInt(t_stylist_sex));
 		int sex = -1;
-		if(t_stylist_sex != null) sex = Integer.parseInt(t_stylist_sex);
+		if(t_stylist_sex != "") sex = Integer.parseInt(t_stylist_sex);
+			else sex = 0;
 		stylistInfo.setStylistGender(sex);
 		stylistInfo.setPhoneNumber(t_stylist_phoneNumber);
 		stylistInfo.setMail(t_stylist_mail);
@@ -98,7 +99,7 @@ public class SetStaffInfoService {
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date birth = new Date(0);
 		try {
-			if(t_stylist_birth != null)
+			if(t_stylist_birth != "--00:00:00")
 				birth = sdf.parse(t_stylist_birth);
 			stylistInfo.setBirth(birth);
 		} catch (ParseException e1) {
@@ -107,7 +108,8 @@ public class SetStaffInfoService {
 		}
 		stylistInfo.setPosition(t_stylist_position);
 		int year = -1;
-		if(t_stylist_experienceYear != null) year = Integer.parseInt(t_stylist_experienceYear);
+		if(t_stylist_experienceYear != "") year = Integer.parseInt(t_stylist_experienceYear);
+			else year = 0;
 		//stylistInfo.setStylistYears(Integer.parseInt(t_stylist_experienceYear));
 		stylistInfo.setStylistYears(year);
 		stylistInfo.setSpecialMenu(t_stylist_specialMenu);

@@ -807,6 +807,8 @@ public class SalonDao {
 		
 		try {
 			ResultSet rs = statement.executeQuery(sql);
+			//debug
+			System.out.println(sql);
 			while(rs.next()){
 				String hairStyleId = rs.getString("t_hairSalonMaster_hairStyleId");
 				if(hairStyleId != null){
