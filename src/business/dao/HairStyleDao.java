@@ -226,6 +226,8 @@ public class HairStyleDao {
 		for(int hId : hairStyleIdList){
 			try {
 				ResultSet rs = statement.executeQuery(sql + hId);
+				//debug
+				System.out.println(sql + hId);
 				while(rs.next()){
 					HairStyleInfo hairStyleInfo = new HairStyleInfo();
 					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_id"));
