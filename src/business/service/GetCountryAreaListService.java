@@ -122,18 +122,18 @@ public class GetCountryAreaListService {
 			root[countryInfoList.get(0).getCountryId()]
 					= TreeUtil.createTreeObject(areaInfoList[countryInfoList.get(0).getCountryId()]);
 			*/
-			JSONArray ja = new JSONArray();
+//			JSONArray ja = new JSONArray();
 			//debug
 			//System.out.println("r"+root[countryInfoList.get(0).getCountryId()]);
 			//jsonObject = root[countryInfoList.get(0).getCountryId()].output();
-
+/*
 			for(CountryInfo ci : countryInfoList){
 				JSONObject jo = new JSONObject();
 				jo = areaNodeMap.get(ci.getCountryId()).output();
 				ja.add(jo);
 			}
 			jsonObject.put("country", ja);
-			
+*/			
 			/*
 			for(CountryInfo cInfo: countryInfoList){
 				//tree
@@ -145,6 +145,7 @@ public class GetCountryAreaListService {
 			*/
 			//jsonObject.put("country", ja);
 
+			jsonObject = areaNodeMap.get(countryInfoList.get(0).getCountryId()).output();
 			PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

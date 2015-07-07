@@ -625,7 +625,7 @@ public class SalonDao {
 			e.printStackTrace();
 		}
 
-		if(t_area_areaId != null){
+		if(t_area_areaId != ""){
 			List<String> areaIdList = new ArrayList<String>();
 			List<String> areaNameList = new ArrayList<String>();
 			areaIdList = Arrays.asList(t_area_areaId.split(","));				
@@ -773,7 +773,7 @@ public class SalonDao {
 				 +sql7 + salonInfo.getSalonCloseDay()
 				 +sql8 + creditAvailable
 				 +sql9 + carParkAvailable
-				 +sql10 + salonInfo.getHairSalonImagePath()
+				 +sql10 + salonInfo.getHairSalonImagePathOneLine()
 				 +sql11 + japaneseAvailable
 				 +sql_end;
 		//debug
