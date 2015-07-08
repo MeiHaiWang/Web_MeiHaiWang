@@ -333,7 +333,7 @@ $(function(){
     getInitialState() {
       return {
         stylist_list: [{
-          "t_stylist_Id": "",
+          "t_stylist_stylist_id": "",
           "t_stylist_name": "",
           "t_stylist_position": "",
           "t_stylist_phoneNumber": "",
@@ -342,7 +342,7 @@ $(function(){
     },
     render() {
       var stylist = this.state.stylist_list.map(function(stylist) {
-        return <tr><td>{stylist.t_stylist_Id}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{stylist.t_stylist_stylist_id}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>
@@ -561,7 +561,6 @@ $(function(){
 
   // ServiceMaping登録ボタン押下時
   $('#stylist_service_maping_regist_button').on('click', function() {
-
     var id = $('#stylist_service_maping_name select').prop("selectedIndex");
     var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
 

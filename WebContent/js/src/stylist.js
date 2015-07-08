@@ -333,7 +333,7 @@ $(function(){
     getInitialState:function() {
       return {
         stylist_list: [{
-          "t_stylist_Id": "",
+          "t_stylist_stylist_id": "",
           "t_stylist_name": "",
           "t_stylist_position": "",
           "t_stylist_phoneNumber": "",
@@ -342,7 +342,7 @@ $(function(){
     },
     render:function() {
       var stylist = this.state.stylist_list.map(function(stylist) {
-        return React.createElement("tr", null, React.createElement("td", null, stylist.t_stylist_Id), React.createElement("td", null, stylist.t_stylist_name), React.createElement("td", null, stylist.t_stylist_position), React.createElement("td", null, stylist.t_stylist_phoneNumber), React.createElement("td", null, stylist.t_menu_t_menu_name), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, stylist.t_stylist_stylist_id), React.createElement("td", null, stylist.t_stylist_name), React.createElement("td", null, stylist.t_stylist_position), React.createElement("td", null, stylist.t_stylist_phoneNumber), React.createElement("td", null, stylist.t_menu_t_menu_name), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
       });
       return (
         React.createElement("div", null, 
@@ -561,7 +561,6 @@ $(function(){
 
   // ServiceMaping登録ボタン押下時
   $('#stylist_service_maping_regist_button').on('click', function() {
-
     var id = $('#stylist_service_maping_name select').prop("selectedIndex");
     var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
 
