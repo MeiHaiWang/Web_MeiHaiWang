@@ -85,7 +85,11 @@ public class SetAlbumInfoService {
 		int stylistId = -1;
 		if(t_hairStyle_stylistId != null && t_hairStyle_stylistId != "") stylistId = Integer.parseInt(t_hairStyle_stylistId);
 		hairStyleInfo.setStylistId(stylistId);
-		hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
+		if(t_hairStyle_imagePath != null && t_hairStyle_imagePath != ""){
+			hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
+		}else{
+			hairStyleInfo.setHairStyleImagePath("/img/notfound.jpg");
+		}
 
 		
 		try{

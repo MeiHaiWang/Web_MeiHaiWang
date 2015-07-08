@@ -512,6 +512,40 @@ public class StylistDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
+			//* stylist をsalon　に足さなきゃ
+			ResultSet rs;
+			String stylistIdList = "";
+			try {
+				rs = statement.executeQuery(salon_sql1+salonId);
+				while(rs.next()){
+					stylistIdList = rs.getString("t_hairSalonMaster_stylistId");
+					break;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			String salon_sql;
+			if(stylistId != -1){
+				if(stylistIdList!=""){
+					salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;				
+				}else{
+					salon_sql =  salon_sql2_before + stylistId + salon_sql2_middle + salonId + salon_sql2_after;								
+				}
+				System.out.println(salon_sql);
+				try {
+					int result_int = statement.executeUpdate(salon_sql);
+					if(result_int < 0) stylistId = -1;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					stylistId = -1;
+				}
+			}		
+
+		//update
 		}else{
 			//debug
 			System.out.println(sql_update);			
@@ -524,38 +558,6 @@ public class StylistDao {
 			}
 		}
 
-		
-		//* stylist をsalon　に足さなきゃ
-		ResultSet rs;
-		String stylistIdList = "";
-		try {
-			rs = statement.executeQuery(salon_sql1+salonId);
-			while(rs.next()){
-				stylistIdList = rs.getString("t_hairSalonMaster_stylistId");
-				break;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String salon_sql;
-		if(stylistId != -1){
-			if(stylistIdList!=""){
-				salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;				
-			}else{
-				salon_sql =  salon_sql2_before + stylistId + salon_sql2_middle + salonId + salon_sql2_after;								
-			}
-			System.out.println(salon_sql);
-			try {
-				int result_int = statement.executeUpdate(salon_sql);
-				if(result_int < 0) stylistId = -1;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				stylistId = -1;
-			}
-		}		
 		return stylistId;
 	}
 
