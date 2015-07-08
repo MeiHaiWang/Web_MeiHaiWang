@@ -100,8 +100,10 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_imagePath", info.getStylistImagePath());
 		    	//jsonOneData.put("t_stylist_birth", info.getBirth());
 		    	Date birthDate = info.getBirth();
-		    	DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		    	DateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		    	String birthStr = sdf.format(birthDate);
+		    	//debug
+		    	System.out.println("birthStr = " +birthStr);
 		    	jsonOneData.put("t_stylist_birth", birthStr);
 		    	jsonOneData.put("t_stylist_position", info.getPosition());
 		    	jsonOneData.put("t_stylist_experienceYear", info.getStylistYearsNumber());

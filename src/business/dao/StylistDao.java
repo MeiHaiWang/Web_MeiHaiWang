@@ -506,9 +506,14 @@ public class StylistDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		String salon_sql;
 		if(stylistId != -1){
-			String salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;
+			if(stylistIdList!=""){
+				salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;				
+			}else{
+				salon_sql =  salon_sql2_before + stylistId + salon_sql2_middle + salonId + salon_sql2_after;								
+			}
 			System.out.println(salon_sql);
 			try {
 				int result_int = statement.executeUpdate(salon_sql);
