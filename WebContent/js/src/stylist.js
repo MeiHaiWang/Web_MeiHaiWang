@@ -29,7 +29,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_stylist_sex: '',
+        t_stylist_sex: 0,
       };
     },
     onChangeSelectValue:function(e) {
@@ -64,7 +64,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        year: '',
+        year: this.props.birth_year[0],
       };
     },
     onChangeSelectValue:function(e) {
@@ -115,7 +115,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        month: '',
+        month: this.props.birth_month[0],
       };
     },
     onChangeSelectValue:function(e) {
@@ -166,7 +166,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        day: '',
+        day: this.props.birth_day[0],
       };
     },
     onChangeSelectValue:function(e) {
@@ -253,7 +253,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_stylist_experienceYear: '',
+        t_stylist_experienceYear: 0,
       };
     },
     onChangeSelectValue:function(e) {
