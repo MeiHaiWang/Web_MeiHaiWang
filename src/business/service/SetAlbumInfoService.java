@@ -61,6 +61,8 @@ public class SetAlbumInfoService {
 		   
 		String t_hairSalonMaster_salonId = request.getParameter("t_hairSalonMaster_salonId") != null ?
 				request.getParameter("t_hairSalonMaster_salonId").toString() : null;
+		String t_hairStyle_id = request.getParameter("t_hairStyle_id") != null ?
+				request.getParameter("t_hairStyle_id").toString() : null;
 		String t_hairStyle_hairTypeId = request.getParameter("t_hairStyle_hairTypeId") != null ?
 				request.getParameter("t_hairStyle_hairTypeId").toString() : null;
 		String t_hairStyle_name = request.getParameter("t_hairStyle_name") != null ?
@@ -73,6 +75,9 @@ public class SetAlbumInfoService {
 		if(t_hairSalonMaster_salonId != null) salonId = Integer.parseInt(t_hairSalonMaster_salonId);
 		//hairStyleInfo を渡したほうがきれいかも.
 		HairStyleInfo hairStyleInfo = new HairStyleInfo();
+		int hairStyleId = -1;
+		if(t_hairStyle_id != null && t_hairStyle_id != "") hairStyleId = Integer.parseInt(t_hairStyle_id);
+		hairStyleInfo.setHairStyleId(hairStyleId);
 		int hairTypeId = -1;
 		if(t_hairStyle_hairTypeId != null && t_hairStyle_hairTypeId != "") hairTypeId = Integer.parseInt(t_hairStyle_hairTypeId);
 		hairStyleInfo.setHairTypeId(hairTypeId);
@@ -88,7 +93,7 @@ public class SetAlbumInfoService {
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			boolean result = false;
-			int hairStyleId = -1;
+			//int hairStyleId = -1;
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){

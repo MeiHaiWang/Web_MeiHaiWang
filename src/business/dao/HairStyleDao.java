@@ -274,7 +274,9 @@ public class HairStyleDao {
 			INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` (`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, 
 			`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_stylistId`, `t_hairStyle_areaId`, 
 			`t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_updateDate`, `t_hairStyle_favoriteNumber`) VALUES ('
-			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');		
+			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');	
+			
+			
 		*/
 		
 		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = "; // hairStyleId 
@@ -287,45 +289,74 @@ public class HairStyleDao {
 		String sql4 = "0";
 		String sql_end = "');";
 
-		Statement statement = dbConnection.getStatement();
-		
-		for(int i=1; i<Integer.MAX_VALUE; i++){
-			try {
-				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-				if(!rs.next()){
-					hairStyleId = i;
-					break;
-				}
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
-		
+		//TODO: Update time?
 		Date oneDate = new Date(0);
 		DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-		String sql = sql1 +hairStyleId + sql2
-				+ hairStyleInfo.getHairStyleName()  + sql2
-				+ hairStyleInfo.getHairTypeId() +sql2
-				+ hairStyleInfo.getStylistId()  + sql2
-				+ sql4 + sql2 
-				+ sql4 + sql2 
-				+ salonId + sql2
-				+ sql4 + sql2 
-				+ sdf.format(oneDate) + sql2 				
-				+ hairStyleInfo.getHairStyleImagePathStr()
-				+ sql_end;
-
-		//debug
-		System.out.println(sql);
+		String updateTime = sdf.format(oneDate);
 		
-		try {
-			int result_int = statement.executeUpdate(sql);
-			if(result_int >= 0) result = true;
-		} catch (SQLException e) {
-						// TODO Auto-generated catch block
-			e.printStackTrace();
-			hairStyleId = -1;
+		//update
+		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET "
+				+ "`t_hairStyle_id` = `" +  hairStyleInfo.getHairStyleId()  + "`, "
+				+ "`t_hairStyle_name` = `" +  hairStyleInfo.getHairStyleName()  + "`"
+				+ "`t_hairStyle_hairTypeId` = `" +  hairStyleInfo.getHairTypeId()  + "`"
+				+ "`t_hairStyle_stylistId` = `" + hairStyleInfo.getStylistId()  + "`"
+				+ "`t_hairStyle_salonId` = `" +  salonId  + "`"
+				+ "`t_hairStyle_updateDate` = `" +  updateTime  + "`"
+				+ "`t_hairStyle_imagePath` = `" +  hairStyleInfo.getHairStyleImagePathStr()  + "`"
+				+ " WHERE `t_stylist`.`t_stylist_Id` = ";
+
+		
+		Statement statement = dbConnection.getStatement();
+		
+		if(hairStyleInfo.getHairStyleId()>0){
+			for(int i=1; i<Integer.MAX_VALUE; i++){
+				try {
+					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+					if(!rs.next()){
+						hairStyleId = i;
+						break;
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+			
+			//combine insert sentence
+			String sql = sql1 +hairStyleId + sql2
+					+ hairStyleInfo.getHairStyleName()  + sql2
+					+ hairStyleInfo.getHairTypeId() +sql2
+					+ hairStyleInfo.getStylistId()  + sql2
+					+ sql4 + sql2 
+					+ sql4 + sql2 
+					+ salonId + sql2
+					+ sql4 + sql2 
+					+ updateTime + sql2 				
+					+ hairStyleInfo.getHairStyleImagePathStr()
+					+ sql_end;
+			//debug
+			System.out.println(sql);
+			
+			try {
+				int result_int = statement.executeUpdate(sql);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
+							// TODO Auto-generated catch block
+				e.printStackTrace();
+				hairStyleId = -1;
+			}
+		}else{
+			//debug
+			System.out.println(sql_update);			
+			try {
+				int result_int = statement.executeUpdate(sql_update);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				hairStyleId = -1;
+			}
 		}
+			
 	
 		//* hairStyle をsalon　に足さなきゃ
 		String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
