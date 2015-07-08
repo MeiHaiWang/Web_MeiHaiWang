@@ -41,18 +41,18 @@ public class SetStaffInfoService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
+        /*
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
-        userId = 1;
-        
+        //userId = 1;
+         * 
+         */
+        		
   		HttpSession session = request.getSession(false);
 		String salonId_str = "";
 		int salonId = -1;
-		//TODO: test
-		salonId = 5;
-		
 		if (session != null){
 			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
 		}else{
@@ -63,7 +63,9 @@ public class SetStaffInfoService {
 		}else{
 			//salonId is null.
 		}
-
+		
+		String t_stylist_Id = request.getParameter("t_stylist_id") != null ?
+				request.getParameter("t_stylist_id").toString() : null;
 		String t_stylist_name = request.getParameter("t_stylist_name") != null ?
 				request.getParameter("t_stylist_name").toString() : null;
 		String t_stylist_sex = request.getParameter("t_stylist_sex") != null ?
@@ -123,6 +125,9 @@ public class SetStaffInfoService {
 
 			boolean result = false;
 			int stylistId = -1;
+			if(t_stylist_Id != null){
+				stylistId = Integer.parseInt(t_stylist_Id);
+			}
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
@@ -130,7 +135,8 @@ public class SetStaffInfoService {
 				stylistId = stylistDao.setStylistInfoForMaster(
 						dbConnection,
 						salonId,
-						stylistInfo
+						stylistInfo,
+						stylistId
 						);
 				if(stylistId >= 0) result = true;
 				dbConnection.close();

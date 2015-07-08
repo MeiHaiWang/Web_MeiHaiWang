@@ -17,14 +17,35 @@ public class DeleteStaffInfoService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
+        /*
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
         userId = 1;
+        */
         
   		HttpSession session = request.getSession(false);
-		
+
+  		//salonId kokokara
+  	    int salonId = -1;
+  	    //get a salonId by session
+  		String salonId_str = "";
+  		if (session != null){
+  			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
+  		}
+  		if(salonId_str != null){			
+  			if(salonId_str.compareTo("") != 0){
+  				salonId = Integer.parseInt(salonId_str);
+  			}
+  		}   
+  		if(salonId < 0){
+  	        //get a salonId by parameter
+  	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+  			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+  		}
+  		//salonId kokomade		
+  		
 		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
 				request.getParameter("t_stylist_Id").toString() : null;
 
@@ -39,7 +60,8 @@ public class DeleteStaffInfoService {
 				StylistDao stylistDao = new StylistDao();
 				result = stylistDao.DeleteStylistInfoForMaster(
 						dbConnection,
-						t_stylist_Id
+						t_stylist_Id,
+						salonId
 						);
 				dbConnection.close();
 			}else{

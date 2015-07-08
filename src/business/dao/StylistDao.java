@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -397,9 +398,8 @@ public class StylistDao {
 	}
 
 	public int  setStylistInfoForMaster(DBConnection dbConnection, int salonId,
-			StylistInfo stylistInfo) {
-		int stylistId = -1;
-
+			StylistInfo stylistInfo, int t_stylist_Id) {
+		int stylistId = t_stylist_Id;
 		boolean result = false;
 		
 		/**
@@ -413,6 +413,8 @@ public class StylistDao {
 		 * 
 		 * SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = 1
 		 * 
+		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_name` = 'a_', `t_stylist_sex` = '1', `t_stylist_detailText` = '_' WHERE `t_stylist`.`t_stylist_Id` = 6;
+		 * 
 		 * INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` (`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, `t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, `t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, `t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, `t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('
 		 * 10', 'name', '1', NULL, NULL, 'imagePath', 'position', 'message', '2', 'sp', NULL, NULL, 'mail.com', '090-', '2015-06-15 00:00:00', NULL, NULL, NULL, '0', '1', NULL, NULL);
 		 * 
@@ -421,6 +423,7 @@ public class StylistDao {
 		 * 
 		*/
 		
+		//Select
 		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` ("
 				+ "`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, "
@@ -434,62 +437,91 @@ public class StylistDao {
 		String sql4 = "0";
 		String sql_end = "');";
 		
+		//date '2015-06-03 00:00:00' format sample.
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(stylistInfo.getBirth());
+		
+		//update
+		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET "
+				+ "`t_stylist_Id` = `" + stylistId + "`, "
+				+ "`t_stylist_name` = `" + stylistInfo.getStylistName() + "`, "
+				+ "`t_stylist_sex` = `" + stylistInfo.getStylistGender() + "`, "
+				+ "`t_stylist_imagePath` = `" + stylistInfo.getStylistImagePathStr() + "`, "
+				+ "`t_stylist_position` = `" +  stylistInfo.getPosition()  + "`, "
+				+ "`t_stylist_message` = `" +  stylistInfo.getStylistMessage()  + "`, "
+				+ "`t_stylist_experienceYear` = `" +  stylistInfo.getStylistYearsNumber()  + "`, "
+				+ "`t_stylist_specialMenu` = `" +  stylistInfo.getSpecialMenu()  + "`, "
+				+ "`t_stylist_mail` = `" +  stylistInfo.getMail()  + "`, "
+				+ "`t_stylist_phoneNumber` = `" +  stylistInfo.getPhoneNumber()  + "`, "
+				+ "`t_stylist_birth` = `" +  birth  + "`"
+				+ " WHERE `t_stylist`.`t_stylist_Id` = ";
+
+		//Select
 		String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 
 		Statement statement = dbConnection.getStatement();
+
 		
-		for(int i=1; i<Integer.MAX_VALUE; i++){
-			try {
-				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-				if(!rs.next()){
-					stylistId = i;
-					break;
+		if(stylistId < 0){
+			for(int i=1; i<Integer.MAX_VALUE; i++){
+				try {
+					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+					if(!rs.next()){
+						stylistId = i;
+						break;
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
 				}
-			}catch(SQLException e){
+			}
+		
+			String sql = sql1 +stylistId + sql2
+					+ stylistInfo.getStylistName() + sql2
+					+ stylistInfo.getStylistGender()  + sql2
+					+ sql3 + sql2 //detail
+					+ sql4 + sql2 //userId
+					+ stylistInfo.getStylistImagePathStr()  + sql2
+					+ stylistInfo.getPosition()  + sql2
+					+ stylistInfo.getStylistMessage()  + sql2
+					+ stylistInfo.getStylistYearsNumber().charAt(0) + sql2
+					+ stylistInfo.getSpecialMenu() + sql2
+					+ sql4 + sql2 //goodNum
+					+ sql4 + sql2 //viewNum
+					+ stylistInfo.getMail() + sql2
+					+ stylistInfo.getPhoneNumber() + sql2
+					+ birth + sql2
+					+ sql3 + sql2 //MENU
+					+ sql4 + sql2 //hairStyleId
+					+ salonId + sql2 //salonId
+					+ sql4 + sql2 //favorite
+					+ sql4 + sql2 //isNetReserv
+					+ sql4 + sql2 //search
+					+ sql4 //areaId
+					+ sql_end;
+	
+			//debug
+			System.out.println(sql);
+			
+			try {
+				int result_int = statement.executeUpdate(sql);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		//date '2015-06-03 00:00:00' format sample.
-		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String birth = format.format(stylistInfo.getBirth());
-		
-		String sql = sql1 +stylistId + sql2
-				+ stylistInfo.getStylistName() + sql2
-				+ stylistInfo.getStylistGender()  + sql2
-				+ sql3 + sql2 //detail
-				+ sql4 + sql2 //userId
-				+ stylistInfo.getStylistImagePathStr()  + sql2
-				+ stylistInfo.getPosition()  + sql2
-				+ stylistInfo.getStylistMessage()  + sql2
-				+ stylistInfo.getStylistYearsNumber().charAt(0) + sql2
-				+ stylistInfo.getSpecialMenu() + sql2
-				+ sql4 + sql2 //goodNum
-				+ sql4 + sql2 //viewNum
-				+ stylistInfo.getMail() + sql2
-				+ stylistInfo.getPhoneNumber() + sql2
-				+ birth + sql2
-				+ sql3 + sql2 //MENU
-				+ sql4 + sql2 //hairStyleId
-				+ salonId + sql2 //salonId
-				+ sql4 + sql2 //favorite
-				+ sql4 + sql2 //isNetReserv
-				+ sql4 + sql2 //search
-				+ sql4 //areaId
-				+ sql_end;
-
-		//debug
-		System.out.println(sql);
-		
-		try {
-			int result_int = statement.executeUpdate(sql);
-			if(result_int >= 0) result = true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}else{
+			//debug
+			System.out.println(sql_update);			
+			try {
+				int result_int = statement.executeUpdate(sql_update);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		
@@ -598,7 +630,7 @@ public class StylistDao {
 	}
 	
 	public boolean DeleteStylistInfoForMaster(DBConnection dbConnection,
-			String t_stylist_Id) {
+			String t_stylist_Id , int salonId) {
 			boolean result = false;
 			
 			/**
@@ -621,13 +653,65 @@ public class StylistDao {
 			
 			try {
 				int result_int = statement.executeUpdate(sql + t_stylist_Id);
-				System.out.println(result_int);
+				//System.out.println(result_int);
 				if(result_int > 0) result = true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
+			//* stylist をsalon　から消さなきゃ
+			//SQL
+			String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
+			String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
+			String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+			String salon_sql2_after = ";";
+			
+			ResultSet rs;
+			String stylistIdList = "";
+			try {
+				rs = statement.executeQuery(salon_sql1+salonId);
+				while(rs.next()){
+					stylistIdList = rs.getString("t_hairSalonMaster_stylistId");
+					//debug
+					System.out.println("stylistIdList = " + stylistIdList);
+					break;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			List<String> idList = new LinkedList<String>(Arrays.asList(stylistIdList.split(",")));
+			Iterator<String> i = idList.iterator();
+	        while(i.hasNext()){
+	            String name = i.next();
+	            if(name.equals(t_stylist_Id)){
+	                i.remove();
+	            }
+	        }
+	        String newStylistIdList = "";
+			for (String id : idList){
+				newStylistIdList += id + ",";
+			}
+			newStylistIdList = newStylistIdList.substring(0, newStylistIdList.lastIndexOf(','));
+			//debug
+			System.out.println("NewIdList?:" + newStylistIdList);
+			
+			String salon_sql;
+			salon_sql =  salon_sql2_before + newStylistIdList + salon_sql2_middle + salonId + salon_sql2_after;								
+			
+			//debug
+			System.out.println(salon_sql);
+			try {
+				int result_int = statement.executeUpdate(salon_sql);
+				if(result_int < 0) result = false;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				result = false;
+			}
+			
 			return result;	
 		}
 	
