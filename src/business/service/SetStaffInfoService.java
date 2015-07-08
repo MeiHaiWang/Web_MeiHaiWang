@@ -102,6 +102,8 @@ public class SetStaffInfoService {
 			if(!t_stylist_birth.equals("--00:00:00"))
 				birth = sdf.parse(t_stylist_birth);
 			stylistInfo.setBirth(birth);
+			//debug
+			System.out.println("birth = "+birth);
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

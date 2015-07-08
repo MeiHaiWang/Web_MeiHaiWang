@@ -99,7 +99,8 @@ public class StylistInfo {
 	}
 	
 	public String getStylistYearsNumber(){
-		return yearsNumber+"年間";
+		return yearsNumber+"";
+		//return yearsNumber+"年間";
 	}
 
 	public void setStylistMessage(String stylistMessage){
