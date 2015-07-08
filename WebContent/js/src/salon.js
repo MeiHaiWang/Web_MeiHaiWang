@@ -112,35 +112,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_openTime: '',
-      };
-    },
-    onChangeSelectValue:function(e) {
-      this.setState({t_hairSalonMaster_openTime: e.target.value});
-    },
-    render:function() {
-      var options = this.props.open_time.map(function(open_time) {
-        return React.createElement("option", {value: open_time}, open_time);
-      });
-      return (
-        React.createElement("div", null, 
-          React.createElement("select", {value: this.state.t_hairSalonMaster_openTime, onChange: this.onChangeSelectValue}, 
-            options
-          )
-        )
-      );
-    }
-  });
-
-  var SalonOpenTime = React.createClass({displayName: "SalonOpenTime",
-    getDefaultProps:function() {
-      return {
-        open_time: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
-      };
-    },
-    getInitialState:function() {
-      return {
-        t_hairSalonMaster_openTime: '',
+        t_hairSalonMaster_openTime: this.props.open_time[0],
       };
     },
     onChangeSelectValue:function(e) {
@@ -168,7 +140,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_closeTime: '',
+        t_hairSalonMaster_closeTime: this.props.close_time[0],
       };
     },
     onChangeSelectValue:function(e) {
@@ -196,7 +168,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_closeDay: '',
+        t_hairSalonMaster_closeDay: '月曜日',
       };
     },
     onChangeSelectValue:function(e) {
@@ -224,7 +196,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_creditAvailable: '',
+        t_hairSalonMaster_creditAvailable: 0,
       };
     },
     onChangeSelectValue:function(e) {
@@ -252,7 +224,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_carParkAvailable: '',
+        t_hairSalonMaster_carParkAvailable: 0,
       };
     },
     onChangeSelectValue:function(e) {
@@ -280,7 +252,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairSalonMaster_japaneseAvailable: '',
+        t_hairSalonMaster_japaneseAvailable: 0,
       };
     },
     onChangeSelectValue:function(e) {
@@ -346,6 +318,9 @@ $(function(){
   sanitaize.decode(salon_info);
   sanitaize.decode(country_area_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // countryを参照しやすい形に変換
   var areas = new Array();
   var country_area_id_info = new Array();
@@ -378,12 +353,25 @@ $(function(){
   component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
   component_salon_area.setProps({area: areas_slave});
   component_salon_detail_text.setState(salon_info);
-  component_salon_open_time.setState(salon_info);
-  component_salon_close_time.setState(salon_info);
-  component_salon_close_day.setState(salon_info);
-  component_salon_credit_available.setState(salon_info);
-  component_salon_car_park_available.setState(salon_info);
-  component_salon_japanese_available.setState(salon_info);
+  // 値がセットされている場合のみセット
+  if (salon_info.t_hairSalonMaster_openTime != '') {
+    component_salon_open_time.setState(salon_info);
+  }
+  if (salon_info.t_hairSalonMaster_closeTime != '') {
+    component_salon_close_time.setState(salon_info);
+  }
+  if (salon_info.t_hairSalonMaster_closeDay != '') {
+    component_salon_close_day.setState(salon_info);
+  }
+  if (salon_info.t_hairSalonMaster_creditAvailable != '') {
+    component_salon_credit_available.setState(salon_info);
+  }
+  if (salon_info.t_hairSalonMaster_carParkAvailable != '') {
+    component_salon_car_park_available.setState(salon_info);
+  }
+  if (salon_info.t_hairSalonMaster_japaneseAvailable != '') {
+    component_salon_japanese_available.setState(salon_info);
+  }
   component_salon_image_path.setState(salon_info);
 
   /*

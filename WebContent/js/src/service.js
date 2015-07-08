@@ -176,6 +176,9 @@ $(function(){
   var service_info = getMenuInfo(session_info.t_hairSalonMaster_salonId);
   sanitaize.decode(service_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // set component
   component_service_category.setProps({category: service_category_info.category});
   component_service_category.setState({t_menu_categoryId: component_service_category.props.category[0].t_menuCategory_categoryId});

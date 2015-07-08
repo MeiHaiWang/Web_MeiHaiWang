@@ -461,6 +461,9 @@ $(function(){
   var stylist_info = getStaffInfo(session_info.t_hairSalonMaster_salonId);
   sanitaize.decode(stylist_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // サロンIDに紐づくサービス一覧を取得する
   var service_list = getServiceList(session_info.t_hairSalonMaster_salonId);
 

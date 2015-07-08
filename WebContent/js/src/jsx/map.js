@@ -53,6 +53,9 @@ $(function(){
   var map_info = getMapInfo(session_info.t_hairSalonMaster_salonId);
   sanitaize.decode(map_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_map_url.setState(map_info);
   component_map_image_path.setState(map_info);

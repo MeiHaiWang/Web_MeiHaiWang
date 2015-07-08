@@ -174,6 +174,9 @@ $(function(){
 
   sanitaize.decode(album_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // set component
   component_album_category.setProps({hairtype: hairtype_info.type});
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});

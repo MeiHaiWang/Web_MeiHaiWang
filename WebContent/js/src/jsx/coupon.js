@@ -224,6 +224,9 @@ $(function(){
   sanitaize.decode(coupon_info);
   sanitaize.decode(coupon_kind_info);
 
+  // アカウント名を表示
+  $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
+
   // set component
   component_coupon_kind.setProps({kind: coupon_kind_info.kind});
   component_coupon_kind.setState({t_coupon_couponKindId: component_coupon_kind.props.kind[0].t_couponKind_id});
