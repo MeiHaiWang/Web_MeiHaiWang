@@ -257,7 +257,7 @@ $(function(){
     // サニタイズ
     sanitaize.encode(data);
 
-    var result = setAlbumInfo(data);
+    var result = setCouponInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
       window.location.reload();
