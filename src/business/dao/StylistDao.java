@@ -443,18 +443,18 @@ public class StylistDao {
 		
 		//update
 		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET "
-				+ "`t_stylist_Id` = `" + stylistId + "`, "
-				+ "`t_stylist_name` = `" + stylistInfo.getStylistName() + "`, "
-				+ "`t_stylist_sex` = `" + stylistInfo.getStylistGender() + "`, "
-				+ "`t_stylist_imagePath` = `" + stylistInfo.getStylistImagePathStr() + "`, "
-				+ "`t_stylist_position` = `" +  stylistInfo.getPosition()  + "`, "
-				+ "`t_stylist_message` = `" +  stylistInfo.getStylistMessage()  + "`, "
-				+ "`t_stylist_experienceYear` = `" +  stylistInfo.getStylistYearsNumber()  + "`, "
-				+ "`t_stylist_specialMenu` = `" +  stylistInfo.getSpecialMenu()  + "`, "
-				+ "`t_stylist_mail` = `" +  stylistInfo.getMail()  + "`, "
-				+ "`t_stylist_phoneNumber` = `" +  stylistInfo.getPhoneNumber()  + "`, "
-				+ "`t_stylist_birth` = `" +  birth  + "`"
-				+ " WHERE `t_stylist`.`t_stylist_Id` = ";
+				+ "`t_stylist_Id` = '" + stylistId + "', "
+				+ "`t_stylist_name` = '" + stylistInfo.getStylistName() + "', "
+				+ "`t_stylist_sex` = '" + stylistInfo.getStylistGender() + "', "
+				+ "`t_stylist_imagePath` = '" + stylistInfo.getStylistImagePathStr() + "', "
+				+ "`t_stylist_position` = '" +  stylistInfo.getPosition()  + "', "
+				+ "`t_stylist_message` = '" +  stylistInfo.getStylistMessage()  + "', "
+				+ "`t_stylist_experienceYear` = '" +  stylistInfo.getStylistYearsNumber()  + "', "
+				+ "`t_stylist_specialMenu` = '" +  stylistInfo.getSpecialMenu()  + "', "
+				+ "`t_stylist_mail` = '" +  stylistInfo.getMail()  + "', "
+				+ "`t_stylist_phoneNumber` = '" +  stylistInfo.getPhoneNumber()  + "', "
+				+ "`t_stylist_birth` = '" +  birth  + "'"
+				+ " WHERE `t_stylist`.`t_stylist_Id` = " + stylistId;
 
 		//Select
 		String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";

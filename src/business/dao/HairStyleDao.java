@@ -299,14 +299,14 @@ public class HairStyleDao {
 		
 		//update
 		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET "
-				+ "`t_hairStyle_id` = `" +  hairStyleInfo.getHairStyleId()  + "`, "
-				+ "`t_hairStyle_name` = `" +  hairStyleInfo.getHairStyleName()  + "`,"
-				+ "`t_hairStyle_hairTypeId` = `" +  hairStyleInfo.getHairTypeId()  + "`,"
-				+ "`t_hairStyle_stylistId` = `" + hairStyleInfo.getStylistId()  + "`,"
-				+ "`t_hairStyle_salonId` = `" +  salonId  + "`,"
-				+ "`t_hairStyle_updateDate` = `" +  updateTime  + "`,"
-				+ "`t_hairStyle_imagePath` = `" +  hairStyleInfo.getHairStyleImagePathStr()  + "`"
-				+ " WHERE `t_stylist`.`t_stylist_Id` = ";
+				+ "`t_hairStyle_id` = '" +  hairStyleInfo.getHairStyleId()  + "', "
+				+ "`t_hairStyle_name` = '" +  hairStyleInfo.getHairStyleName()  + "',"
+				+ "`t_hairStyle_hairTypeId` = '" +  hairStyleInfo.getHairTypeId()  + "',"
+				+ "`t_hairStyle_stylistId` = '" + hairStyleInfo.getStylistId()  + "',"
+				+ "`t_hairStyle_salonId` = '" +  salonId  + "',"
+				+ "`t_hairStyle_updateDate` = '" +  updateTime  + "',"
+				+ "`t_hairStyle_imagePath` = '" +  hairStyleInfo.getHairStyleImagePathStr()  + "'"
+				+ " WHERE `t_hairStyle`.`t_hairStyle_Id` = " + hairStyleId;
 
 		
 		Statement statement = dbConnection.getStatement();
@@ -388,9 +388,9 @@ public class HairStyleDao {
 		//update
 		}else{
 			//debug
-			System.out.println(sql_update);			
+			System.out.println("sql_update :" + sql_update);			
 			try {
-				int result_int = statement.executeUpdate(sql_update+hairStyleId);
+				int result_int = statement.executeUpdate(sql_update);
 				if(result_int >= 0) result = true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

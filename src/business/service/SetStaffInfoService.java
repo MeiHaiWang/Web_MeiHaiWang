@@ -64,8 +64,8 @@ public class SetStaffInfoService {
 			//salonId is null.
 		}
 		
-		String t_stylist_Id = request.getParameter("t_stylist_id") != null ?
-				request.getParameter("t_stylist_id").toString() : null;
+		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
+				request.getParameter("t_stylist_Id").toString() : null;
 		String t_stylist_name = request.getParameter("t_stylist_name") != null ?
 				request.getParameter("t_stylist_name").toString() : null;
 		String t_stylist_sex = request.getParameter("t_stylist_sex") != null ?
@@ -128,6 +128,8 @@ public class SetStaffInfoService {
 			if(t_stylist_Id != null){
 				stylistId = Integer.parseInt(t_stylist_Id);
 			}
+			System.out.println("t_stylist_Id:"+t_stylist_Id );
+			
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
