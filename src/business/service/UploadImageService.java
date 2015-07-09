@@ -41,28 +41,52 @@ public class UploadImageService {
 		 * Declaration values
 		 */
 		
+		//debug
+		System.out.println("UploadImageService");
+		
 		int responseStatus = HttpServletResponse.SC_OK;
+		/*
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+		*/
 
 		boolean result = false;
 		HttpSession session = request.getSession(false);
 
-		String ImageUrl = "";
+  		//salonId kokokara
+  	    int salonId = -1;
+  	    //get a salonId by session
+  		String salonId_str = "";
+  		if (session != null){
+  			salonId_str = (String)session.getAttribute("salonId");
+  		}
+  		if(salonId_str != null){			
+  			if(salonId_str.compareTo("") != 0){
+  				salonId = Integer.parseInt(salonId_str);
+  			}
+  		}   
+  		if(salonId < 0){
+  	        //get a salonId by parameter
+  	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+  			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+  		}
+  		//salonId kokomade		
 		
-        // (2) アップロードファイルを受け取る準備
-        // ディスク領域を利用するアイテムファクトリーを作成
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setRepository((File) servletContext.getAttribute("javax.servlet.context.tempdir"));
+		String ImageUrl = "";
 
-        // ServletFileUploadを作成
-        ServletFileUpload upload = new ServletFileUpload(factory);        
-        try {
-          // (3) リクエストをファイルアイテムのリストに変換
-          List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
+		try{
+	        // (2) アップロードファイルを受け取る準備
+	        // ディスク領域を利用するアイテムファクトリーを作成
+	        DiskFileItemFactory factory = new DiskFileItemFactory();
+	        factory.setRepository((File) servletContext.getAttribute("javax.servlet.context.tempdir"));
+	
+	        // ServletFileUploadを作成
+	        ServletFileUpload upload = new ServletFileUpload(factory);        
+			// (3) リクエストをファイルアイテムのリストに変換
+			List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
-          // アップロードパス取得
-          /*
+			// アップロードパス取得
+			/*
 			String upPath = null;
 			InputStream inStream;
 			Properties config_ = new Properties();	
@@ -78,7 +102,7 @@ public class UploadImageService {
           String upPath = ConfigUtil.getConfig("imagepath");
           //TODO : test : 通し番号をつけたい
           upPath = servletContext.getRealPath("/") + "upload/";
-          System.out.println(upPath);
+          System.out.println("upPath : "+upPath);
           
           byte[] buff = new byte[1024];
           int size = 0;
@@ -108,6 +132,7 @@ public class UploadImageService {
           }
         } catch (FileUploadException e) {
           // 例外処理
+        	e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -124,6 +149,9 @@ public class UploadImageService {
 		String resultStr = String.valueOf( result );
     	jsonObject.put("result", resultStr);		    	
 	    jsonObject.put("image_path", ImageUrl);
+
+	    //debug
+	    System.out.println(result +"," + ImageUrl);
 	    
 	    PrintWriter out;
 		try {
