@@ -65,6 +65,8 @@ public class SetMenuInfoService {
   			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
   		}
   		//salonId kokomade		
+		String t_menu_menuId = request.getParameter("t_menu_menuId") != null ?
+				request.getParameter("t_menu_menuId").toString() : null;
 		String t_menu_categoryId = request.getParameter("t_menu_categoryId") != null ?
 				request.getParameter("t_menu_categoryId").toString() : null;
 		String t_menu_name = request.getParameter("t_menu_name") != null ?
@@ -78,6 +80,11 @@ public class SetMenuInfoService {
 
 		//MenuInfo を渡したほうがきれいかも.
 		MenuInfo menuInfo = new MenuInfo();
+		int menuId = -1;
+		if(t_menu_menuId != null){
+			if(t_menu_menuId.length()!=0) menuId = Integer.parseInt(t_menu_menuId);
+		}
+		menuInfo.setMenuId(menuId);
 		int categoryId = -1;
 		if(t_menu_categoryId != null) categoryId = Integer.parseInt(t_menu_categoryId);
 		menuInfo.setMenuCategoryId(categoryId);
@@ -93,7 +100,7 @@ public class SetMenuInfoService {
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			boolean result = false;
-			int menuId = -1;
+			//int menuId = -1;
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){

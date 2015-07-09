@@ -17,13 +17,33 @@ public class DeleteMenuInfoService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
+        /*
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
         //TODO テスト用
         userId = 1;
+        */
         
   		HttpSession session = request.getSession(false);
+		//salonId kokokara
+	    int salonId = -1;
+	    //get a salonId by session
+		String salonId_str = "";
+		if (session != null){
+			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
+		}
+		if(salonId_str != null){			
+			if(salonId_str.compareTo("") != 0){
+				salonId = Integer.parseInt(salonId_str);
+			}
+		}   
+		if(salonId < 0){
+	        //get a salonId by parameter
+	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
+			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
+		}
+		//salonId kokomade
 		
 		String t_menu_menuId = request.getParameter("t_menu_menuId") != null ?
 				request.getParameter("t_menu_menuId").toString() : null;
@@ -39,7 +59,8 @@ public class DeleteMenuInfoService {
 				MenuDao menuDao = new MenuDao();
 				result = menuDao.DeleteMenuInfoForMaster(
 						dbConnection,
-						t_menu_menuId
+						t_menu_menuId,
+						salonId
 						);
 				dbConnection.close();
 			}else{

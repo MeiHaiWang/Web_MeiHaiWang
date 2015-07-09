@@ -126,7 +126,7 @@ public class SetStaffInfoService {
 			boolean result = false;
 			int stylistId = -1;
 			if(t_stylist_Id != null){
-				stylistId = Integer.parseInt(t_stylist_Id);
+				if(t_stylist_Id.length()!=0) stylistId = Integer.parseInt(t_stylist_Id);
 			}
 			System.out.println("t_stylist_Id:"+t_stylist_Id );
 			
