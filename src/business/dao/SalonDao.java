@@ -490,7 +490,7 @@ public class SalonDao {
 			System.out.println(sql);
 			while(rs.next()){
 				String menuId = rs.getString("t_hairSalonMaster_menuId");
-				if(menuId != null){
+				if(menuId != null && menuId != ""){
 					menuIdListStr = Arrays.asList(menuId.split(","));				
 					for(String mId : menuIdListStr){
 						menuIdList.add(Integer.parseInt(mId));
@@ -517,7 +517,7 @@ public class SalonDao {
 			System.out.println(sql);
 			while(rs.next()){
 				String stylistId = rs.getString("t_hairSalonMaster_stylistId");
-				if(stylistId!=null){
+				if(stylistId!=null && stylistId!=""){
 					stylistIdListStr = Arrays.asList(stylistId.split(","));				
 					for(String sId : stylistIdListStr){
 						stylistIdList.add(Integer.parseInt(sId));
