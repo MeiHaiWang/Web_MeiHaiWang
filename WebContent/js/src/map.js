@@ -90,7 +90,6 @@ $(function(){
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
-
       var result = uploadImage(data);
       if (result.result == "true") {
         component_map_image_path.setState({t_hairSalonMaster_mapImagePath: result.image_path});

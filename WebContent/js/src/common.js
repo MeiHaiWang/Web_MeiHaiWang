@@ -473,6 +473,7 @@ var uploadImage = (function(data){
     };
 })()
 
+
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
     window.location.reload();
