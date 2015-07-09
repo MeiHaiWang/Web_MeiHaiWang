@@ -55,8 +55,10 @@ public class GetAlbumInfoService {
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				hairStyleIdList = salonDao.getHairStyleIdList(dbConnection, salonId);
-				HairStyleDao hairStyleDao = new HairStyleDao();
-				hairStyleInfoList = hairStyleDao.getHairStyleInfoForMaster(dbConnection, hairStyleIdList, salonId);				
+				if(hairStyleIdList.size()>0){
+					HairStyleDao hairStyleDao = new HairStyleDao();
+					hairStyleInfoList = hairStyleDao.getHairStyleInfoForMaster(dbConnection, hairStyleIdList, salonId);				
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

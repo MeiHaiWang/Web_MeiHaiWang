@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.CouponDao;
+import business.dao.SalonDao;
 import common.constant.Constant;
 import common.model.CouponInfo;
 import common.util.DBConnection;
@@ -74,12 +75,17 @@ public class GetCouponInfoService {
   		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
+			//List<Integer> couponIdList = new ArrayList<Integer>();
 			List<CouponInfo> infoList = new ArrayList<CouponInfo>();
 			
 			if(conn!=null){
+				//SalonDao salonDao = new SalonDao();
 				CouponDao couponDao = new CouponDao();
+				//couponIdList = salonDao.getCouponIdList(dbConnection, salonId);
 				String couponIdList = couponDao.getCouponId(dbConnection, salonId);
-				infoList = couponDao.getCouponInfo(dbConnection, couponIdList,salonId);
+				if(couponIdList!=""){
+					infoList = couponDao.getCouponInfo(dbConnection, couponIdList,salonId);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

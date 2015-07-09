@@ -62,9 +62,10 @@ public class SetCouponInfoService {
   		}
   		//salonId kokomade		
 		
-		System.out.println(request.getParameter("t_coupon_couponKindId"));
 		String t_hairSalonMaster_salonId = request.getParameter("t_hairSalonMaster_salonId") != null ?
 				request.getParameter("t_hairSalonMaster_salonId").toString() : null;
+		String t_coupon_Id = request.getParameter("t_coupon_Id") != null ?
+				request.getParameter("t_coupon_Id").toString() : null;
 		String t_coupon_couponKindId = request.getParameter("t_coupon_couponKindId") != null ?
 				request.getParameter("t_coupon_couponKindId").toString() : null;
 		String t_coupon_name = request.getParameter("t_coupon_name") != null ?
@@ -85,15 +86,17 @@ public class SetCouponInfoService {
 				
 		//CouponInfo を渡したほうがきれいかも.
 		CouponInfo couponInfo = new CouponInfo();
+		int couponId = -1;
+		if(t_coupon_Id != null && t_coupon_Id != "") couponId = Integer.parseInt(t_coupon_Id);
 		int kindId = -1;
-		if(t_coupon_couponKindId != null) kindId = Integer.parseInt(t_coupon_couponKindId);
+		if(t_coupon_couponKindId != null&& t_coupon_couponKindId != "") kindId = Integer.parseInt(t_coupon_couponKindId);
 		couponInfo.setCouponKindId(kindId);
 		couponInfo.setCouponName(t_coupon_name);
 		couponInfo.setCouponDetailText(t_coupon_detailText);
 		int price = -1;
-		if(t_coupon_price != null) price = Integer.parseInt(t_coupon_price);
+		if(t_coupon_price != null&& t_coupon_price!= "") price = Integer.parseInt(t_coupon_price);
 		couponInfo.setPrice(price);
-		couponInfo.setCouponDetailText(t_coupon_detailText);
+		couponInfo.setDeadLine(t_coupon_deadLine);
 		couponInfo.setPresentationCondition(t_coupon_presentationCondition);
 		couponInfo.setUseCondition(t_coupon_useCondition);
 		couponInfo.setImagePath(t_coupon_imagePath);
@@ -103,7 +106,7 @@ public class SetCouponInfoService {
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			boolean result = false;
-			int couponId = -1;
+			//int couponId = -1;
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){

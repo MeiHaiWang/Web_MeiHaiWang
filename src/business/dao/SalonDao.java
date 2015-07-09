@@ -879,4 +879,29 @@ public class SalonDao {
 		
 		return retSalonId;
 	}
+
+	public List<Integer> getCouponIdList(DBConnection dbConnection, int salonId) {
+			String sql ="SELECT `t_hairSalonMaster_couponId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+			Statement statement = dbConnection.getStatement();
+			List<Integer> couponIdList = new ArrayList<Integer>();
+			List<String> couponIdListStr = new ArrayList<String>();
+			
+			try {
+				ResultSet rs = statement.executeQuery(sql);
+				//debug
+				System.out.println(sql);
+				while(rs.next()){
+					String couponId = rs.getString("t_hairSalonMaster_couponId");
+					if(couponId != "" && couponId != null){
+						couponIdListStr = Arrays.asList(couponId.split(","));				
+						for(String sId : couponIdListStr){
+							couponIdList.add(Integer.parseInt(sId));
+						}
+					}
+				}	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return couponIdList;	
+		}
 }

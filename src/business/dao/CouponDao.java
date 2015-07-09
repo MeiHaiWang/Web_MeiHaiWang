@@ -86,7 +86,7 @@ public class CouponDao {
 
 	public int setCouponInfoForMaster(DBConnection dbConnection, int salonId,
 			CouponInfo couponInfo) {
-		int couponId = -1;
+		int couponId = couponInfo.getCouponId();
 
 		boolean result = false;
 		
@@ -120,64 +120,95 @@ public class CouponDao {
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 
+		//update
+		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_coupon` SET "
+				+ "`t_coupon_id` = '" +  couponInfo.getCouponId()  + "', "
+				+ "`t_coupon_name` = '" +  couponInfo.getCouponName()  + "',"
+				+ "`t_coupon_detailText` = '" +  couponInfo.getCouponDetailText()  + "',"
+				+ "`t_coupon_useCondition` = '" + couponInfo.getUseCondition()  + "',"
+				+ "`t_coupon_price` = '" +  couponInfo.getPrice()  + "',"
+				+ "`t_coupon_deadLine` = '" +  couponInfo.getDeadLine()  + "',"
+				+ "`t_coupon_imagePath` = '" +  couponInfo.getImagePath()  + "'"
+				+ " WHERE `t_coupon`.`t_coupon_Id` = " + couponId;
+		
 		Statement statement = dbConnection.getStatement();
 		
-		for(int i=1; i<Integer.MAX_VALUE; i++){
+		if(couponId<0){
+			for(int i=1; i<Integer.MAX_VALUE; i++){
+				try {
+					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+					if(!rs.next()){
+						couponId = i;
+						break;
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+			
+			String sql = sql1 +couponId + sql2
+					+ couponInfo.getCouponName() + sql2
+					+ couponInfo.getCouponKindId()  + sql2
+					+ couponInfo.getCouponDetailText()  + sql2
+					+ couponInfo.getUseCondition()  + sql2
+					+ couponInfo.getImagePath()  + sql2
+					+ couponInfo.getPrice()  + sql2
+					+ couponInfo.getDeadLine() + sql2
+					+ sql4 + sql2 //isFirst
+					+ couponInfo.getPresentationCondition()
+					+ sql_end;
+	
+			//debug
+			System.out.println("sql= "+ sql);
+			
 			try {
-				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-				if(!rs.next()){
-					couponId = i;
+				int result_int = statement.executeUpdate(sql);
+				if(result_int <= 0) couponId = -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				couponId = -1;
+			}
+		
+			//* coupon をsalon　に足さなきゃ
+			ResultSet rs;
+			String couponIdList = "";
+			try {
+				rs = statement.executeQuery(salon_sql1+salonId);
+				while(rs.next()){
+					couponIdList = rs.getString("t_hairSalonMaster_couponId");
 					break;
 				}
-			}catch(SQLException e){
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		String sql = sql1 +couponId + sql2
-				+ couponInfo.getCouponName() + sql2
-				+ couponInfo.getCouponKindId()  + sql2
-				+ couponInfo.getCouponDetailText()  + sql2
-				+ couponInfo.getUseCondition()  + sql2
-				+ couponInfo.getImagePath()  + sql2
-				+ couponInfo.getPrice()  + sql2
-				+ couponInfo.getDeadLine() + sql2
-				+ sql4 + sql2 //isFirst
-				+ couponInfo.getPresentationCondition()
-				+ sql_end;
-
-		//debug
-		System.out.println("sql= "+ sql);
-		
-		try {
-			int result_int = statement.executeUpdate(sql);
-			if(result_int <= 0) couponId = -1;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			couponId = -1;
-		}
 	
-		//* coupon をsalon　に足さなきゃ
-		ResultSet rs;
-		String couponIdList = "";
-		try {
-			rs = statement.executeQuery(salon_sql1+salonId);
-			while(rs.next()){
-				couponIdList = rs.getString("t_hairSalonMaster_couponId");
-				break;
+			String salon_sql = null;
+			if(couponId != -1){
+				if(couponIdList==""){
+					salon_sql =  salon_sql2_before + couponId + salon_sql2_middle + salonId + salon_sql2_after;								
+				}else{
+					salon_sql =  salon_sql2_before + couponIdList + "," + couponId + salon_sql2_middle + salonId + salon_sql2_after;
+				}
+				System.out.println(salon_sql);
+				
+				try {
+					int result_int = statement.executeUpdate(salon_sql);
+					if(result_int < 0) couponId = -1;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					couponId = -1;
+				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if(couponId != -1){
-			String salon_sql =  salon_sql2_before + couponIdList + "," + couponId + salon_sql2_middle + salonId + salon_sql2_after;
-			System.out.println(salon_sql);
+		//update
+		}else{
+			//debug
+			System.out.println("sql_update :" + sql_update);			
 			try {
-				int result_int = statement.executeUpdate(salon_sql);
-				if(result_int > 0) couponId = -1;
+				int result_int = statement.executeUpdate(sql_update);
+				if(result_int >= 0) result = true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

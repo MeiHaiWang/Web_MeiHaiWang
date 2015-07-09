@@ -55,8 +55,10 @@ public class GetStaffInfoService {
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
-				StylistDao stylistDao = new StylistDao();
-				stylistInfoList = stylistDao.getStylistInfoForMaster(dbConnection, stylistIdList);	
+				if(stylistIdList.size()>0){
+					StylistDao stylistDao = new StylistDao();
+					stylistInfoList = stylistDao.getStylistInfoForMaster(dbConnection, stylistIdList);	
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -112,6 +114,8 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
 			    stylistArray.add(jsonOneData);
 		    }
+		    //debug
+	    	System.out.println(stylistArray.toString(4));
 		    jsonObject.put("stylist",stylistArray);	
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

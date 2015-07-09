@@ -59,8 +59,10 @@ public class GetMenuInfoService {
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				menuIdList = salonDao.getMenuIdList(dbConnection, salonId);
-				MenuDao menuDao = new MenuDao();
-				menuInfoList = menuDao.getMenuInfoForMaster(dbConnection, menuIdList);				
+				if(menuIdList.size()>0){
+					MenuDao menuDao = new MenuDao();
+					menuInfoList = menuDao.getMenuInfoForMaster(dbConnection, menuIdList);				
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
