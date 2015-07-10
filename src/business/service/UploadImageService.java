@@ -58,7 +58,7 @@ public class UploadImageService {
   	    //get a salonId by session
   		String salonId_str = "";
   		if (session != null){
-  			salonId_str = (String)session.getAttribute("salonId");
+  			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
   		}
   		if(salonId_str != null){			
   			if(salonId_str.compareTo("") != 0){
@@ -79,10 +79,11 @@ public class UploadImageService {
 	        // ディスク領域を利用するアイテムファクトリーを作成
 	        DiskFileItemFactory factory = new DiskFileItemFactory();
 	        factory.setRepository((File) servletContext.getAttribute("javax.servlet.context.tempdir"));
-	
+			
 	        // ServletFileUploadを作成
 	        ServletFileUpload upload = new ServletFileUpload(factory);        
-			// (3) リクエストをファイルアイテムのリストに変換
+	        	        	        
+	        // (3) リクエストをファイルアイテムのリストに変換
 			List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
 			// アップロードパス取得
@@ -107,6 +108,7 @@ public class UploadImageService {
           byte[] buff = new byte[1024];
           int size = 0;
           for (FileItem item : items) {
+              System.out.println("item: "+item.getName());
             // (4) アップロードファイルの処理
             if (!item.isFormField()) {
               // ファイルをuploadディレクトリに保存
@@ -127,6 +129,7 @@ public class UploadImageService {
               
               // (5) フォームフィールド（ファイル以外）の処理
             } else {
+                System.out.println("ファイル以外の処理...");
               // ここでは処理せず、直接requestからgetParamしてもいいと思います。
             }
           }
