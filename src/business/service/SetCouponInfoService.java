@@ -94,8 +94,10 @@ public class SetCouponInfoService {
 		couponInfo.setCouponKindId(kindId);
 		couponInfo.setCouponName(t_coupon_name);
 		couponInfo.setCouponDetailText(t_coupon_detailText);
-		int price = -1;
+		int price = 0;
 		if(t_coupon_price != null&& t_coupon_price!= "") price = Integer.parseInt(t_coupon_price);
+		//debug
+		System.out.println("coupon_price:"+t_coupon_price +", "+price);
 		couponInfo.setPrice(price);
 		couponInfo.setDeadLine(t_coupon_deadLine);
 		couponInfo.setPresentationCondition(t_coupon_presentationCondition);

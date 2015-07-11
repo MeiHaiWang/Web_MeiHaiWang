@@ -35,7 +35,7 @@ public class AreaNode implements Serializable {
 		//retJson.put("t_area_name", areaInfo.getAreaName());
 		JSONArray jsonArray = new JSONArray();
 		//debug
-		System.out.println("=====output start=================");
+		//System.out.println("=====output start=================");
 		
 		if(children.size()>0){
 			for(AreaNode an : children){
@@ -47,7 +47,7 @@ public class AreaNode implements Serializable {
 		}
 		retJson.put("area",jsonArray);
 		//debug
-		System.out.println("COMPLETE:" + jsonArray);
+		//System.out.println("COMPLETE:" + jsonArray);
 	
 		return retJson;
 	}
@@ -56,7 +56,7 @@ public class AreaNode implements Serializable {
 		JSONObject retJson = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
 		//debug
-		System.out.println("NODE INFO: "+node);
+		//System.out.println("NODE INFO: "+node);
 		retJson.put("t_area_id", node.areaInfo.getAreaId());
 		retJson.put("t_area_name", node.areaInfo.getAreaName());			
 		if(node.children.size()>0){
@@ -65,7 +65,7 @@ public class AreaNode implements Serializable {
 				if(childJson != null){
 					jsonArray.add(childJson);		
 					//debug
-					System.out.println("2:" +jsonArray);
+					//System.out.println("2:" +jsonArray);
 				}
 			}
 		retJson.put("area_slave",jsonArray);

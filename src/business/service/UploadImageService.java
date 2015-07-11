@@ -73,12 +73,15 @@ public class UploadImageService {
   		//salonId kokomade		
 		
 		String ImageUrl = "";
-
+		File tmpfile;
+		//tmpfile = (File)servletContext.getAttribute("javax.servlet.context.tempdir");
+		tmpfile = new File(ConfigUtil.getConfig("tmppath"));
+		
 		try{
 	        // (2) アップロードファイルを受け取る準備
 	        // ディスク領域を利用するアイテムファクトリーを作成
 	        DiskFileItemFactory factory = new DiskFileItemFactory();
-	        factory.setRepository((File) servletContext.getAttribute("javax.servlet.context.tempdir"));
+	        factory.setRepository(tmpfile);
 			
 	        // ServletFileUploadを作成
 	        ServletFileUpload upload = new ServletFileUpload(factory);        
@@ -102,7 +105,7 @@ public class UploadImageService {
 			*/
           String upPath = ConfigUtil.getConfig("imagepath");
           //TODO : test : 通し番号をつけたい
-          upPath = servletContext.getRealPath("/") + "upload/";
+          //upPath = servletContext.getRealPath("/") + "upload/";
           System.out.println("upPath : "+upPath);
           
           byte[] buff = new byte[1024];
