@@ -118,7 +118,7 @@ public class StylistInfo {
 	}
 
 	public void setPhoneNumber(String phone){
-		this.phoneNumber = phoneNumber != null ? phoneNumber : "";
+		this.phoneNumber = phone != null ? phone : "";
 	}
 	public String getPhoneNumber(){
 		return phoneNumber;

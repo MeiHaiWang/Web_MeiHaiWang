@@ -433,7 +433,8 @@ public class StylistDao {
 				+ "`t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, "
 				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('";
 		String sql2 = "', '";
-		String sql3 = "NULL";
+//		String sql3 = "NULL";
+		String sql3 = "";
 		String sql4 = "0";
 		String sql_end = "');";
 		
@@ -676,7 +677,7 @@ public class StylistDao {
 				while(rs.next()){
 					stylistIdList = rs.getString("t_hairSalonMaster_stylistId");
 					//debug
-					System.out.println("stylistIdList = " + stylistIdList);
+					//System.out.println("stylistIdList = " + stylistIdList);
 					break;
 				}
 			} catch (SQLException e) {
@@ -698,7 +699,7 @@ public class StylistDao {
 			}
 			newStylistIdList = newStylistIdList.substring(0, newStylistIdList.lastIndexOf(','));
 			//debug
-			System.out.println("NewIdList?:" + newStylistIdList);
+			//System.out.println("NewIdList?:" + newStylistIdList);
 			
 			String salon_sql;
 			salon_sql =  salon_sql2_before + newStylistIdList + salon_sql2_middle + salonId + salon_sql2_after;								

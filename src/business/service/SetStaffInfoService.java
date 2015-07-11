@@ -96,6 +96,8 @@ public class SetStaffInfoService {
 			else sex = 0;
 		stylistInfo.setStylistGender(sex);
 		stylistInfo.setPhoneNumber(t_stylist_phoneNumber);
+		//debug
+		//System.out.println("register phone:" + t_stylist_phoneNumber + ", " + stylistInfo.getPhoneNumber());
 		stylistInfo.setMail(t_stylist_mail);
 		stylistInfo.setStylistImagePath(t_stylist_imagePath);
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -105,7 +107,7 @@ public class SetStaffInfoService {
 				birth = sdf.parse(t_stylist_birth);
 			stylistInfo.setBirth(birth);
 			//debug
-			System.out.println("birth = "+birth);
+			//System.out.println("birth = "+birth);
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -128,7 +130,6 @@ public class SetStaffInfoService {
 			if(t_stylist_Id != null){
 				if(t_stylist_Id.length()!=0) stylistId = Integer.parseInt(t_stylist_Id);
 			}
-			System.out.println("t_stylist_Id:"+t_stylist_Id );
 			
 			JSONObject jsonObject = new JSONObject();
 			

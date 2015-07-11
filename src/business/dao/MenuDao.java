@@ -135,8 +135,8 @@ public class MenuDao {
 				+ "`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, `t_menu_detailText`, "
 				+ "`t_menu_imagePath`) VALUES ('";
 		String sql2 = "', '";
-		String sql3 = "NULL";
-		String sql4 = "0";
+		//String sql3 = "NULL";
+		//String sql4 = "0";
 		String sql_end = "');";
 		
 		//update

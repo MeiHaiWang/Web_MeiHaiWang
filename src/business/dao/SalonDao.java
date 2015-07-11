@@ -859,7 +859,7 @@ public class SalonDao {
 	    
 	    String sql = sql1 + mail + sql2 + password + sql3;
 	    //debug
-	    System.out.println("Manual-Login: " + sql);
+	    //System.out.println("Manual-Login: " + sql);
 	    
 		Statement statement = dbConnection.getStatement();
 		HairSalonInfo salonInfo = new HairSalonInfo();

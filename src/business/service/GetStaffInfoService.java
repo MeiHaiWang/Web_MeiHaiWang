@@ -97,7 +97,7 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
 		    	jsonOneData.put("t_stylist_name", info.getStylistName());
 		    	jsonOneData.put("t_stylist_sex", info.getStylistGender());
-		    	jsonOneData.put("t_stylist_photoNumber", info.getPhoneNumber());
+		    	jsonOneData.put("t_stylist_phoneNumber", info.getPhoneNumber());
 		    	jsonOneData.put("t_stylist_mail", info.getMail());
 		    	jsonOneData.put("t_stylist_imagePath", info.getStylistImagePath());
 		    	//jsonOneData.put("t_stylist_birth", info.getBirth());
@@ -105,7 +105,7 @@ public class GetStaffInfoService {
 		    	DateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		    	String birthStr = sdf.format(birthDate);
 		    	//debug
-		    	System.out.println("birthStr = " +birthStr);
+		    	//System.out.println("birthStr = " +birthStr);
 		    	jsonOneData.put("t_stylist_birth", birthStr);
 		    	jsonOneData.put("t_stylist_position", info.getPosition());
 		    	jsonOneData.put("t_stylist_experienceYear", info.getStylistYearsNumber());
@@ -115,7 +115,7 @@ public class GetStaffInfoService {
 			    stylistArray.add(jsonOneData);
 		    }
 		    //debug
-	    	System.out.println(stylistArray.toString(4));
+	    	//System.out.println(stylistArray.toString(4));
 		    jsonObject.put("stylist",stylistArray);	
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

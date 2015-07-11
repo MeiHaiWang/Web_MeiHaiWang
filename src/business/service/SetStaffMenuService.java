@@ -41,6 +41,11 @@ public class SetStaffMenuService {
 		String t_menu_t_menu_id = request.getParameter("t_menu_t_menu_id") != null ?
 				request.getParameter("t_menu_t_menu_id").toString() : null;
 
+		//debug
+		System.out.println("update menuId:"+t_menu_t_menu_id+"...:"+t_menu_t_menu_id.charAt(0));
+		if(t_menu_t_menu_id.charAt(0)==',')
+			t_menu_t_menu_id = t_menu_t_menu_id.substring(1);
+				
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
