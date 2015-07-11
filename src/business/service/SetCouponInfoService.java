@@ -88,6 +88,7 @@ public class SetCouponInfoService {
 		CouponInfo couponInfo = new CouponInfo();
 		int couponId = -1;
 		if(t_coupon_Id != null && t_coupon_Id != "") couponId = Integer.parseInt(t_coupon_Id);
+		couponInfo.setCouponId(couponId);
 		int kindId = -1;
 		if(t_coupon_couponKindId != null&& t_coupon_couponKindId != "") kindId = Integer.parseInt(t_coupon_couponKindId);
 		couponInfo.setCouponKindId(kindId);
