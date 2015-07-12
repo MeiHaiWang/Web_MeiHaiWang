@@ -539,6 +539,10 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    if (stylist_info.stylist.length == 0) {
+      return false;
+    }
+
     // component set state
     var id = $(".edit").index(this);
     componentSetState(stylist_info.stylist[id]);
@@ -546,6 +550,10 @@ $(function(){
 
   // 削除ボタン押下時
   $('.delete').on('click', function() {
+    if (stylist_info.stylist.length == 0) {
+      return false;
+    }
+
     var id = $(".delete").index(this);
     var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_stylist_id};
 

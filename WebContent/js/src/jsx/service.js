@@ -218,6 +218,10 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    if (service_info.menu.length == 0) {
+      return false;
+    }
+
     // component set state
     var id = $(".edit").index(this);
     componentSetState(service_info.menu[id]);
@@ -225,6 +229,10 @@ $(function(){
 
   // 削除ボタン押下時
   $('.delete').on('click', function() {
+    if (service_info.menu.length == 0) {
+      return false;
+    }
+
     var id = $(".delete").index(this);
     var data = {t_menu_menuId: service_info.menu[id].t_menu_menuId};
 

@@ -105,7 +105,7 @@ $(function(){
     },
     render() {
       var album = this.state.album_list.map(function(album) {
-        return <tr><td>{album.t_hairStyle_id}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{stylists[album.t_stylist_stylist_id]}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{album.t_hairStyle_id}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{album.t_stylist_stylist_id?stylists[album.t_stylist_stylist_id]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>
@@ -218,6 +218,10 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    if (album_info.album.length == 0) {
+      return false;
+    }
+
     // component set state
     var id = $(".edit").index(this);
     componentSetState(album_info.album[id]);
@@ -225,6 +229,10 @@ $(function(){
 
   // 削除ボタン押下時
   $('.delete').on('click', function() {
+    if (album_info.album.length == 0) {
+      return false;
+    }
+
     var id = $(".delete").index(this);
     var data = {t_hairStyle_id: album_info.album[id].t_hairStyle_id};
 

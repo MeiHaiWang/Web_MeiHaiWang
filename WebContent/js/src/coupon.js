@@ -269,6 +269,10 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    if (coupon_info.coupon.length == 0) {
+      return false;
+    }
+
     // component set state
     var id = $(".edit").index(this);
     componentSetState(coupon_info.coupon[id]);
@@ -276,6 +280,10 @@ $(function(){
 
   // 削除ボタン押下時
   $('.delete').on('click', function() {
+    if (coupon_info.coupon.length == 0) {
+      return false;
+    }
+
     var id = $(".delete").index(this);
     var data = {t_coupon_Id: coupon_info.coupon[id].t_coupon_Id};
 

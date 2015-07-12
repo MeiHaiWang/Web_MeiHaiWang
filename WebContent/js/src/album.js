@@ -105,7 +105,7 @@ $(function(){
     },
     render:function() {
       var album = this.state.album_list.map(function(album) {
-        return React.createElement("tr", null, React.createElement("td", null, album.t_hairStyle_id), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, stylists[album.t_stylist_stylist_id]), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, album.t_hairStyle_id), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, album.t_stylist_stylist_id?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
       });
       return (
         React.createElement("div", null, 
@@ -218,6 +218,10 @@ $(function(){
 
   // 編集ボタン押下時
   $('.edit').on('click', function() {
+    if (album_info.album.length == 0) {
+      return false;
+    }
+
     // component set state
     var id = $(".edit").index(this);
     componentSetState(album_info.album[id]);
@@ -225,6 +229,10 @@ $(function(){
 
   // 削除ボタン押下時
   $('.delete').on('click', function() {
+    if (album_info.album.length == 0) {
+      return false;
+    }
+
     var id = $(".delete").index(this);
     var data = {t_hairStyle_id: album_info.album[id].t_hairStyle_id};
 
