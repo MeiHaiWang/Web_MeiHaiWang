@@ -106,7 +106,7 @@ $(function(){
     render() {
       var index = 1;
       var album = this.state.album_list.map(function(album) {
-        return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{album.t_stylist_stylist_id!=''?stylists[album.t_stylist_stylist_id]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>
@@ -188,7 +188,9 @@ $(function(){
   }
 
   component_album_category.setState({t_hairStyle_hairTypeId: component_album_category.props.hairtype[0].t_hairType_id});
-  component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
+  if (component_album_stylist_name.props.stylist.length != 0) {
+    component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
+  }
 
   /*
     Button Handler

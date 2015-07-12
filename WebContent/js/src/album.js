@@ -106,7 +106,7 @@ $(function(){
     render:function() {
       var index = 1;
       var album = this.state.album_list.map(function(album) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, album.t_stylist_stylist_id!=''?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
       });
       return (
         React.createElement("div", null, 
@@ -188,7 +188,9 @@ $(function(){
   }
 
   component_album_category.setState({t_hairStyle_hairTypeId: component_album_category.props.hairtype[0].t_hairType_id});
-  component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
+  if (component_album_stylist_name.props.stylist.length != 0) {
+    component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
+  }
 
   /*
     Button Handler
