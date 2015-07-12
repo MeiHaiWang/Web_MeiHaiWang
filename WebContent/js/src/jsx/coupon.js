@@ -296,12 +296,8 @@ $(function(){
   $('#coupon_image').change(function() {
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
-      var fd = new FormData($('#update')[0]);
+      var data = new FormData($('#update')[0]);
 
-      var data = {
-        t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
-        file: fd,
-      }
       var result = uploadImage(data);
       if (result.result == "true") {
         component_coupon_image_path.setState({t_coupon_imagePath: result.image_path});
