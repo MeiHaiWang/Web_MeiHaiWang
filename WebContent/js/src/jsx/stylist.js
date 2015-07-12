@@ -341,8 +341,9 @@ $(function(){
       };
     },
     render() {
+      var index = 1;
       var stylist = this.state.stylist_list.map(function(stylist) {
-        return <tr><td>{stylist.t_stylist_stylist_id}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>

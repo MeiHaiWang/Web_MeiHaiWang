@@ -116,8 +116,9 @@ $(function(){
       };
     },
     render:function() {
+      var index = 1;
       var service = this.state.service_list.map(function(service) {
-        return React.createElement("tr", null, React.createElement("td", null, service.t_menu_menuId), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
       });
       return (
         React.createElement("div", null, 

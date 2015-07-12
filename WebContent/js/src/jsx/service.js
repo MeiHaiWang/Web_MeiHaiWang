@@ -116,8 +116,9 @@ $(function(){
       };
     },
     render() {
+      var index = 1;
       var service = this.state.service_list.map(function(service) {
-        return <tr><td>{service.t_menu_menuId}</td><td>{categorys[service.t_menu_categoryId]}</td><td>{service.t_menu_name}</td><td><img src={service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{categorys[service.t_menu_categoryId]}</td><td>{service.t_menu_name}</td><td><img src={service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
       });
       return (
         <div>
