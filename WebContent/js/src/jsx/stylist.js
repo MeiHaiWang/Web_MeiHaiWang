@@ -391,19 +391,19 @@ $(function(){
     },
     getInitialState() {
       return {
-        t_menu_menuId: '',
+        t_menu_menu_id: '',
       };
     },
     onChangeSelectValue(e) {
-      this.setState({t_menu_menuId: e.target.value});
+      this.setState({t_menu_menu_id: e.target.value});
     },
     render() {
       var options = this.props.services.map(function(services) {
-        return <option value={services.t_menu_menuId}>{services.t_menu_name}</option>;
+        return <option value={services.t_menu_menu_id}>{services.t_menu_name}</option>;
       });
       return (
         <div>
-          <select value={this.state.t_menu_menuId} onChange={this.onChangeSelectValue}>
+          <select value={this.state.t_menu_menu_id} onChange={this.onChangeSelectValue}>
             {options}
           </select>
         </div>

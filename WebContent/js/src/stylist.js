@@ -391,19 +391,19 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_menu_menuId: '',
+        t_menu_menu_id: '',
       };
     },
     onChangeSelectValue:function(e) {
-      this.setState({t_menu_menuId: e.target.value});
+      this.setState({t_menu_menu_id: e.target.value});
     },
     render:function() {
       var options = this.props.services.map(function(services) {
-        return React.createElement("option", {value: services.t_menu_menuId}, services.t_menu_name);
+        return React.createElement("option", {value: services.t_menu_menu_id}, services.t_menu_name);
       });
       return (
         React.createElement("div", null, 
-          React.createElement("select", {value: this.state.t_menu_menuId, onChange: this.onChangeSelectValue}, 
+          React.createElement("select", {value: this.state.t_menu_menu_id, onChange: this.onChangeSelectValue}, 
             options
           )
         )
