@@ -715,6 +715,37 @@ public class StylistDao {
 				result = false;
 			}
 			
+			
+			//stylist のhairStyle を削除
+			//SQL
+			String hStyle_sql_select = "SELECT `t_hairStyle_id` FROM `t_hairStyle` WHERE `t_hairStyle_stylistId` =" + t_stylist_Id;
+			String hStyle_sql_delete = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` WHERE `t_hairstyle`.`t_hairStyle_id` = ";
+			
+			List<String> hairStyleIdList = new ArrayList<>();
+			try {
+				rs = statement.executeQuery(hStyle_sql_select);
+				while(rs.next()){
+					hairStyleIdList.add(rs.getString("t_hairStyle_id"));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for(String hairStyleId : hairStyleIdList){
+				try {
+					//debug
+					System.out.println(hStyle_sql_delete+hairStyleId);
+					int result_int = statement.executeUpdate(hStyle_sql_delete+hairStyleId);
+					if(result_int < 0) result = false;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					result = false;
+					break;
+				}
+			}
+			
 			return result;	
 		}
 	

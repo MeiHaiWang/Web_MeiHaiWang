@@ -301,7 +301,7 @@ public class MenuDao {
 		}
 		newIdList = newIdList.substring(0, newIdList.lastIndexOf(','));
 		//debug
-		System.out.println("NewIdList?:" + newIdList);
+		//System.out.println("NewIdList?:" + newIdList);
 		
 		String salon_sql;
 		salon_sql =  salon_sql2_before + newIdList + salon_sql2_middle + salonId + salon_sql2_after;								
@@ -317,7 +317,72 @@ public class MenuDao {
 			result = false;
 		}
 		
-	
+		//stylist からもmenuIdを削除
+		String salon_stylist_sql = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId;
+		String stylist_sql1 = "SELECT `t_stylist_menuId` FROM `t_stylist` WHERE `t_stylist_Id` = ";
+		String stylist_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_menuId` = '";
+		String stylist_sql2_middle = "' WHERE `t_stylist`.`t_stylist_Id` = ";
+		String stylist_sql2_after = ";";
+		
+		//ResultSet rs;
+		String s_idListStr = "";
+		String stylistIdListStr = "";
+		try {
+			rs = statement.executeQuery(salon_stylist_sql);
+			while(rs.next()){
+				stylistIdListStr = rs.getString("t_hairSalonMaster_stylistId");
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<String> stylistIdList = new LinkedList<String>(Arrays.asList(stylistIdListStr.split(",")));
+		
+		for(String stId : stylistIdList){
+			try {
+				rs = statement.executeQuery(stylist_sql1+stId);
+				while(rs.next()){
+					s_idListStr = rs.getString("t_stylist_menuId");
+					break;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			List<String> s_idList = new LinkedList<String>(Arrays.asList(s_idListStr.split(",")));
+			Iterator<String> s_i = s_idList.iterator();
+	        while(s_i.hasNext()){
+	            String name = s_i.next();
+	            if(name.equals(t_menu_menuId)){
+	                s_i.remove();
+	            }
+	        }
+	        String s_newIdList = "";
+			for (String id : s_idList){
+				s_newIdList += id + ",";
+			}
+			s_newIdList = s_newIdList.substring(0, s_newIdList.lastIndexOf(','));
+			//debug
+			//System.out.println("stylist_NewIdList?:" + s_newIdList);
+			
+			String stylist_sql;
+			stylist_sql =  stylist_sql2_before + s_newIdList + stylist_sql2_middle + stId + stylist_sql2_after;								
+			
+			//debug
+			System.out.println(stylist_sql);
+			try {
+				int result_int = statement.executeUpdate(stylist_sql);
+				if(result_int < 0) result = false;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				result = false;
+				break;
+			}
+		}
+		
 		return result;
 	}	
 
