@@ -57,10 +57,12 @@ public class ImageDao {
 		return result;	
 	}
 
-	public boolean checkImageExist(DBConnection dbConnection, String imageUrl) {
+	public boolean checkImageExist(DBConnection dbConnection, String imageName, int salonId) {
 		boolean result = false;
-		String sql = "SELECT * FROM `t_image` WHERE `t_image_filepath` = '" + imageUrl + "'";
+		String sql = "SELECT * FROM `t_image` WHERE `t_image_name` = '" + imageName + "'" + " AND `t_image_salonId` = " + salonId;
 		Statement statement = dbConnection.getStatement();
+		//debug
+		System.out.println(sql);
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			if(!rs.next()){

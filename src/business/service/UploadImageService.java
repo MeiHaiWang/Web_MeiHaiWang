@@ -132,7 +132,8 @@ public class UploadImageService {
     					ImageDao imageDao = new ImageDao();
     					result = imageDao.checkImageExist(
     							dbConnection,
-    							ImageUrl
+    							item.getName(),
+    							salonId
     					      );
     					dbConnection.close();
     				}else{
