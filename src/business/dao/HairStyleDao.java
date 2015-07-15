@@ -360,6 +360,8 @@ public class HairStyleDao {
 				rs = statement.executeQuery(salon_sql1+salonId);
 				while(rs.next()){
 					hairStyleIdList = rs.getString("t_hairSalonMaster_hairStyleId");
+					//debug
+					//System.out.println("hairStyleIdList:"+hairStyleIdList);
 					break;
 				}
 			} catch (SQLException e) {
@@ -383,7 +385,6 @@ public class HairStyleDao {
 					hairStyleId = -1;
 				}
 			}		
-			System.out.println(hairStyleId);
 			
 		//update
 		}else{

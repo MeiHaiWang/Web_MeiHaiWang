@@ -24,6 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.ImageDao;
 import business.dao.SalonDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
@@ -64,7 +65,7 @@ public class UploadImageService {
   			if(salonId_str.compareTo("") != 0){
   				salonId = Integer.parseInt(salonId_str);
   			}
-  		}   
+  		}
   		if(salonId < 0){
   	        //get a salonId by parameter
   	        salonId = request.getParameter(Constant.PARAMETER_SALONID)!= null 
@@ -72,7 +73,10 @@ public class UploadImageService {
   		}
   		//salonId kokomade		
 		
+  		long ImageSize = 0;  		
+  		String ImageName = "";
 		String ImageUrl = "";
+		
 		File tmpfile;
 		//tmpfile = (File)servletContext.getAttribute("javax.servlet.context.tempdir");
 		tmpfile = new File(ConfigUtil.getConfig("tmppath"));
@@ -85,7 +89,11 @@ public class UploadImageService {
 			
 	        // ServletFileUploadを作成
 	        ServletFileUpload upload = new ServletFileUpload(factory);        
-	        	        	        
+
+	        //Upload setMaxSize.
+	        upload.setSizeMax(200 * 1024);
+			upload.setFileSizeMax(100 * 1024);
+			
 	        // (3) リクエストをファイルアイテムのリストに変換
 			List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
@@ -114,22 +122,51 @@ public class UploadImageService {
               System.out.println("item: "+item.getName());
             // (4) アップロードファイルの処理
             if (!item.isFormField()) {
-              // ファイルをuploadディレクトリに保存
-              BufferedInputStream in;
-              in = new BufferedInputStream(item.getInputStream());
-              File f = new File(upPath + item.getName());
-              BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
-              while ((size = in.read(buff)) > 0) {
-                out.write(buff, 0, size);
-              }
-              out.close();
-              in.close();
-     
-              // アップロードしたファイルへのURLリンク
-              //response.getWriter().print(servletContext.getContextPath() + "/upload/" + item.getName());
-              ImageUrl = servletContext.getContextPath() + "/upload/" + item.getName();
-              result = true;
-              
+            	
+            	//file がすでにアップロードされたものかどうかを確認
+    			try{
+    				DBConnection dbConnection = new DBConnection();
+    				java.sql.Connection conn = dbConnection.connectDB();
+    				
+    				if(conn!=null){
+    					ImageDao imageDao = new ImageDao();
+    					result = imageDao.checkImageExist(
+    							dbConnection,
+    							ImageUrl
+    					      );
+    					dbConnection.close();
+    				}else{
+    					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    					throw new Exception("DabaBase Connect Error");
+    				}
+    				
+    			}catch(Exception e){
+    				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    				e.printStackTrace();
+    			}
+            	
+
+    			//uploadされていなければ
+    			if(result){
+	              // ファイルをuploadディレクトリに保存
+	              BufferedInputStream in;
+	              in = new BufferedInputStream(item.getInputStream());
+	              File f = new File(upPath + item.getName());
+	              BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
+	              while ((size = in.read(buff)) > 0) {
+	                out.write(buff, 0, size);
+	              }
+	              out.close();
+	              in.close();
+	     
+	              //アップロードしたファイルのサイズ
+	              ImageSize = item.getSize();
+	              // アップロードしたファイルへのURLリンク
+	              //response.getWriter().print(servletContext.getContextPath() + "/upload/" + item.getName());
+	              ImageName = item.getName();
+	              ImageUrl = servletContext.getContextPath() + "/upload/" + ImageName;
+	              result = true;
+    			}              
               // (5) フォームフィールド（ファイル以外）の処理
             } else {
                 System.out.println("ファイル以外の処理...");
@@ -146,7 +183,34 @@ public class UploadImageService {
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-        
+
+		if(result){
+			//sql insert
+			try{
+				DBConnection dbConnection = new DBConnection();
+				java.sql.Connection conn = dbConnection.connectDB();
+				
+				if(conn!=null){
+					ImageDao imageDao = new ImageDao();
+					result = imageDao.setImageInfo(
+							dbConnection,
+							salonId,
+							ImageName,
+							ImageUrl,
+							Long.toString(ImageSize)
+					      );
+					dbConnection.close();
+				}else{
+					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+					throw new Exception("DabaBase Connect Error");
+				}
+				
+			}catch(Exception e){
+				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+				e.printStackTrace();
+			}
+		}	    
+		
 		//レスポンスに設定するJSON Object
         /*
          * { result:アップロード成否, image_path:画像URL }
@@ -155,7 +219,7 @@ public class UploadImageService {
 		String resultStr = String.valueOf( result );
     	jsonObject.put("result", resultStr);		    	
 	    jsonObject.put("image_path", ImageUrl);
-
+	    
 	    //debug
 	    System.out.println(result +"," + ImageUrl);
 	    

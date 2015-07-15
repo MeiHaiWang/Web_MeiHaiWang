@@ -625,7 +625,7 @@ public class SalonDao {
 			e.printStackTrace();
 		}
 
-		if(t_area_areaId != ""){
+		if(t_area_areaId != "" && t_area_areaId != null){
 			List<String> areaIdList = new ArrayList<String>();
 			List<String> areaNameList = new ArrayList<String>();
 			areaIdList = Arrays.asList(t_area_areaId.split(","));				
