@@ -76,6 +76,7 @@ public class UploadImageService {
   		long ImageSize = 0;  		
   		String ImageName = "";
 		String ImageUrl = "";
+        int ImageId = -1;
 		
 		File tmpfile;
 		//tmpfile = (File)servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -97,8 +98,9 @@ public class UploadImageService {
 	        ServletFileUpload upload = new ServletFileUpload(factory);        
 
 	        //Upload setMaxSize.
-	        upload.setSizeMax(200 * 1024);
-			upload.setFileSizeMax(100 * 1024);
+	        //upload.setSizeMax(200 * 1024);
+			//upload.setFileSizeMax(100 * 1024);
+	        upload.setFileSizeMax(Integer.parseInt(ConfigUtil.getConfig("imagemaxsize")));
 						
 	        // (3) リクエストをファイルアイテムのリストに変換
 			List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
@@ -144,7 +146,7 @@ public class UploadImageService {
     				
     				if(conn!=null){
     					ImageDao imageDao = new ImageDao();
-    					result = imageDao.checkImageExist(
+    					ImageId = imageDao.checkImageExist(
     							dbConnection,
     							item.getName(),
     							salonId
@@ -160,9 +162,6 @@ public class UploadImageService {
     				e.printStackTrace();
     			}
             	
-
-    			//uploadされていなければ
-    			if(result){
 	              // ファイルをuploadディレクトリに保存
 	              BufferedInputStream in;
 	              in = new BufferedInputStream(item.getInputStream());
@@ -179,10 +178,13 @@ public class UploadImageService {
 	              // アップロードしたファイルへのURLリンク
 	              //response.getWriter().print(servletContext.getContextPath() + "/upload/" + item.getName());
 	              ImageName = item.getName();
-//	              ImageUrl = ConfigUtil.getConfig("imageurl")+servletContext.getContextPath() + "/upload/" + ImageName;
-	              ImageUrl = ConfigUtil.getConfig("imageurl") + ImageName;
-	              result = true;
-    			}              
+
+	              //ファイル名に半角英数のみを許す
+	              if(ImageName.matches("[0-9a-zA-Z.]+")){
+		              //ImageUrl = ConfigUtil.getConfig("imageurl")+servletContext.getContextPath() + "/upload/" + ImageName;
+		              ImageUrl = ConfigUtil.getConfig("imageurl") + ImageName;
+		              result = true;
+	              }
               // (5) フォームフィールド（ファイル以外）の処理
             } else {
                 System.out.println("ファイル以外の処理...");
@@ -200,6 +202,7 @@ public class UploadImageService {
 			e.printStackTrace();
 		}
 
+		//uploadされていなければimageId = -1
 		if(result){
 			//sql insert
 			try{
@@ -211,6 +214,7 @@ public class UploadImageService {
 					result = imageDao.setImageInfo(
 							dbConnection,
 							salonId,
+							ImageId,
 							ImageName,
 							ImageUrl,
 							Long.toString(ImageSize)

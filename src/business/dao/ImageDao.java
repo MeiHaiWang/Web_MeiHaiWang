@@ -16,6 +16,7 @@ public class ImageDao {
 	}
 		
 	public boolean setImageInfo(DBConnection dbConnection, int salonId,
+			int ImageId,
 			String ImageName,
 			String ImageUrl,
 			String ImageSize) {
@@ -29,44 +30,63 @@ public class ImageDao {
 				+ "`t_image_id`, `t_image_name`, `t_image_filepath`, `t_image_size`, `t_image_salonId`) VALUES ('";
 		String sql2 = "', '";
 		String sql3 = "');";
+
+		String sql_update1 = "UPDATE `MEIHAIWAN_TEST`.`t_image` SET `t_image_size` = '";
+		String sql_update2 = "' WHERE `t_image`.`t_image_id` = ";
+		String sql_update3 = ";";
 		
 		Statement statement = dbConnection.getStatement();
 
-		int t_image_id = 0;
-		for(int i=1; i<Integer.MAX_VALUE; i++){
-			try {
-				ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-				if(!rs.next()){
-					t_image_id = i;
-					break;
+		if(ImageId<0){
+			int t_image_id = 0;
+			for(int i=1; i<Integer.MAX_VALUE; i++){
+				try {
+					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
+					if(!rs.next()){
+						t_image_id = i;
+						break;
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
 				}
-			}catch(SQLException e){
+			}
+	
+			String sql = sql1 + t_image_id + sql2 + ImageName + sql2 + ImageUrl + sql2 + ImageSize + sql2 + salonId + sql3;
+			//debug
+			System.out.println(sql);
+			
+			try {
+				int result_int = statement.executeUpdate(sql);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		//update (sizeのみ)
+		}else{
+			String sql = sql_update1 + ImageSize + sql_update2 + Integer.toString(ImageId) + sql_update3;
+			try {
+				int result_int = statement.executeUpdate(sql);
+				System.out.println(sql);
+				if(result_int >= 0) result = true;
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-
-		String sql = sql1 + t_image_id + sql2 + ImageName + sql2 + ImageUrl + sql2 + ImageSize + sql2 + salonId + sql3;
-		System.out.println(sql);
 		
-		try {
-			int result_int = statement.executeUpdate(sql);
-			if(result_int >= 0) result = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return result;	
 	}
 
-	public boolean checkImageExist(DBConnection dbConnection, String imageName, int salonId) {
-		boolean result = false;
-		String sql = "SELECT * FROM `t_image` WHERE `t_image_name` = '" + imageName + "'" + " AND `t_image_salonId` = " + salonId;
+	public int checkImageExist(DBConnection dbConnection, String imageName, int salonId) {
+		int result = -1;
+		String sql = "SELECT t_image_id FROM `t_image` WHERE `t_image_name` = '" + imageName + "'" + " AND `t_image_salonId` = " + salonId;
 		Statement statement = dbConnection.getStatement();
 		//debug
 		System.out.println(sql);
 		try {
 			ResultSet rs = statement.executeQuery(sql);
-			if(!rs.next()){
-				result = true;
+			if(rs.next()){
+				result = rs.getInt("t_image_id");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
