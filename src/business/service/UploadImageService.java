@@ -80,6 +80,12 @@ public class UploadImageService {
 		File tmpfile;
 		//tmpfile = (File)servletContext.getAttribute("javax.servlet.context.tempdir");
 		tmpfile = new File(ConfigUtil.getConfig("tmppath"));
+
+		//makedir?
+		if(!tmpfile.exists()){
+			tmpfile.mkdir();
+			tmpfile = new File(ConfigUtil.getConfig("tmppath"));
+		}
 		
 		try{
 	        // (2) アップロードファイルを受け取る準備
@@ -93,7 +99,7 @@ public class UploadImageService {
 	        //Upload setMaxSize.
 	        upload.setSizeMax(200 * 1024);
 			upload.setFileSizeMax(100 * 1024);
-			
+						
 	        // (3) リクエストをファイルアイテムのリストに変換
 			List<FileItem> items = upload.parseRequest(new ServletRequestContext(request));
      
@@ -112,6 +118,14 @@ public class UploadImageService {
 			upPath = imageurl;
 			*/
           String upPath = ConfigUtil.getConfig("imagepath");
+          
+    		//makedir?
+			File newdir = new File(ConfigUtil.getConfig("imagepath"));
+    		if(!newdir.exists()){
+    			newdir.mkdir();
+    			newdir = new File(ConfigUtil.getConfig("imagepath"));
+    		}
+          
           //TODO : test : 通し番号をつけたい
           //upPath = servletContext.getRealPath("/") + "upload/";
           System.out.println("upPath : "+upPath);
@@ -165,7 +179,8 @@ public class UploadImageService {
 	              // アップロードしたファイルへのURLリンク
 	              //response.getWriter().print(servletContext.getContextPath() + "/upload/" + item.getName());
 	              ImageName = item.getName();
-	              ImageUrl = servletContext.getContextPath() + "/upload/" + ImageName;
+//	              ImageUrl = ConfigUtil.getConfig("imageurl")+servletContext.getContextPath() + "/upload/" + ImageName;
+	              ImageUrl = ConfigUtil.getConfig("imageurl") + ImageName;
 	              result = true;
     			}              
               // (5) フォームフィールド（ファイル以外）の処理
