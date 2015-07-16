@@ -577,15 +577,21 @@ $(function(){
     var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
 
     // スタッフの対応可能サービス一覧を追加する
-    var menu_ids = stylist_info.stylist[id].t_menu_t_menu_id.split(',');
-    var regist_menu_id = component_stylist_service_maping_service.state.t_menu_menu_id;
-    var menu_id = new Array();
-    for (var i = 0; i < menu_ids.length; i++) {
-      menu_id.push(menu_ids[i]);
+    if (typeof stylist_info.stylist[id] != 'undefined') {
+      var menu_ids = stylist_info.stylist[id].t_menu_t_menu_id.split(',');
+      var regist_menu_id = component_stylist_service_maping_service.state.t_menu_menu_id;
+      var menu_id = new Array();
+      for (var i = 0; i < menu_ids.length; i++) {
+        menu_id.push(menu_ids[i]);
+      }
     }
 
-    // すでに登録されているサービスの場合はエラー
-    if (menu_id.indexOf(regist_menu_id) !== -1) {
+    if (stylist_id == null || menu_id == null) {
+      // どちらかのデータがない場合はエラー
+      alert('Regist Failed');
+    }
+    else if (menu_id.indexOf(regist_menu_id) !== -1) {
+      // すでに登録されているサービスの場合はエラー
       alert('Already exists');
     }
     else {
