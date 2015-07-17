@@ -163,12 +163,12 @@ $(function(){
   var SalonCloseDay = React.createClass({
     getDefaultProps() {
       return {
-        close_day: ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日']
+        close_day: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
       };
     },
     getInitialState() {
       return {
-        t_hairSalonMaster_closeDay: '月曜日',
+        t_hairSalonMaster_closeDay: '星期一',
       };
     },
     onChangeSelectValue(e) {
@@ -191,7 +191,7 @@ $(function(){
   var SalonCreditAvailable = React.createClass({
     getDefaultProps() {
       return {
-        credit: [{value: 0, text:'クレジットカード未対応'}, {value: 1, text:'クレジットカード対応'}]
+        credit: [{value: 0, text:'信用卡不可用'}, {value: 1, text:'信用卡可用'}]
       };
     },
     getInitialState() {
@@ -219,7 +219,7 @@ $(function(){
   var SalonCarParkAvailable = React.createClass({
     getDefaultProps() {
       return {
-        car_park: [{value: 0, text:'なし'}, {value: 1, text:'あり'}]
+        car_park: [{value: 0, text:'无'}, {value: 1, text:'有'}]
       };
     },
     getInitialState() {
@@ -247,7 +247,7 @@ $(function(){
   var SalonJapaneseAvailable = React.createClass({
     getDefaultProps() {
       return {
-        japanese: [{value: 0, text:'日本語対応不可'}, {value: 1, text:'日本語対応可'}]
+        japanese: [{value: 0, text:'无日语接待'}, {value: 1, text:'日语接待'}]
       };
     },
     getInitialState() {

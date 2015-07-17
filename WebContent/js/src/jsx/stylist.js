@@ -343,12 +343,12 @@ $(function(){
     render() {
       var index = 1;
       var stylist = this.state.stylist_list.map(function(stylist) {
-        return <tr><td>{index++}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{stylist.t_stylist_name}</td><td>{stylist.t_stylist_position}</td><td>{stylist.t_stylist_phoneNumber}</td><td>{stylist.t_menu_t_menu_name}</td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
       });
       return (
         <div>
           <table>
-            <tr><th>No.</th><th>氏名</th><th>役職</th><th>連絡先</th><th>対応可能サービス</th><th>編集</th></tr>
+            <tr><th>No.</th><th>姓名</th><th>职位</th><th>电话号码</th><th>可能服务</th><th>编辑</th></tr>
             {stylist}
           </table>
         </div>

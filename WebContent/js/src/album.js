@@ -106,12 +106,12 @@ $(function(){
     render:function() {
       var index = 1;
       var album = this.state.album_list.map(function(album) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
       });
       return (
         React.createElement("div", null, 
           React.createElement("table", null, 
-            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "カテゴリー"), React.createElement("th", null, "ヘアスタイル名"), React.createElement("th", null, "スタイリスト名"), React.createElement("th", null, "写真"), React.createElement("th", null, "編集")), 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "分类"), React.createElement("th", null, "发型名称"), React.createElement("th", null, "造型师名称"), React.createElement("th", null, "照片"), React.createElement("th", null, "编辑")), 
             album
           )
         )

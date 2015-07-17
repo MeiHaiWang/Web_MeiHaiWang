@@ -343,12 +343,12 @@ $(function(){
     render:function() {
       var index = 1;
       var stylist = this.state.stylist_list.map(function(stylist) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, stylist.t_stylist_name), React.createElement("td", null, stylist.t_stylist_position), React.createElement("td", null, stylist.t_stylist_phoneNumber), React.createElement("td", null, stylist.t_menu_t_menu_name), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, stylist.t_stylist_name), React.createElement("td", null, stylist.t_stylist_position), React.createElement("td", null, stylist.t_stylist_phoneNumber), React.createElement("td", null, stylist.t_menu_t_menu_name), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
       });
       return (
         React.createElement("div", null, 
           React.createElement("table", null, 
-            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "氏名"), React.createElement("th", null, "役職"), React.createElement("th", null, "連絡先"), React.createElement("th", null, "対応可能サービス"), React.createElement("th", null, "編集")), 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "姓名"), React.createElement("th", null, "职位"), React.createElement("th", null, "电话号码"), React.createElement("th", null, "可能服务"), React.createElement("th", null, "编辑")), 
             stylist
           )
         )

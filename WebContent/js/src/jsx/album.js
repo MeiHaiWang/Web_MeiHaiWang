@@ -106,12 +106,12 @@ $(function(){
     render() {
       var index = 1;
       var album = this.state.album_list.map(function(album) {
-        return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
       });
       return (
         <div>
           <table>
-            <tr><th>No.</th><th>カテゴリー</th><th>ヘアスタイル名</th><th>スタイリスト名</th><th>写真</th><th>編集</th></tr>
+            <tr><th>No.</th><th>分类</th><th>发型名称</th><th>造型师名称</th><th>照片</th><th>编辑</th></tr>
             {album}
           </table>
         </div>
