@@ -28,7 +28,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-home"></i>
                     </span>
-                    サロン情報管理
+                    店铺信息管理
                 </a>
             </li>
             <li class="active">
@@ -36,7 +36,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-user"></i>
                     </span>
-                    スタッフ情報管理
+                    店员信息管理
                 </a>
             </li>
             <li>
@@ -44,7 +44,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-list-alt"></i>
                     </span>
-                    サービス情報管理
+                    服务信息管理
                 </a>
             </li>
             <li>
@@ -52,7 +52,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-star-empty"></i>
                     </span>
-                    クーポン情報管理
+                    优惠券信息管理
                 </a>
             </li>
             <li>
@@ -60,7 +60,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-picture"></i>
                     </span>
-                    アルバム管理
+                    相册管理
                 </a>
             </li>
             <li>
@@ -68,7 +68,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-map-marker"></i>
                     </span>
-                    地図情報管理
+                    地图信息管理
                 </a>
             </li>
         </ul>
@@ -122,18 +122,18 @@ var logout = (function () {
 
 <div class="content-wrap">
     <main id="content" class="content" role="main">
-        <h1 class="page-title">スタッフ情報管理</h1>
+        <h1 class="page-title">店员信息管理</h1>
         <div class="row">
             <div class="col-md-12">
                 <section class="widget bg-transparent">
                     <div class="widget-body">
                     <dl id="stylist_page">
-                        <dt id="stylist_regist_area">スタッフ登録</dt>
+                        <dt id="stylist_regist_area">店员注册</dt>
                         <dd>
                         <table id="stylist_info">
                             <tr>
                                 <td>
-                                    <label for="stylist_name">氏名：</label>
+                                    <label for="stylist_name">姓名：</label>
                                 </td>
                                 <td>
                                     <div id="stylist_name"></div>
@@ -147,7 +147,7 @@ var logout = (function () {
                                     <div id="stylist_sex" name="stylist_sex"></div>
                                 </td>
                                 <td>
-                                    <label for="stylist_birth_year">生年月日：</label>
+                                    <label for="stylist_birth_year">出生年月日：</label>
                                 </td>
                                 <td id="stylist_birth_year">
                                     <div id="stylist_birth_year" name="stylist_birth_year"></div>
@@ -161,13 +161,13 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="stylist_phone_number">電話番号：</label>
+                                    <label for="stylist_phone_number">电话号码：</label>
                                 </td>
                                 <td>
                                     <div id="stylist_phone_number"></div>
                                 </td>
                                 <td>
-                                    <label for="stylist_position">役職：</label>
+                                    <label for="stylist_position">职位：</label>
                                 </td>
                                 <td colspan="3">
                                     <div id="stylist_position"></div>
@@ -175,13 +175,13 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="stylist_mail">E-mail：</label>
+                                    <label for="stylist_mail">E-mail地址：</label>
                                 </td>
                                 <td>
                                     <div id="stylist_mail"></div>
                                 </td>
                                 <td>
-                                    <label for="stylist_experience_year">経験年数(年)：</label>
+                                    <label for="stylist_experience_year">从业年数：</label>
                                 </td>
                                 <td colspan="3">
                                     <div id="stylist_experience_year"></div>
@@ -189,7 +189,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="stylist_image">スタッフ写真：</label>
+                                    <label for="stylist_image">店员照片：</label>
                                 </td>
                                 <td>
                                     <form id="update">
@@ -211,7 +211,7 @@ var logout = (function () {
                                     <div id="stylist_image_path"></div>
                                 </td>
                                 <td>
-                                    <label for="stylist_message">自己PR：</label>
+                                    <label for="stylist_message">自我介绍：</label>
                                 </td>
                                 <td colspan="3">
                                     <div id="stylist_message"></div>
@@ -220,7 +220,7 @@ var logout = (function () {
                             <tr>
                                 <td colspan="6">
                                     <div id="stylist_regist">
-                                        <button id="stylist_regist_button" class="btn-warning">登録</button>
+                                        <button id="stylist_regist_button" class="btn-warning">注册</button>
                                     </div>
                                 </td>
                             </tr>
@@ -231,7 +231,7 @@ var logout = (function () {
                             <table id="stylist_service_maping_info">
                                 <tr>
                                     <td colspan="3">
-                                        <label for="stylist_service_maping_name">スタッフ名：</label>
+                                        <label for="stylist_service_maping_name">店员姓名：</label>
                                     </td>
                                     <td colspan="3">
                                         <div id="stylist_service_maping_name"></div>
@@ -239,7 +239,7 @@ var logout = (function () {
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        <label for="stylist_service_maping_service">サービス名：</label>
+                                        <label for="stylist_service_maping_service">服务名称：</label>
                                     </td>
                                     <td colspan="3">
                                         <div id="stylist_service_maping_service"></div>
@@ -248,18 +248,18 @@ var logout = (function () {
                                 <tr>
                                     <td colspan="3">
                                         <div id="stylist_service_maping_regist">
-                                            <button id="stylist_service_maping_regist_button" class="btn-warning">登録</button>
+                                            <button id="stylist_service_maping_regist_button" class="btn-warning">注册</button>
                                         </div>
                                     </td>
                                     <td colspan="3">
                                         <div id="stylist_service_maping_delete">
-                                            <button id="stylist_service_maping_delete_button" class="btn-danger">削除</button>
+                                            <button id="stylist_service_maping_delete_button" class="btn-danger">删除</button>
                                         </div>
                                     </td>
                                 </tr>
                             </table>
                         </dd>
-                        <dt id="stylist_list_area">スタッフ一覧</dt>
+                        <dt id="stylist_list_area">店员一览</dt>
                         <dd>
                             <div id="stylist_list_info"></div>
                         </dd>
