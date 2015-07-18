@@ -65,7 +65,7 @@ $(function(){
       };
     },
     onChangeSelectValue(e) {
-      this.setState({t_area_name: e.target.value});
+      this.setState({t_area_id: e.target.value});
     },
     render() {
       var options = this.props.area.map(function(area) {
