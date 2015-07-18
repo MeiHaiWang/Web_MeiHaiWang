@@ -77,7 +77,9 @@ public class UploadImageService {
   		String ImageName = "";
 		String ImageUrl = "";
         int ImageId = -1;
-		
+        String ImageFileName = "";
+        boolean insertFlag = false;
+        
 		File tmpfile;
 		//tmpfile = (File)servletContext.getAttribute("javax.servlet.context.tempdir");
 		tmpfile = new File(ConfigUtil.getConfig("tmppath"));
@@ -119,7 +121,7 @@ public class UploadImageService {
 			String imageurl = config_.getProperty("imagepath");
 			upPath = imageurl;
 			*/
-          String upPath = ConfigUtil.getConfig("imagepath");
+			String upPath = ConfigUtil.getConfig("imagepath");
           
     		//makedir?
 			File newdir = new File(ConfigUtil.getConfig("imagepath"));
@@ -130,62 +132,95 @@ public class UploadImageService {
           
           //TODO : test : 通し番号をつけたい
           //upPath = servletContext.getRealPath("/") + "upload/";
-          System.out.println("upPath : "+upPath);
+          //System.out.println("upPath : "+upPath);
           
           byte[] buff = new byte[1024];
           int size = 0;
           for (FileItem item : items) {
-              System.out.println("item: "+item.getName());
+        	  //debug
+        	  System.out.println("item: "+item.getName());
             // (4) アップロードファイルの処理
             if (!item.isFormField()) {
             	
-            	//file がすでにアップロードされたものかどうかを確認
     			try{
     				DBConnection dbConnection = new DBConnection();
     				java.sql.Connection conn = dbConnection.connectDB();
     				
     				if(conn!=null){
+    	            	//file がすでにアップロードされたものかどうかを確認
     					ImageDao imageDao = new ImageDao();
     					ImageId = imageDao.checkImageExist(
     							dbConnection,
     							item.getName(),
     							salonId
     					      );
-    					dbConnection.close();
-    				}else{
+
+	        			//Imageが未アップロードならimageIdを取得
+	        			if(ImageId<0){
+	        				if(conn!=null){
+	        					ImageId = imageDao.getImageId(
+	        							dbConnection
+	        							);
+	        				}
+	        				insertFlag = true;
+	        			}
+
+        			}else{
     					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
     					throw new Exception("DabaBase Connect Error");
     				}
+
+        			dbConnection.close();
     				
     			}catch(Exception e){
     				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
     				e.printStackTrace();
     			}
-            	
+
+    			//ImageName対応
+    			ImageName = item.getName();
+    			
+    			//ImageFileName対応
+    			if(item.getName().indexOf("png")>0){
+        			ImageFileName = Integer.toString(ImageId) + ".png";    				
+    			}else if(item.getName().indexOf("jpg")>0){
+        			ImageFileName = Integer.toString(ImageId) + ".jpg";    				    				
+    			}else if(item.getName().indexOf("jpeg")>0){
+        			ImageFileName = Integer.toString(ImageId) + ".jpeg";    				    				
+    			}else{
+    				//debug
+    				System.out.println("Error...");
+    				break;
+    			}
+    			
 	              // ファイルをuploadディレクトリに保存
 	              BufferedInputStream in;
 	              in = new BufferedInputStream(item.getInputStream());
-	              File f = new File(upPath + item.getName());
+	              //File f = new File(upPath + item.getName());
+	              File f = new File(upPath + ImageFileName);
 	              BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
 	              while ((size = in.read(buff)) > 0) {
 	                out.write(buff, 0, size);
 	              }
 	              out.close();
 	              in.close();
-	     
+
 	              //アップロードしたファイルのサイズ
 	              ImageSize = item.getSize();
 	              // アップロードしたファイルへのURLリンク
 	              //response.getWriter().print(servletContext.getContextPath() + "/upload/" + item.getName());
-	              ImageName = item.getName();
 
-	              //ファイル名に半角英数のみを許す
+	              //ImageUrl対応
+	              /*ファイル名に半角英数のみを許す
 	              if(ImageName.matches("[0-9a-zA-Z.]+")){
 		              //ImageUrl = ConfigUtil.getConfig("imageurl")+servletContext.getContextPath() + "/upload/" + ImageName;
 		              ImageUrl = ConfigUtil.getConfig("imageurl") + ImageName;
 		              result = true;
 	              }
-              // (5) フォームフィールド（ファイル以外）の処理
+	              */
+	              ImageUrl = ConfigUtil.getConfig("imageurl") + ImageFileName;	              
+	              result = true;
+	              // (5) フォームフィールド（ファイル以外）の処理
             } else {
                 System.out.println("ファイル以外の処理...");
               // ここでは処理せず、直接requestからgetParamしてもいいと思います。

@@ -25,43 +25,31 @@ public class ImageDao {
 		 */
 
 		boolean result = false;
-		String sql_before = "SELECT * FROM `t_image` WHERE `t_image_id` = ";
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_image` ("
 				+ "`t_image_id`, `t_image_name`, `t_image_filepath`, `t_image_size`, `t_image_salonId`) VALUES ('";
 		String sql2 = "', '";
 		String sql3 = "');";
 
+		/*
 		String sql_update1 = "UPDATE `MEIHAIWAN_TEST`.`t_image` SET `t_image_size` = '";
 		String sql_update2 = "' WHERE `t_image`.`t_image_id` = ";
 		String sql_update3 = ";";
+		*/
 		
 		Statement statement = dbConnection.getStatement();
 
-		if(ImageId<0){
-			int t_image_id = 0;
-			for(int i=1; i<Integer.MAX_VALUE; i++){
-				try {
-					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-					if(!rs.next()){
-						t_image_id = i;
-						break;
-					}
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
-			}
-	
-			String sql = sql1 + t_image_id + sql2 + ImageName + sql2 + ImageUrl + sql2 + ImageSize + sql2 + salonId + sql3;
-			//debug
-			System.out.println(sql);
-			
-			try {
-				int result_int = statement.executeUpdate(sql);
-				if(result_int >= 0) result = true;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		String sql = sql1 + ImageId + sql2 + ImageName + sql2 + ImageUrl + sql2 + ImageSize + sql2 + salonId + sql3;
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+		/*
 		//update (sizeのみ)
 		}else{
 			String sql = sql_update1 + ImageSize + sql_update2 + Integer.toString(ImageId) + sql_update3;
@@ -73,7 +61,7 @@ public class ImageDao {
 				e.printStackTrace();
 			}
 		}
-		
+		 */		
 		return result;	
 	}
 
@@ -92,6 +80,26 @@ public class ImageDao {
 			e.printStackTrace();
 		}
 		return result;	
+	}
+
+	public int getImageId(DBConnection dbConnection) {
+		String sql = "SELECT * FROM `t_image` WHERE `t_image_id` = ";
+		Statement statement = dbConnection.getStatement();
+		//debug
+		System.out.println(sql);
+		int t_image_id = 0;
+		for(int i=1; i<Integer.MAX_VALUE; i++){
+			try {
+				ResultSet rs = statement.executeQuery(sql+Integer.toString(i));
+				if(!rs.next()){
+					t_image_id = i;
+					break;
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		return t_image_id;	
 	}
 	
 }
