@@ -118,12 +118,12 @@ $(function(){
     render:function() {
       var index = 1;
       var service = this.state.service_list.map(function(service) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "編集"), "/", React.createElement("a", {className: "delete"}, "削除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
       });
       return (
         React.createElement("div", null, 
           React.createElement("table", null, 
-            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "カテゴリー"), React.createElement("th", null, "サービス名"), React.createElement("th", null, "写真"), React.createElement("th", null, "編集")), 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "分类"), React.createElement("th", null, "服务名称"), React.createElement("th", null, "照片"), React.createElement("th", null, "编辑")), 
             service
           )
         )

@@ -104,6 +104,10 @@ div#stylist_image_path {
   border-left: 1px solid #ccc;
 }
 
+#stylist_list_info table {
+  width:100%;
+}
+
 #stylist_list_info th {
   width: 16%;
   padding: 4px;

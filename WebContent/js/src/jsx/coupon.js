@@ -173,12 +173,12 @@ $(function(){
     render() {
       var index = 1;
       var coupon = this.state.coupon_list.map(function(coupon) {
-        return <tr><td>{index++}</td><td>{coupon.t_coupon_name}</td><td>{coupon.t_coupon_price}</td><td>{coupon.t_coupon_detailText}</td><td><img src={coupon.t_coupon_imagePath?coupon.t_coupon_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{coupon.t_coupon_name}</td><td>{coupon.t_coupon_price}</td><td>{coupon.t_coupon_detailText}</td><td><img src={coupon.t_coupon_imagePath?coupon.t_coupon_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
       });
       return (
         <div>
           <table>
-            <tr><th>No.</th><th>クーポン名</th><th>価格</th><th>クーポン内容</th><th>写真</th><th>編集</th></tr>
+            <tr><th>No.</th><th>优惠券名称</th><th>价格</th><th>优惠券内容</th><th>照片</th><th>编辑</th></tr>
             {coupon}
           </table>
         </div>

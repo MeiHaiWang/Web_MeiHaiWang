@@ -118,12 +118,12 @@ $(function(){
     render() {
       var index = 1;
       var service = this.state.service_list.map(function(service) {
-        return <tr><td>{index++}</td><td>{categorys[service.t_menu_categoryId]}</td><td>{service.t_menu_name}</td><td><img src={service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">編集</a>/<a className="delete">削除</a></td></tr>;
+        return <tr><td>{index++}</td><td>{categorys[service.t_menu_categoryId]}</td><td>{service.t_menu_name}</td><td><img src={service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
       });
       return (
         <div>
           <table>
-            <tr><th>No.</th><th>カテゴリー</th><th>サービス名</th><th>写真</th><th>編集</th></tr>
+            <tr><th>No.</th><th>分类</th><th>服务名称</th><th>照片</th><th>编辑</th></tr>
             {service}
           </table>
         </div>

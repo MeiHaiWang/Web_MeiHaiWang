@@ -28,7 +28,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-home"></i>
                     </span>
-                    サロン情報管理
+                    店铺信息管理
                 </a>
             </li>
             <li>
@@ -36,7 +36,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-user"></i>
                     </span>
-                    スタッフ情報管理
+                    店员信息管理
                 </a>
             </li>
             <li>
@@ -44,7 +44,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-list-alt"></i>
                     </span>
-                    サービス情報管理
+                    服务信息管理
                 </a>
             </li>
             <li class="active">
@@ -52,7 +52,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-star-empty"></i>
                     </span>
-                    クーポン情報管理
+                    优惠券信息管理
                 </a>
             </li>
             <li>
@@ -60,7 +60,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-picture"></i>
                     </span>
-                    アルバム管理
+                    相册管理
                 </a>
             </li>
             <li>
@@ -68,7 +68,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-map-marker"></i>
                     </span>
-                    地図情報管理
+                    地图信息管理
                 </a>
             </li>
         </ul>
@@ -122,18 +122,18 @@ var logout = (function () {
 
 <div class="content-wrap">
     <main id="content" class="content" role="main">
-        <h1 class="page-title">クーポン情報管理</h1>
+        <h1 class="page-title">优惠券信息管理</h1>
         <div class="row">
             <div class="col-md-12">
                 <section class="widget bg-transparent">
                     <div class="widget-body">
                     <dl id="coupon_page">
-                        <dt id="coupon_regist_area">クーポン登録</dt>
+                        <dt id="coupon_regist_area">优惠券注册</dt>
                         <dd>
                         <table id="coupon_info">
                             <tr>
                                 <td>
-                                    <label for="coupon_kind">クーポン種別：</label>
+                                    <label for="coupon_kind">优惠券分类：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_kind"></div>
@@ -141,7 +141,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_name">クーポン名：</label>
+                                    <label for="coupon_name">优惠券名称：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_name"></div>
@@ -149,7 +149,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_detail_text">クーポン内容：</label>
+                                    <label for="coupon_detail_text">优惠券内容：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_detail_text"></div>
@@ -157,7 +157,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_price">￥価格：</label>
+                                    <label for="coupon_price">价格：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_price"></div>
@@ -165,7 +165,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_dead_line">有効期間：</label>
+                                    <label for="coupon_dead_line">有效期限：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_dead_line"></div>
@@ -173,7 +173,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_presentation_condition">提示条件：</label>
+                                    <label for="coupon_presentation_condition">出示条件：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_presentation_condition"></div>
@@ -181,7 +181,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_use_condition">利用条件：</label>
+                                    <label for="coupon_use_condition">使用条件：</label>
                                 </td>
                                 <td>
                                     <div id="coupon_use_condition"></div>
@@ -189,7 +189,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="coupon_image">クーポン写真：</label>
+                                    <label for="coupon_image">优惠券照片：</label>
                                 </td>
                                 <td>
                                     <form id="update">
@@ -208,13 +208,13 @@ var logout = (function () {
                             <tr>
                                 <td colspan="2">
                                     <div id="coupon_regist">
-                                        <button id="coupon_regist_button" class="btn-warning">登録</button>
+                                        <button id="coupon_regist_button" class="btn-warning">注册</button>
                                     </div>
                                 </td>
                             </tr>
                         </table>
                         </dd>
-                        <dt id="coupon_list_area">メニュー一覧</dt>
+                        <dt id="coupon_list_area">优惠券一览</dt>
                         <dd>
                             <div id="coupon_list_info">
                             </div>

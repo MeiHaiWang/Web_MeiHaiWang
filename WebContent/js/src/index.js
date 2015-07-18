@@ -15,6 +15,12 @@ $(function(){
         }
     });
 
+    // エンターキー押下時
+    $('#mail_address, #password').keypress(function(e) {
+        if ( e.which == 13 ) {
+            loginSystem($('#mail_address').val(), $('#password').val());
+        }
+    });
 
     // ログインボタン押下時
     $('#login_button').on('click', function() {
