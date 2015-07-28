@@ -85,12 +85,16 @@ public class SetMenuInfoService {
 			if(t_menu_menuId.length()!=0) menuId = Integer.parseInt(t_menu_menuId);
 		}
 		menuInfo.setMenuId(menuId);
-		int categoryId = -1;
-		if(t_menu_categoryId != null) categoryId = Integer.parseInt(t_menu_categoryId);
+		int categoryId = 0;
+		if(t_menu_categoryId != null && t_menu_categoryId != ""){
+			categoryId = Integer.parseInt(t_menu_categoryId);
+		}
 		menuInfo.setMenuCategoryId(categoryId);
 		menuInfo.setMenuName(t_menu_name);
-		int price = -1;
-		if(t_menu_price != null) price = Integer.parseInt(t_menu_price);
+		int price = 0;
+		if(t_menu_price != null && t_menu_price != ""){
+			price = Integer.parseInt(t_menu_price);
+		}
 		menuInfo.setMenuPrice(price);
 		menuInfo.setMenuDetailText(t_menu_detailText);
 		menuInfo.setMenuImagePath(t_menu_imagePath);

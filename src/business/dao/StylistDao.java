@@ -530,7 +530,7 @@ public class StylistDao {
 			
 			String salon_sql;
 			if(stylistId != -1){
-				if(stylistIdList!=""){
+				if(stylistIdList!=""&&stylistIdList!=null){
 					salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;				
 				}else{
 					salon_sql =  salon_sql2_before + stylistId + salon_sql2_middle + salonId + salon_sql2_after;								
@@ -697,7 +697,9 @@ public class StylistDao {
 			for (String id : idList){
 				newStylistIdList += id + ",";
 			}
-			newStylistIdList = newStylistIdList.substring(0, newStylistIdList.lastIndexOf(','));
+			if(newStylistIdList.lastIndexOf(',')!=-1){
+				newStylistIdList = newStylistIdList.substring(0, newStylistIdList.lastIndexOf(','));
+			}
 			//debug
 			//System.out.println("NewIdList?:" + newStylistIdList);
 			

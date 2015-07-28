@@ -370,10 +370,10 @@ public class HairStyleDao {
 			}
 			String salon_sql = null;
 			if(hairStyleId != -1){
-				if(hairStyleIdList==""){
-					salon_sql =  salon_sql2_before + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;								
-				}else{
+				if(hairStyleIdList!="" && hairStyleIdList!=null){
 					salon_sql =  salon_sql2_before + hairStyleIdList + "," + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;				
+				}else{
+					salon_sql =  salon_sql2_before + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;								
 				}
 				System.out.println(salon_sql);
 				try {
@@ -466,9 +466,11 @@ public class HairStyleDao {
 		for (String id : idList){
 			newIdList += id + ",";
 		}
-		newIdList = newIdList.substring(0, newIdList.lastIndexOf(','));
+		if(newIdList.lastIndexOf(',')!=-1){
+			newIdList = newIdList.substring(0, newIdList.lastIndexOf(','));
+		}
 		//debug
-		System.out.println("NewIdList?:" + newIdList);
+		//System.out.println("NewIdList?:" + newIdList);
 		
 		String salon_sql;
 		salon_sql =  salon_sql2_before + newIdList + salon_sql2_middle + salonId + salon_sql2_after;								

@@ -3,8 +3,8 @@ package common.model;
 public class MenuInfo {
 	private int MenuId = Integer.MIN_VALUE;
 	private String MenuName ="";
-	private int MenuPrice = -1;
-	private int MenuCategoryId =-1;
+	private int MenuPrice = 0;
+	private int MenuCategoryId = 0;
 	private String MenuDetailText ="";
 	private String MenuImagePath ="";
 

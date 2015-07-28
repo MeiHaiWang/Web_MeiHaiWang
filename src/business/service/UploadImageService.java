@@ -196,7 +196,6 @@ public class UploadImageService {
 	    				}
 		    			out.close();
 		    			in.close();
-
 	    			}
 
 	    			//レスポンス対応(result,imageUrl)

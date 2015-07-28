@@ -106,6 +106,9 @@ public class MenuDao {
 		int menuId = menuInfo.getMenuId();
 		boolean result = false;
 		
+		//Unexpected value
+		if(menuInfo.getMenuPrice()<0) return -1;
+		
 		/**
 		 * menuId からmenu情報があるかどうか確認。
 		 * idがテーブルに存在したらx
@@ -204,10 +207,10 @@ public class MenuDao {
 	
 			if(menuId != -1){
 				String salon_sql = null;
-				if(menuIdList==""){
-					salon_sql =  salon_sql2_before + menuId + salon_sql2_middle + salonId + salon_sql2_after;								
-				}else{
+				if(menuIdList!="" && menuIdList!=null){
 					salon_sql =  salon_sql2_before + menuIdList + "," + menuId + salon_sql2_middle + salonId + salon_sql2_after;				
+				}else{
+					salon_sql =  salon_sql2_before + menuId + salon_sql2_middle + salonId + salon_sql2_after;								
 				}
 				System.out.println(salon_sql);
 				try {
@@ -299,7 +302,9 @@ public class MenuDao {
 		for (String id : idList){
 			newIdList += id + ",";
 		}
-		newIdList = newIdList.substring(0, newIdList.lastIndexOf(','));
+		if(newIdList.lastIndexOf(',')!=-1){
+			newIdList = newIdList.substring(0, newIdList.lastIndexOf(','));
+		}
 		//debug
 		//System.out.println("NewIdList?:" + newIdList);
 		

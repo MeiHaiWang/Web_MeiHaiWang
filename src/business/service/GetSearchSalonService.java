@@ -30,14 +30,14 @@ public class GetSearchSalonService {
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 	if(areaIdList.isEmpty()){
 		areaIdList.add("-1");
-		//テスト用パラメータ
+		//TODO テスト用パラメータ
 		//areaIdList.add("1");
 	}
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 	if(searchConditionIdList.isEmpty()){
 		searchConditionIdList.add("-1");
-		//テスト用パラメータ
+		//TODO テスト用パラメータ
 		//searchConditionIdList.add("1");
 	}
 	int pageNumber = request.getParameter("page") != null ?
