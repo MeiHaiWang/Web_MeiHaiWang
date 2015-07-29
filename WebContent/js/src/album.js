@@ -106,7 +106,7 @@ $(function(){
     render:function() {
       var index = 1;
       var album = this.state.album_list.map(function(album) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, typeof album.t_stylist_stylist_id!=="undefined"?stylists[album.t_stylist_stylist_id]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, hairtypes[album.t_hairStyle_hairTypeId]), React.createElement("td", null, album.t_hairStyle_name), React.createElement("td", null, typeof album.t_hairStyle_stylistId!=="undefined"?stylists[album.t_hairStyle_stylistId]:''), React.createElement("td", null, React.createElement("img", {src: album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
       });
       return (
         React.createElement("div", null, 
@@ -144,15 +144,8 @@ $(function(){
     hairtypes[hairtype_id] = hairtype_name;
   }
 
-  var stylist_info = getStylistList();
-  sanitaize.decode(stylist_info);
   // stylistを参照しやすい形に変換
   var stylists = new Array();
-  for (var i = 0; i < stylist_info.stylist.length; i++) {
-    var stylist_id = stylist_info.stylist[i].t_stylist_Id;
-    var stylist_name = stylist_info.stylist[i].t_stylist_name;
-    stylists[stylist_id] = stylist_name;
-  }
 
 
   /*
@@ -174,6 +167,16 @@ $(function(){
   var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
 
   sanitaize.decode(album_info);
+
+  // stylistを参照しやすい形に変換
+  var stylist_info = getStylistList({'t_hairSalonMaster_salonId':session_info.t_hairSalonMaster_salonId});
+  sanitaize.decode(stylist_info);
+  for (var i = 0; i < stylist_info.stylist.length; i++) {
+    var stylist_id = stylist_info.stylist[i].t_stylist_stylist_id;
+    var stylist_name = stylist_info.stylist[i].t_stylist_name;
+    stylists[stylist_id] = stylist_name;
+  }
+
 
   // アカウント名を表示
   $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
