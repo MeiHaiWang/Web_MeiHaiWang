@@ -18,6 +18,14 @@ public  class Constant {
 	public static final String ID = "id";
 	public static final int ONE_PAGE_NUM = 20;
 	public static final int COUNTRY_NUMBER = 20; //TODO: 国の数、定数にする？
+
+	/*
+	public static final int TYPE_FOR_SALON_CONDITION = 1;
+	public static final int TYPE_FOR_STYLIST_CODITION = 2;
+	public static final int TYPE_FOR_STYLIST_LIKE = 3;
+	public static final int TYPE_FOR_HAIRSTYLE_MENU = 4;
+	public static final int TYPE_FOR_HAIRSTYLE_FACE = 5;
+	*/
 	
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
 	public static final String TITLE_FOR_STYLIST_CODITION = "スタイリスト検索条件";

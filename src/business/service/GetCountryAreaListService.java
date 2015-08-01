@@ -145,7 +145,9 @@ public class GetCountryAreaListService {
 			*/
 			//jsonObject.put("country", ja);
 
-			jsonObject = areaNodeMap.get(countryInfoList.get(0).getCountryId()).output();
+			if(countryInfoList.size()!=0 && areaNodeMap.size()!=0){
+				jsonObject = areaNodeMap.get(countryInfoList.get(0).getCountryId()).output();
+			}
 			PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

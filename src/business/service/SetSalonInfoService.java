@@ -36,6 +36,7 @@ import common.util.DBConnection;
       t_hairSalonMaster_carParkAvailable,
       t_hairSalonMaster_salonImagePath:カンマ区切りの文字列,
       t_hairSalonMaster_japaneseAvailable,
+      t_hairSalonMaster_searchConditionId
     }
 
     出力：{ result:レコード更新成否 }
@@ -88,6 +89,9 @@ public class SetSalonInfoService {
 		String t_hairSalonMaster_salonImagePath = request.getParameter("t_hairSalonMaster_salonImagePath");
 		String t_hairSalonMaster_japaneseAvailable = request.getParameter("t_hairSalonMaster_japaneseAvailable") != null ?
 				request.getParameter("t_hairSalonMaster_japaneseAvailable").toString() : null;
+		String t_hairSalonMaster_searchConditionId = request.getParameter("t_hairSalonMaster_searchConditionId") != null ?
+				request.getParameter("t_hairSalonMaster_searchConditionId").toString() : null;
+				
 				/*
 		List<String> salonImagePathList = request.getParameter("t_hairSalonMaster_salonImagePath") != null ?
 				Arrays.asList(request.getParameter("t_hairSalonMaster_salonImagePath").split(",")) : new ArrayList<String>();	
@@ -123,6 +127,8 @@ public class SetSalonInfoService {
 		salonInfo.setHairSalonImagePath(t_hairSalonMaster_salonImagePath);
 		//salonInfo.setSalonAvailableCountries(t_hairSalonMaster_japaneseAvailable);
 		salonInfo.setSalonJapaneseAvailable(Boolean.getBoolean(t_hairSalonMaster_japaneseAvailable));
+		salonInfo.setSalonSearchConditionId(t_hairSalonMaster_searchConditionId);
+		
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -147,7 +153,8 @@ public class SetSalonInfoService {
 					    t_hairSalonMaster_creditAvailable,
 					    t_hairSalonMaster_carParkAvailable,
 					    t_hairSalonMaster_salonImagePath,
-					    t_hairSalonMaster_japaneseAvailable
+					    t_hairSalonMaster_japaneseAvailable,
+					    t_hairSalonMaster_searchConditionId
 					    */
 						);
 				dbConnection.close();

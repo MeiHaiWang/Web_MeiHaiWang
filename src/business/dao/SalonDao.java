@@ -32,7 +32,6 @@ public class SalonDao {
 	}
 	
 	public List<HairSalonInfo> getSalonDetailInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
-
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` =" + salonId.toString();		
 		String sql2 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
@@ -681,6 +680,7 @@ public class SalonDao {
 		    String t_hairSalonMaster_carParkAvailable,
 		    String t_hairSalonImagePath,
 		    String t_hairSalonMaster_japaneseAvailable
+		    t_hairSalonMaster_searchConditionId
 		    */
 			){
 
@@ -722,6 +722,8 @@ public class SalonDao {
 		//+ "salonImagePathList <- string " +
 		String sql11 = "', `t_hairSalonMaster_availableCountryId` = '";
 		//+ "japaneseAvailable " +
+		String sql12 = "', `t_hairSalonMaster_searchConditionId` = '";
+		//+
 		String sql_end = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = " + salonId + ";";;
 
 		Statement statement = dbConnection.getStatement();
@@ -775,6 +777,7 @@ public class SalonDao {
 				 +sql9 + carParkAvailable
 				 +sql10 + salonInfo.getHairSalonImagePathOneLine()
 				 +sql11 + japaneseAvailable
+				 +sql12 + salonInfo.getSalonSearchConditionId()
 				 +sql_end;
 		//debug
 		System.out.println(sql);

@@ -43,6 +43,7 @@ public class HairSalonInfo {
     private boolean japaneseAvailable = false;
     
     private String areaId = "";
+	private String searchConditionId = "";
     
 	public HairSalonInfo(){
 		
@@ -300,6 +301,14 @@ public class HairSalonInfo {
 	}
 	public String getSalonAreaId(){
 		return areaId;
+	}
+
+	public void setSalonSearchConditionId(
+			String searchConditionId) {
+		this.searchConditionId  = searchConditionId;
+	}
+	public String getSalonSearchConditionId(){
+		return searchConditionId;
 	}
 
 }

@@ -94,7 +94,7 @@ public class GetAlbumInfoService {
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("album",jsonArray);
 		    //debug
-		    System.out.println(jsonObject.toString(4));
+		    //System.out.println(jsonObject.toString(4));
 						    		    
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
