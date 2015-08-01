@@ -45,7 +45,7 @@ public class GetFaceTypeForHairStyleSearchService {
 			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TITLE_FOR_HAIRSTYLE_FACE);
+				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_HAIRSTYLE_FACE);
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				dbConnection.close();
 			}else{

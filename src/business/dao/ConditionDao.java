@@ -53,13 +53,14 @@ public class ConditionDao {
 		return ConditionInfoList;
 	}	
 
-	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, String ConditionTitleType) throws SQLException,UnsupportedEncodingException{
+	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int conditionType) throws SQLException,UnsupportedEncodingException{
 		String sql = "";
 		String typeStr =  "";
 		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();		
 
+		/*
 		try{
-			if(ConditionTitleType.compareTo(Constant.TITLE_FOR_SALON_CONDITION)==0)
+			if(ConditionTitleType.compareTo(Constant.TYPE_FOR_SALON_CONDITION)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_SALON.getBytes("UTF-8"),"UTF-8");
 			else if(ConditionTitleType.compareTo(Constant.TITLE_FOR_STYLIST_CODITION)==0)
 				typeStr = new String(Constant.TITLE_NAME_LIST_FOR_STYLIST_CODITION.getBytes("UTF-8"),"UTF-8");
@@ -74,14 +75,18 @@ public class ConditionDao {
 			e.printStackTrace();
 			throw e;
 		}
+		*/
 
+		sql = "SELECT * FROM `t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_typeId` = ";
+		/*
 		sql = "SELECT `t_masterSearchConditionTitle_id`,`t_masterSearchConditionTitle_name` FROM "
 			 		+ "`t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_name` "
 			 		+ "IN(" + typeStr + ")";
+			 		*/
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs = statement.executeQuery(sql);
-			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql+conditionType);
+			System.out.println(sql+conditionType);
 			while(rs.next()){
 				ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 				conditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));

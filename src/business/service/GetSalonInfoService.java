@@ -130,7 +130,7 @@ public class GetSalonInfoService {
 		List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
 		if(conn!=null){
 			ConditionDao conditionDao = new ConditionDao();
-			ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TITLE_FOR_SALON_CONDITION);
+			ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_SALON_CONDITION);
 			ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 			dbConnection.close();
 		}else{

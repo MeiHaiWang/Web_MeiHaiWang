@@ -45,7 +45,7 @@ public class GetLikeForStylistSearchService {
 			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TITLE_FOR_STYLIST_LIKE);
+				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_STYLIST_LIKE);
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				dbConnection.close();
 			}else{
