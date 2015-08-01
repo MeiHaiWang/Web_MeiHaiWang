@@ -86,6 +86,8 @@ public class SetStaffInfoService {
 				request.getParameter("t_stylist_specialMenu").toString() : null;
 		String t_stylist_message = request.getParameter("t_stylist_message") != null ?
 				request.getParameter("t_stylist_message").toString() : null;
+		String t_stylist_searchConditionId = request.getParameter("t_stylist_searchConditionId") != null ?
+				request.getParameter("t_stylist_searchConditionId").toString() : null;
 
 		//stylistInfo を渡したほうがきれいかも.
 		StylistInfo stylistInfo = new StylistInfo();
@@ -120,7 +122,8 @@ public class SetStaffInfoService {
 		stylistInfo.setStylistYears(year);
 		stylistInfo.setSpecialMenu(t_stylist_specialMenu);
 		stylistInfo.setStylistMessage(t_stylist_message);
-
+		stylistInfo.setStylistSearchConditionId(t_stylist_searchConditionId);
+		
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();

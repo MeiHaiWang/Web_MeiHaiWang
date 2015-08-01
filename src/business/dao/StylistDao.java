@@ -431,7 +431,7 @@ public class StylistDao {
 				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
 				+ "`t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, "
 				+ "`t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, "
-				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('";
+				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`, `t_stylist_searchConditionId`) VALUES ('";
 		String sql2 = "', '";
 //		String sql3 = "NULL";
 		String sql3 = "";
@@ -455,6 +455,7 @@ public class StylistDao {
 				+ "`t_stylist_mail` = '" +  stylistInfo.getMail()  + "', "
 				+ "`t_stylist_phoneNumber` = '" +  stylistInfo.getPhoneNumber()  + "', "
 				+ "`t_stylist_birth` = '" +  birth  + "'"
+				+ "`t_stylist_searchConditionId` = '" +  stylistInfo.getStylistSearchConditionId()  + "'"
 				+ " WHERE `t_stylist`.`t_stylist_Id` = " + stylistId;
 
 		//Select
@@ -500,7 +501,8 @@ public class StylistDao {
 					+ sql4 + sql2 //favorite
 					+ sql4 + sql2 //isNetReserv
 					+ sql4 + sql2 //search
-					+ sql4 //areaId
+					+ sql4 + sql2 //areaId
+					+ stylistInfo.getStylistSearchConditionId()
 					+ sql_end;
 	
 			//debug

@@ -286,7 +286,7 @@ public class HairStyleDao {
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` ("
 				+ "`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
-				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`) VALUES ('";
+				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`) VALUES ('";
 		String sql2 = "', '";
 		String sql3 = "NULL";
 		String sql4 = "0";
@@ -306,6 +306,7 @@ public class HairStyleDao {
 				+ "`t_hairStyle_salonId` = '" +  salonId  + "',"
 				+ "`t_hairStyle_updateDate` = '" +  updateTime  + "',"
 				+ "`t_hairStyle_imagePath` = '" +  hairStyleInfo.getHairStyleImagePathStr()  + "'"
+				+ "`t_hairStyle_searchConditionId` = '" + hairStyleInfo.getHairStyleSearchConditionId() + "'"
 				+ " WHERE `t_hairStyle`.`t_hairStyle_Id` = " + hairStyleId;
 
 		
@@ -335,6 +336,7 @@ public class HairStyleDao {
 					+ sql4 + sql2 
 					+ updateTime + sql2 				
 					+ hairStyleInfo.getHairStyleImagePathStr()
+					+ hairStyleInfo.getHairStyleSearchConditionId()
 					+ sql_end;
 			//debug
 			System.out.println(sql);

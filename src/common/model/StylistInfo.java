@@ -26,6 +26,7 @@ public class StylistInfo {
 	private String position = "";
 	private String specialMenu = "";
 	private String menuId = "";
+	private String searchConditionId = "";
 	
 	public StylistInfo(){
 		
@@ -164,6 +165,13 @@ public class StylistInfo {
 	}
 	public String getMenuId(){
 		return menuId;
+	}
+
+	public void setStylistSearchConditionId(String searchConditionId) {
+		this.searchConditionId = searchConditionId;
+	}
+	public String getStylistSearchConditionId(){
+		return searchConditionId;
 	}
 
 }

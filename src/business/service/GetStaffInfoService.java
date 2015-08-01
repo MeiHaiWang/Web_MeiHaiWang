@@ -13,9 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.ConditionDao;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import common.constant.Constant;
+import common.model.ConditionInfo;
+import common.model.ConditionTitleInfo;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
@@ -112,6 +115,38 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_specialMenu", info.getSpecialMenu());
 		    	jsonOneData.put("t_stylist_message", info.getStylistMessage());
 		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
+		    	//検索条件
+		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
+				List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
+				if(conn!=null){
+					ConditionDao conditionDao = new ConditionDao();
+					ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_STYLIST_CONDITION);
+					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
+					dbConnection.close();
+				}else{
+					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+					throw new Exception("DabaBase Connect Error");
+				}
+				//レスポンスJSON Object(title)
+				JSONArray condTitleArray = new JSONArray();
+			    for(ConditionTitleInfo condTitleInfo : ConditionTitleInfoList){
+			    	JSONObject jsonConditionOneData = new JSONObject();
+			    	jsonConditionOneData.put("id", condTitleInfo.getConditionTitleId());
+			    	jsonConditionOneData.put("name", condTitleInfo.getConditionTitleName());
+			    	condTitleArray.add(jsonConditionOneData);
+			    }
+			    jsonOneData.put("t_stylist_searchCondition_titles",condTitleArray);
+				// レスポンスJSON Object(value)
+				JSONArray condInfoArray = new JSONArray();
+			    for(ConditionInfo condInfo : ConditionInfoList){
+			    	JSONObject jsonConditionOneData = new JSONObject();
+			    	jsonConditionOneData.put("id", condInfo.getConditionId());
+			    	jsonConditionOneData.put("titleID", condInfo.getConditionTitleId());
+			    	jsonConditionOneData.put("name", condInfo.getConditionName());
+			    	condInfoArray.add(jsonConditionOneData);
+			    }
+			    jsonOneData.put("t_stylist_searchCondition_values", condInfoArray);
+			    //検索条件ここまで
 			    stylistArray.add(jsonOneData);
 		    }
 		    //debug

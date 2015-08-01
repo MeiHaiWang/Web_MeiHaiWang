@@ -10,9 +10,12 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.ConditionDao;
 import business.dao.HairStyleDao;
 import business.dao.SalonDao;
 import common.constant.Constant;
+import common.model.ConditionInfo;
+import common.model.ConditionTitleInfo;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
@@ -89,6 +92,38 @@ public class GetAlbumInfoService {
 		    	jsonOneData.put("t_hairStyle_name", hairStyleOneInfo.getHairStyleName());
 		    	jsonOneData.put("t_hairStyle_stylistId", hairStyleOneInfo.getStylistId());
 		    	jsonOneData.put("t_hairStyle_imagePath", hairStyleOneInfo.getHairStyleImagePath());
+		    	//検索条件
+		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
+				List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
+				if(conn!=null){
+					ConditionDao conditionDao = new ConditionDao();
+					ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_STYLIST_CONDITION);
+					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
+					dbConnection.close();
+				}else{
+					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+					throw new Exception("DabaBase Connect Error");
+				}
+				//レスポンスJSON Object(title)
+				JSONArray condTitleArray = new JSONArray();
+			    for(ConditionTitleInfo condTitleInfo : ConditionTitleInfoList){
+			    	JSONObject jsonConditionOneData = new JSONObject();
+			    	jsonConditionOneData.put("id", condTitleInfo.getConditionTitleId());
+			    	jsonConditionOneData.put("name", condTitleInfo.getConditionTitleName());
+			    	condTitleArray.add(jsonConditionOneData);
+			    }
+			    jsonOneData.put("t_hairStyle_searchCondition_titles",condTitleArray);
+				// レスポンスJSON Object(value)
+				JSONArray condInfoArray = new JSONArray();
+			    for(ConditionInfo condInfo : ConditionInfoList){
+			    	JSONObject jsonConditionOneData = new JSONObject();
+			    	jsonConditionOneData.put("id", condInfo.getConditionId());
+			    	jsonConditionOneData.put("titleID", condInfo.getConditionTitleId());
+			    	jsonConditionOneData.put("name", condInfo.getConditionName());
+			    	condInfoArray.add(jsonConditionOneData);
+			    }
+			    jsonOneData.put("t_hairStyle_searchCondition_values", condInfoArray);
+			    //検索条件ここまで
 		    	jsonArray.add(jsonOneData);
 		    }
 		    // 返却用サロンデータ（jsonデータの作成）

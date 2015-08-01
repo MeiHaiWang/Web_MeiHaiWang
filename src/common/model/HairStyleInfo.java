@@ -14,6 +14,7 @@ public class HairStyleInfo {
 	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
 	private int hairTypeId = -1;
+	private String searchConditionId = "";
 	public HairStyleInfo(){
 		
 	}
@@ -87,6 +88,14 @@ public class HairStyleInfo {
 	
 	public int getHairTypeId(){
 		return hairTypeId;
+	}
+
+	public void setHairStyleSearchConditionId(
+			String searchConditionId) {
+		this.searchConditionId = searchConditionId;
+	}
+	public String getHairStyleSearchConditionId(){
+		return searchConditionId;
 	}
 
 }

@@ -71,6 +71,8 @@ public class SetAlbumInfoService {
 				request.getParameter("t_hairStyle_stylistId").toString() : null;
 		String t_hairStyle_imagePath = request.getParameter("t_hairStyle_imagePath") != null ?
 				request.getParameter("t_hairStyle_imagePath").toString() : null;
+		String t_hairStyle_searchConditionId = request.getParameter("t_hairStyle_searchConditionId") != null ?
+				request.getParameter("t_hairStyle_searchConditionId").toString() : null;
 
 		if(t_hairSalonMaster_salonId != null) salonId = Integer.parseInt(t_hairSalonMaster_salonId);
 		//hairStyleInfo を渡したほうがきれいかも.
@@ -90,6 +92,8 @@ public class SetAlbumInfoService {
 		}else{
 			hairStyleInfo.setHairStyleImagePath("/img/notfound.jpg");
 		}
+		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
+			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
 
 		
 		try{
