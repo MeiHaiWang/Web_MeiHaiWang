@@ -77,7 +77,7 @@ public class UserRegistAction extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		//TODO テスト用key 本番ではアプリ側と調整した場所にkeyファイルを配置する
-		final byte[] key = "testKey".getBytes();
+		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes();
 		byte[] eOneTimeKey = request.getParameter("eonetimekey").getBytes();
 		byte[] eOneTimeKeyIv = request.getParameter("eonetimekeyIv").getBytes();
 		

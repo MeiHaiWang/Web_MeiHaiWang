@@ -76,8 +76,8 @@ public class UserLoginAction extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		//TODO テスト用key 本番ではアプリ側と調整した場所にkeyファイルを配置する
-		final byte[] key = "azu93fzzei93084jnnekamel2".getBytes();
+
+		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes();
 		byte[] eTel = request.getParameter("etel").getBytes();
 		byte[] etelIv = request.getParameter("telIv").getBytes();
 		byte[] epw = request.getParameter("epw").getBytes();
