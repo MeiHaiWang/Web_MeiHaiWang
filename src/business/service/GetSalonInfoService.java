@@ -125,7 +125,8 @@ public class GetSalonInfoService {
 		jsonOneData.put("t_hairSalonMaster_carParkAvailable", hairSalonInfo.getSalonCarParkAvailable());
 		jsonOneData.put("t_hairSalonMaster_salonImagePath", hairSalonInfo.getHairSalonImagePathOneLine());		    		
     	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getSalonCarParkAvailable());
-    	//jsonOneData.put("t_hairSalonMaster_salonCondition", salonCondtionArray);
+    	jsonOneData.put("t_hairSalonMaster_salonCondition", hairSalonInfo.getSalonSearchConditionId());
+    	/*
 		List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
 		List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
 		if(conn!=null){
@@ -157,6 +158,7 @@ public class GetSalonInfoService {
 	    }
 	    jsonOneData.put("t_hairSalonMaster_searchCondition_values", condInfoArray);
 	    //検索条件ここまで
+	    */
 	    
     	PrintWriter out = response.getWriter();
 		out.print(jsonOneData);

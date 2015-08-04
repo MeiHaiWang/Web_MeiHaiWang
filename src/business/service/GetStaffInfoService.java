@@ -115,6 +115,8 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_specialMenu", info.getSpecialMenu());
 		    	jsonOneData.put("t_stylist_message", info.getStylistMessage());
 		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
+		    	jsonOneData.put("t_stylist_searchConditionId", info.getStylistSearchConditionId());
+		    	/*
 		    	//検索条件
 		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
 				List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
@@ -147,11 +149,12 @@ public class GetStaffInfoService {
 			    }
 			    jsonOneData.put("t_stylist_searchCondition_values", condInfoArray);
 			    //検索条件ここまで
+			     */
 			    stylistArray.add(jsonOneData);
 		    }
-		    //debug
-	    	//System.out.println(stylistArray.toString(4));
 		    jsonObject.put("stylist",stylistArray);	
+		    //debug
+	    	System.out.println(jsonObject.toString(4));
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

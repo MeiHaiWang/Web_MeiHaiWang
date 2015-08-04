@@ -220,7 +220,7 @@ public class HairStyleDao {
 		 */
 		
 		String sql = 
-				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_hairTypeId`, "
+				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_hairTypeId`, `t_hairStyle_searchConditionId`, "
 				+ "`t_hairStyle_name`, `t_hairStyle_stylistId` FROM `t_hairStyle` WHERE t_hairStyle_id=";
 				
 		Statement statement = dbConnection.getStatement();
@@ -239,6 +239,7 @@ public class HairStyleDao {
 					hairStyleInfo.setSalonId(salonId);
 					hairStyleInfo.setHairTypeId(rs.getInt("t_hairStyle_hairTypeId"));
 					hairStyleInfo.setHairStyleName(rs.getString("t_hairStyle_name"));
+					hairStyleInfo.setHairStyleSearchConditionId(rs.getString("t_hairStyle_searchConditionId"));
 					HairStyleInfoList.add(hairStyleInfo);
 				}
 			} catch (SQLException e) {

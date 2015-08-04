@@ -354,7 +354,7 @@ public class StylistDao {
 		
 		String sql = 
 				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_phoneNumber`, "
-				+ "`t_stylist_mail`, `t_stylist_imagePath`, `t_stylist_birth`,"
+				+ "`t_stylist_mail`, `t_stylist_imagePath`, `t_stylist_birth`, `t_stylist_searchConditionId`, "
 				+ "`t_stylist_position`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_message`, "
 				+ "`t_stylist_menuId` FROM `t_stylist` WHERE t_stylist_Id="; 
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
@@ -384,6 +384,7 @@ public class StylistDao {
 					stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
 					stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
 					stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+					stylistInfo.setStylistSearchConditionId(rs.getString("t_stylist_searchConditionId"));
 					stylistInfoList.add(stylistInfo);
 				}
 			} catch (SQLException e) {

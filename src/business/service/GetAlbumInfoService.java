@@ -92,6 +92,8 @@ public class GetAlbumInfoService {
 		    	jsonOneData.put("t_hairStyle_name", hairStyleOneInfo.getHairStyleName());
 		    	jsonOneData.put("t_hairStyle_stylistId", hairStyleOneInfo.getStylistId());
 		    	jsonOneData.put("t_hairStyle_imagePath", hairStyleOneInfo.getHairStyleImagePath());
+		    	jsonOneData.put("t_hairStyle_searchConditionId", hairStyleOneInfo.getHairStyleSearchConditionId());
+		    	/*
 		    	//検索条件
 		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
 				List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
@@ -124,6 +126,7 @@ public class GetAlbumInfoService {
 			    }
 			    jsonOneData.put("t_hairStyle_searchCondition_values", condInfoArray);
 			    //検索条件ここまで
+			     */
 		    	jsonArray.add(jsonOneData);
 		    }
 		    // 返却用サロンデータ（jsonデータの作成）

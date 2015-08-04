@@ -562,7 +562,7 @@ public class SalonDao {
 		String sql1 ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_detailText`, "
 				+ "`t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, "
 				+ "`t_hairSalonMaster_closeDay`, `t_hairSalonMaster_creditAvailable`, `t_hairSalonMaster_carParkAvailable`, "
-				+ "`t_hairSalonMaster_availableCountryId`, `t_hairSalonMaster_areaId` ";
+				+ "`t_hairSalonMaster_availableCountryId`, `t_hairSalonMaster_areaId`, `t_hairSalonMaster_searchConditionId` ";
 		String sql3 = 
 				 "FROM `t_hairSalonMaster` ";
 		String sql5 = 
@@ -611,6 +611,8 @@ public class SalonDao {
 
 				t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
 				countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
 				/*
 				boolean japaneseAvailable = false;
 				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
