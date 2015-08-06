@@ -63,9 +63,11 @@ public class GetSalonConditionListService {
 			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
-				int conditionType = -1;
+				//int conditionType = -1;
+				String conditionType = "";
 				if(t_masterSearchConditionType != null){
-					conditionType = Integer.parseInt(t_masterSearchConditionType);
+					conditionType = t_masterSearchConditionType;
+					//conditionType = Integer.parseInt(t_masterSearchConditionType);
 					ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, conditionType);
 					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				}

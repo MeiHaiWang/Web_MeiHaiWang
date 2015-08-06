@@ -53,9 +53,9 @@ public class ConditionDao {
 		return ConditionInfoList;
 	}	
 
-	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, int conditionType) throws SQLException,UnsupportedEncodingException{
-		String sql = "";
+	public List<ConditionTitleInfo> getConditionTitleInfo(DBConnection dbConnection, String conditionType) throws SQLException,UnsupportedEncodingException{
 		String typeStr =  "";
+		int conditionTypeId = -1;
 		ArrayList<ConditionTitleInfo> ConditionTitleInfoList = new ArrayList<ConditionTitleInfo>();		
 
 		/*
@@ -77,7 +77,8 @@ public class ConditionDao {
 		}
 		*/
 
-		sql = "SELECT * FROM `t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_typeId` = ";
+		String sql_1 = "SELECT * FROM `t_masterSearchConditionType` WHERE `t_masterSearchConditionType_name` = '"+conditionType+"'";
+		String sql_2 = "SELECT * FROM `t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_typeId` = ";
 		/*
 		sql = "SELECT `t_masterSearchConditionTitle_id`,`t_masterSearchConditionTitle_name` FROM "
 			 		+ "`t_masterSearchConditionTitle` WHERE `t_masterSearchConditionTitle_name` "
@@ -85,8 +86,18 @@ public class ConditionDao {
 			 		*/
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs = statement.executeQuery(sql+conditionType);
-			System.out.println(sql+conditionType);
+			//debug 
+			System.out.println(sql_1);
+			
+			ResultSet rs = statement.executeQuery(sql_1);
+			while(rs.next()){
+				conditionTypeId = rs.getInt("t_masterSearchConditionType_id");
+			}
+			
+			rs = statement.executeQuery(sql_2+conditionTypeId);
+			//debug 
+			System.out.println(sql_2+conditionTypeId);
+
 			while(rs.next()){
 				ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
 				conditionTitleInfo.setConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
