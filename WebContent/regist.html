@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ch">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>HMWサロン登録フォーム</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.png" >
+   <!-- <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <form class="form-horizontal" action=''RegistSalonServlet" method="POST">
+  <fieldset>
+   <center><img src="img/top.png" width="50%" height="50%"></center>
+   <br>
+    <div id="legend">
+     <legend class="">店舗掲載ご希望の方は<br>こちらの入力フォームからお問い合わせください</legend>
+    </div>
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <tr>       
+ 	   <!--<div class="control-group">-->
+      	   <!-- Username -->
+      	   <td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">連絡者名</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+          <!-- <div class="controls">-->
+           	 <input type="text" id="contactUser" name="contactUser" placeholder="【例】王健一" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+          </div>
+     </tr>
+    </table>
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">サロン名</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="salonName" name="salonName" placeholder="＊新規オープンで未定の場合は「未定」とご入力下さい" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">都市-地域</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <select name="city" style="width: 205px" required>
+		<option value="city1">都市1</option>
+	　</select>
+           <select name="area" style="width: 205px" required>
+		<option value="area1">地域1</option>
+	　</select>
+           </td>
+     </tr>
+     </table>
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">住所</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="address" name="address" placeholder="【例】浦区寧海東路160号" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">連絡先</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="tel" name="tel" placeholder="【例】111-1234-1234" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+   
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">メールアドレス</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="mail" name="mail" placeholder="【例】youjiandizi-888@meihaiwang.com" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+     
+      <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">パスワード</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="pass" name="pass" placeholder="半角英数字記号で6文字以上ご入力ください" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+     
+   
+     
+
+      <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+     <tr>       
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <label class="control-label"  for="username">パスワード(確認用)</label>
+      	   </td>
+      	   <td bgcolor="#ffffff" align="center" valign="center">
+            <input type="text" id="passConfirm" name="passConfirm" placeholder="パスワードを再度入力してください" class="input-xxlarge" required>
+            	<!--<p class="help-block">【例】王健一</p>-->
+           <!--</div>-->
+           </td>
+     </tr>
+     </table>
+<br>
+     <center>
+              <textarea id="rule" name="rule" cols="300" rows="8"   placeholder="利用規約" style="border:solid 1px #78bfbe;" bgcolor="#ffffff" onmouseover="readonly=true">利用きやああああああああああaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaあaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</textarea>
+    </center>
+
+
+   <br>
+   <center>
+ <!--   <div class="control-group">-->
+      <!-- Button -->
+      <!--<div class="controls">-->
+        <button type="button"  style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;">
+        <font size="5" color="white">同意して掲載希望する</font>
+        </button>
+    <!--  </div>-->
+    <!--</div>-->
+   </center>
+</form>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
