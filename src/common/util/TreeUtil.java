@@ -4,11 +4,13 @@ import java.util.List;
 
 import common.model.AreaInfo;
 
-public final class TreeUtil {
+public final class TreeUtil {	
+	public static List<AreaInfo> treeAreaList;
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unused")	
 	public static AreaNode createTreeObject(List<AreaInfo> treePathList) {
 		AreaNode root = new AreaNode(null, null);
+		treeAreaList = treePathList;
 		//debug
 		//System.out.println("===========Tree create start.===============");
 		for (AreaInfo aInfo : treePathList){
@@ -28,8 +30,10 @@ public final class TreeUtil {
 				if (!exists) {
 					AreaNode child = new AreaNode(aInfo, root);
 					root.add(child);
-					//debug
-					//System.out.println("ROOTADD: "+root.name +"->"+child.name+" *** Parent is "+child.areaInfo.getParent());
+					/*debug
+					System.out.println("ROOTADD: [0]:"+root.name +"->"+"["+child.id+"]:"+child.name
+							+" *** Parent is "+"["+child.areaInfo.getParent()+"]: ROOT");
+							*/
 				}
 			} else {
 				// 親ノードがあるとき、その親ノード直下に追加
@@ -43,7 +47,7 @@ public final class TreeUtil {
 	private static void appendAreaNodeAsChild(int parentId,
 			AreaInfo areaInfo, AreaNode areaNode) {
 		//debug
-		//System.out.println("--: "+areaNode.name +"->"+areaInfo.getAreaName()+"? *** pId:"+parentId+":--");
+		//System.out.println("    who is parent?--: "+areaNode.name +"->"+areaInfo.getAreaName()+"? *** pId:"+parentId+":--");
 		// AreaNode#nameがnullはrootなのでここでは対象外
 		if (areaNode.name != null && parentId==areaNode.areaInfo.getAreaId()) {
 			// 追加すべきノードが見つかったか
@@ -57,8 +61,11 @@ public final class TreeUtil {
 			if (!exists) {
 				AreaNode child = new AreaNode(areaInfo, areaNode);
 				areaNode.add(child);
-				//debug
-				//System.out.println("ADD: "+areaNode.name +"->"+child.name+" *** Parent is "+child.areaInfo.getParent());
+				/*debug
+				System.out.println("ADD: ["+areaNode.id+"]"+areaNode.name +"->"+"["+child.id+"]:"+child.name
+						+" *** Parent is "+"["+child.areaInfo.getParent()+"]:"
+						+treeAreaList.get(child.areaInfo.getParent()-1).getAreaName());
+						*/
 			}
 		} else {
 			for (AreaNode child : areaNode.children) {

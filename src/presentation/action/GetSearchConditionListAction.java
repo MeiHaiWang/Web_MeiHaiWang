@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetSalonConditionListService;
+import business.service.GetSearchConditionListService;
 import business.service.GetSalonInfoService;
 import business.service.GetServiceCategoryListService;
 
@@ -74,7 +74,7 @@ public class GetSearchConditionListAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetSalonConditionListService newsservice = new GetSalonConditionListService();
+		GetSearchConditionListService newsservice = new GetSearchConditionListService();
 		newsservice.excuteService(request, response);
 	    
 	}

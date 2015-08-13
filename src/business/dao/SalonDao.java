@@ -33,7 +33,7 @@ public class SalonDao {
 	
 	public List<HairSalonInfo> getSalonDetailInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` =" + salonId.toString();		
+		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND `t_hairSalonMaster_salonId` =" + salonId.toString();		
 		String sql2 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
 		String sql3 = ",t_review_id)";
 		Statement statement = dbConnection.getStatement();
@@ -127,7 +127,7 @@ public class SalonDao {
 	}
 	
 	public HairSalonInfo getSalonMapInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
-		String sql ="SELECT `t_hairSalonMaster_mapUrl`, `t_hairSalonMaster_mapImagePath`, `t_hairSalonMaster_mapLatitude`, `t_hairSalonMaster_mapLongitude`, `t_hairSalonMaster_mapInfoText` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId.toString(); 		
+		String sql ="SELECT `t_hairSalonMaster_mapUrl`, `t_hairSalonMaster_mapImagePath`, `t_hairSalonMaster_mapLatitude`, `t_hairSalonMaster_mapLongitude`, `t_hairSalonMaster_mapInfoText` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId=" + salonId.toString(); 		
 		Statement statement = dbConnection.getStatement();
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		try {
@@ -187,7 +187,7 @@ public class SalonDao {
 
 	public List<HairSalonInfo> getHairSalonHistoryInfo(DBConnection dbConnection, List<Integer> idList) throws SQLException{
 		String sql = 
-				"SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName` FROM `t_hairSalonMaster` JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE t_hairSalonMaster_salonId =";
+				"SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName` FROM `t_hairSalonMaster` JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_disableFlag` = 0 AND  t_hairSalonMaster_salonId =";
 		List<HairSalonInfo> infoList = new ArrayList<HairSalonInfo>();
 		
 		/* 履歴にまだ何も登録されていない＝null */
@@ -251,7 +251,7 @@ public class SalonDao {
 	public List<HairSalonInfo> getSalonFavoriteInfo(DBConnection dbConnection, List<Integer> Salon_id_list) throws SQLException{
 		String sql = 
 				"SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, "
-				+ "`t_area_areaName` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE t_hairSalonMaster_salonId =";
+				+ "`t_area_areaName` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId =";
 		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
 		
 		/* お気に入りにまだ何も登録されていない＝null */
@@ -286,7 +286,7 @@ public class SalonDao {
 	public List<Integer> getHairSalonReviewIdList(DBConnection dbConnection, int salonId) throws SQLException{
 		String sql = 
 				"SELECT `t_hairSalonMaster_reviewId` "
-				+ "FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId=" + salonId;
+				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND  t_hairSalonMaster_salonId=" + salonId;
 		
 		Statement statement = dbConnection.getStatement();
 		List<Integer> reviewIdList = new ArrayList<Integer>();
@@ -349,7 +349,7 @@ public class SalonDao {
 
 	public List<String> getSalonIdListByArea(DBConnection dbConnection, List<String> areaIdList) throws SQLException{
 		
-		String sql1 = "SELECT t_hairSalonMaster_salonId FROM t_hairSalonMaster WHERE  FIND_IN_SET(";
+		String sql1 = "SELECT t_hairSalonMaster_salonId FROM t_hairSalonMaster WHERE `t_hairSalonMaster_disableFlag` = 0 AND  FIND_IN_SET(";
 		String sql2 =  ",t_hairSalonMaster_areaId)";
 		
 		Statement statement = dbConnection.getStatement();
@@ -378,7 +378,7 @@ public class SalonDao {
 				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
 				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
 				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
-				+ "`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId IN(";
+				+ "`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId IN(";
 		String sql2 =  ") AND FIND_IN_SET(";
 		String sql3 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
 		String sql4 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
@@ -458,7 +458,7 @@ public class SalonDao {
 	
 	//
 	public String getContactUserName(DBConnection dbConnection, Integer salonId) throws SQLException{
-		String sql ="SELECT `t_hairSalonMaster_contactUserName` FROM `t_hairSalonMaster` WHERE t_hairSalonMaster_salonId = " + salonId; 		
+		String sql ="SELECT `t_hairSalonMaster_contactUserName` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		//contactUserName だけかも?
@@ -478,7 +478,7 @@ public class SalonDao {
 	}
 
 	public List<Integer> getMenuIdList(DBConnection dbConnection, Integer salonId){
-		String sql ="SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		String sql ="SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
 		List<String> menuIdListStr = new ArrayList<String>();
 		List<Integer> menuIdList = new ArrayList<Integer>();
@@ -504,7 +504,7 @@ public class SalonDao {
 	}
 
 	public List<Integer> getStylistIdList(DBConnection dbConnection, Integer salonId){
-		String sql ="SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		String sql ="SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
 		List<String> stylistIdListStr = new ArrayList<String>();
 		List<Integer> stylistIdList = new ArrayList<Integer>();
@@ -618,6 +618,7 @@ public class SalonDao {
 				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
 				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				
 				*/
 				//SalonInfoList.add(salonInfo);
 				
@@ -625,6 +626,7 @@ public class SalonDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 
 		if(t_area_areaId != "" && t_area_areaId != null){
 			List<String> areaIdList = new ArrayList<String>();
@@ -859,7 +861,7 @@ public class SalonDao {
 	public int getCheckLoginInfo(DBConnection dbConnection, String mail, String password){
 		String sql1 = "SELECT `t_hairSalonMaster_salonId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_mail` ='";
 		String sql2 = "' AND `t_hairSalonMaster_passward` ='";
-	    String sql3 = "'";
+	    String sql3 = "' AND `t_hairSalonMaster_disableFlag` = 0";
 	    int retSalonId = -1;
 	    
 	    String sql = sql1 + mail + sql2 + password + sql3;

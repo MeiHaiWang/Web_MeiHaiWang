@@ -292,6 +292,174 @@ $(function(){
 
 
   /*
+   * Salon Service Tag
+   */
+  var SalonServiceTag =
+	  React.createClass({displayName: "SalonServiceTag",
+	    getDefaultProps:function() {
+	      return {
+	        service_tag: ['']
+	      };
+	    },
+	    getInitialState:function() {
+	      return {
+	        t_hairSalonMaster_serviceConditionId: '',
+	      };
+	    },
+	    onChangeSelectValue:function(e) {
+	      //this.setState({t_hairSalonMaster_searviceConditionId: e.target.value});
+	      var addid = nameToId(e.target.value);
+	      if(!hasAddTag(condId, addid)){
+	        condId+=","+addid;
+	      }
+	      $("#salon_cond_list1").tagit("removeAll");
+	      var _v2 = v2(condId, 0);
+	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
+	      for(i=0;i<_v2.length;i++){
+		    //console.log("_v2_1:"+_v2[i].name);
+    	    $("#salon_cond_list1").tagit("createTag", _v2[i].name);
+    	  }
+	      this.setState({t_hairSalonMaster_serviceConditionId: _v2});
+	      //component_cond_list.setProps({cond_list: _v2});
+	    },
+	    render:function() {
+	      var options = this.props.service_tag.map(
+	        function(service_tag) {
+	        return React.createElement("option",
+	        {value: service_tag}, service_tag);
+	      });
+	      return (
+	        React.createElement("div", null,
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_serviceCodnitionId, onChange: this.onChangeSelectValue},
+	            options
+	          )
+	        )
+	      );
+	    }
+	  });
+
+  var SalonServiceTag2 =
+	  React.createClass({displayName: "SalonServiceTag2",
+	    getDefaultProps:function() {
+	      return {
+	        service_tag: ['']
+	      };
+	    },
+	    getInitialState:function() {
+	      return {
+	        t_hairSalonMaster_serviceConditionId: '',
+	      };
+	    },
+	    onChangeSelectValue:function(e) {
+	      var addid = nameToId(e.target.value);
+	      if(!hasAddTag(condId, addid)){
+	        condId+=","+addid;
+	      }
+	      $("#salon_cond_list1").tagit("removeAll");
+	      var _v2 = v2(condId, 1);
+	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
+	      for(i=0;i<_v2.length;i++){
+		    //console.log("_v2_1:"+_v2[i].name);
+    	    $("#salon_cond_list1").tagit("createTag", _v2[i].name);
+    	  }
+	      this.setState({t_hairSalonMaster_serviceConditionId: _v2});
+	      //component_cond_list.setProps({cond_list: _v2});
+	    },
+	    render:function() {
+	      var options = this.props.service_tag.map(
+	        function(service_tag) {
+	        return React.createElement("option",
+	        {value: service_tag}, service_tag);
+	      });
+	      return (
+	        React.createElement("div", null,
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_serviceCodnitionId, onChange: this.onChangeSelectValue},
+	            options
+	          )
+	        )
+	      );
+	    }
+	  });
+
+  /*
+   * 
+   */
+  /*
+  var ConditionList =
+	   React.createClass({displayName: "ConditionList",
+	   getDefaultProps:function() {
+	     return {
+	       cond_list: [{
+	         "id": "",
+	         "name": ""
+	       }
+	     ]};
+	   },
+	    getInitialState: function() {
+	      return {
+	        t_hairSalonMaster_serviceConditionId: ''
+	      };
+	    },
+	    render: function() {
+	      var index = 1;
+	      var cond = this.props.cond_list.map(
+	        function(cond) {
+	          return(
+	          <tr>
+	            <td>
+	              {index++}
+	            </td>
+	            <td>
+	              {cond.name}
+	            </td>
+	            <td>
+	            	<div id="d"> × </div>
+	            </td>
+	          </tr>
+	        );
+	      });
+	      return (
+	        <table>
+	          <tr>
+	            <th>
+	              <div> id </div>
+	            </th>
+	            <th>
+	              <div> name </div>
+	            </th>
+	          </tr>
+	          {cond}
+	        </table>
+	      );
+	    }
+	  });
+   */
+  //
+  var hasAddTag = function(condid, addid){
+	  var idlist =
+	   condid.split(',');
+	  for(i=0;i<idlist.length;i++){
+	    if(idlist[i]==addid){
+	      return true;
+	    }
+	  }
+	  idlist.push(addid);
+	  //document.write("addid:"+addid);
+	  return false;
+	};
+	
+	//name -> id を引っ張る
+	var nameToId = function(name){
+	  var id=-1;
+	  for(i=0;i<values.length;i++){
+	      if(name == values[i].name){
+	        id = values[i].id;
+	      }
+	  }
+	  return id;
+	};
+  
+  /*
     Component Render
   */
   // コンポーネントをエレメントに割り当てる
@@ -306,8 +474,10 @@ $(function(){
   var component_salon_car_park_available = React.render(<SalonCarParkAvailable />, document.getElementById('salon_car_park_available'));
   var component_salon_japanese_available = React.render(<SalonJapaneseAvailable />, document.getElementById('salon_japanese_available'));
   var component_salon_image_path = React.render(<SalonImagePath />, document.getElementById('salon_image_path'));
-
-
+  var component_salon_service_tag = React.render(<SalonServiceTag />, document.getElementById('salon_cond_tag1'));
+  var component_salon_service_tag2 = React.render(<SalonServiceTag2 />, document.getElementById('salon_cond_tag2'));
+  //var component_salon_cond_list = React.render(<ConditionList />, document.getElementById('salon_cond_list1'));
+  
   /*
     Main Part
   */
@@ -315,9 +485,43 @@ $(function(){
   var session_info = getSessionInfo();
   var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
   var country_area_info = getCountryAreaList();
+  var search_condition_type = {
+		  t_masterSearchConditionType: "サロン検索条件"
+  }
+  sanitaize.encode(search_condition_type);
+  var search_condition = getSearchConditionList(search_condition_type);
   sanitaize.decode(salon_info);
   sanitaize.decode(country_area_info);
+  sanitaize.decode(search_condition);
+  var titles = search_condition.titles;
+  var values = search_condition.values;
+  //console.log("titles.length:"+titles.length+","+"values.length:"+values.length);
 
+  /*
+   * 検索条件を扱いやすいように変更
+   */
+  var t_array = new Array();
+  var v_array = new Array();
+  var toArrays = (function(){
+	//console.log("titles.length:"+titles.length);
+    for(i=0;i<titles.length;i++){
+      //console.log("titles.length-i:"+i);
+    	t_array[i] = {id: titles[i].id, name: titles[i].name};
+      //console.log(i+":"+t_array[i].name+"<br>");
+    }    
+    for(i=0;i<t_array.length;i++){
+      var index=0;
+      v_array[i] = new Array();
+      for(j=0;j<values.length;j++){
+        if(t_array[i].id == values[j].titleID){
+          v_array[i][index] = {id: values[j].id, name: values[j].name};
+          //console.log("(i,index)="+i+","+index+": "+v_array[i][index].id+","+v_array[i][index].name+"<br>");
+          index++;
+        }
+      }
+    }
+  }());
+  
   // アカウント名を表示
   $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
 
@@ -333,7 +537,7 @@ $(function(){
   if (salon_info.t_area_name == '') {
     salon_info.t_area_name = country_area_info.area[0].area_slave[0].t_area_name;
   }
-
+  
   // areaを参照しやすい形に変換
   var area_name = getAreaNameBySlaveAreaName(country_area_info.area, salon_info.t_area_name);
   var areas_slave = getSlaveAreasByAreaName(country_area_info.area, area_name);
@@ -372,7 +576,65 @@ $(function(){
   if (salon_info.t_hairSalonMaster_japaneseAvailable != '') {
     component_salon_japanese_available.setState(salon_info);
   }
+  if (salon_info.t_hairSalonMaster_searchConditionId != '') {
+    component_salon_service_tag.setState(salon_info);
+  }
   component_salon_image_path.setState(salon_info);
+
+  var condId = salon_info.t_hairSalonMaster_searchConditionId;
+  //console.log("searchConditionId:"+salon_info.t_hairSalonMaster_searchConditionId);
+  var t_id = 0;
+  
+  // 検索条件setProps
+  var v1 = function(title_id){
+    var v1 = [];
+    for(i=0;i<v_array[title_id].length;i++){
+      v1.push(v_array[title_id][i].name);
+    }
+    return v1;
+  };
+  var _v1 = v1(t_id) //titleId=?  
+  component_salon_service_tag.setProps({service_tag:_v1});
+  var _v1_2 = v1(1) //titleId=?  
+  component_salon_service_tag2.setProps({service_tag:_v1_2});
+
+  var v2 = function(t_hairSalonMaster_searchConditionId, t_id){
+    //var v2 = [];
+    var v2 = new Array();
+    var index=0;
+    var idlist =
+     t_hairSalonMaster_searchConditionId.split(',');
+     for(i=0;i<idlist.length;i++){
+       for(j=0;j<values.length;j++){
+         if(values[j].id == idlist[i]){
+        	 //console.log("i,j="+i+","+j+" values:"+values[j].id+","+values[j].name+","+values[j].titleID);
+        	 //console.log("t_arrayid:"+t_array[t_id].name);
+        	 if(values[j].titleID == t_array[t_id].id){
+                 //v2.push(this.values[j].name);
+                 v2[index++] = {"name": values[j].name};
+                 //console.log(j+": name:"+ values[j].name);
+        	 }
+         }
+       }
+     }
+    return v2;
+  }; //salon_info.t_hairSalonMaster_searchConditionId
+  var _v2 = v2(condId, t_id);
+  //component_salon_cond_list.setProps({cond_list: _v2});
+  // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
+  $('#salon_cond_list1').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
+  for(i=0;i<_v2.length;i++){
+    $("#salon_cond_list1").tagit("createTag", _v2[i].name);
+  }
+  // $("#salon_cond_list1").tagit({placeholderText:"タグをつけよう",fieldName:"tags"});
+
+  var _v2_2 = v2(condId, 1);
+  //component_salon_cond_list.setProps({cond_list: _v2});
+  // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
+  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
+  for(i=0;i<_v2_2.length;i++){
+    $("#salon_cond_list2").tagit("createTag", _v2_2[i].name);
+  }
 
   /*
     Button Handler
@@ -391,6 +653,7 @@ $(function(){
       t_hairSalonMaster_carParkAvailable:  component_salon_car_park_available.state.t_hairSalonMaster_carParkAvailable,
       t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
       t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
+      t_hairSalonMaster_searchConditionId: component_salon_service_tag.state.t_hairSalonMaster_searchConditionId
     }
 
     // サニタイズ

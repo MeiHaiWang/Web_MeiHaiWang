@@ -22,7 +22,7 @@ import common.model.ConditionTitleInfo;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class GetSalonConditionListService {
+public class GetSearchConditionListService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -50,7 +50,9 @@ public class GetSalonConditionListService {
 		
 		//getParameter
 		String t_masterSearchConditionType = request.getParameter("t_masterSearchConditionType") != null ?
-				request.getParameter("t_masterSearchConditionType").toString() : null;				
+				request.getParameter("t_masterSearchConditionType") : null;				
+		//debug
+		//System.out.println("t_masterSearchCoditionType : "+t_masterSearchConditionType);
 				
         try{
 			DBConnection dbConnection = new DBConnection();
@@ -100,6 +102,9 @@ public class GetSalonConditionListService {
 		    }
 		    jsonObject.put("values", condInfoArray);
 		    		    
+		    //debug
+		    //System.out.println(jsonObject.toString(4));
+		    
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

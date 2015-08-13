@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 public class AreaNode implements Serializable {
 
 	AreaInfo areaInfo = new AreaInfo();
+	public int id;
 	public String name;	
 	public AreaNode parent;
 	public List<AreaNode> children = new ArrayList<AreaNode>();
@@ -21,6 +22,7 @@ public class AreaNode implements Serializable {
 	
 	public AreaNode(AreaInfo areaInfo, AreaNode parent) {
 		this.areaInfo = areaInfo;
+		this.id = areaInfo!=null? areaInfo.getAreaId(): -1;
 		this.name = areaInfo!=null? areaInfo.getAreaName(): null;
 		this.parent = parent;
 	}
@@ -68,7 +70,14 @@ public class AreaNode implements Serializable {
 					//System.out.println("2:" +jsonArray);
 				}
 			}
-		retJson.put("area_slave",jsonArray);
+			retJson.put("area_slave",jsonArray);
+		}else{
+			//if child is empty.
+			JSONObject childJson = new JSONObject();			
+			childJson.put("t_area_id", -1);
+			childJson.put("t_area_name", "");
+			jsonArray.add(childJson);
+			retJson.put("area_slave",jsonArray);
 		}
 		
 		return retJson;

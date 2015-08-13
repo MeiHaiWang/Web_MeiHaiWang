@@ -4,6 +4,8 @@
     <title>Beauty Hair Net Manager - Salon</title>
     <link href="css/application.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <!-- Tag-it CSS本体 -->
+    <link href="css/others/jquery.tagit.css" rel="stylesheet" type="text/css">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
@@ -231,7 +233,42 @@ var logout = (function () {
                                     </a>
                                 </td>
                             </tr>
+				<!-- test -->
                             <tr>
+								<td>
+                                 <div id="salon_PRPoint">
+                                  <label for="pr-tag">PR-TAG：</label>
+                                 </div>
+                                </td>
+                                <td colspan="5">
+									<table border="1" bordercolor="tomato"
+									 style="background-color:#FFFFFF">
+										<tr>
+	                                        <td colspan="2" align="left">
+			                                    <label for="salon_cond_tag1">Service</label>
+			                                    <div id="salon_cond_tag1"></div>
+			                                </td>
+			                        		<td  colspan="2">
+			                                    <div id="salon_cond_list1"></div>
+			                                </td>
+		                                </tr>
+		                                <tr>
+			                                <td colspan="2">
+			                                    <label for="salon_cond_tag2">Time</label>
+			                                    <div id="salon_cond_tag2"></div>
+			                                </td>
+			                        		<td  colspan="2">
+			                                    <div id="salon_cond_list2"></div>
+			                                </td>
+			                            </tr>
+                                    </table>                                
+                                </td>
+                            </tr>
+                        	<tr>
+                            </tr>
+                            
+  				<!-- /test -->
+ 				           <tr>
                                 <td colspan="8">
                                     <div id="salon_regist">
                                         <button id="salon_regist_button" class="btn-warning">注册</button>
@@ -266,7 +303,10 @@ var logout = (function () {
 <script src="vendor/pace.js/pace.min.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
-
+<!-- tag-it  -->
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>  
+<script src="others/tag-it.js"></script>
+ 
 <!-- react -->
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>

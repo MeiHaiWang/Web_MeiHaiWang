@@ -473,6 +473,23 @@ var uploadImage = (function(data){
     };
 })()
 
+// 検索情報を取得する関数
+var getSearchConditionList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getSearchConditionList",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+
 
 // リロードボタン押下時
 $('#reload_button').on('click', function() {
