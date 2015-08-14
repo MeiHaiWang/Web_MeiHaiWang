@@ -308,7 +308,6 @@ $(function(){
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
-	      //this.setState({t_hairSalonMaster_searviceConditionId: e.target.value});
 	    　//選択された項目のidを取得
 	    　var addId = nameToId(e.target.value); 
 	      //すでに登録されたidでなければ、condIdに追加
@@ -369,7 +368,9 @@ $(function(){
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
+	      //選択された項目のidを取得
 	      var addId = nameToId(e.target.value);
+	      //すでに登録されたidでなければ、condIdに追加
 	      condId += "";
 	      if(!hasAddTag(condId, addId)){
 	    	  if(condId.length<=0){
@@ -378,17 +379,14 @@ $(function(){
 	    		  condId+=","+addId;
 	    	  }
 	      }
+	      //サロン検索条件のリストをいったん削除
 	      $("#salon_cond_list2").tagit("removeAll");
 	      var _v2_2 = v2(condId, 1);
-	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
 	      for(i=0;i<_v2_2.length;i++){
-		    //console.log("_v2_1:"+_v2[i].name);
     	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
     	  }
-	      //var _v = v2(condId,0)+v2(condId,1)
     	  console.log("title2_condId:"+condId);
 	      this.setState({t_hairSalonMaster_searchConditionId: condId});
-
 	      //component_cond_list.setProps({cond_list: _v2});
 	    },
 	    render:function() {
@@ -398,13 +396,6 @@ $(function(){
 	        {value: service_tag}, service_tag);
 	      });
 	      return (
-	    		  /*
-	        React.createElement("div", null,
-	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue},
-	            options
-	          )
-	        )
-	        */
   	        React.createElement("div", null, 
 	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue}, 
 	            options
@@ -707,6 +698,20 @@ $(function(){
   */
   // 登録ボタン押下時
   $('#salon_regist_button').on('click', function() {
+	//serchConditionIdの最新版を取得
+	  var searchConditionIds="";
+	  if(component_salon_service_tag.state.t_hairSalonMaster_searchConditionId.length
+			  >component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId.length){
+		  searchConditionIds = component_salon_service_tag.state.t_hairSalonMaster_searchConditionId;
+	  }else{
+		  searchConditionIds = component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId;
+	  }
+	  /*
+	  console.log(component_salon_service_tag.state.t_hairSalonMaster_searchConditionId + " > "
+			  +component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId +" ? ")
+	  console.log("result="+searchConditionIds);
+	  */
+	  
     var data = {
       t_hairSalonMaster_salonId:           session_info.t_hairSalonMaster_salonId,
       t_hairSalonMaster_name:              component_salon_name.state.t_hairSalonMaster_salon_name,
@@ -719,7 +724,7 @@ $(function(){
       t_hairSalonMaster_carParkAvailable:  component_salon_car_park_available.state.t_hairSalonMaster_carParkAvailable,
       t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
       t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
-      t_hairSalonMaster_searchConditionId: component_salon_service_tag.state.t_hairSalonMaster_searchConditionId
+      t_hairSalonMaster_searchConditionId: searchConditionIds
     }
 
     sanitaize.encode(data);
