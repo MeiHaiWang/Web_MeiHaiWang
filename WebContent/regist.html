@@ -35,7 +35,7 @@
  	   <!--<div class="control-group">-->
       	   <!-- Username -->
       	   <td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">連絡者名</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>連絡者名</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
           <!-- <div class="controls">-->
@@ -49,7 +49,7 @@
     <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">サロン名</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>サロン名</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
             <input type="text" id="salonName" name="salonName" placeholder="＊新規オープンで未定の場合は「未定」とご入力下さい" class="input-xxlarge" required>
@@ -62,11 +62,10 @@
     <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">都市-地域</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>都市-地域</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <select name="salon_country" id = "salon_country" style="width: 205px" required>
-		<!--  <option value="city1">都市1</option>-->
+            <select name="salon_country" id = "salon_country" style="width: 205px" required onchange="parentAreaChangeHandler(this)">
 	　</select>
            <select name="salon_area" id ="salon_area" style="width: 205px" required>
 		<!--  <option value="area1">地域1</option>-->
@@ -77,7 +76,7 @@
     <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">住所</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>住所</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
             <input type="text" id="address" name="address" placeholder="【例】浦区寧海東路160号" class="input-xxlarge" required>
@@ -90,10 +89,10 @@
     <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">連絡先</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>連絡先</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="text" id="tel" name="tel" placeholder="【例】111-1234-1234" class="input-xxlarge" required>
+            <input type="tel" id="tel" name="tel" placeholder="【例】111-1234-1234" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
@@ -103,10 +102,10 @@
     <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">メールアドレス</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>メールアドレス</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="text" id="mail" name="mail" placeholder="【例】youjiandizi-888@meihaiwang.com" class="input-xxlarge" required>
+            <input type="email" id="mail" name="mail" placeholder="【例】youjiandizi-888@meihaiwang.com" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
@@ -116,7 +115,7 @@
       <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">パスワード</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>パスワード</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
             <input type="text" id="pass" name="pass" placeholder="半角英数字記号で6文字以上ご入力ください" class="input-xxlarge" required>
@@ -132,7 +131,7 @@
       <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
      <tr>       
           　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username">パスワード(確認用)</label>
+      	   <label class="control-label"  for="username"><font color="red">※ </font>パスワード(確認用)</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
             <input type="text" id="passConfirm" name="passConfirm" placeholder="パスワードを再度入力してください" class="input-xxlarge" required>
@@ -152,12 +151,13 @@
  <!--   <div class="control-group">-->
       <!-- Button -->
       <!--<div class="controls">-->
-        <button type="button"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist()">
+        <button type="submit"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist()">
         <font size="5" color="white">同意して掲載希望する</font>
         </button>
     <!--  </div>-->
     <!--</div>-->
    </center>
+   </fieldset>
 </form>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <!-- The Loader. Is shown when pjax happens -->
@@ -182,8 +182,8 @@
 
 <script src="js/bootstrap.min.js"></script>
 <script src="js/config.js"></script>
-<script src="js/common.min.js"></script>
-<script src="js/app.min.js"></script>
+  <script src="js/common.min.js"></script>
+<!--  <script src="js/app.min.js"></script>-->
 
 <!-- common app js -->
 <script src="js/settings.js"></script>
@@ -192,14 +192,47 @@
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
 <script type="text/javascript">
-  　       
+  　   var country_area_info;
+	   var areas = new Array();
+       var registArea = new Array();
+       
+	   function parentAreaChangeHandler(s){
+		    var component_salon_area = document.getElementById('salon_area');
+		    var options = component_salon_area.options;
+		    
+		    for (var i = options.length - 1; 0 <= i; --i) {
+		    	if(!options[i].selected) {
+		    		component_salon_area.removeChild(options[i]);
+		    	}
+		    }
+		    //親のエリアIDを抽出
+	 	     for (var i = 0; i < country_area_info.area.length; i++) {
+	 	 	      if(country_area_info.area[i].t_area_name == s.value ){
+	 	 	    	registArea.push(country_area_info.area[i].t_area_id);
+	 	 	      }
+	 	     }
+		    
+	 		var areas_slave = getSlaveAreasByAreaName(country_area_info.area, s.value);
+			for(var i=0; i< areas_slave.length; i++){
+				component_salon_area.options[i] = new Option(areas_slave[i].t_area_name);
+				registArea.push(areas_slave[i].t_area_id);
+			}
+       }
+
  	   function regist() {
-    	         	
+ 		    // エラーメッセージをクリアする
+ 		    registForm.pass.setCustomValidity("");
+ 		    // パスワードの一致確認
+ 		    if (registForm.pass.value != registForm.passConfirm.value) {
+ 		      // 一致していなかったら、エラーメッセージを表示する
+ 		      registForm.pass.setCustomValidity("パスワードと確認用パスワードが一致しません");
+ 		    }        	
  	   }
  	   function load(){
  
  		 var component_salon_country = document.getElementById('salon_country');
  		 var component_salon_area = document.getElementById('salon_area');
+ 		
  		 var response =　$.ajax({
  				url: API_PATH + "getCountryAreaList",
  				type: "POST",
@@ -207,17 +240,23 @@
  				dataType: "text",
  		}).responseText;
  		
- 		var country_area_info = JSON.parse(response);
+ 		country_area_info = JSON.parse(response);
  		sanitaize.decode(country_area_info);
- 		  // countryを参照しやすい形に変換
- 		  var areas = new Array();
+ 		  
  		  var country_area_id_info = new Array();
  		  for (var i = 0; i < country_area_info.area.length; i++) {
- 		    var area_id = country_area_info.area[i].t_area_id;
- 		    var area_name = country_area_info.area[i].t_area_name;
- 		    areas[i] = {area_id: area_id, area_name: area_name};
+ 		  var area_id = country_area_info.area[i].t_area_id;
+ 		  var area_name = country_area_info.area[i].t_area_name;
+ 		  areas[i] = {area_id: area_id, area_name: area_name};
+ 		  component_salon_country.options[i]　=new Option(area_name);
+ 		 // component_salon_area.options[i] = new Option():
  		  }
- 		  
+ 		 // areaを参照しやすい形に変換
+ 		  var area_name = getAreaNameBySlaveAreaName(country_area_info.area, country_area_info.area[0].area_slave[0].t_area_name);
+ 		  var areas_slave = getSlaveAreasByAreaName(country_area_info.area, area_name);
+		  for(var i=0; i< areas_slave.length; i++){
+			  component_salon_area.options[i] = new Option(areas_slave[i].t_area_name);
+		  }
  	   }
  	   load();
        
