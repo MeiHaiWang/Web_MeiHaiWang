@@ -32,6 +32,7 @@ module.exports = function (grunt) {
                     'WebContent/js/coupon.min.js': 'WebContent/js/src/coupon.js',
                     'WebContent/js/album.min.js': 'WebContent/js/src/album.js',
                     'WebContent/js/map.min.js': 'WebContent/js/src/map.js',
+                    'WebContent/js/regist.min.js': 'WebContent/js/src/regist.js',
                 },
             }
         },
