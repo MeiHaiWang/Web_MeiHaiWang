@@ -685,7 +685,7 @@ $(function(){
   }
   // $("#salon_cond_list1").tagit({placeholderText:"タグをつけよう",fieldName:"tags"});
 
-  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
+  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags2"});
   var _v2_2 = v2(condId, 1);
   //component_salon_cond_list.setProps({cond_list: _v2});
   // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
@@ -698,14 +698,39 @@ $(function(){
   */
   // 登録ボタン押下時
   $('#salon_regist_button').on('click', function() {
-	//serchConditionIdの最新版を取得
+	  //serchConditionIdの最新版を取得
 	  var searchConditionIds="";
+	  /*
 	  if(component_salon_service_tag.state.t_hairSalonMaster_searchConditionId.length
 			  >component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId.length){
 		  searchConditionIds = component_salon_service_tag.state.t_hairSalonMaster_searchConditionId;
 	  }else{
 		  searchConditionIds = component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId;
 	  }
+	  */
+	  var elms = document.getElementsByName("tags");
+	  var elms2 = document.getElementsByName("tags2");
+	  //console.log("elms.length,elms2.length:"+elms.length+","+elms2.length);
+	  var text = "";
+	  for(p=0;p<elms.length;p++){
+		  //console.log(p+"~"+elms.length+":"+elms[p].value);
+		  if(text.length==0){
+			  text = nameToId(elms[p].value);
+		  }else{
+			  text += "," + nameToId(elms[p].value);
+		  }
+	  }
+	  for(q=0;q<elms2.length;q++){
+		  //console.log(q+"~"+elms2.length+":"+elms2[q].value);
+		  if(text.length==0){
+			  text = nameToId(elms2[q].value);
+		  }else{
+			  text += "," + nameToId(elms2[q].value);
+		  }
+	  }
+	  searchConditionIds = text;
+	  //console.log("searchConditionIds:"+searchConditionIds);
+	  
 	  /*
 	  console.log(component_salon_service_tag.state.t_hairSalonMaster_searchConditionId + " > "
 			  +component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId +" ? ")
