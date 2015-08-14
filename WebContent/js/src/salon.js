@@ -310,10 +310,15 @@ $(function(){
 	    onChangeSelectValue:function(e) {
 	      //this.setState({t_hairSalonMaster_searviceConditionId: e.target.value});
 	    　//選択された項目のidを取得
-	    　var addid = nameToId(e.target.value); 
+	    　var addId = nameToId(e.target.value); 
 	      //すでに登録されたidでなければ、condIdに追加
-	      if(!hasAddTag(condId, addid)){
-	        condId+=","+addid;
+	      condId += "";
+	      if(!hasAddTag(condId, addId)){
+	    	  if(condId.length<=0){
+	    		  condId= addId;	    		  
+	    	  }else{
+	    		  condId+=","+addId;
+	    	  }
 	      }
 	      //サロン検索条件のリストをいったん削除
 	      $("#salon_cond_list1").tagit("removeAll");
@@ -324,6 +329,7 @@ $(function(){
 		    //console.log("_v2_1:"+_v2[i].name);
     	    $("#salon_cond_list1").tagit("createTag", _v2[i]);
     	  }
+	      console.log("title1_condId:"+condId);
 	      this.setState({t_hairSalonMaster_searchConditionId: condId});
 	      //component_cond_list.setProps({cond_list: _v2});
 	    },
@@ -334,8 +340,15 @@ $(function(){
 	        {value: service_tag}, service_tag);
 	      });
 	      return (
+	       /*
 	        React.createElement("div", null,
 	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue},
+	            options
+	          )
+	        )
+	        */
+	        React.createElement("div", null, 
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue}, 
 	            options
 	          )
 	        )
@@ -356,9 +369,14 @@ $(function(){
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
-	      var addid = nameToId(e.target.value);
-	      if(!hasAddTag(condId, addid)){
-	        condId+=","+addid;
+	      var addId = nameToId(e.target.value);
+	      condId += "";
+	      if(!hasAddTag(condId, addId)){
+	    	  if(condId.length<=0){
+	    		  condId=addId;	    		  
+	    	  }else{
+	    		  condId+=","+addId;
+	    	  }
 	      }
 	      $("#salon_cond_list2").tagit("removeAll");
 	      var _v2_2 = v2(condId, 1);
@@ -367,8 +385,8 @@ $(function(){
 		    //console.log("_v2_1:"+_v2[i].name);
     	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
     	  }
-	      var _v = v2(condId,0)+v2(condId,1)
-    	  //console.log("condId:"+condId);
+	      //var _v = v2(condId,0)+v2(condId,1)
+    	  console.log("title2_condId:"+condId);
 	      this.setState({t_hairSalonMaster_searchConditionId: condId});
 
 	      //component_cond_list.setProps({cond_list: _v2});
@@ -380,8 +398,15 @@ $(function(){
 	        {value: service_tag}, service_tag);
 	      });
 	      return (
+	    		  /*
 	        React.createElement("div", null,
 	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue},
+	            options
+	          )
+	        )
+	        */
+  	        React.createElement("div", null, 
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue}, 
 	            options
 	          )
 	        )
@@ -448,6 +473,7 @@ $(function(){
    * condidの中に、addidが含まれているかどうか
    */
   var hasAddTag = function(condid, addid){
+	  condid=condid+"";
 	  var idlist =
 	   condid.split(',');
 	  for(i=0;i<idlist.length;i++){
@@ -620,6 +646,7 @@ $(function(){
    */
   var v1 = function(title_id){
     var v1 = [];
+    v1.push("Select a tags of ["+t_array[title_id].name+"]");
     for(i=0;i<v_array[title_id].length;i++){
       v1.push(v_array[title_id][i].name);
     }
@@ -640,6 +667,7 @@ $(function(){
     //var v2 = new Array();
 	var v2 = [];
     var index=0;
+    t_hairSalonMaster_searchConditionId = t_hairSalonMaster_searchConditionId+"";
     var idlist = t_hairSalonMaster_searchConditionId.split(',');
      for(i=0;i<idlist.length;i++){
        for(j=0;j<values.length;j++){
