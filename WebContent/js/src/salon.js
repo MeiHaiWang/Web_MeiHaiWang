@@ -293,6 +293,7 @@ $(function(){
 
   /*
    * Salon Service Tag
+   * サロン検索条件のタイトルidの一つ目: 時間？
    */
   var SalonServiceTag =
 	  React.createClass({displayName: "SalonServiceTag",
@@ -303,24 +304,27 @@ $(function(){
 	    },
 	    getInitialState:function() {
 	      return {
-	        t_hairSalonMaster_serviceConditionId: '',
+	    	  t_hairSalonMaster_searchConditionId: '',
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
 	      //this.setState({t_hairSalonMaster_searviceConditionId: e.target.value});
-	      var addid = nameToId(e.target.value);
+	    　//選択された項目のidを取得
+	    　var addid = nameToId(e.target.value); 
+	      //すでに登録されたidでなければ、condIdに追加
 	      if(!hasAddTag(condId, addid)){
 	        condId+=","+addid;
 	      }
+	      //サロン検索条件のリストをいったん削除
 	      $("#salon_cond_list1").tagit("removeAll");
+	      //再リスト化
 	      var _v2 = v2(condId, 0);
 	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
 	      for(i=0;i<_v2.length;i++){
 		    //console.log("_v2_1:"+_v2[i].name);
-    	    $("#salon_cond_list1").tagit("createTag", _v2[i].name);
+    	    $("#salon_cond_list1").tagit("createTag", _v2[i]);
     	  }
-	      var _v = v2(condId,0)+v2(condId,1)
-	      this.setState({t_hairSalonMaster_serviceConditionId: _v});
+	      this.setState({t_hairSalonMaster_searchConditionId: condId});
 	      //component_cond_list.setProps({cond_list: _v2});
 	    },
 	    render:function() {
@@ -331,7 +335,7 @@ $(function(){
 	      });
 	      return (
 	        React.createElement("div", null,
-	          React.createElement("select", {value: this.state.t_hairSalonMaster_serviceCodnitionId, onChange: this.onChangeSelectValue},
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue},
 	            options
 	          )
 	        )
@@ -348,7 +352,7 @@ $(function(){
 	    },
 	    getInitialState:function() {
 	      return {
-	        t_hairSalonMaster_serviceConditionId: '',
+	    	  t_hairSalonMaster_searchConditionId: '',
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
@@ -361,11 +365,12 @@ $(function(){
 	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
 	      for(i=0;i<_v2_2.length;i++){
 		    //console.log("_v2_1:"+_v2[i].name);
-    	    $("#salon_cond_list2").tagit("createTag", _v2_2[i].name);
+    	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
     	  }
 	      var _v = v2(condId,0)+v2(condId,1)
-	      for(i=0;i<_v.length;i++)	console.log(_v.length+": _v:"+_v[i])
-	      this.setState({t_hairSalonMaster_serviceConditionId: _v});
+    	  //console.log("condId:"+condId);
+	      this.setState({t_hairSalonMaster_searchConditionId: condId});
+
 	      //component_cond_list.setProps({cond_list: _v2});
 	    },
 	    render:function() {
@@ -376,7 +381,7 @@ $(function(){
 	      });
 	      return (
 	        React.createElement("div", null,
-	          React.createElement("select", {value: this.state.t_hairSalonMaster_serviceCodnitionId, onChange: this.onChangeSelectValue},
+	          React.createElement("select", {value: this.state.t_hairSalonMaster_searchConditionId, onChange: this.onChangeSelectValue},
 	            options
 	          )
 	        )
@@ -438,6 +443,10 @@ $(function(){
 	  });
    */
   //
+  
+  /*
+   * condidの中に、addidが含まれているかどうか
+   */
   var hasAddTag = function(condid, addid){
 	  var idlist =
 	   condid.split(',');
@@ -446,11 +455,12 @@ $(function(){
 	      return true;
 	    }
 	  }
-	  idlist.push(addid);
+	  //idlist.push(addid);
 	  //document.write("addid:"+addid);
 	  return false;
 	};
 	
+	//valuesのリストから、
 	//name -> id を引っ張る
 	var nameToId = function(name){
 	  var id=-1;
@@ -480,7 +490,7 @@ $(function(){
   var component_salon_service_tag = React.render(React.createElement(SalonServiceTag, null), document.getElementById('salon_cond_tag1'));
   var component_salon_service_tag2 = React.render(React.createElement(SalonServiceTag2, null), document.getElementById('salon_cond_tag2'));
   //var component_salon_cond_list = React.render(<ConditionList />, document.getElementById('salon_cond_list1'));
-    
+  
   /*
     Main Part
   */
@@ -501,7 +511,11 @@ $(function(){
   //console.log("titles.length:"+titles.length+","+"values.length:"+values.length);
 
   /*
-   * 検索条件を扱いやすいように変更
+   * 検索条件を扱いやすいように再配列
+   * t_array: titlesのリスト
+   * 	titles[x] -> t_array[0],     t_array[1]
+   * v_array: valuesのリスト
+   * 	values[y] -> v_array[0][j] , v_array[1][j]
    */
   var t_array = new Array();
   var v_array = new Array();
@@ -513,8 +527,8 @@ $(function(){
       //console.log(i+":"+t_array[i].name+"<br>");
     }    
     for(i=0;i<t_array.length;i++){
-      var index=0;
       v_array[i] = new Array();
+      var index=0;
       for(j=0;j<values.length;j++){
         if(t_array[i].id == values[j].titleID){
           v_array[i][index] = {id: values[j].id, name: values[j].name};
@@ -525,8 +539,12 @@ $(function(){
     }
   }());
 
+  /*
+   * 条件名をタイトル名から取得
+   */
   $("#salon_cond_tag_name1").text(t_array[0].name);
   $("#salon_cond_tag_name2").text(t_array[1].name);
+
   
   // アカウント名を表示
   $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
@@ -582,16 +600,24 @@ $(function(){
   if (salon_info.t_hairSalonMaster_japaneseAvailable != '') {
     component_salon_japanese_available.setState(salon_info);
   }
-  if (salon_info.t_hairSalonMaster_searchConditionId != '') {
-    component_salon_service_tag.setState(salon_info);
-  }
   component_salon_image_path.setState(salon_info);
 
+  /*
+  if (salon_info.t_hairSalonMaster_searchConditionId != '') {
+  }
+  */
+
+  // salon_infoが持つ検索条件のidリスト
   var condId = salon_info.t_hairSalonMaster_searchConditionId;
   //console.log("searchConditionId:"+salon_info.t_hairSalonMaster_searchConditionId);
-  var t_id = 0;
+
+  //タイトルidのリスト
+  //var t_id=0;
   
-  // 検索条件setProps
+  /*
+   *  サロンの検索条件の一覧を使って、
+   *  タイトルごとに条件一覧をselectできるようsetProps
+   */
   var v1 = function(title_id){
     var v1 = [];
     for(i=0;i<v_array[title_id].length;i++){
@@ -599,47 +625,53 @@ $(function(){
     }
     return v1;
   };
-  var _v1 = v1(t_id) //titleId=?  
+
+  var _v1 = v1(0) //titleId=0, time
   component_salon_service_tag.setProps({service_tag:_v1});
-  var _v1_2 = v1(1) //titleId=?  
+  var _v1_2 = v1(1) //titleId=1, service
   component_salon_service_tag2.setProps({service_tag:_v1_2});
 
+  /*
+   * サロンの検索条件一覧からタイトルごとに、
+   * searchConditionIdで選択されていた条件リストを、
+   * タグとして表示しておくためのリスト
+   */
   var v2 = function(t_hairSalonMaster_searchConditionId, t_id){
-    //var v2 = [];
-    var v2 = new Array();
+    //var v2 = new Array();
+	var v2 = [];
     var index=0;
-    var idlist =
-     t_hairSalonMaster_searchConditionId.split(',');
+    var idlist = t_hairSalonMaster_searchConditionId.split(',');
      for(i=0;i<idlist.length;i++){
        for(j=0;j<values.length;j++){
-         if(values[j].id == idlist[i]){
+         if(idlist[i] == values[j].id){
         	 //console.log("i,j="+i+","+j+" values:"+values[j].id+","+values[j].name+","+values[j].titleID);
         	 //console.log("t_arrayid:"+t_array[t_id].name);
         	 if(values[j].titleID == t_array[t_id].id){
-                 //v2.push(this.values[j].name);
-                 v2[index++] = {"name": values[j].name};
+                 v2.push(values[j].name);
+                 //v2[index++] = {"name": values[j].name};
                  //console.log(j+": name:"+ values[j].name);
         	 }
          }
        }
      }
     return v2;
-  }; //salon_info.t_hairSalonMaster_searchConditionId
-  var _v2 = v2(condId, t_id);
+  }; 
+  
+  $('#salon_cond_list1').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
+  var _v2 = v2(condId, 0);
   //component_salon_cond_list.setProps({cond_list: _v2});
   // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
-  $('#salon_cond_list1').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
   for(i=0;i<_v2.length;i++){
-    $("#salon_cond_list1").tagit("createTag", _v2[i].name);
+    $("#salon_cond_list1").tagit("createTag", _v2[i]);
   }
   // $("#salon_cond_list1").tagit({placeholderText:"タグをつけよう",fieldName:"tags"});
 
+  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
   var _v2_2 = v2(condId, 1);
   //component_salon_cond_list.setProps({cond_list: _v2});
   // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
-  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
   for(i=0;i<_v2_2.length;i++){
-    $("#salon_cond_list2").tagit("createTag", _v2_2[i].name);
+    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
   }
 
   /*
