@@ -432,7 +432,7 @@ public class StylistDao {
 				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
 				+ "`t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, "
 				+ "`t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, "
-				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`, `t_stylist_searchConditionId`) VALUES ('";
+				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('";
 		String sql2 = "', '";
 //		String sql3 = "NULL";
 		String sql3 = "";
@@ -501,9 +501,8 @@ public class StylistDao {
 					+ salonId + sql2 //salonId
 					+ sql4 + sql2 //favorite
 					+ sql4 + sql2 //isNetReserv
-					+ sql4 + sql2 //search
-					+ sql4 + sql2 //areaId
-					+ stylistInfo.getStylistSearchConditionId()
+					+ stylistInfo.getStylistSearchConditionId() + sql2
+					+ sql4 //areaId
 					+ sql_end;
 	
 			//debug

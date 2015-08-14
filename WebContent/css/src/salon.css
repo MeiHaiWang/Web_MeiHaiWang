@@ -55,3 +55,23 @@ div.salon_image_path_div {
 #salon_regist button {
   width: 200px;
 }
+
+.salontag{
+width: 100%;
+border-collapse: collapse;
+}
+.salontag th{
+width: 30%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #fff;
+border: 1px solid tomato;
+}
+.salontag td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid tomato;
+}
+
