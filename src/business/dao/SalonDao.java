@@ -30,6 +30,37 @@ public class SalonDao {
 	public SalonDao(){
 		
 	}
+	public boolean registSalonOnDisable(HairSalonInfo salonInfo,DBConnection dbConnection){
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` ("
+				+ "`t_hairSalonMaster_contactUserName`, `t_hairSalonMaster_name`, `t_hairSalonMaster_areaId`, `t_hairSalonMaster_address`, "
+				+ "`t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_mail`, `t_hairSalonMaster_passward`, `t_hairSalonMaster_disableFlag`)"
+				+ "VALUES ('";
+		String sql2 = "', '";
+		String sql3 = "1";
+		String sql_end = "');";	
+		//combine insert sentence
+		String sql = sql1 + salonInfo.getSalonContactName() + sql2
+				+ salonInfo.getHairSalonName()  + sql2
+				+ salonInfo.getSalonAreaId() +sql2
+				+ salonInfo.getAddress()  + sql2
+				+ salonInfo.getTel()  + sql2
+				+ salonInfo.getMail()  + sql2
+				+ salonInfo.getPassword()  + sql2
+				+ sql3 
+				+ sql_end;
+		//debug
+		System.out.println(sql);
+		Statement statement = dbConnection.getStatement();
+		boolean result=false;
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int >= 0) result = true;
+		} catch (SQLException e) {
+			result = false;
+			e.printStackTrace();
+		}	
+		return result;
+	}
 	
 	public List<HairSalonInfo> getSalonDetailInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();

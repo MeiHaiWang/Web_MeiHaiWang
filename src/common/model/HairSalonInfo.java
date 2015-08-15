@@ -30,7 +30,8 @@ public class HairSalonInfo {
     private String salonMapImagePath = "";
     private int salonReviewId = Integer.MIN_VALUE;
     private String salonContactName = "";
-    
+    private String mail="";
+    private String password = "";
     //for SalonMaster
     //private String salonCountryName = "";
     private String salonDetailText = "";
@@ -309,6 +310,22 @@ public class HairSalonInfo {
 	}
 	public String getSalonSearchConditionId(){
 		return searchConditionId;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

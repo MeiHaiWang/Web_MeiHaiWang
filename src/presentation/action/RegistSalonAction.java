@@ -1,7 +1,6 @@
 package presentation.action;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -12,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetAreaService;
-import business.service.GetNewsService;
+import business.service.RegistSalonService;
 
-@WebServlet(name="GetAreaServlet",urlPatterns={"/api/:version/area"})
-public class GetAreaAction extends HttpServlet{
+@WebServlet(name="RegistSalonServlet",urlPatterns={"/api/:version/registSalon"})
+public class RegistSalonAction extends HttpServlet {
 
 	/**
 	 *
@@ -25,7 +24,7 @@ public class GetAreaAction extends HttpServlet{
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GetAreaAction() {
+	public RegistSalonAction() {
 		super();
 	}
 
@@ -41,6 +40,21 @@ public class GetAreaAction extends HttpServlet{
 	 */
 
 	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+	}
+
+	/**
+	 * @param HttpServletRequest
+	 *            request クライアント送信用リクエストパラメータ
+	 * @param HttpServletRequest
+	 *            response クライアント返却用レスポンスパラメータ
+	 * @author Hiroki Ebina
+	 *
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String languageCode = request.getHeader("langage");
 		if(languageCode != null && languageCode.equals("jp")){
@@ -58,24 +72,8 @@ public class GetAreaAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetAreaService areaService = new GetAreaService();
-		areaService.excuteService(request, response);
+		RegistSalonService service = new RegistSalonService();
+		service.excuteService(request, response);
 	    
 	}
-
-	/**
-	 * @param HttpServletRequest
-	 *            request クライアント送信用リクエストパラメータ
-	 * @param HttpServletRequest
-	 *            response クライアント返却用レスポンスパラメータ
-	 * @author Hiroki Ebina
-	 *
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		//do nothing
-	}
-
 }
