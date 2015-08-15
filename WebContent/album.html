@@ -4,6 +4,11 @@
     <title>Beauty Hair Net Manager - Album</title>
     <link href="css/application.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <!-- jQueryUI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+    <!-- Tag-it CSS本体 -->
+    <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
+    
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
@@ -131,6 +136,7 @@ var logout = (function () {
                         <dt id="album_regist_area">发型作品注册</dt>
                         <dd>
                         <table id="album_info">
+                       	<!-- 
                             <tr>
                                 <td>
                                     <label for="album_category">分类：</label>
@@ -155,13 +161,55 @@ var logout = (function () {
                                     <div id="album_stylist_name"></div>
                                 </td>
                             </tr>
+                     -->
+                            <tr>
+                                <th>
+                                    <label for="album_sex" id="hs_cond_tag_name1">性別：</label>
+                                </th>
+                                <td>
+                                    <div id="album_sex"></div>
+                                </td>
+                                <td>
+                                    <div id="album_sex_list"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="album_long" id="hs_cond_tag_name2">長さ：</label>
+                                </th>
+                                <td>
+                                    <div id="album_long"></div>
+                                </td>
+                                <td>
+                                    <div id="album_long_list"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="album_feel" id="hs_cond_tag_name3">イメージ：</label>
+                                </th>
+                                <td>
+                                    <div id="album_feel"></div>
+                                </td>
+                                <td>
+                                    <div id="album_feel_list"></div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <label for="album_image">发型照片：</label>
                                 </td>
                                 <td>
                                     <form id="update">
-                                        <input type="file" id="album_image" name="album_image" accept="image/jpeg,image/png" />
+                                        正面 <input type="file" id="album_image" name="album_image" accept="image/jpeg,image/png" />
+                                    </form>
+                                    <br>
+                                    <form id="update2">
+                                        横　<input type="file" id="album_image2" name="album_image2" accept="image/jpeg,image/png" />
+                                    </form>
+									<br>
+                                    <form id="update3">
+                                        背後　<input type="file" id="album_image3" name="album_image3" accept="image/jpeg,image/png" />
                                     </form>
                                 </td>
                             </tr>
@@ -183,6 +231,36 @@ var logout = (function () {
                         </table>
                         </dd>
                         <dt id="album_list_area">发型相册</dt>
+                        <dd>
+							<table>
+                            <tr>
+                                <td>
+                                    <label for="album_search_sex" id="hs_search_cond_tag_name1">性別：</label>
+                                </td>
+                                <td>
+                                    <div id="album_search_sex"></div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <label for="album_search_long" id="hs_search_cond_tag_name2">長さ：</label>
+                                </td>
+                                <td>
+                                    <div id="album_search_long"></div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <label for="album_search_feel" id="hs_search_cond_tag_name3">イメージ：</label>
+                                </td>
+                                <td>
+                                    <div id="album_search_feel"></div>
+                                </td>
+                                <td></td>
+                                <td>
+                                	<button id="album_search_button">一覧表示</button>
+                                </td>
+                            </tr>
+                            </table>
+                        </dd>
                         <dd>
                             <div id="album_list_info">
                             </div>
@@ -216,6 +294,10 @@ var logout = (function () {
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
+<!-- tag-it  -->
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>  
+<script src="others/tag-it.js"></script>
+
 <!-- react -->
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
@@ -240,7 +322,7 @@ var logout = (function () {
 <script src="vendor/jQuery-Mapael/js/jquery.mapael.js"></script>
 <script src="vendor/jQuery-Mapael/js/maps/usa_states.js"></script>
 <script src="vendor/jQuery-Mapael/js/maps/world_countries.js"></script>
-<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+<!--  <script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script> -->
 <script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script>
 <script src="vendor/jquery-animateNumber/jquery.animateNumber.min.js"></script>
 

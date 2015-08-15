@@ -13,7 +13,7 @@ public class HairStyleInfo {
 	private int salonId = Integer.MIN_VALUE;
 	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
-	private int hairTypeId = -1;
+	private int hairTypeId = 0;
 	private String searchConditionId = "";
 	public HairStyleInfo(){
 		

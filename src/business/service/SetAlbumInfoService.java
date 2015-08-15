@@ -23,10 +23,10 @@ import common.util.DBConnection;
       t_hairStyle_name,
       t_hairStyle_stylistId,
       t_hairStyle_imagePath,
+      t_hairStyle_searchConditionId
     }
 
     出力：
-
     {
       result:レコード更新成否,
       t_hairStyle_id:登録したアルバムのID,
@@ -94,7 +94,6 @@ public class SetAlbumInfoService {
 		}
 		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
 			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
-
 		
 		try{
 			DBConnection dbConnection = new DBConnection();

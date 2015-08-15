@@ -714,18 +714,22 @@ $(function(){
 	  var text = "";
 	  for(p=0;p<elms.length;p++){
 		  //console.log(p+"~"+elms.length+":"+elms[p].value);
-		  if(text.length==0){
-			  text = nameToId(elms[p].value);
-		  }else{
-			  text += "," + nameToId(elms[p].value);
+		  if(nameToId(elms[p].value)!=-1){
+			  if(text.length==0){
+				  text = nameToId(elms[p].value);
+			  }else{
+				  text += "," + nameToId(elms[p].value);
+			  }
 		  }
 	  }
 	  for(q=0;q<elms2.length;q++){
 		  //console.log(q+"~"+elms2.length+":"+elms2[q].value);
-		  if(text.length==0){
-			  text = nameToId(elms2[q].value);
-		  }else{
-			  text += "," + nameToId(elms2[q].value);
+		  if(nameToId(elms2[q].value)!=-1){
+			  if(text.length==0){
+				  text = nameToId(elms2[q].value);
+			  }else{
+				  text += "," + nameToId(elms2[q].value);
+			  }
 		  }
 	  }
 	  searchConditionIds = text;

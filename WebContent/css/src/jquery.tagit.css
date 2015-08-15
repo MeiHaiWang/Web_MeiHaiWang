@@ -1,7 +1,8 @@
+/*
 ul.tagit {
     padding: 1px 5px;
     overflow: auto;
-    margin-left: inherit; /* usually we don't want the regular ul margins. */
+    margin-left: inherit; 
     margin-right: inherit;
 }
 ul.tagit li {
@@ -41,7 +42,6 @@ ul.tagit li.tagit-choice .tagit-close {
     line-height: 17px;
 }
 
-/* used for some custom themes that don't need image icons */
 ul.tagit li.tagit-choice .tagit-close .text-icon {
     display: none;
 }
@@ -67,3 +67,4 @@ ul.tagit input[type="text"] {
     background-color: inherit;
     outline: none;
 }
+*/

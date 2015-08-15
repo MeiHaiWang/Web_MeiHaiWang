@@ -336,7 +336,7 @@ public class HairStyleDao {
 					+ salonId + sql2
 					+ sql4 + sql2 
 					+ updateTime + sql2 				
-					+ hairStyleInfo.getHairStyleImagePathStr()
+					+ hairStyleInfo.getHairStyleImagePathStr() + sql2
 					+ hairStyleInfo.getHairStyleSearchConditionId()
 					+ sql_end;
 			//debug

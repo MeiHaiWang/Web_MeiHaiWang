@@ -138,15 +138,17 @@ public class UploadImageService {
 	    				DBConnection dbConnection = new DBConnection();
 	    				java.sql.Connection conn = dbConnection.connectDB();
 	    				if(conn!=null){
-	    	            	//file がすでにアップロードされたものかどうかを確認(hashを使って比較)
+	    					ImageDao imageDao = new ImageDao();
+	    					/*
+	    					//file がすでにアップロードされたものかどうかを確認(hashを使って比較)
 	    					//未アップロードならid=-1
 	    					hashValue = getHashValue(item);
-	    					ImageDao imageDao = new ImageDao();
 	    					ImageId = imageDao.checkImageExist(
 	    							dbConnection,
 	    							hashValue,
 	    							salonId
 	    					      );
+    					      */
 		        			//Imageが未アップロードなら空きimageIdを取得
 		        			if(ImageId<0){
 		        				if(conn!=null){
