@@ -306,7 +306,7 @@ public class HairStyleDao {
 				+ "`t_hairStyle_stylistId` = '" + hairStyleInfo.getStylistId()  + "',"
 				+ "`t_hairStyle_salonId` = '" +  salonId  + "',"
 				+ "`t_hairStyle_updateDate` = '" +  updateTime  + "',"
-				+ "`t_hairStyle_imagePath` = '" +  hairStyleInfo.getHairStyleImagePathStr()  + "'"
+				+ "`t_hairStyle_imagePath` = '" +  hairStyleInfo.getHairStyleImagePathStr()  + "',"
 				+ "`t_hairStyle_searchConditionId` = '" + hairStyleInfo.getHairStyleSearchConditionId() + "'"
 				+ " WHERE `t_hairStyle`.`t_hairStyle_Id` = " + hairStyleId;
 

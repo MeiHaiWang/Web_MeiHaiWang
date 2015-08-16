@@ -90,7 +90,7 @@ public class SetAlbumInfoService {
 		if(t_hairStyle_imagePath != null && t_hairStyle_imagePath != ""){
 			hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
 		}else{
-			hairStyleInfo.setHairStyleImagePath("/img/notfound.jpg");
+			hairStyleInfo.setHairStyleImagePath("img/notfound.jpg");
 		}
 		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
 			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
