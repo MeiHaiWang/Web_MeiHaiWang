@@ -357,6 +357,7 @@ public class StylistDao {
 				+ "`t_stylist_mail`, `t_stylist_imagePath`, `t_stylist_birth`, `t_stylist_searchConditionId`, "
 				+ "`t_stylist_position`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_message`, "
 				+ "`t_stylist_menuId` FROM `t_stylist` WHERE t_stylist_Id="; 
+
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		
 	 	if(stylist_id_list.isEmpty()) {
@@ -401,6 +402,7 @@ public class StylistDao {
 	public int  setStylistInfoForMaster(DBConnection dbConnection, int salonId,
 			StylistInfo stylistInfo, int t_stylist_Id) {
 		int stylistId = t_stylist_Id;
+		int u_Id = -1;
 		boolean result = false;
 		
 		/**
@@ -424,6 +426,14 @@ public class StylistDao {
 		 * 
 		*/
 		
+		/*
+		 * user登録も自動で行う
+		 * 
+		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
+		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_userId` = '1' WHERE `t_stylist`.`t_stylist_Id` = 1;
+		 * 
+		 */
+		
 		//Select
 		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` ("
@@ -438,6 +448,16 @@ public class StylistDao {
 		String sql3 = "";
 		String sql4 = "0";
 		String sql_end = "');";
+		
+		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
+		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
+				+ "`t_user_Id`, `t_user_disableFlag`, "
+				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
+				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
+				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
+				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
+		String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
+		String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
 		
 		//date '2015-06-03 00:00:00' format sample.
 		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -464,9 +484,8 @@ public class StylistDao {
 		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
-
+		
 		Statement statement = dbConnection.getStatement();
-
 		
 		if(stylistId < 0){
 			for(int i=1; i<Integer.MAX_VALUE; i++){
@@ -511,11 +530,12 @@ public class StylistDao {
 			try {
 				int result_int = statement.executeUpdate(sql);
 				if(result_int >= 0) result = true;
+				else return -1;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 			//* stylist をsalon　に足さなきゃ
 			ResultSet rs;
 			String stylistIdList = "";
@@ -540,7 +560,10 @@ public class StylistDao {
 				System.out.println(salon_sql);
 				try {
 					int result_int = statement.executeUpdate(salon_sql);
-					if(result_int < 0) stylistId = -1;
+					if(result_int < 0){
+						stylistId = -1;
+						return stylistId;
+					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -548,6 +571,68 @@ public class StylistDao {
 				}
 			}		
 
+		//user regist.
+			for(int i=1; i<Integer.MAX_VALUE; i++){
+				try {
+					ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
+					if(!rs2.next()){
+						u_Id = i;
+						break;
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		
+			//TODO 初期パスワードはとりあえず0000
+			String u_sql = u_sql1 +u_Id + sql2
+					+ sql4 + sql2
+					+ stylistInfo.getMail() + sql2
+					+ "0000" + sql2
+					+ sql3 + sql2 //cookie
+					+ stylistInfo.getStylistImagePathStr()  + sql2
+					+ stylistInfo.getStylistGender()  + sql2
+					+ birth + sql2
+					+ stylistInfo.getStylistName() + sql2
+					+ sql3 + sql2 //favoriteSalon
+					+ sql3 + sql2 //favoriteStylist
+					+ sql3 + sql2 //latestviewsalon
+					+ sql3 + sql2 //latestviewstylist
+					+ sql3 + sql2 //favoritehairstyle
+					+ sql3 + sql2 //latestviewhairstyle
+					+ sql4 + sql2 //point
+					+ sql4 + sql2 //historysalon
+					+ salonId //salonId
+					+ sql_end;
+	
+			//debug
+			System.out.println(u_sql);
+			
+			try {
+				int result_int = statement.executeUpdate(u_sql);
+				if(result_int >= 0) result = true;
+				else return -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			//stylistテーブルにuserIdを追加
+			String u_sql_update = u_sql_update_before + u_Id + u_sql_update_after + stylistId;
+			//debug
+			System.out.println(u_sql_update);
+			try {
+				int result_int = statement.executeUpdate(u_sql_update);
+				if(result_int < 0){
+					stylistId = -1;
+					return stylistId;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				stylistId = -1;
+			}
+			
 		//update
 		}else{
 			//debug
@@ -560,7 +645,7 @@ public class StylistDao {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return stylistId;
 	}
 
@@ -650,12 +735,41 @@ public class StylistDao {
 			 * 
 			*/
 			
+			/*
+			 * SELECT `t_stylist_userId` FROM `t_stylist` WHERE `t_stylist_Id` = 1
+			 * DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_user` WHERE `t_user`.`t_user_Id` = 1
+			 */
+			
 			String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = ";
 			Statement statement = dbConnection.getStatement();
+
+			//userテーブルから削除
+			String u_select_sql = "SELECT `t_stylist_userId` FROM `t_stylist` WHERE `t_stylist_Id` = "+t_stylist_Id;
+			String u_delete_sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_user` WHERE `t_user`.`t_user_Id` =";
+			int u_Id = -1;
+			//debug
+			System.out.println(u_select_sql);
+			try {
+				ResultSet rs = statement.executeQuery(u_select_sql);
+				while(rs.next()){
+					u_Id = rs.getInt("t_stylist_userId");
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+			//debug
+			System.out.println(u_delete_sql+u_Id);
+			try {
+				int result_int = statement.executeUpdate(u_delete_sql + u_Id);
+				//System.out.println(result_int);
+				if(result_int > 0) result = true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//debug
 			System.out.println(sql);
-			
 			try {
 				int result_int = statement.executeUpdate(sql + t_stylist_Id);
 				//System.out.println(result_int);
