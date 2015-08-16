@@ -25,8 +25,6 @@ public class GetHairStyleDetailService {
 
         int cataloglistId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
-        //TODO テスト用
-        int cataloglistID =1;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

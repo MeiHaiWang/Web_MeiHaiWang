@@ -32,8 +32,6 @@ public class GetMypageService {
 		Integer.parseInt(request.getParameter(Constant.ID)) : -1;*/
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        //TODO テスト用
-        userId =1 ;
         
         try{
 			DBConnection dbConnection = new DBConnection();

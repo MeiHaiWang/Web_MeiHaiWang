@@ -32,10 +32,8 @@ public class GetStylistFavoriteService {
 			List<Integer> stylistIdList  = new ArrayList<Integer>();
 			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 
-			//TODO テスト用
 	        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
 	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-			userId =1;			
 			
 			if(conn!=null){
 				StylistDao dao = new StylistDao();

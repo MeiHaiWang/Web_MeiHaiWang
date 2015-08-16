@@ -30,8 +30,6 @@ public class GetHairStyleFavoriteService {
 
 			int userId = request.getHeader(Constant.HEADER_USERID)!= null 
 	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-			//TODO テスト用
-			userId =1;			
 			
 			if(conn!=null){
 				HairStyleDao dao = new HairStyleDao();

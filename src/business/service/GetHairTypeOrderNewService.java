@@ -46,13 +46,6 @@ public class GetHairTypeOrderNewService {
            		?Integer.parseInt(request.getParameter("face")) : -1;
         int page = request.getParameter("page")!= null
            		?Integer.parseInt(request.getParameter("page")) : -1;
-		//TODO テスト用
-		//リクエストにどちらかのidが付加されてくる
-		categoryId = 1;
-		stylistId = -1;
-		menu=-1;
-		face=-1;
-		page=0;
 
         int responseStatus = HttpServletResponse.SC_OK;
 				

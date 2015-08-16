@@ -27,9 +27,6 @@ public class GetSalonDetailService {
         		?Integer.parseInt(request.getParameter("id")) : -1;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        
-		//test用パラメータ
-        salonId=1; userId=1;
         		
 		try{
 			DBConnection dbConnection = new DBConnection();

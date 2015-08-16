@@ -34,8 +34,6 @@ public class SetMapInfoService {
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        userId = 1;
         
 		HttpSession session = request.getSession(false);
 		String salonId_str = "";

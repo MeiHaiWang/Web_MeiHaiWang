@@ -24,8 +24,6 @@ public class GetHairTypeCategoryService {
         int gender = request.getParameter("gender")!= null
         		?Integer.parseInt(request.getParameter("gender")) : -1;
 		 //gender=0 　性別フラグ　0=男性、1=女性
-        //TODO テスト用
-        gender =0 ;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

@@ -25,8 +25,6 @@ public class GetRecommendService {
 		
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		//TODO テスト用
-		userId =1;
 		
         Date lastUpdateSalon = new Date(0);
         Date lastUpdateHair = new Date(0);

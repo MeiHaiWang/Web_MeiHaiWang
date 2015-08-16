@@ -31,7 +31,6 @@ public class GetSalonHistoryService {
 			//TODO テスト用
 	        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
 	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-			userId =1;			
 			
 			if(conn!=null){
 				SalonDao dao = new SalonDao();

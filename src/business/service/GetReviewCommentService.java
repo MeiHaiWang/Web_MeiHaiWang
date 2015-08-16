@@ -29,8 +29,6 @@ public class GetReviewCommentService {
 
         int commentId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
-        //TODO テスト用
-        commentId = 1;
         
 		CommentInfo commentInfo = new CommentInfo();
 		CommentDao commentDao = new CommentDao(); 

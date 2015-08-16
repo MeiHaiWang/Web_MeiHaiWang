@@ -29,8 +29,6 @@ public class GetProfileService {
         int responseStatus = HttpServletResponse.SC_OK;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        //TODO テスト用
-        userId =1 ;
         
         try{
 			DBConnection dbConnection = new DBConnection();

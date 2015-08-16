@@ -21,8 +21,6 @@ public class GetSalonMapService {
         int salonId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
         
-        //test用パラメータ
-        userId = 1; salonId = 1;
         		
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
