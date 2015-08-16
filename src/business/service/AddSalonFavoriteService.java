@@ -24,10 +24,6 @@ public class AddSalonFavoriteService {
         int salonId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        userId = 1;
-        salonId = 2;
-        
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();

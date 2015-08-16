@@ -31,9 +31,6 @@ public class AddStylistFavoriteService {
                 
         }
         */
-        //TODO テスト用
-        userId = 1;
-        stylistId = 9;
         
 		try{
 			DBConnection dbConnection = new DBConnection();

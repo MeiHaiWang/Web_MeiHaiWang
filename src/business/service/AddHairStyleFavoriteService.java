@@ -20,9 +20,6 @@ public class AddHairStyleFavoriteService {
         int hairStyleId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        userId = 1;
-        hairStyleId = 2;
         
 		try{
 			DBConnection dbConnection = new DBConnection();
