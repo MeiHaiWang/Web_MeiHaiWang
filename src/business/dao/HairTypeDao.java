@@ -62,18 +62,26 @@ public class HairTypeDao {
 
 	
 	
-	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
 		String sql = "";
+		String sql2="";
+		String sql3="";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
 		if(categoryId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_updateDate` DESC "
+					+ "WHERE t_hairStyle_hairTypeId="+categoryId;
+			sql2= " AND FIND_IN_SET(";
+			sql3= ",`t_hairStyle_searchConditionId`) "
+					+" ORDER BY `t_hairStyle_updateDate` DESC "
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else if(stylistId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_updateDate` DESC "
+					+ "WHERE t_hairStyle_stylistId="+ stylistId;
+			sql2= " AND FIND_IN_SET(";
+			sql3= ",`t_hairStyle_searchConditionId`) "
+					+" ORDER BY `t_hairStyle_updateDate` DESC "
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else{
@@ -84,41 +92,55 @@ public class HairTypeDao {
 		int hitNum=0;
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				HairStyleInfo hairStyleInfo = new HairStyleInfo();
-				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
-				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-				infoList.add(hairStyleInfo);
-				hitNum++;
+			for(String conditionId : searchConditionIdList){
+			//debug
+			System.out.println(sql+sql2+conditionId+sql3);
+	
+				ResultSet rs = statement.executeQuery(sql);
+				while(rs.next()){
+					HairStyleInfo hairStyleInfo = new HairStyleInfo();
+					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
+					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+					infoList.add(hairStyleInfo);
+					hitNum++;
+				}
+				
+				if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+					jsonObject.put("next", 0);
+				}
+				else{
+					jsonObject.put("next", 1);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
-		if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
-			jsonObject.put("next", 0);
-		}
-		else{
-			jsonObject.put("next", 1);
-		}
+
 
 		return infoList;
 	}	
 
-	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
 		String sql = "";
+		String sql2="";
+		String sql3="";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
 		if(categoryId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_hairTypeId="+categoryId+" ORDER BY `t_hairStyle_goodNumber` DESC "
+					+ "WHERE t_hairStyle_hairTypeId="+categoryId;
+			sql2= " AND FIND_IN_SET(";
+			sql3= ",`t_hairStyle_searchConditionId`) "
+					+" ORDER BY `t_hairStyle_goodNumber` DESC "
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else if(stylistId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` " 
-					+ "WHERE t_hairStyle_stylistId="+ stylistId +" ORDER BY `t_hairStyle_goodNumber` DESC " 
+					+ "WHERE t_hairStyle_stylistId="+ stylistId;
+			sql2= " AND FIND_IN_SET(";
+			sql3= ",`t_hairStyle_searchConditionId`) "
+					+" ORDER BY `t_hairStyle_goodNumber` DESC " 
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
 		}else{
@@ -129,24 +151,28 @@ public class HairTypeDao {
 		int hitNum = 0;
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				HairStyleInfo hairStyleInfo = new HairStyleInfo();
-				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
-				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-				infoList.add(hairStyleInfo);
-				hitNum++;
+			for(String conditionId : searchConditionIdList){
+				//debug
+				System.out.println(sql+sql2+conditionId+sql3);
+				ResultSet rs = statement.executeQuery(sql+sql2+conditionId+sql3);
+				while(rs.next()){
+					HairStyleInfo hairStyleInfo = new HairStyleInfo();
+					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
+					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+					infoList.add(hairStyleInfo);
+					hitNum++;
+				}
+			
+				if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+					jsonObject.put("next", 0);
+				}
+				else{
+					jsonObject.put("next", 1);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
-		}
-		
-		if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
-			jsonObject.put("next", 0);
-		}
-		else{
-			jsonObject.put("next", 1);
 		}
 		
 		return infoList;

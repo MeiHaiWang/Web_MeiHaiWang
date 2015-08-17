@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,15 +26,26 @@ public class GetHairTypeOrderGoodService {
 		HttpSession session = request.getSession();
 
         int categoryId = request.getParameter("categoryID")!= null
-        		?Integer.parseInt(request.getParameter("categoryID")) : -1;
+        		?Integer.parseInt(request.getParameter("categoryID")) : 0;
         int stylistId = request.getParameter("stylistID")!= null
            		?Integer.parseInt(request.getParameter("stylistID")) : -1;
-        int menu = request.getParameter("menu")!= null
-           		?Integer.parseInt(request.getParameter("menu")) : -1;
-        int face = request.getParameter("face")!= null
-           		?Integer.parseInt(request.getParameter("face")) : -1;
-        int page = request.getParameter("page")!= null
-           		?Integer.parseInt(request.getParameter("page")) : -1;
+        List<String> searchConditionIdList = new ArrayList<String>();
+   		List<String> _searchConditionIdList = request.getParameter("menu") != null ?
+   				Arrays.asList(request.getParameter("menu").split(",")) : new ArrayList<String>();	
+   		if(searchConditionIdList.isEmpty()){
+   				//searchConditionIdList.add("-1");
+   		}else{
+   			searchConditionIdList.addAll(_searchConditionIdList);
+   		}
+   		List<String> searchFaceIdList = request.getParameter("face") != null ?
+   				Arrays.asList(request.getParameter("face").split(",")) : new ArrayList<String>();	
+   		if(searchFaceIdList.isEmpty()){
+   				//searchFaceIdList.add("-1");
+   		}
+   		searchConditionIdList.addAll(searchFaceIdList);
+
+   		int page = request.getParameter("page")!= null
+   				?Integer.parseInt(request.getParameter("page")) : -1;
 		
         int responseStatus = HttpServletResponse.SC_OK;
 				
@@ -48,7 +60,7 @@ public class GetHairTypeOrderGoodService {
 				if(conn!=null){
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject, searchConditionIdList);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -68,7 +80,7 @@ public class GetHairTypeOrderGoodService {
 					HairTypeDao hairTypeDao = new HairTypeDao();
 					StylistDao stylistDao = new StylistDao();
 					stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject);
+					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, categoryId, page, jsonObject, searchConditionIdList);
 					dbConnection.close();
 				}
 

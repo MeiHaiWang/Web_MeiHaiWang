@@ -32,7 +32,7 @@ public class GetHairStyleDetailService {
 			List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 			if(conn!=null){
 				HairStyleDao hairStyleDao = new HairStyleDao();
-				infoList = hairStyleDao.getHairStyleDetailInfo(dbConnection, cataloglistID);
+				infoList = hairStyleDao.getHairStyleDetailInfo(dbConnection, cataloglistId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

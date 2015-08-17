@@ -34,8 +34,8 @@ public class GetSearchStylistService {
 	if(searchConditionIdList.isEmpty()){
 			searchConditionIdList.add("-1");
 	}
-	List<String> searchLikingIdList = request.getParameter("linking") != null ?
-			Arrays.asList(request.getParameter("linking").split(",")) : new ArrayList<String>();	
+	List<String> searchLikingIdList = request.getParameter("liking") != null ?
+			Arrays.asList(request.getParameter("liking").split(",")) : new ArrayList<String>();	
 	if(searchLikingIdList.isEmpty()){
 			searchLikingIdList.add("-1");
 	}
