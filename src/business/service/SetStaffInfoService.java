@@ -15,6 +15,7 @@ import business.dao.StylistDao;
 import business.dao.UserDao;
 import common.constant.Constant;
 import common.model.StylistInfo;
+import common.model.UserInfo;
 import common.util.DBConnection;
 
 /**
@@ -137,6 +138,12 @@ public class SetStaffInfoService {
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
+				UserDao userDao = new UserDao();
+				UserInfo userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+				//スタイリストが既にユーザ登録されている場合
+				if(userInfo != null){
+					
+				}
 				StylistDao stylistDao = new StylistDao();
 				stylistId = stylistDao.setStylistInfoForMaster(
 						dbConnection,

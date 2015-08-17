@@ -263,6 +263,23 @@ public class UserDao {
 		return userInfo;		
 	}
 	
+	public UserInfo getUserInfoByTel(DBConnection dbConnection, String tel) throws SQLException { 
+		UserInfo userInfo = null;
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel;		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;		
+	}
 	public UserInfo getUserInfoByHash(DBConnection dbConnection, String hash) throws SQLException { 
 		UserInfo userInfo = null;
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` = '" + hash + "'";	
