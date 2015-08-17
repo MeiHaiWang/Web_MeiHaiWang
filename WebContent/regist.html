@@ -22,11 +22,114 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->    
+<style type=text/css> 
+/* ContentsArea
+-------------------------- */
+#contents {
+	margin: 0 auto;
+	padding: 10px 0 50px 0;
+	width: 100%;
+}
+
+p {
+	padding: 10px 0;
+}
+
+#open01,
+#open02 {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: absolute;
+}
+
+.close_overlay {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	text-indent: -9999px;
+	position: absolute;
+	background: #000;
+	opacity: 0.5;
+	z-index: 5;
+}
+
+.modal_window {
+	top: 50%;
+	left: 50%;
+	margin: -150px 0 0 -200px;
+	width: 400px;
+	height: 300px;
+	text-align: center;
+	display: block;
+	background: #fff;
+	position: absolute;
+	z-index: 10;
+}
+
+.modal_window h2 {
+	margin-bottom: 20px;
+	width: 400px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+	text-indent: 15px;
+	background: pink;
+}
+.modal_window p {
+	padding: 0 15px 15px 15px;
+	font-size: 13px;
+	line-height: 160%;
+	text-align: left;
+}
+
+
+/* CSS3 ModalWindow SET
+-------------------------- */
+@-webkit-keyframes modalFadeIn {
+	0% {opacity:0;display:block;}
+	100% {opacity:1;}
+}
+div#modal div:target {
+	-webkit-animation-name: modalFadeIn; 
+  	-webkit-animation-duration: 1s;
+  	-webkit-animation-iteration-count: 1;
+	opacity: 1;
+	display:block;
+}
+
+</style>
   </head>
   <body>
+  <section>
+<div id="contents">
+<div id="modal">
+<div id="open01">
+<a href="#" class="close_overlay">×</a>
+<span class="modal_window">
+<h2>MHWサロン登録申請完了</h2>
+<p>MHWサロン登録申請を受け付けました。<br>登録して頂いたメールアドレスに追ってご連絡を致しますので暫くお待ち下さい。</p>
+<img src="img/logo.png" width="70%" height="70%" >
+<br>
+<a href="#">【×】CLOSE</a>
+</span><!--/.modal_window-->
+</div><!--/#open01-->
+</div><!--/#modal-->
+
+</div><!--/#contents-->
+</section>
+  
   <form class="form-horizontal" id="registForm"  method="POST">
+  <center><img src="img/top.png" width="100%" height="50%"></center>
   <fieldset>
-   <center><img src="img/top.png" width="70%" height="70%"></center>
+   
    <br>
     <div id="legend">
      <legend class="">店舗掲載ご希望の方は<br>こちらの入力フォームからお問い合わせください</legend>
@@ -119,7 +222,7 @@
       	   <label class="control-label"  for="username"><font color="red">※ </font>パスワード</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="text" id="pass" name="pass" placeholder="半角英数字記号で6文字以上20文字以内でご入力ください" class="input-xxlarge" required>
+            <input type="password" id="pass" name="pass" placeholder="半角英数字記号で6文字以上20文字以内でご入力ください" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
@@ -135,7 +238,7 @@
       	   <label class="control-label"  for="username"><font color="red">※ </font>パスワード(確認用)</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="text" id="passConfirm" name="passConfirm" placeholder="パスワードを再度入力してください" class="input-xxlarge" required>
+            <input type="password" id="passConfirm" name="passConfirm" placeholder="パスワードを再度入力してください" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
@@ -187,7 +290,7 @@
  <!--   <div class="control-group">-->
       <!-- Button -->
       <!--<div class="controls">-->
-        <button type="submit"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist()">
+        <button type="submit"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist(this)">
         <font size="5" color="white">同意して掲載希望する</font>
         </button>
     <!--  </div>-->
@@ -200,6 +303,8 @@
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
 </div>
+
+
 
 <!-- common libraries. required for every page-->
 <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -272,7 +377,10 @@
 				}
 			}		   
        }	   
- 	   function regist() {
+ 	   function regist(event) {
+ 			if(contactUser.value =="" || salonName.value =="" || parentArea[0] =="" || childArea[0]=="" || address.value=="" || tel.value=="" || mail.value=="" || pass.value==""){
+ 	 			return;
+ 	 		}
  		    // エラーメッセージをクリアする
  		    registForm.pass.setCustomValidity("");
  		    // パスワードの一致確認
@@ -283,8 +391,7 @@
  		    if(registForm.pass.value.length < 6　 || registForm.pass.value.length > 20){
  		    	 registForm.pass.setCustomValidity("パスワードは6文字以上20文字以内にしてください");
  		    }
- 		  //registForm.action = API_PATH + "registSalon";
- 		  //registForm.submit();
+ 
  		var response =　$.ajax({
   				url: API_PATH + "registSalon",
   				type: "POST",
@@ -300,12 +407,9 @@
   				  mail : mail.value,
   				  pass : pass.value,
   				},
-  			/*	success: function(data, textStatus){
-  					alert("サロン登録の申請を受付しました。審査が終了次第メールアドレスにご連絡致します。");
-  			    },
-  			    error: function(xhr, textStatus, errorThrown){
- 					alert("サロン登録の申請に失敗しました。お手数ですが***@mail.jpまでご連絡下さい");
-  			    }*/
+  			    success: function(data, status) {
+  			    	location.href = "#open01";
+  			    }
   		}).responseText;
  		
  	   }
