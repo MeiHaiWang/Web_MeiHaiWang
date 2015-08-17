@@ -475,7 +475,7 @@ $(function(){
 	      };
 	    },
 	    render() {
-	      console.log("album_image render.: "+ this.state.t_hairStyle_imagePath);
+	      //console.log("album_image render.: "+ this.state.t_hairStyle_imagePath);
 	      return (
 	        <div>
 	        	<img className="image" src={this.state.t_hairStyle_imagePath?this.state.t_hairStyle_imagePath:'img/notfound.jpg'} />
@@ -550,17 +550,23 @@ $(function(){
       var index = 1;
       /*
       var album = this.state.album_list.map(function(album) {
+    	return <tr><td>{index++}</td>
+    	<td><img src='img/notfound.jpg' /></td>
+    	<td><img src='img/notfound.jpg' /></td>
+    	<td><img src='img/notfound.jpg' /></td>
+        <td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
+      });
+      */
+      var album = this.state.album_list.map(function(album) {
     	//console.log("album_render:-["+album.t_hairStyle_id+"]:"+album.t_hairStyle_searchConditionId+","+album.gender+","+album.hair_length+","+album.feeling);
     	//console.log("imagePath:"+album.t_hairStyle_imagePath);
-    	return 
-    	<tr>
-    	<td>{index++}</td>
+    	return <tr><td>{index++}</td>
     	<td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td>
         <td><img src={album.t_hairStyle_imagePath2?album.t_hairStyle_imagePath2:'img/notfound.jpg'} /></td>
         <td><img src={album.t_hairStyle_imagePath3?album.t_hairStyle_imagePath3:'img/notfound.jpg'} /></td>
         <td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
       });
-      */
+      /*
       var album = this.state.album_list.map(function(album) {
       	console.log("album_render:-["+album.t_hairStyle_id+"]:"+album.t_hairStyle_searchConditionId+","+album.gender+","+album.hair_length+","+album.feeling);
       	return 
@@ -572,12 +578,12 @@ $(function(){
           <img src={album.t_hairStyle_imagePath3?album.t_hairStyle_imagePath3:'img/notfound.jpg'} />
           </td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
         });
+        */
       /*
       var album = this.state.album_list.map(function(album) {
           return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{typeof album.t_hairStyle_stylistId!=="undefined"?stylists[album.t_hairStyle_stylistId]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
         });
-        */
-      /*
+      */
       return (
         <div>
           <table>
@@ -589,7 +595,7 @@ $(function(){
           </table>
         </div>
       );
-      */
+      /*
       return (
     	        <div>
     	          <table><tr>
@@ -600,7 +606,7 @@ $(function(){
     	          </table>
     	        </div>
     	      );
-
+*/
     }
   });
 
@@ -947,7 +953,7 @@ $(function(){
   //searchConditionIdからalbum情報を拡張して、setState用に
   for(i=0; i<album_info.album.length; i++){
 	  var album = album_info.album[i];
-	  console.log("set condition of album["+i+"]:"+album.t_hairStyle_searchConditionId);
+	  //console.log("set condition of album["+i+"]:"+album.t_hairStyle_searchConditionId);
 		var _gender = getGender(album.t_hairStyle_searchConditionId);
 		//album_info.album[i]={gender: _gender.name};
 		album_info.album[i]["gender"]=_gender.name;
@@ -1002,6 +1008,7 @@ $(function(){
   
   // アルバム一覧をsetState
   if (album_info.album.length != 0) {
+    console.log("album_list_length:"+album_info.album.length);
     component_album_list.setState({"album_list":album_info.album});
   }
   
@@ -1240,7 +1247,9 @@ $(function(){
 	  var album_sex_id = component_search_album_sex.state.album_search_sex_id;
 	  var album_long_id = component_search_album_long.state.album_search_long_id;
 	  var album_feel_id = component_search_album_feel.state.album_search_feel_id;
-
+	  
+	  //console.log("search_button[sex,long,feel]:["+album_sex_id+","+album_long_id+","+album_feel_id+"]");
+	  
 	  var albums = album_info.album;
 	  var searched_albums = [];
 	  
@@ -1252,6 +1261,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_sex_id==cond_list[y]){
 					  sa1.push(albums[x]);
+					  //console.log("sd1.push: "+x)
 				  }
 			  }
 		  }
@@ -1266,6 +1276,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_long_id==cond_list[y]){
 					  sa2.push(albums[x]);
+					  //console.log("sd2.push: "+x)
 				  }
 			  }
 		  }
@@ -1282,6 +1293,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_feel_id==cond_list[y]){
 					  sa3.push(albums[x]);
+					  //console.log("sd3.push: "+x)
 				  }
 			  }
 		  }
@@ -1306,7 +1318,10 @@ $(function(){
 	  }
 	  */
 	  searched_albums=sa3;
-	  component_album_list.setState({"album_list":searched_albums});
+	  if(searched_albums>0){
+		  console.log("searched_albums length:"+searched_albums.length);
+		  component_album_list.setState({"album_list":searched_albums});
+	  }
   });
   
 });
