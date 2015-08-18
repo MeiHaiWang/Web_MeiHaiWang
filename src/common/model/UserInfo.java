@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class UserInfo {
 	private int UserId = -1;
-	private String UserMail = "";
-	private String UserPass = "";
+	private String UserMail = "default";
+	private String UserPass = "0000";
 	private String UserCookie = "";
 	private String UserImagePath="";
 	private int UserSex = 0;
