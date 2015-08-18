@@ -134,6 +134,7 @@ public class SetStaffInfoService {
 			if(t_stylist_Id != null){
 				if(t_stylist_Id.length()!=0) stylistId = Integer.parseInt(t_stylist_Id);
 			}
+			int userId = -1; //registered UserId
 			
 			JSONObject jsonObject = new JSONObject();
 			
@@ -142,14 +143,26 @@ public class SetStaffInfoService {
 				UserInfo userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
 				//スタイリストが既にユーザ登録されている場合
 				if(userInfo != null){
-					
+					userId = userInfo.getUserId();
+				}else{
+					userInfo = new UserInfo();
+					userInfo.setUserMail(stylistInfo.getMail());
+					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
+					userInfo.setUserIsStylist(1);
+					userInfo.setUserName(stylistInfo.getStylistName());
+					userInfo.setUserSex(stylistInfo.getStylistGender());
+					userInfo.setUserBirth(stylistInfo.getBirth());
+					userInfo.setUserImagePath(stylistInfo.getImagePath());
+					userInfo.setUserPass("0000"); //TODO 初期パスワード
+					userId = userDao.setUserAcount(dbConnection, userInfo);
 				}
 				StylistDao stylistDao = new StylistDao();
 				stylistId = stylistDao.setStylistInfoForMaster(
 						dbConnection,
 						salonId,
 						stylistInfo,
-						stylistId
+						stylistId,
+						userId
 						);
 				if(stylistId >= 0) result = true;
 				dbConnection.close();
