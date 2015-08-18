@@ -1247,7 +1247,6 @@ $(function(){
 	  var album_sex_id = component_search_album_sex.state.album_search_sex_id;
 	  var album_long_id = component_search_album_long.state.album_search_long_id;
 	  var album_feel_id = component_search_album_feel.state.album_search_feel_id;
-	  
 	  //console.log("search_button[sex,long,feel]:["+album_sex_id+","+album_long_id+","+album_feel_id+"]");
 	  
 	  var albums = album_info.album;
@@ -1266,7 +1265,8 @@ $(function(){
 			  }
 		  }
 	  }	  
-
+	  //console.log("sa1.length:"+sa1.length);
+	  
 	  var albums = sa1;
 	  var sa2 = [];
 	  if(album_long_id!=""){
@@ -1283,6 +1283,8 @@ $(function(){
 	  }	else{
 		  sa2 = sa1;
 	  }  
+	  //console.log("sa2.length:"+sa2.length);
+
 
 	  var albums = sa2;
 	  var sa3 = [];
@@ -1300,7 +1302,9 @@ $(function(){
 	  }	else{
 		  sa3 = sa2;
 	  }  
+	  //console.log("sa3.length:"+sa3.length);
 
+	  
 	  /*
 	  //var albums = component_album_list.state.album_list;
 	  var albums = album_info.album;
@@ -1318,9 +1322,11 @@ $(function(){
 	  }
 	  */
 	  searched_albums=sa3;
-	  if(searched_albums>0){
-		  console.log("searched_albums length:"+searched_albums.length);
+	  console.log("searched_albums.length:"+searched_albums.length);
+	  if(searched_albums.length>0){
 		  component_album_list.setState({"album_list":searched_albums});
+	  }else{
+		  //console.log("No albums.");
 	  }
   });
   

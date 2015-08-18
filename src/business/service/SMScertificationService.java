@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common.model.UserInfo;
 import common.util.DBConnection;
 
 public class SMScertificationService {
@@ -26,7 +27,11 @@ public class SMScertificationService {
 				
 				if(conn!=null){
 					UserDao userDao = new UserDao();
-					result = userDao.setUserAcount(dbConnection, tel, pw);
+					UserInfo userInfo = new UserInfo();
+					userInfo.setUserPhoneNumber(tel);
+					userInfo.setUserPass(pw);
+					int userId = userDao.setUserAcount(dbConnection, userInfo);
+					if(userId < 0) result = false;
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

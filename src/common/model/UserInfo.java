@@ -26,7 +26,7 @@ public class UserInfo {
 	}
 
 	public void setUserMail(String mail){
-		this.UserMail = UserMail != null ? UserMail : "";
+		this.UserMail = mail != null ? mail : "";
 	}
 	
 	public String getUserMail(){
@@ -34,7 +34,7 @@ public class UserInfo {
 	}
 
 	public void setUserPass(String userPass){
-		this.UserPass = UserPass != null ? UserPass : "";
+		this.UserPass = userPass != null ? userPass : "";
 	}
 	
 	public String getUserPass(){
@@ -42,7 +42,7 @@ public class UserInfo {
 	}
 
 	public void setUserPhoneNumber(String userPhoneNumber){
-		this.UserPhoneNumber = UserPhoneNumber != null ? UserPhoneNumber : "";
+		this.UserPhoneNumber = userPhoneNumber != null ? userPhoneNumber : "";
 	}
 	
 	public String getUserPhoneNumber(){

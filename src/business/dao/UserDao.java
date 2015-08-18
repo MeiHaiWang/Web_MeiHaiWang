@@ -268,6 +268,8 @@ public class UserDao {
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel;		
 		Statement statement = dbConnection.getStatement();
 		try {			
+			//debug
+			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				userInfo = new UserInfo();
@@ -385,13 +387,13 @@ public class UserDao {
 		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
 		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
-				+ "`t_user_Id`, `t_user_disableFlag`, "
+				+ "`t_user_Id`, `t_user_disableFlag`, `t_user_tel`, "
 				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
 				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
 				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
 				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
-		String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
-		String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
+		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
+		//String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
 		String sql2 = "', '";
 		String sql3 = "";
 		String sql4 = "0";
@@ -418,6 +420,7 @@ public class UserDao {
 		//TODO 初期パスワードはとりあえず0000
 		String u_sql = u_sql1 +u_Id + sql2
 				+ sql4 + sql2
+				+ userInfo.getUserPhoneNumber() + sql2
 				+ userInfo.getUserMail() + sql2
 				+ userInfo.getUserPass() + sql2
 				+ sql3 + sql2 //cookie

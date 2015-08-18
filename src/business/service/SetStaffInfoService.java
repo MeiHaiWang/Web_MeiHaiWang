@@ -102,6 +102,8 @@ public class SetStaffInfoService {
 		//debug
 		//System.out.println("register phone:" + t_stylist_phoneNumber + ", " + stylistInfo.getPhoneNumber());
 		stylistInfo.setMail(t_stylist_mail);
+		//debug
+		//System.out.println("register mail:" + t_stylist_mail + ", " + stylistInfo.getMail());
 		stylistInfo.setStylistImagePath(t_stylist_imagePath);
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date birth = new Date(0);
@@ -156,14 +158,16 @@ public class SetStaffInfoService {
 					userInfo.setUserPass("0000"); //TODO 初期パスワード
 					userId = userDao.setUserAcount(dbConnection, userInfo);
 				}
-				StylistDao stylistDao = new StylistDao();
-				stylistId = stylistDao.setStylistInfoForMaster(
-						dbConnection,
-						salonId,
-						stylistInfo,
-						stylistId,
-						userId
-						);
+				if(userId>-1){
+					StylistDao stylistDao = new StylistDao();
+					stylistId = stylistDao.setStylistInfoForMaster(
+							dbConnection,
+							salonId,
+							stylistInfo,
+							stylistId,
+							userId
+							);
+				}
 				if(stylistId >= 0) result = true;
 				dbConnection.close();
 			}else{
