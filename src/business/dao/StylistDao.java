@@ -400,9 +400,9 @@ public class StylistDao {
 	}
 
 	public int  setStylistInfoForMaster(DBConnection dbConnection, int salonId,
-			StylistInfo stylistInfo, int t_stylist_Id) {
+			StylistInfo stylistInfo, int t_stylist_Id, int userId) {
 		int stylistId = t_stylist_Id;
-		int u_Id = -1;
+		//int u_Id = -1;
 		boolean result = false;
 		
 		/**
@@ -427,9 +427,7 @@ public class StylistDao {
 		*/
 		
 		/*
-		 * user登録も自動で行う
-		 * 
-		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
+		 * user登録も自動で行う(別メソッドで)
 		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_userId` = '1' WHERE `t_stylist`.`t_stylist_Id` = 1;
 		 * 
 		 */
@@ -448,7 +446,8 @@ public class StylistDao {
 		String sql3 = "";
 		String sql4 = "0";
 		String sql_end = "');";
-		
+
+		/*
 		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
 				+ "`t_user_Id`, `t_user_disableFlag`, "
@@ -456,6 +455,7 @@ public class StylistDao {
 				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
 				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
 				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
+		*/
 		String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
 		String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
 		
@@ -571,7 +571,7 @@ public class StylistDao {
 				}
 			}		
 
-		//user regist.
+		/*user regist.
 			for(int i=1; i<Integer.MAX_VALUE; i++){
 				try {
 					ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
@@ -616,9 +616,10 @@ public class StylistDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			*/
+			
 			//stylistテーブルにuserIdを追加
-			String u_sql_update = u_sql_update_before + u_Id + u_sql_update_after + stylistId;
+			String u_sql_update = u_sql_update_before + userId + u_sql_update_after + stylistId;
 			//debug
 			System.out.println(u_sql_update);
 			try {

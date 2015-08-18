@@ -19,11 +19,36 @@ public class UserInfo {
 	private Integer UserPoint = 0;
 	private Integer UserIsStylist = -1;
 	private Integer UserMasterSalonId = -1;
+	private String UserPhoneNumber = "";
 
 	public UserInfo(){
 		
 	}
+
+	public void setUserMail(String mail){
+		this.UserMail = UserMail != null ? UserMail : "";
+	}
 	
+	public String getUserMail(){
+		return UserMail;
+	}
+
+	public void setUserPass(String userPass){
+		this.UserPass = UserPass != null ? UserPass : "";
+	}
+	
+	public String getUserPass(){
+		return UserPass;
+	}
+
+	public void setUserPhoneNumber(String userPhoneNumber){
+		this.UserPhoneNumber = UserPhoneNumber != null ? UserPhoneNumber : "";
+	}
+	
+	public String getUserPhoneNumber(){
+		return UserPhoneNumber;
+	}
+
 	public void setUserId(int userId){
 		this.UserId = userId;
 	}
