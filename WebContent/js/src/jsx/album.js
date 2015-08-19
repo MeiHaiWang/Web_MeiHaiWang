@@ -2,9 +2,12 @@ $(function(){
 
   /*
    * TODO: 
+   * ・前提条件
+   * 　・Type: 男性用ヘアスタイル検索条件
+   * 　　　　　　女性用ヘアスタイル検索条件
+   * 　・Title: 性別ー男、女
+   * 　　　　　　それ以外二つまで
    * ・Tag-itのCSSが反映されない
-   * ・男性女性や条件の決め打ちをどうにかする
-   * 　→ 1.性別 2.長さ 3.イメージ 4.長さ（女性） 5.イメージ（女性）
    * ・見た目の整形
    * ・中国語対応
    * ・正面横背後が４枚以上選ばれたらだめにする
@@ -12,8 +15,6 @@ $(function(){
    * 　・写真一覧にする？とりあえずいまのまま
    * 　・条件を選んだものを表示する
    * 　・条件を複数選んだ場合
-   * 　・編集ボタンを押したら編集画面に表示
-   * 　　そのときは、条件一覧も表示されるようにする
    * ・編集押してから新規の登録することができない
    * ・画像のアップロード同じものもアップロードを認めるか
    * ・画像のサイズ指定（でかいのは表示できないように）
@@ -25,7 +26,7 @@ $(function(){
   // コンポーネントの定義
 	/*
   var AlbumCategory = React.createClass({
-    getDefaultProps() {
+     getDefaultProps() {
       return {
         hairtype: ['']
       };
@@ -65,17 +66,27 @@ $(function(){
 		      };
 		    },
 		    onChangeSelectValue(e) {
-		    	/*
-		    	 * 男と女でプルダウンの項目
-		    	 */
 		    	//console.log(v_array[0][0].name+":"+e.target.value);
 		    	if(v_array[0][0].name == e.target.value){
+		    		console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		  titles = mens_search_condition.titles;
+		    		  values = mens_search_condition.values;
+		    		  toArrays(titles, values);
+		    	}else{
+		    		console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		  titles = womens_search_condition.titles;
+		    		  values = womens_search_condition.values;
+		    		  toArrays(titles, values);
+		    	}
+		    	
+		    	//if(v_array[0][0].name == e.target.value){
 		    		var _v1_2 = v1(1) //titleId=1, length(men)
 				    //console.log("_v1_2:"+_v1_2[0]);
 				    component_album_long.setProps({length_tag:_v1_2});
 				    var _v1_3 = v1(2) //titleId=2, feel(men)
 				    //console.log("_v1_3:"+_v1_3[0]);
 				    component_album_feel.setProps({feel_tag:_v1_3});
+				    /*
 		    	}else{
 		    		var _v1_2 = v1(3) //titleId=3, length(women)
 				    //console.log("_v1_2:"+_v1_2[0]);
@@ -83,7 +94,8 @@ $(function(){
 				    var _v1_3 = v1(4) //titleId=4, feel(women)
 				    //console.log("_v1_3:"+_v1_3[0]);
 				    component_album_feel.setProps({feel_tag:_v1_3});
-		    	}
+				    */
+		    //	}
 			      //選択された項目のidを取得
 			      var addId = nameToId(e.target.value);
 			    	/*
@@ -114,6 +126,7 @@ $(function(){
 				  for(i=0;i<_v2_2.length;i++){
 				    $("#album_feel_list").tagit("createTag", _v2_2[i]);
 				  }
+				  /*
 				  var _v2_3 = v2(condId, 3);
 				  for(i=0;i<_v2_3.length;i++){
 				    $("#album_long_list").tagit("createTag", _v2_3[i]);
@@ -122,6 +135,7 @@ $(function(){
 				  for(i=0;i<_v2_4.length;i++){
 				    $("#album_feel_list").tagit("createTag", _v2_4[i]);
 				  }
+				  */
 
 			      
 			      this.setState({t_hairStyle_searchConditionId: addId});
@@ -192,12 +206,13 @@ $(function(){
 				      /*
 				       * 8: Men :v_array[0][0]
 				       * 9: Women :v_array[0][1]
-				       */
 				      if(component_album_sex.state.t_hairStyle_searchConditionId == v_array[0][0].id){
 					      var _v2_2 = v2(condId, 1);
 				      }else{
 					      var _v2_2 = v2(condId, 3);
 				      }
+				      */
+				      var _v2_2 = v2(condId, 1);
 				      for(i=0;i<_v2_2.length;i++){
 				    	    $("#album_long_list").tagit("createTag", _v2_2[i]);
 				      }
@@ -248,11 +263,14 @@ $(function(){
 				      }
 				      //サロン検索条件のリストをいったん削除
 				      $("#album_feel_list").tagit("removeAll");
+				      /*
 				      if(component_album_sex.state.t_hairStyle_searchConditionId == v_array[0][0].id){
 					      var _v2_3 = v2(condId, 2);
 				      }else{
 					      var _v2_3 = v2(condId, 4);
 				      }
+				      */
+				      var _v2_3 = v2(condId, 2);
 				      for(i=0;i<_v2_3.length;i++){
 			    	    $("#album_feel_list").tagit("createTag", _v2_3[i]);
 			    	  }
@@ -291,20 +309,30 @@ $(function(){
 		      };
 		    },
 		    onChangeSelectValue(e) {
-		    	/*
-		    	 * 男と女でプルダウンの項目
-		    	 */
 		    	if(v_array[0][0].name == e.target.value){
+		    		console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		  titles = mens_search_condition.titles;
+		    		  values = mens_search_condition.values;
+		    		  toArrays(titles, values);
+		    	}else{
+		    		console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		  titles = womens_search_condition.titles;
+		    		  values = womens_search_condition.values;
+		    		  toArrays(titles, values);
+		    	}
+		    	
+		    	//if(v_array[0][0].name == e.target.value){
 		    		var _v1_2 = v1(1) //titleId=1, length(men)
 				    component_search_album_long.setProps({search_length_tag:_v1_2});
 				    var _v1_3 = v1(2) //titleId=2, feel(men)
 				    component_search_album_feel.setProps({search_feel_tag:_v1_3});
+				    /*
 		    	}else{
 		    		var _v1_2 = v1(3) //titleId=3, length(women)
 				    component_search_album_long.setProps({search_length_tag:_v1_2});
 				    var _v1_3 = v1(4) //titleId=4, feel(women)
 				    component_search_album_feel.setProps({search_feel_tag:_v1_3});
-		    	}
+		    	}				    */
 			      //選択された項目のidを取得
 			      var addId = nameToId(e.target.value);
 			      this.setState({album_search_sex_id: addId});
@@ -549,6 +577,7 @@ $(function(){
     render() {
       var index = 1;
       /*
+      console.log("albumlist_render.");
       var album = this.state.album_list.map(function(album) {
     	return <tr><td>{index++}</td>
     	<td><img src='img/notfound.jpg' /></td>
@@ -584,6 +613,7 @@ $(function(){
           return <tr><td>{index++}</td><td>{hairtypes[album.t_hairStyle_hairTypeId]}</td><td>{album.t_hairStyle_name}</td><td>{typeof album.t_hairStyle_stylistId!=="undefined"?stylists[album.t_hairStyle_stylistId]:''}</td><td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td><td><a className="edit">编辑</a>/<a className="delete">删除</a></td></tr>;
         });
       */
+      /*
       return (
         <div>
           <table>
@@ -595,6 +625,21 @@ $(function(){
           </table>
         </div>
       );
+      */
+      return (
+    	        <div>
+    	          <table>
+    	          <tbody>
+    	          <tr>
+    	            <th>No.</th>
+    	            <th>照片</th><th>照片2</th><th>照片3</th><th>编辑</th>
+    	          </tr>
+    	            {album}
+    	          </tbody>
+    	          </table>
+    	        </div>
+    	      );
+
       /*
       return (
     	        <div>
@@ -664,6 +709,7 @@ $(function(){
 	  }
 
 	  //女性用
+	  /*
 	  var _v2_2 = v2(condId, 3);
 	  for(i=0;i<_v2_2.length;i++){
 	    $("#album_long_list").tagit("createTag", _v2_2[i]);
@@ -672,6 +718,7 @@ $(function(){
 	  for(i=0;i<_v2_3.length;i++){
 	    $("#album_feel_list").tagit("createTag", _v2_3[i]);
 	  }
+	  */
   }
 
   /*
@@ -691,14 +738,19 @@ $(function(){
   // stylistを参照しやすい形に変換
   var stylists = new Array();
 
-  var search_condition_type = {
-		  t_masterSearchConditionType: "ヘアスタイル検索条件"
+  var mens_search_condition_type = {
+		  t_masterSearchConditionType: "男性用ヘアスタイル検索条件"
   }
-  sanitaize.encode(search_condition_type);
-  var search_condition = getSearchConditionList(search_condition_type);
-  sanitaize.decode(search_condition);
-  var titles = search_condition.titles;
-  var values = search_condition.values;
+  var womens_search_condition_type = {
+		  t_masterSearchConditionType: "女性用ヘアスタイル検索条件"
+  }
+  var mens_search_condition = getSearchConditionList(mens_search_condition_type);
+  var womens_search_condition = getSearchConditionList(womens_search_condition_type);
+  sanitaize.decode(mens_search_condition);
+  sanitaize.decode(womens_search_condition);
+  //初期値は男性
+  var titles = mens_search_condition.titles;
+  var values = mens_search_condition.values;
   
   /*
    * 検索条件を扱いやすいように再配列
@@ -709,7 +761,7 @@ $(function(){
    */
   var t_array = new Array();
   var v_array = new Array();
-  var toArrays = (function(){
+  var toArrays = function(titles, values){
 	//console.log("titles.length:"+titles.length);
     for(i=0;i<titles.length;i++){
       //console.log("titles.length-i:"+i);
@@ -729,14 +781,12 @@ $(function(){
       console.log("v_array["+i+"]:"+v_array[i][0].name);
     }
     
-    //男、女で、分けて考える
     /* v_array[0][0]: men, v_array[0][1]: women
-     * v_array[1][x]: long(men)
-     * v_array[2][x]: feel(men)
-     * v_array[3][x]: long(women)
-     * v_array[4][x]: feel(women)
+     * v_array[1][x]: long
+     * v_array[2][x]: feel
      */
-  }());
+  };
+  toArrays(titles, values);
   
   /*
    * 条件名をタイトル名から取得
@@ -898,7 +948,7 @@ $(function(){
 			id+="";
 			var idlist = id.split(',');
 			var men_length = v_array[1] //men用length_List
-			var women_length = v_array[3] //women
+			//var women_length = v_array[3] //women
 			for(l=0; l<idlist.length; l++){
 				for(j=0; j<men_length.length; j++){
 					if(idlist[l] == men_length[j].id){
@@ -907,6 +957,7 @@ $(function(){
 						break;
 					}
 				}
+				/*
 				for(j=0; j<women_length.length; j++){
 					if(idlist[l] == women_length[j].id){
 						_length.push(women_length[j]);
@@ -914,6 +965,7 @@ $(function(){
 						break;
 					}
 				}
+				*/
 			}
 			return _length;
 		};
@@ -924,7 +976,7 @@ $(function(){
 			id+="";
 			var idlist = id.split(',');
 			var men_feeling = v_array[2] //men用feeling_List
-			var women_feeling = v_array[4] //women
+			//var women_feeling = v_array[4] //women
 			for(l=0; l<idlist.length; l++){
 				for(j=0; j<men_feeling.length; j++){
 					if(idlist[l] == men_feeling[j].id){
@@ -932,12 +984,14 @@ $(function(){
 						break;
 					}
 				}
+				/*
 				for(j=0; j<women_feeling.length; j++){
 					if(idlist[l] == women_feeling[j].id){
 						_feeling.push(women_feeling[j]);
 						break;
 					}
 				}
+				*/
 			}
 			return _feeling;
 		};
@@ -986,8 +1040,14 @@ $(function(){
 
 		var t_path_list = album.t_hairStyle_imagePath + "";
 		var path_list = t_path_list.split(',');
-		for(k=1;k<path_list.length;k++){
-			album_info.album[i]["t_hairStyle_imagePath"+k] = path_list[k];			
+		for(k=0;k<path_list.length;k++){
+			if(k==0){
+				album_info.album[i]["t_hairStyle_imagePath"] = path_list[k];			
+				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k]);			
+			}else{
+				album_info.album[i]["t_hairStyle_imagePath"+k+1] = path_list[k];			
+				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k]);			
+			}
 		}
   }
   
@@ -1081,8 +1141,9 @@ $(function(){
 	  //imagePath を結合
 	  var image_paths = "";
 	  image_paths = component_album_image_path.state.t_hairStyle_imagePath;
-	  image_paths += "," + component_album_image_path.state.t_hairStyle_imagePath2;
-	  image_paths += "," + component_album_image_path.state.t_hairStyle_imagePath3;
+	  image_paths += "," + component_album_image_path2.state.t_hairStyle_imagePath2;
+	  image_paths += "," + component_album_image_path3.state.t_hairStyle_imagePath3;
+	  console.log("combine image_path:"+image_paths);
 	  
 	  /*
     var data = {
@@ -1133,7 +1194,7 @@ $(function(){
 
     // component set state
     var id = $(".edit").index(this);
-    //console.log("edit album["+id+"]");
+    console.log("edit album["+id+"]");
     edit_id = album_info.album[id].t_hairStyle_id;
     componentSetState(album_info.album[id]);
   });
