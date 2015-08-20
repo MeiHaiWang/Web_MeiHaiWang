@@ -676,7 +676,7 @@ $(function(){
     return v2;
   }; 
   
-  $('#salon_cond_list1').tagit({placeholderText:"ConditionTags",fieldName:"tags"});
+  $('#salon_cond_list1').tagit({placeholderText:"",fieldName:"tags"});
   var _v2 = v2(condId, 0);
   //component_salon_cond_list.setProps({cond_list: _v2});
   // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});
@@ -685,7 +685,7 @@ $(function(){
   }
   // $("#salon_cond_list1").tagit({placeholderText:"タグをつけよう",fieldName:"tags"});
 
-  $('#salon_cond_list2').tagit({placeholderText:"ConditionTags",fieldName:"tags2"});
+  $('#salon_cond_list2').tagit({placeholderText:"",fieldName:"tags2"});
   var _v2_2 = v2(condId, 1);
   //component_salon_cond_list.setProps({cond_list: _v2});
   // $('#salon_cond_list1').tagit({placeholderText:"タグをつけよう",fieldName:"tags[]"});

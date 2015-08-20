@@ -7,10 +7,10 @@ $(function(){
    * 　　　　　　女性用ヘアスタイル検索条件
    * 　・Title: 性別ー男、女
    * 　　　　　　それ以外二つまで
-   * ・Tag-itのCSSが反映されない
    * ・見た目の整形
    * ・中国語対応
    * ・正面横背後が４枚以上選ばれたらだめにする
+   * ・ヘアスタイルを横、背後かアップロードできない
    * ・ヘアアルバムの一覧表示
    * 　・写真一覧にする？とりあえずいまのまま
    * 　・条件を選んだものを表示する
@@ -819,9 +819,9 @@ $(function(){
   var component_search_album_feel = React.render(React.createElement(AlbumSearchFeel, null), document.getElementById('album_search_feel'));
 
   //tagitを表示
-  $('#album_sex_list').tagit({placeholderText:"AlbumSex",fieldName:"tags"});
-  $('#album_long_list').tagit({placeholderText:"AlbumLong",fieldName:"tags2"});
-  $('#album_feel_list').tagit({placeholderText:"AlbumFeel",fieldName:"tags3"});
+  $('#album_sex_list').tagit({placeholderText:"",fieldName:"tags"});
+  $('#album_long_list').tagit({placeholderText:"",fieldName:"tags2"});
+  $('#album_feel_list').tagit({placeholderText:"",fieldName:"tags3"});
 
   /*
     Main Part
@@ -1043,10 +1043,10 @@ $(function(){
 		for(k=0;k<path_list.length;k++){
 			if(k==0){
 				album_info.album[i]["t_hairStyle_imagePath"] = path_list[k];			
-				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k]);			
+				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"]);			
 			}else{
 				album_info.album[i]["t_hairStyle_imagePath"+k+1] = path_list[k];			
-				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k]);			
+				console.log("album_imagePath["+i+"]["+k+1+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k+1]);			
 			}
 		}
   }
@@ -1256,8 +1256,8 @@ $(function(){
 
       var result = uploadImage(data);
       if (result.result == "true") {
-    	  //var img_path = component_album_image_path2.state.t_hairStyle_imagePath2;
-    	  //console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
+    	  var img_path = component_album_image_path2.state.t_hairStyle_imagePath2;
+    	  console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
     	  //console.log("result.image_path:"+result.image_path)
     	  /*
     	  if(img_path=="img/notfound.jpg"){
@@ -1284,8 +1284,8 @@ $(function(){
 
       var result = uploadImage(data);
       if (result.result == "true") {
-    	  //var img_path = component_album_image_path.state.t_hairStyle_imagePath;
-    	  //console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
+    	  var img_path = component_album_image_path.state.t_hairStyle_imagePath;
+    	  console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
     	  //console.log("result.image_path:"+result.image_path)
     	  /*
     	  if(img_path=="img/notfound.jpg"){

@@ -173,6 +173,8 @@ public class UploadImageService {
 	    			/*
 	    			 * 添付ファイルID.拡張子」 例：　1.png
 	    			 */
+    				//debug
+    				//System.out.println("item.getName():"+item.getName());
 	    			if(item.getName().indexOf("png")>0){
 	        			ImageFileName = Integer.toString(ImageId) + ".png";    				
 	    			}else if(item.getName().indexOf("jpg")>0){
