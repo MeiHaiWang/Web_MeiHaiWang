@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="ch">
+<html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-language" content="zh">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>HMWサロン登録フォーム</title>
+    <title>“美嗨网”注册表格</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -62,8 +63,8 @@ p {
 	top: 50%;
 	left: 50%;
 	margin: -150px 0 0 -200px;
-	width: 400px;
-	height: 300px;
+	width: 430px;
+	height: 320px;
 	text-align: center;
 	display: block;
 	background: #fff;
@@ -73,7 +74,7 @@ p {
 
 .modal_window h2 {
 	margin-bottom: 20px;
-	width: 400px;
+	width: 430px;
 	height: 30px;
 	line-height: 30px;
 	color: #fff;
@@ -108,37 +109,18 @@ div#modal div:target {
 </style>
   </head>
   <body>
-  <section>
-<div id="contents">
-<div id="modal">
-<div id="open01">
-<a href="#" class="close_overlay">×</a>
-<span class="modal_window">
-<h2>MHWサロン登録申請完了</h2>
-<p>MHWサロン登録申請を受け付けました。<br>登録して頂いたメールアドレスに追ってご連絡を致しますので暫くお待ち下さい。</p>
-<img src="img/logo.png" width="70%" height="70%" >
-<br>
-<a href="#">【×】CLOSE</a>
-</span><!--/.modal_window-->
-</div><!--/#open01-->
-</div><!--/#modal-->
 
-</div><!--/#contents-->
-</section>
-  
+  <center><img src="img/top.png" width="70%" height="70%"></center>
   <form class="form-horizontal" id="registForm"  method="POST">
-  <center><img src="img/top.png" width="100%" height="50%"></center>
-  <fieldset>
-   
-   <br>
-    <div id="legend">
+   <div id="legend">
      <legend class="">想要发布店铺信息的商家，请先填写下列表格</legend>
     </div>
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+  <fieldset>
+    <table border="2" bordercolor="#78bfbe"  width="100%" height="80%">
     <tr>       
  	   <!--<div class="control-group">-->
       	   <!-- Username -->
-      	   <td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+      	   <td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>您的姓名</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
@@ -147,25 +129,23 @@ div#modal div:target {
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
-          </div>
      </tr>
     </table>
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>店铺名</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="text" id="salonName" name="salonName" placeholder="＊新規オープンで未定の場合は「未定」とご入力下さい" class="input-xxlarge" required>
+            <input type="text" id="salonName" name="salonName" placeholder="店铺名称还未确定的新店铺，请在店铺名中填写【未定】" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
      </tr>
      </table>
-
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>城市-地区</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
@@ -177,9 +157,9 @@ div#modal div:target {
            </td>
      </tr>
      </table>
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>地址</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
@@ -190,9 +170,9 @@ div#modal div:target {
      </tr>
      </table>
 
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>电话号码</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
@@ -203,9 +183,9 @@ div#modal div:target {
      </tr>
      </table>
    
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>电子邮件</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
@@ -216,29 +196,26 @@ div#modal div:target {
      </tr>
      </table>
      
-      <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+      <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
       	   <label class="control-label"  for="username"><font color="red">※ </font>密码</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="password" id="pass" name="pass" placeholder="半角英数字記号で6文字以上20文字以内でご入力ください" class="input-xxlarge" required>
+            <input type="password" id="pass" name="pass" placeholder="请填写6～20字的半角英文或数字" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
      </tr>
      </table>
-     
-   
-     
 
-      <table border="1" bordercolor="#78bfbe"  width="100%" height="100%">
+      <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
      <tr>       
-          　<td bgcolor="#78bfbe"　align="center" valign="center" height="55">
-      	   <label class="control-label"  for="username"><font color="red">※ </font>密码(確認用)</label>
+          　<td bgcolor="#78bfbe"　align="center" valign="center" height="80%">
+      	   <label class="control-label"  for="username"><font color="red">※ </font>密码</label>
       	   </td>
       	   <td bgcolor="#ffffff" align="center" valign="center">
-            <input type="password" id="passConfirm" name="passConfirm" placeholder="パスワードを再度入力してください" class="input-xxlarge" required>
+            <input type="password" id="passConfirm" name="passConfirm" placeholder="请在输入一次密码" class="input-xxlarge" required>
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
@@ -283,15 +260,13 @@ div#modal div:target {
 4.2　对会员在使用美嗨网的过程中造成的与任何第三方之间的纠纷，美嗨网不承担任何责任。
 4.3 美嗨网可依照美嗨网发展的不同阶段，随着美嗨网站管理经验的不断丰富，出于维护美嗨会员秩序的目的，不断完善本条款。</textarea>
     </center>
-
-
    <br>
    <center>
  <!--   <div class="control-group">-->
       <!-- Button -->
       <!--<div class="controls">-->
-        <button type="submit"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist(this)">
-        <font size="5" color="white">同意して掲載希望する</font>
+        <button type="submit"  id="button" style="WIDTH: 500px; HEIGHT: 50px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist(this)">
+        <font size="5" color="white">同意公开您的店铺信息</font>
         </button>
     <!--  </div>-->
     <!--</div>-->
@@ -303,10 +278,24 @@ div#modal div:target {
 <div class="loader-wrap hiding hide">
     <i class="fa fa-circle-o-notch fa-spin-fast"></i>
 </div>
+<section>
+<div id="contents">
+<div id="modal">
+<div id="open01">
+<a href="#" class="close_overlay">×</a>
+<span class="modal_window">
+<h2>“美嗨网”注册申请完成</h2>
+<p>店铺注册申请已经完成。<br>工作人员会在3个工作日内，通过您注册的邮件地址或电话与您联系。<br>
+请耐心等待。</p>
+<img src="img/logo.png" width="70%" height="70%" >
 <br>
-<br>
-<br>
+<a href="#">【×】关闭</a>
+</span><!--/.modal_window-->
+</div><!--/#open01-->
+</div><!--/#modal-->
 
+</div><!--/#contents-->
+</section>
 
 <!-- common libraries. required for every page-->
 <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -388,10 +377,10 @@ div#modal div:target {
  		    // パスワードの一致確認
  		    if (registForm.pass.value != registForm.passConfirm.value) {
  		      // 一致していなかったら、エラーメッセージを表示する
- 		      registForm.pass.setCustomValidity("パスワードと確認用パスワードが一致しません");
+ 		      registForm.pass.setCustomValidity("两次输入的密码不一致");
  		    }   
  		    if(registForm.pass.value.length < 6　 || registForm.pass.value.length > 20){
- 		    	 registForm.pass.setCustomValidity("パスワードは6文字以上20文字以内にしてください");
+ 		    	 registForm.pass.setCustomValidity("密码请填写6～20字");
  		    }
  
  		var response =　$.ajax({
@@ -402,7 +391,7 @@ div#modal div:target {
   				data:{
   				  userName : contactUser.value,
   				  salonName : salonName.value,
-  				  parentArea : parentArea[0],
+  				//parentArea : parentArea[0],
   				  childArea :  childArea[0],
   				  address : address.value,
   				  tel : tel.value,
@@ -410,10 +399,11 @@ div#modal div:target {
   				  pass : pass.value,
   				},
   			    success: function(data, status) {
-  			    	location.href = "#open01";
+  			    	location.href = "#top";
   			    }
   		}).responseText;
- 		
+
+ 		location.href = "#open01";
  	   }
  	   function load(){
  
@@ -451,5 +441,13 @@ div#modal div:target {
  	   load();
        
 </script>
+<center>
+<footer>
+<nav>
+<a href="index.html">店铺管理系统</a> 
+</nav>
+<p>Copyright 2015 Tomsawyer`s Co.,Ltd</p>
+</footer>
+</center>
   </body>
 </html>
