@@ -27,7 +27,8 @@ public class GetAreaService {
         int areaId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // areaIdがパラメータ。なかったら-1を入れておく。
-        
+        System.out.println("area id:"+areaId);
+        		
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
