@@ -1029,12 +1029,10 @@ form {
 }
 
 fieldset {
-	 background-color:#f2f2f2;
-
+  background-color:#f2f2f2;
   padding: 0;
   margin: 0;
   border: 0;
-  
 }
 body{
 	margin: 8px 256px 0px 256px;
