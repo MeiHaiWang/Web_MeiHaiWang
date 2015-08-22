@@ -45,7 +45,8 @@ public class RegistSalonService {
                 request.getParameter("mail") : "";    
         
         String pass = request.getParameter("pass")!= null?
-                request.getParameter("pass") : "";                
+                request.getParameter("pass") : "";  
+        
         boolean result = false;
         try{
 			DBConnection dbConnection = new DBConnection();
@@ -54,7 +55,7 @@ public class RegistSalonService {
 			if(conn!=null){
 				salonInfo.setSalonContactUserName(contactUserName);
 				salonInfo.setHairSalonName(salonName);
-				salonInfo.setSalonAreaId(parentAreaId + "," + childAreaId);
+				salonInfo.setSalonAreaId(childAreaId);
 				salonInfo.setAddress(address);
 				salonInfo.setTelNumber(tel);
 				salonInfo.setMail(mail);
