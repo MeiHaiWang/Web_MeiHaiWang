@@ -116,7 +116,7 @@ div#modal div:target {
      <legend class="">想要发布店铺信息的商家，请先填写下列表格</legend>
     </div>
   <fieldset>
-    <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
+    <table border="2" bordercolor="#78bfbe"  width="100%" height="80%">
     <tr>       
  	   <!--<div class="control-group">-->
       	   <!-- Username -->
@@ -129,7 +129,6 @@ div#modal div:target {
             	<!--<p class="help-block">【例】王健一</p>-->
            <!--</div>-->
            </td>
-          </div>
      </tr>
     </table>
     <table border="1" bordercolor="#78bfbe"  width="100%" height="80%">
@@ -266,7 +265,7 @@ div#modal div:target {
  <!--   <div class="control-group">-->
       <!-- Button -->
       <!--<div class="controls">-->
-        <button type="submit"  id="button" style="WIDTH: 515px; HEIGHT: 70px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist(this)">
+        <button type="submit"  id="button" style="WIDTH: 500px; HEIGHT: 50px;background-color:#f061af;border:none;border-radius:10px;box-shadow:4px 4px #555;" onclick="regist(this)">
         <font size="5" color="white">同意公开您的店铺信息</font>
         </button>
     <!--  </div>-->
@@ -401,10 +400,10 @@ div#modal div:target {
   				},
   			    success: function(data, status) {
   			    	location.href = "#top";
-  			    	location.href = "#open01";
   			    }
   		}).responseText;
- 		
+
+ 		location.href = "#open01";
  	   }
  	   function load(){
  
@@ -442,5 +441,13 @@ div#modal div:target {
  	   load();
        
 </script>
+<center>
+<footer>
+<nav>
+<a href="index.html">店铺管理系统</a> 
+</nav>
+<p>Copyright 2015 Tomsawyer`s Co.,Ltd</p>
+</footer>
+</center>
   </body>
 </html>
