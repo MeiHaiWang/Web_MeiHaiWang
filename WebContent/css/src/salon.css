@@ -58,11 +58,12 @@ div.salon_image_path_div {
 
 .salontag{
 width: 100%;
-height: inherit;
+height: 300px;
 border-collapse: collapse;
 }
+
 .salontag th{
-width: 40%;
+width: 20%;
 padding: 6px;
 text-align: left;
 vertical-align: top;
@@ -71,12 +72,19 @@ background-color: #fff;
 border: 1px solid tomato;
 }
 .salontag td{
-width: 150px;
+width: 200px;
+height: inherit;
 padding: 6px;
 background-color: #fff;
 border: 1px solid tomato;
 }
 
+#salon_tag_cond_name1{
+  float: left;
+}
+#salon_tag_cond_name2{
+  float: left;
+}
 
 #salon_cond_tag1 select{
   width: 100px;
@@ -96,16 +104,33 @@ border: 1px solid tomato;
 }
 
 #salon_cond_list1 {
-  width: 150px;
+  width: 100%;
+  height: 100%;  
   float: left;
   margin: 12px 0 1px 0;
   display: block;
-  height: inherit;
 }
 
 #salon_cond_list1 li {
   display: inline;
-  padding: 0 19px;
+  padding: 0 10px;
   line-height: 20px;
   background : pink;
+  color:white
+}
+
+#salon_cond_list2 {
+  width: 100%;
+  height: 100%;  
+  float: left;
+  margin: 12px 0 1px 0;
+  display: block;
+}
+
+#salon_cond_list2 li {
+  display: inline;
+  padding: 0 10px;
+  line-height: 20px;
+  background : pink;
+  color:white
 }

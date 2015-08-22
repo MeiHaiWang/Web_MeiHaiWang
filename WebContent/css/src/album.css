@@ -32,7 +32,7 @@
 }
 
 #album_regist {
-  text-align: center;
+  text-align: left;
 }
 
 #album_regist button {
@@ -105,99 +105,110 @@ div.album_image_path {
 }
 
 <!--kani-->
+#image_path_list{
+  height:0px;
+}
+
 #album_sex select{
-  width: 200px;
+  width: 100%;
+  height: 25px;
   float: left;
-  margin: 12px 0 1px 0;
-  height: inherit;
-  border:1px solid inherit;
+  margin: 0px 0 0px 0;
+  border:1px solid #F2AECF;
   background:white;
 }
+
 #album_long select{
-  width: 200px;
+  width: 100%;
+  height: 25px;
   float: left;
-  margin: 12px 0 1px 0;
-  height: inherit;
-  border:1px solid inherit;
+  margin: 0px 0 0px 0;
+  border:1px solid #F2AECF;
   background:white;
 }
 #album_feel select{
-  width: 200px;
+  width: 100%;
+  height: 25px;
   float: left;
-  margin: 12px 0 1px 0;
-  height: inherit;
-  border:1px solid inherit;
+  margin: 0px 0 0px 0;
+  border:1px solid #F2AECF;
   background:white;
 }
 
 #album_sex_list {
-  width: 200px;
+  width: 100px;
+  height: 30px;
   float: left;
-  margin: 12px 0 1px 0;
+  margin: 0px 0 1px 0;
+  border:1px solid #F2AECF;
   display: block;
-  height: inherit;
 }
 
 #album_sex_list li {
   display: inline;
+  color: white;
   padding: 0 19px;
   line-height: 20px;
   background : pink;
 }
 
 #album_long_list {
-  width: 200px;
+  width: 350px;
+  height: 30px;
   float: left;
-  margin: 12px 0 1px 0;
+  margin: 0px 0 1px 0;
+  border:1px solid #F2AECF;
   display: block;
-  height: inherit;
 }
 
 #album_long_list li {
   display: inline;
+  color: white;
   padding: 0 19px;
   line-height: 20px;
   background : pink;
 }
 
 #album_feel_list {
-  width: 200px;
+  width: 350px;
+  height: 30px;
   float: left;
-  margin: 12px 0 1px 0;
+  margin: 0px 0 1px 0;
   display: block;
-  height: inherit;
+  border:1px solid #F2AECF;
 }
 
 #album_feel_list li {
   display: inline;
+  color: white;
   padding: 0 19px;
   line-height: 20px;
   background : pink;
 }
 
-
 #album_search_sex select{
   width: 100px;
   float: left;
-  margin: 12px 0 10px 0;
+  margin: 12px 20px 10px 0;
   height: inherit;
-  border:1px solid inherit;
+  border:1px solid #BAD8D9;
   background:white;
 }
 
 #album_search_long select{
   width: 100px;
   float: left;
-  margin: 12px 0 10px 0;
+  margin: 12px 20px 10px 0;
   height: inherit;
-  border:1px solid inherit;
+  border:1px solid #BAD8D9;
   background:white;
 }
 #album_search_feel select{
   width: 100px;
   float: left;
-  margin: 12px 0 10px 0;
+  margin: 12px 50px 10px 0;
   height: inherit;
-  border:1px solid inherit;
+  border:1px solid #BAD8D9;
   background:white;
 }
+

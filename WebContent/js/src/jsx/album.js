@@ -851,7 +851,7 @@ $(function(){
 	    v1.push(" ");
 	    for(i=0;i<v_array[title_id].length;i++){
 	      v1.push(v_array[title_id][i].name);
-	      console.log("v1.push:"+v_array[title_id][i].name);
+	      //console.log("v1.push:"+v_array[title_id][i].name);
 	    }
 	    return v1;
 	  };
