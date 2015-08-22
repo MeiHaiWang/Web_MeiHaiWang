@@ -378,9 +378,11 @@ div#modal div:target {
  		    if (registForm.pass.value != registForm.passConfirm.value) {
  		      // 一致していなかったら、エラーメッセージを表示する
  		      registForm.pass.setCustomValidity("两次输入的密码不一致");
+ 		      return;
  		    }   
  		    if(registForm.pass.value.length < 6　 || registForm.pass.value.length > 20){
  		    	 registForm.pass.setCustomValidity("密码请填写6～20字");
+ 		    	 return;
  		    }
  
  		var response =　$.ajax({
@@ -402,7 +404,7 @@ div#modal div:target {
   			    	location.href = "#top";
   			    }
   		}).responseText;
-
+ 		
  		location.href = "#open01";
  	   }
  	   function load(){
