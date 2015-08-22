@@ -136,32 +136,6 @@ var logout = (function () {
                         <dt id="album_regist_area">发型作品注册</dt>
                         <dd>
                         <table id="album_info">
-                       	<!-- 
-                            <tr>
-                                <td>
-                                    <label for="album_category">分类：</label>
-                                </td>
-                                <td>
-                                    <div id="album_category"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="album_name">发型名称：</label>
-                                </td>
-                                <td>
-                                    <div id="album_name"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="album_stylist_name">造型师名称：</label>
-                                </td>
-                                <td>
-                                    <div id="album_stylist_name"></div>
-                                </td>
-                            </tr>
-                     -->
                             <tr>
                                 <th>
                                     <label for="album_sex" id="hs_cond_tag_name1">性別：</label>
@@ -175,7 +149,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <th>
-                                    <label for="album_long" id="hs_cond_tag_name2">長さ：</label>
+                                    <label for="album_long" id="hs_cond_tag_name2">长短：</label>
                                 </th>
                                 <td>
                                     <div id="album_long"></div>
@@ -186,7 +160,7 @@ var logout = (function () {
                             </tr>
                             <tr>
                                 <th>
-                                    <label for="album_feel" id="hs_cond_tag_name3">イメージ：</label>
+                                    <label for="album_feel" id="hs_cond_tag_name3">印象：</label>
                                 </th>
                                 <td>
                                     <div id="album_feel"></div>
@@ -203,11 +177,9 @@ var logout = (function () {
                                     <form id="update">
                                         正面 <input type="file" id="album_image" name="album_image" accept="image/jpeg,image/png" />
                                     </form>
-                                    <br>
                                     <form id="update2">
                                         横　<input type="file" id="album_image2" name="album_image2" accept="image/jpeg,image/png" />
                                     </form>
-									<br>
                                     <form id="update3">
                                         背後　<input type="file" id="album_image3" name="album_image3" accept="image/jpeg,image/png" />
                                     </form>
@@ -227,8 +199,44 @@ var logout = (function () {
                                     <div id="album_image_path3"></div>
                                 </td>
                             </tr>
+                           
+                            <!--  
                             <tr>
-                                <td colspan="2">
+                                <td>
+                                    <label for="album_image">发型照片：</label>
+                                </td>
+                                <td>
+                                    <form id="update">
+                                        正面 <input type="file" id="album_image" name="album_image" accept="image/jpeg,image/png" />
+                                    </form>
+                                    <br>
+                                    <form id="update2">
+                                        横　<input type="file" id="album_image2" name="album_image2" accept="image/jpeg,image/png" />
+                                    </form>
+									<br>
+                                    <form id="update3">
+                                        背後　<input type="file" id="album_image3" name="album_image3" accept="image/jpeg,image/png" />
+                                    </form>
+                                </td>
+                            </tr>
+	                            <tr>
+	                                <td>
+	                                    &nbsp;
+	                                </td>
+	                                <td>
+	                                    <div id="album_image_path"></div>
+	                                </td>
+	                                <td>
+	                                    <div id="album_image_path2"></div>
+									</td>
+	                                <td>
+	                                    <div id="album_image_path3"></div>
+	                                </td>
+	                            </tr>
+	                            -->
+                            <tr>
+	                            <td></td>
+                                <td>
                                     <div id="album_regist">
                                         <button id="album_regist_button" class="btn-warning">注册</button>
                                     </div>
@@ -248,21 +256,21 @@ var logout = (function () {
                                 </td>
                                 <td></td>
                                 <td>
-                                    <label for="album_search_long" id="hs_search_cond_tag_name2">長さ：</label>
+                                    <label for="album_search_long" id="hs_search_cond_tag_name2">长短：</label>
                                 </td>
                                 <td>
                                     <div id="album_search_long"></div>
                                 </td>
                                 <td></td>
                                 <td>
-                                    <label for="album_search_feel" id="hs_search_cond_tag_name3">イメージ：</label>
+                                    <label for="album_search_feel" id="hs_search_cond_tag_name3">印象：</label>
                                 </td>
                                 <td>
                                     <div id="album_search_feel"></div>
                                 </td>
                                 <td></td>
                                 <td>
-                                	<button id="album_search_button">一覧表示</button>
+                                	<button id="album_search_button">一览表示</button>
                                 </td>
                             </tr>
                             </table>
@@ -304,12 +312,12 @@ var logout = (function () {
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>  
 <script src="others/tag-it.js"></script>
 
+<!-- react 
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
-<!-- react 
+-->
 <script src="http://fb.me/react-with-addons-0.12.2.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
--->
 
 <!-- common app js -->
 <script src="js/config.js"></script>

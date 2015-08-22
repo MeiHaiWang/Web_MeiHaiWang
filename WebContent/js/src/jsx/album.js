@@ -18,6 +18,7 @@ $(function(){
    * ・編集押してから新規の登録することができない
    * ・画像のアップロード同じものもアップロードを認めるか
    * ・画像のサイズ指定（でかいのは表示できないように）
+   * ・htmlの性別、長さ、印象をjsのtitleからとるようにしたい
    */
 	
 	/*
@@ -140,7 +141,6 @@ $(function(){
 			      
 			      this.setState({t_hairStyle_searchConditionId: addId});
 			      //component_cond_list.setProps({cond_list: _v2});
-
 		     // this.setState({t_hairStyle_hairTypeId: e.target.value});
 		    },
 		    render() {
@@ -277,7 +277,7 @@ $(function(){
 			    	  //console.log("title2_condId:"+condId);
 				      this.setState({t_hairStyle_searchConditionId: condId});
 				      //component_cond_list.setProps({cond_list: _v2});
-			     // this.setState({t_hairStyle_hairTypeId: e.target.value});
+				      // this.setState({t_hairStyle_hairTypeId: e.target.value});
 			    },
 			    render() {
 			      var options = this.props.feel_tag.map(
@@ -320,7 +320,6 @@ $(function(){
 		    		  values = womens_search_condition.values;
 		    		  toArrays(titles, values);
 		    	}
-		    	
 		    	//if(v_array[0][0].name == e.target.value){
 		    		var _v1_2 = v1(1) //titleId=1, length(men)
 				    component_search_album_long.setProps({search_length_tag:_v1_2});
@@ -506,7 +505,8 @@ $(function(){
 	      //console.log("album_image render.: "+ this.state.t_hairStyle_imagePath);
 	      return (
 	        <div>
-	        	<img className="image" src={this.state.t_hairStyle_imagePath?this.state.t_hairStyle_imagePath:'img/notfound.jpg'} />
+	        	<img className="image" src={this.state.t_hairStyle_imagePath?this.state.t_hairStyle_imagePath:'img/notfound.jpg'} 
+	        	 width="0%" height="0%"/>
 	        </div>
 	      );
 	    }
@@ -527,7 +527,8 @@ $(function(){
 	    	//console.log("album_image render.: "+ this.state.t_hairStyle_imagePath);
 	      return (
 	        <div>
-	        	<img className="image" src={this.state.t_hairStyle_imagePath2?this.state.t_hairStyle_imagePath2:'img/notfound.jpg'} />
+	        	<img className="image" src={this.state.t_hairStyle_imagePath2?this.state.t_hairStyle_imagePath2:'img/notfound.jpg'} 
+	        	 width="0%" height="0%"/>
 	        </div>
 	      );
 	    }
@@ -548,7 +549,8 @@ $(function(){
 	    	//console.log("album_image render.: "+ this.state.t_hairStyle_imagePath);
 	      return (
 	        <div>
-	        	<img className="image" src={this.state.t_hairStyle_imagePath3?this.state.t_hairStyle_imagePath3:'img/notfound.jpg'} />
+	        	<img className="image" src={this.state.t_hairStyle_imagePath3?this.state.t_hairStyle_imagePath3:'img/notfound.jpg'} 
+	        	 width="0%" height="0%"/>
 	        </div>
 	      );
 	    }
@@ -775,10 +777,10 @@ $(function(){
         if(t_array[i].id == values[j].titleID){
           v_array[i][index] = {id: values[j].id, name: values[j].name};
           //console.log("(i,index)="+i+","+index+": "+v_array[i][index].id+","+v_array[i][index].name+"<br>");
+          console.log("v_array["+i+"]:"+v_array[i][index].name);
           index++;
         }
       }
-      console.log("v_array["+i+"]:"+v_array[i][0].name);
     }
     
     /* v_array[0][0]: men, v_array[0][1]: women
@@ -846,13 +848,15 @@ $(function(){
   //
   var v1 = function(title_id){
 	    var v1 = [];
-	    v1.push("Select a tags of ["+t_array[title_id].name+"]");
+	    v1.push(" ");
 	    for(i=0;i<v_array[title_id].length;i++){
 	      v1.push(v_array[title_id][i].name);
+	      console.log("v1.push:"+v_array[title_id][i].name);
 	    }
 	    return v1;
 	  };
 
+	  //
 	  var _v1 = v1(0) //titleId=0, gender
 	  //console.log("_v1:"+_v1[0]);
 	  component_album_sex.setProps({gender_tag:_v1});

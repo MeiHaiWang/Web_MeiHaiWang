@@ -103,3 +103,101 @@ div.album_image_path {
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
+
+<!--kani-->
+#album_sex select{
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}
+#album_long select{
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}
+#album_feel select{
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}
+
+#album_sex_list {
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  display: block;
+  height: inherit;
+}
+
+#album_sex_list li {
+  display: inline;
+  padding: 0 19px;
+  line-height: 20px;
+  background : pink;
+}
+
+#album_long_list {
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  display: block;
+  height: inherit;
+}
+
+#album_long_list li {
+  display: inline;
+  padding: 0 19px;
+  line-height: 20px;
+  background : pink;
+}
+
+#album_feel_list {
+  width: 200px;
+  float: left;
+  margin: 12px 0 1px 0;
+  display: block;
+  height: inherit;
+}
+
+#album_feel_list li {
+  display: inline;
+  padding: 0 19px;
+  line-height: 20px;
+  background : pink;
+}
+
+
+#album_search_sex select{
+  width: 100px;
+  float: left;
+  margin: 12px 0 10px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}
+
+#album_search_long select{
+  width: 100px;
+  float: left;
+  margin: 12px 0 10px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}
+#album_search_feel select{
+  width: 100px;
+  float: left;
+  margin: 12px 0 10px 0;
+  height: inherit;
+  border:1px solid inherit;
+  background:white;
+}

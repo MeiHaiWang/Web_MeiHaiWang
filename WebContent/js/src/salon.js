@@ -293,7 +293,7 @@ $(function(){
 
   /*
    * Salon Service Tag
-   * サロン検索条件のタイトルidの一つ目: 時間？
+   * サロン検索条件のタイトルidの一つ目
    */
   var SalonServiceTag =
 	  React.createClass({displayName: "SalonServiceTag",
@@ -308,29 +308,29 @@ $(function(){
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
-	    　//選択された項目のidを取得
-	    　var addId = nameToId(e.target.value); 
-	      //すでに登録されたidでなければ、condIdに追加
-	      condId += "";
-	      if(!hasAddTag(condId, addId)){
-	    	  if(condId.length<=0){
-	    		  condId= addId;	    		  
-	    	  }else{
-	    		  condId+=","+addId;
+		    　//選択された項目のidを取得
+		    　var addId = nameToId(e.target.value); 
+		      //すでに登録されたidでなければ、condIdに追加
+		      condId += "";
+		      if(!hasAddTag(condId, addId)){
+		    	  if(condId.length<=0){
+		    		  condId= addId;	    		  
+		    	  }else{
+		    		  condId+=","+addId;
+		    	  }
+		      }
+		      //サロン検索条件のリストをいったん削除
+		      $("#salon_cond_list1").tagit("removeAll");
+		      //再リスト化
+		      var _v2 = v2(condId, 0);
+		      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
+		      for(i=0;i<_v2.length;i++){
+			    //console.log("_v2_1:"+_v2[i].name);
+	    	    $("#salon_cond_list1").tagit("createTag", _v2[i]);
 	    	  }
-	      }
-	      //サロン検索条件のリストをいったん削除
-	      $("#salon_cond_list1").tagit("removeAll");
-	      //再リスト化
-	      var _v2 = v2(condId, 0);
-	      //console.log(_v2.length+": _v2[0]:"+_v2[0].name);
-	      for(i=0;i<_v2.length;i++){
-		    //console.log("_v2_1:"+_v2[i].name);
-    	    $("#salon_cond_list1").tagit("createTag", _v2[i]);
-    	  }
-	      console.log("title1_condId:"+condId);
-	      this.setState({t_hairSalonMaster_searchConditionId: condId});
-	      //component_cond_list.setProps({cond_list: _v2});
+		      console.log("title1_condId:"+condId);
+		      this.setState({t_hairSalonMaster_searchConditionId: condId});
+		      //component_cond_list.setProps({cond_list: _v2});
 	    },
 	    render:function() {
 	      var options = this.props.service_tag.map(
@@ -368,26 +368,26 @@ $(function(){
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
-	      //選択された項目のidを取得
-	      var addId = nameToId(e.target.value);
-	      //すでに登録されたidでなければ、condIdに追加
-	      condId += "";
-	      if(!hasAddTag(condId, addId)){
-	    	  if(condId.length<=0){
-	    		  condId=addId;	    		  
-	    	  }else{
-	    		  condId+=","+addId;
+		      //選択された項目のidを取得
+		      var addId = nameToId(e.target.value);
+		      //すでに登録されたidでなければ、condIdに追加
+		      condId += "";
+		      if(!hasAddTag(condId, addId)){
+		    	  if(condId.length<=0){
+		    		  condId=addId;	    		  
+		    	  }else{
+		    		  condId+=","+addId;
+		    	  }
+		      }
+		      //サロン検索条件のリストをいったん削除
+		      $("#salon_cond_list2").tagit("removeAll");
+		      var _v2_2 = v2(condId, 1);
+		      for(i=0;i<_v2_2.length;i++){
+	    	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
 	    	  }
-	      }
-	      //サロン検索条件のリストをいったん削除
-	      $("#salon_cond_list2").tagit("removeAll");
-	      var _v2_2 = v2(condId, 1);
-	      for(i=0;i<_v2_2.length;i++){
-    	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
-    	  }
-    	  console.log("title2_condId:"+condId);
-	      this.setState({t_hairSalonMaster_searchConditionId: condId});
-	      //component_cond_list.setProps({cond_list: _v2});
+	    	  console.log("title2_condId:"+condId);
+		      this.setState({t_hairSalonMaster_searchConditionId: condId});
+		      //component_cond_list.setProps({cond_list: _v2});
 	    },
 	    render:function() {
 	      var options = this.props.service_tag.map(
@@ -637,9 +637,10 @@ $(function(){
    */
   var v1 = function(title_id){
     var v1 = [];
-    v1.push("Select a tags of ["+t_array[title_id].name+"]");
+    v1.push(" ");
     for(i=0;i<v_array[title_id].length;i++){
       v1.push(v_array[title_id][i].name);
+      console.log("v1.push:"+v_array[title_id][i].name);
     }
     return v1;
   };
