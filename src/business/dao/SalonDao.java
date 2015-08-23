@@ -388,11 +388,14 @@ public class SalonDao {
 		
 		try {
 			for(String areaId : areaIdList){
+				//debug
 				System.out.println(sql1 + areaId+ sql2);
 				ResultSet rs = statement.executeQuery(sql1 + areaId+ sql2);
 				while(rs.next()){
 					if(!salonIdList.contains(rs.getInt("t_hairSalonMaster_salonId"))){
 						salonIdList.add(String.valueOf(rs.getInt("t_hairSalonMaster_salonId")));
+						//debug
+						System.out.println("t_hairSalonMaster_salonId:"+String.valueOf(rs.getInt("t_hairSalonMaster_salonId")));
 					}
 				}
 			}

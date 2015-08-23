@@ -19,9 +19,11 @@ public  class Constant {
 	public static final int ONE_PAGE_NUM = 20;
 	public static final int COUNTRY_NUMBER = 20; //TODO: 国の数、定数にする？
 
-	public static final String TYPE_FOR_SALON_CONDITION = "サロン条件検索（サービス）";
+	public static final String TYPE_FOR_SALON_CONDITION = "サロン検索条件";
 	public static final String TYPE_FOR_STYLIST_CONDITION = "スタイリスト条件検索（サービス）";
 	public static final String TYPE_FOR_STYLIST_LIKE = "スタイリスト条件検索（好み）";
+	public static final String TYPE_FOR_HAIRSTYLE_MENU_FORMEN = "男性用ヘアスタイル条件検索";
+	public static final String TYPE_FOR_HAIRSTYLE_MENU_FORWOMEN = "女性用ヘアスタイル条件検索";
 	public static final String TYPE_FOR_HAIRSTYLE_MENU = "ヘアスタイル条件検索（メニュー）";
 	public static final String TYPE_FOR_HAIRSTYLE_FACE = "ヘアスタイル条件検索（顔型）";
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.AreaDao;
 import business.dao.RecommendDao;
 import business.dao.SalonDao;
 import common.constant.Constant;
@@ -19,6 +20,11 @@ import common.model.HairStyleInfo;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
+/*
+ * TODO
+ * salonCondを複数にした場合を未検討
+ * 
+ */
 public class GetSearchSalonService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
@@ -26,6 +32,8 @@ public class GetSearchSalonService {
 		
 	int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+
+	/*
 	List<String> areaIdList = request.getParameter("area") != null ?
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 	if(areaIdList.isEmpty()){
@@ -33,10 +41,19 @@ public class GetSearchSalonService {
 		//TODO テスト用パラメータ
 		//areaIdList.add("1");
 	}
+	*/
+	List<String> areaIdList = new ArrayList<String>();
+	String areaId =  request.getParameter("area") != null ?
+			request.getParameter("area") : "";
+	if(areaId == ""){
+		areaId = "0";
+	}else{
+		areaIdList.add(areaId);
+	}
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 	if(searchConditionIdList.isEmpty()){
-		searchConditionIdList.add("-1");
+		searchConditionIdList.add("0");
 		//TODO テスト用パラメータ
 		//searchConditionIdList.add("1");
 	}
@@ -48,17 +65,20 @@ public class GetSearchSalonService {
 	
 	int responseStatus = HttpServletResponse.SC_OK;
 	
-	
-	
 	try{
 		DBConnection dbConnection = new DBConnection();
 		java.sql.Connection conn = dbConnection.connectDB();
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		//レスポンスに設定するJSON Object
 		JSONObject jsonObject = new JSONObject();
+		AreaDao areaDao = new AreaDao();
 		SalonDao dao = new SalonDao();
 		RecommendDao recomendDao = new RecommendDao();
 		if(conn!=null){
+			List<String> childAreaIdList = areaDao.getAreaChildren(dbConnection, areaId);
+			for(String child: childAreaIdList){
+				areaIdList.add(child);
+			}
 			List<String> salonIdList = dao.getSalonIdListByArea(dbConnection, areaIdList);
 			if(salonIdList.size() > 0){
 				salonInfoList = dao.getSalonListBySearchCondition(dbConnection, searchConditionIdList, salonIdList,pageNumber,jsonObject);

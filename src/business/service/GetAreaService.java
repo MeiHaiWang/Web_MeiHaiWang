@@ -28,8 +28,15 @@ public class GetAreaService {
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // areaIdがパラメータ。なかったら-1を入れておく。
         System.out.println("area id:"+areaId);
-        		
-		try{
+        /*
+        //area-Id
+        int areaId = request.getHeader("id")!= null
+        		?Integer.parseInt(request.getHeader("id")) : -1;
+		 // areaIdがパラメータ。なかったら-1を入れておく。
+        System.out.println("area id:"+areaId);
+         */
+        
+        try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<AreaInfo> infoList = new ArrayList<AreaInfo>();
