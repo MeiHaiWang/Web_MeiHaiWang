@@ -1168,11 +1168,13 @@ $(function(){
     sanitaize.encode(data);
 
     //debug
+    /*
 	console.log("Regist album["+i+"]:");
 	console.log(" t_hairStyle_id:"+album.t_hairStyle_id);
 	console.log(" t_hairStyle_hairTypeId:"+album.t_hairStyle_hairTypeId);
 	console.log(" t_hairStyle_imagePath:"+album.t_hairStyle_imagePath);
 	console.log(" t_hairStyle_searchConditionId:"+album.t_hairStyle_searchConditionId);
+	*/
     
     var result = setAlbumInfo(data);
     if (result.result == "true") {

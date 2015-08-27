@@ -79,7 +79,7 @@ public class UploadImageService {
         int ImageId = -1;
   		long ImageSize = 0;  		
   		String ImageName = "";
-		String ImageUrl = "http://localhost:8080/MeiHaiWangWebProject/img/notfound.jpg";
+		String ImageUrl = ConfigUtil.getConfig("notfound_imageurl");
         String ImageFileName = "";
         String hashValue = null;
 
@@ -243,6 +243,7 @@ public class UploadImageService {
 	    			//uploadImage成功
 	    			result = true;
     			} else {
+    				//TODO
     				System.out.println("ファイル以外の処理...");
     				// ここでは処理せず、直接requestからgetParamしてもいいと思います。
 				}
