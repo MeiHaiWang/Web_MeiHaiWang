@@ -189,7 +189,7 @@ public class MenuDao {
 			//* menu をsalon　に足さなきゃ
 			String salon_sql1 = "SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 			String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_menuId` = '";
-			String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+			String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
 			String salon_sql2_after = ";";
 			
 			ResultSet rs;
@@ -274,7 +274,7 @@ public class MenuDao {
 		//SQL
 		String salon_sql1 = "SELECT `t_hairSalonMaster_menuId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_menuId` = '";
-		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+		String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 		
 		ResultSet rs;

@@ -762,7 +762,7 @@ public class SalonDao {
 		//+ "japaneseAvailable " +
 		String sql12 = "', `t_hairSalonMaster_searchConditionId` = '";
 		//+
-		String sql_end = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = " + salonId + ";";;
+		String sql_end = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = " + salonId + ";";;
 
 		Statement statement = dbConnection.getStatement();
 		UserInfo userInfo = null;
@@ -876,7 +876,7 @@ public class SalonDao {
 		boolean result = false;
 		String sql1 ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '"; 		
 		String sql2 ="', `t_hairSalonMaster_mapImagePath` = '"; 		
-		String sql3 ="' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "; 		
+		String sql3 ="' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = "; 		
 		String sql4 =";";
 		Statement statement = dbConnection.getStatement();
 		

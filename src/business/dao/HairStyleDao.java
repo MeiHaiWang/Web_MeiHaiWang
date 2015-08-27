@@ -354,7 +354,7 @@ public class HairStyleDao {
 			//* hairStyle をsalon　に足さなきゃ
 			String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 			String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
-			String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+			String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
 			String salon_sql2_after = ";";
 			
 			ResultSet rs;
@@ -441,7 +441,7 @@ public class HairStyleDao {
 		//SQL
 		String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
-		String salon_sql2_middle = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = ";
+		String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 		
 		ResultSet rs;

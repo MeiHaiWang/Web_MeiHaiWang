@@ -142,7 +142,10 @@ public class SetStaffInfoService {
 			
 			if(conn!=null){
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+				UserInfo userInfo = null;
+				if(t_stylist_phoneNumber!=""){
+					userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+				}
 				//スタイリストが既にユーザ登録されている場合
 				if(userInfo != null){
 					userId = userInfo.getUserId();

@@ -24,7 +24,7 @@ $(function(){
   var StylistSex = React.createClass({displayName: "StylistSex",
     getDefaultProps:function() {
       return {
-        sex: [{value: 0, text:'男性'}, {value: 1, text:'女性'}]
+        sex: [{value: 0, text:'男士'}, {value: 1, text:'女士'}]
       };
     },
     getInitialState:function() {
