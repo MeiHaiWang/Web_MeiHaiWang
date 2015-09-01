@@ -126,6 +126,8 @@ public class GetSalonInfoService {
 		jsonOneData.put("t_hairSalonMaster_salonImagePath", hairSalonInfo.getHairSalonImagePathOneLine());		    		
     	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getSalonCarParkAvailable());
     	jsonOneData.put("t_hairSalonMaster_searchConditionId", hairSalonInfo.getSalonSearchConditionId());
+    	jsonOneData.put("t_hairSalonMaster_mail", hairSalonInfo.getMail());
+    	
     	/*
 		List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
 		List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();

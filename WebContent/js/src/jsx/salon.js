@@ -681,6 +681,7 @@ $(function(){
     component_salon_japanese_available.setState(salon_info);
   }
   component_salon_image_path.setState(salon_info);
+  component_salon_mail.setState(salon_info);
 
   /*
   if (salon_info.t_hairSalonMaster_searchConditionId != '') {
@@ -756,6 +757,7 @@ $(function(){
   for(i=0;i<_v2_2.length;i++){
     $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
   }
+  
 
   /*
     Button Handler
@@ -809,7 +811,7 @@ $(function(){
 	    // エラーメッセージをクリアする
 	  //salon_info.confirm.setCustomValidity("");
 	    // パスワードの一致確認
-	  if(component_salon_pass.state.t_hairSalonMaster_pass!=null){
+	  if(component_salon_pass.state.t_hairSalonMaster_pass!=""){
 	    if (component_salon_pass.state.t_hairSalonMaster_pass != component_salon_pass_confirm.state.t_hairSalonMaster_confirm) {
 	      // 一致していなかったら、エラーメッセージを表示する
 	      //confirm.setCustomValidity("两次输入的密码不一致");
