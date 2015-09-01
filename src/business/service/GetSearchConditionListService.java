@@ -68,8 +68,12 @@ public class GetSearchConditionListService {
 				//int conditionType = -1;
 				String conditionType = "";
 				if(t_masterSearchConditionType != null){
-					conditionType = t_masterSearchConditionType;
-					//conditionType = Integer.parseInt(t_masterSearchConditionType);
+					if(isNumber(t_masterSearchConditionType)){
+						//conditionType = Integer.parseInt(t_masterSearchConditionType);
+						conditionType = conditionDao.getConditionTypeName(dbConnection, t_masterSearchConditionType);
+					}else{
+						conditionType = t_masterSearchConditionType;
+					}
 					ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, conditionType);
 					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);				
 				}
@@ -115,6 +119,15 @@ public class GetSearchConditionListService {
 	    
 		response.setStatus(responseStatus);
 		return response;
+	}
+	
+	public boolean isNumber(String num) {
+	    try {
+	        Integer.parseInt(num);
+	        return true;
+	        } catch (NumberFormatException e) {
+	        return false;
+	    }
 	}
 
 }

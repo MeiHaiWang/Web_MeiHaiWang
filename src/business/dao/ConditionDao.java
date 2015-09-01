@@ -10,6 +10,8 @@ import java.util.List;
 import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
+import common.model.ConditionTypeInfo;
+import common.util.ConfigUtil;
 import common.util.DBConnection;
 
 public class ConditionDao {
@@ -126,6 +128,90 @@ public class ConditionDao {
 			throw e;
 		}
 		return ConditionTitleInfoList;
+	}
+
+	public int setHairStyleCondition(DBConnection dbConnection,
+			int hairStyleId, String searchConditionIdList) {
+
+		/**
+		 * 
+		 */
+		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET `t_hairStyle_searchConditionId` = '"
+				+ searchConditionIdList + "' WHERE `t_hairstyle`.`t_hairStyle_id` = "+hairStyleId+";";
+
+		//debug
+		System.out.println(sql);
+
+		Statement statement = dbConnection.getStatement();
+		int result_int = -1;
+		try {
+			result_int = statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return result_int;
+	}
+
+	public int setStylistCondition(DBConnection dbConnection, int stylistId,
+			String searchConditionIdList) {
+		/**
+		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_searchConditionId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 1;
+		 */
+		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_searchConditionId` = '"
+				+ searchConditionIdList + "' WHERE `t_stylist`.`t_stylist_Id` = "+stylistId+";";
+		
+		//debug
+		System.out.println(sql);
+		Statement statement = dbConnection.getStatement();
+		int result_int = -1;
+		try {
+			result_int = statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return result_int;
+	}
+
+	public List<ConditionTypeInfo> getConditionTypeInfo(
+			DBConnection dbConnection) {
+		List<ConditionTypeInfo> condTypeList = new ArrayList<ConditionTypeInfo>();
+
+		String sql = "SELECT * FROM `t_masterSearchConditionType`";
+		Statement statement = dbConnection.getStatement();
+		try {
+			// debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				ConditionTypeInfo cond = new ConditionTypeInfo();
+				cond.setConditionTypeId( rs.getInt("t_masterSearchConditionType_id"));
+				cond.setConditionTypeName( rs.getString("t_masterSearchConditionType_name"));
+				condTypeList.add(cond);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return condTypeList;
+	}
+
+	public String getConditionTypeName(DBConnection dbConnection,
+			String type) {
+		String sql = "SELECT `t_masterSearchConditionType_name` FROM `t_masterSearchConditionType` WHERE `t_masterSearchConditionType_id` = "+type;
+		Statement statement = dbConnection.getStatement();
+		String typeName = "";
+		try {
+			// debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				typeName = rs.getString("t_masterSearchConditionType_name");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return typeName;
 	}
 
 }
