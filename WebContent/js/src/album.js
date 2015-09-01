@@ -159,26 +159,26 @@ $(function(){
 		    }
 		  });
 
-	/*
-  var AlbumName = React.createClass({
-    getInitialState() {
+	//アルバム名
+  var AlbumName = React.createClass({displayName: "AlbumName",
+    getInitialState:function() {
       return {
         t_hairStyle_name: ""
       };
     },
-    changeText(e) {
+    changeText:function(e) {
       this.setState({t_hairStyle_name: e.target.value});
     },
-    render() {
+    render:function() {
       return (
-        <div>
-          <input type="text" value={this.state.t_hairStyle_name} onChange={this.changeText} />
-        </div>
+        React.createElement("div", null, 
+          React.createElement("input", {type: "text", value: this.state.t_hairStyle_name, onChange: this.changeText})
+        )
       );
     }
   });
-*/
-	  var AlbumLong = React.createClass({displayName: "AlbumLong",
+
+  var AlbumLong = React.createClass({displayName: "AlbumLong",
 		    getDefaultProps:function() {
 			      return {
 			        length_tag: ['']
@@ -417,35 +417,33 @@ $(function(){
 		  });
 
 	  
-  /*
-  var AlbumStylistName = React.createClass({
-    getDefaultProps() {
+  var AlbumStylistName = React.createClass({displayName: "AlbumStylistName",
+    getDefaultProps:function() {
       return {
         stylist: ['']
       };
     },
-    getInitialState() {
+    getInitialState:function() {
       return {
         t_hairStyle_stylistId: '',
       };
     },
-    onChangeSelectValue(e) {
+    onChangeSelectValue:function(e) {
       this.setState({t_hairStyle_stylistId: e.target.value});
     },
-    render() {
+    render:function() {
       var options = this.props.stylist.map(function(stylist) {
-        return <option value={stylist.t_stylist_stylist_id}>{stylist.t_stylist_name}</option>;
+        return React.createElement("option", {value: stylist.t_stylist_stylist_id}, stylist.t_stylist_name);
       });
       return (
-        <div>
-          <select value={this.state.t_hairStyle_stylistId} onChange={this.onChangeSelectValue}>
-            {options}
-          </select>
-        </div>
+        React.createElement("div", null, 
+          React.createElement("select", {value: this.state.t_hairStyle_stylistId, onChange: this.onChangeSelectValue}, 
+            options
+          )
+        )
       );
     }
   });
-*/
 /*
   var AlbumImagePath = React.createClass({
     getInitialState() {
@@ -777,9 +775,10 @@ $(function(){
   // コンポーネントをエレメントに割り当てる
   /*
   var component_album_category = React.render(<AlbumCategory />, document.getElementById('album_category'));
-  var component_album_name = React.render(<AlbumName />, document.getElementById('album_name'));
-  var component_album_stylist_name = React.render(<AlbumStylistName />, document.getElementById('album_stylist_name'));
   */
+  var component_album_name = React.render(React.createElement(AlbumName, null), document.getElementById('album_name'));
+  var component_album_stylist_name = React.render(React.createElement(AlbumStylistName, null), document.getElementById('album_stylist_name'));
+  
   var component_album_sex = React.render(React.createElement(AlbumSex, null), document.getElementById('album_sex'));
   var component_album_long = React.render(React.createElement(AlbumLong, null), document.getElementById('album_long'));
   var component_album_feel = React.render(React.createElement(AlbumFeel, null), document.getElementById('album_feel'));
@@ -807,7 +806,6 @@ $(function(){
 
   sanitaize.decode(album_info);
   
-/*
   // stylistを参照しやすい形に変換
   var stylist_info = getStylistList({'t_hairSalonMaster_salonId':session_info.t_hairSalonMaster_salonId});
   sanitaize.decode(stylist_info);
@@ -816,7 +814,6 @@ $(function(){
     var stylist_name = stylist_info.stylist[i].t_stylist_name;
     stylists[stylist_id] = stylist_name;
   }
-*/
   
   //
   var v1 = function(title_id){
@@ -1000,7 +997,8 @@ $(function(){
 
   // set component
   //component_album_category.setProps({hairtype: hairtype_info.type});
-  //component_album_stylist_name.setProps({stylist: stylist_info.stylist});
+  component_album_name.setProps(album_info);
+  component_album_stylist_name.setProps({stylist: stylist_info.stylist});
 
   //searchConditionIdからalbum情報を拡張して、setState用に
   for(i=0; i<album_info.album.length; i++){
@@ -1158,8 +1156,8 @@ $(function(){
     	      t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
     	      t_hairStyle_id:            edit_id,
     	      t_hairStyle_hairTypeId:    "0",
-    	      t_hairStyle_name:          "",
-    	      t_hairStyle_stylistId:     "0",
+    	      t_hairStyle_name:          component_album_name.state.t_hairStyle_name,
+    	      t_hairStyle_stylistId:     component_album_stylist_name.state.t_hairStyle_stylistId,
     	      t_hairStyle_imagePath:     image_paths,
     	      t_hairStyle_searchConditionId: searchConditionIds
     }
