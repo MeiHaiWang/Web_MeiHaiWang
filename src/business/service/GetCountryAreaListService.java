@@ -81,7 +81,7 @@ public class GetCountryAreaListService {
 				//get CountryInfoData
 				countryInfoList = countryDao.getCountryListInfo(dbConnection);	
 
-				//get AreaIngoDatas
+				//get AreaInfoDatas
 				for(CountryInfo cInfo: countryInfoList){
 					areaInfoList[cInfo.getCountryId()] 
 							= areaDao.getAreaInfoListForCountry(dbConnection, cInfo.getCountryId());

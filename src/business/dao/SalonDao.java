@@ -719,6 +719,8 @@ public class SalonDao {
 		    String t_hairSalonImagePath,
 		    String t_hairSalonMaster_japaneseAvailable
 		    t_hairSalonMaster_searchConditionId
+		    t_hairSalonMaster_mail
+		    t_hairSalonMaster_password
 		    */
 			){
 
@@ -762,6 +764,10 @@ public class SalonDao {
 		//+ "japaneseAvailable " +
 		String sql12 = "', `t_hairSalonMaster_searchConditionId` = '";
 		//+
+		String sql_mail = "', `t_hairSalonMaster_mail` = '";
+		//+
+		String sql_pass = "', `t_hairSalonMaster_passward` = '";
+		//+
 		String sql_end = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = " + salonId + ";";;
 
 		Statement statement = dbConnection.getStatement();
@@ -804,6 +810,9 @@ public class SalonDao {
 		int creditAvailable =  salonInfo.getSalonCreditAvailable() ? 1 : 0;
 		int carParkAvailable =  salonInfo.getSalonCarParkAvailable() ? 1 : 0;
 		
+		//debug
+		System.out.println("mail&pass:"+salonInfo.getMail()+","+salonInfo.getPassword());
+		
 		//combine sql sentense.
 		String sql = sql2 + salonInfo.getHairSalonName()
 				 +sql3 + salonInfo.getSalonAreaId()
@@ -815,8 +824,14 @@ public class SalonDao {
 				 +sql9 + carParkAvailable
 				 +sql10 + salonInfo.getHairSalonImagePathOneLine()
 				 +sql11 + japaneseAvailable
-				 +sql12 + salonInfo.getSalonSearchConditionId()
-				 +sql_end;
+				 +sql12 + salonInfo.getSalonSearchConditionId();
+		if(salonInfo.getMail()!=""){
+			sql += sql_mail + salonInfo.getMail();
+		}
+		if(salonInfo.getPassword()!=""){
+			sql += sql_pass + salonInfo.getPassword();
+		}
+		sql+=sql_end;
 		//debug
 		System.out.println(sql);
 		

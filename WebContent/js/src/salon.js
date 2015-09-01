@@ -460,6 +460,66 @@ $(function(){
    */
   //
   
+  //mail&pass change.
+  var SalonMail = React.createClass({displayName: "SalonMail",
+	    getInitialState:function() {
+	      return {
+	        t_hairSalonMaster_mail: ""
+	      };
+	    },
+	    changeText:function(e) {
+	      this.setState({t_hairSalonMaster_mail: e.target.value});
+	    },
+	    render:function() {
+	      return (
+	        React.createElement("div", null, 
+	          React.createElement("input", {type: "email", placeholder: "【例】youjiandizi-888@meihaiwang.com", class: "input-xxlarge", 
+	        	  value: this.state.t_hairSalonMaster_mail, onChange: this.changeText})
+	        )
+	      );
+	    }
+	  });
+  //mail&pass change.
+  var SalonPass = React.createClass({displayName: "SalonPass",
+	    getInitialState:function() {
+	      return {
+	        t_hairSalonMaster_pass: ""
+	      };
+	    },
+	    changeText:function(e) {
+	      this.setState({t_hairSalonMaster_pass: e.target.value});
+	    },
+	    render:function() {
+	      return (
+	        React.createElement("div", null, 
+	        	React.createElement("input", {type: "password", placeholder: "请填写6～20字的半角英文或数字", class: "input-xxlarge", 
+	        		value: this.state.t_hairSalonMaster_pass, onChange: this.changeText})
+	        )
+	      );
+	    }
+	  });
+  //mail&pass change.
+  var SalonPassConfirm = React.createClass({displayName: "SalonPassConfirm",
+	    getInitialState:function() {
+	      return {
+	        t_hairSalonMaster_confirm: ""
+	      };
+	    },
+	    changeText:function(e) {
+	      this.setState({t_hairSalonMaster_confirm: e.target.value});
+	    },
+	    render:function() {
+	      return (
+	        React.createElement("div", null, 
+	            React.createElement("input", {type: "password", id: "confirm", placeholder: "请在输入一次密码", class: "input-xxlarge", 
+	            	value: this.state.t_hairSalonMaster_confirm, onChange: this.changeText})
+	        )
+	      );
+	    }
+	  });
+
+  
+  
   /*
    * condidの中に、addidが含まれているかどうか
    */
@@ -507,6 +567,9 @@ $(function(){
   var component_salon_service_tag = React.render(React.createElement(SalonServiceTag, null), document.getElementById('salon_cond_tag1'));
   var component_salon_service_tag2 = React.render(React.createElement(SalonServiceTag2, null), document.getElementById('salon_cond_tag2'));
   //var component_salon_cond_list = React.render(<ConditionList />, document.getElementById('salon_cond_list1'));
+  var component_salon_mail = React.render(React.createElement(SalonMail, null), document.getElementById('salon_mail'));
+  var component_salon_pass = React.render(React.createElement(SalonPass, null), document.getElementById('salon_pass'));
+  var component_salon_pass_confirm = React.render(React.createElement(SalonPassConfirm, null), document.getElementById('salon_pass_confirm'));
   
   /*
     Main Part
@@ -741,7 +804,24 @@ $(function(){
 			  +component_salon_service_tag2.state.t_hairSalonMaster_searchConditionId +" ? ")
 	  console.log("result="+searchConditionIds);
 	  */
-	  
+
+	  //mail&pass change.
+	    // エラーメッセージをクリアする
+	  //salon_info.confirm.setCustomValidity("");
+	    // パスワードの一致確認
+	  if(component_salon_pass.state.t_hairSalonMaster_pass!=null){
+	    if (component_salon_pass.state.t_hairSalonMaster_pass != component_salon_pass_confirm.state.t_hairSalonMaster_confirm) {
+	      // 一致していなかったら、エラーメッセージを表示する
+	      //confirm.setCustomValidity("两次输入的密码不一致");
+	    	alert("密码:两次输入的密码不一致");
+	      return;
+	    }   
+	    if(component_salon_pass.state.t_hairSalonMaster_pass.length < 6　 || component_salon_pass.state.t_hairSalonMaster_pass.length > 20){
+	    	//confirm.setCustomValidity("密码请填写6～20字");
+	    	alert("密码:密码请填写6～20字");
+	    	 return;
+	    }
+  	}
     var data = {
       t_hairSalonMaster_salonId:           session_info.t_hairSalonMaster_salonId,
       t_hairSalonMaster_name:              component_salon_name.state.t_hairSalonMaster_salon_name,
@@ -754,7 +834,9 @@ $(function(){
       t_hairSalonMaster_carParkAvailable:  component_salon_car_park_available.state.t_hairSalonMaster_carParkAvailable,
       t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
       t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
-      t_hairSalonMaster_searchConditionId: searchConditionIds
+      t_hairSalonMaster_searchConditionId: searchConditionIds,
+      t_hairSalonMaster_mail:              component_salon_mail.state.t_hairSalonMaster_mail,
+      t_hairSalonMaster_pass:              component_salon_pass.state.t_hairSalonMaster_pass
     }
 
     sanitaize.encode(data);
@@ -798,5 +880,40 @@ $(function(){
     current_image_path[id] = 'img/notfound.jpg';
     component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: current_image_path});
   });
+
+  /*
+  //mail&password confirm
+   function regist(event) {
+		if(mail.value=="" || pass.value==""){
+ 			return;
+ 		}
+	    // エラーメッセージをクリアする
+	    registForm.pass.setCustomValidity("");
+	    // パスワードの一致確認
+	    if (registForm.pass.value != registForm.passConfirm.value) {
+	      // 一致していなかったら、エラーメッセージを表示する
+	      registForm.pass.setCustomValidity("两次输入的密码不一致");
+	      return;
+	    }   
+	    if(registForm.pass.value.length < 6　 || registForm.pass.value.length > 20){
+	    	 registForm.pass.setCustomValidity("密码请填写6～20字");
+	    	 return;
+	    }
+		var response =　$.ajax({
+				url: API_PATH + "changeSalon",
+				type: "POST",
+				async: false,
+				dataType: "text",
+				data:{
+					id : salonId,
+					mail : mail.value,
+					pass : pass.value,
+				},
+			    success: function(data, status) {
+			    	location.href = "#top";
+			    }
+		}).responseText;
+   }
+*/
 
 });
