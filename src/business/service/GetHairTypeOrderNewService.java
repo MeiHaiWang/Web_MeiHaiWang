@@ -37,11 +37,11 @@ public class GetHairTypeOrderNewService {
 			顔型
 			page=0
 		 */
+        int stylistId = request.getParameter("stylistID")!= null
+           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
 		/*
 		int categoryId = request.getParameter("categoryID")!= null
         		?Integer.parseInt(request.getParameter("categoryID")) : 0;
-        int stylistId = request.getParameter("stylistID")!= null
-           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
         List<String> searchConditionIdList = new ArrayList<String>();
    		List<String> _searchConditionIdList = request.getParameter("menu") != null ?
    				Arrays.asList(request.getParameter("menu").split(",")) : new ArrayList<String>();	
@@ -57,11 +57,7 @@ public class GetHairTypeOrderNewService {
 		}
 		searchConditionIdList.addAll(searchFaceIdList);
 		*/
-		/**
-		 * test
-		 */
-		int categoryId = 0;
-		int stylistId = -1;
+		int categoryId = -1;
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 				
