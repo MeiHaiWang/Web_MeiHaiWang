@@ -31,6 +31,10 @@ td.salon_hyphen {
   text-align: center;
 }
 
+.salon_image_trash_button {
+	width: 200px;
+}
+
 td#salon_image_path {
   padding: 5px 0px;
 }

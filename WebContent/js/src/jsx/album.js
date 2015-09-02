@@ -425,7 +425,7 @@ $(function(){
     },
     getInitialState() {
       return {
-        t_hairStyle_stylistId: '',
+        t_hairStyle_stylistId: '1',
       };
     },
     onChangeSelectValue(e) {
@@ -658,6 +658,9 @@ $(function(){
   // set state to component
   function componentSetState(album) {
 	console.log("Edit_sid of album{id "+album.t_hairStyle_id+"}:" + album.t_hairStyle_searchConditionId);
+
+	component_album_name.setProps(album);
+	
 	/*
 	console.log(" t_hairStyle_imagePath:"+album.t_hairStyle_imagePath);
 	console.log(" t_hairStyle_imagePath2:"+album.t_hairStyle_imagePath2);
@@ -997,8 +1000,9 @@ $(function(){
 
   // set component
   //component_album_category.setProps({hairtype: hairtype_info.type});
-  component_album_name.setProps(album_info);
-  component_album_stylist_name.setProps({stylist: stylist_info.stylist});
+  
+  //component_album_name.setProps({t_hairStyle_name: album_info.name});
+  //component_album_stylist_name.setProps({stylist: stylist_info.stylist});
 
   //searchConditionIdからalbum情報を拡張して、setState用に
   for(i=0; i<album_info.album.length; i++){
@@ -1199,6 +1203,7 @@ $(function(){
     console.log("edit_id:"+edit_id);
     //componentSetState(album_info.album[id]);
     componentSetState(_albums[id]);
+
   });
 
   // 削除ボタン押下時

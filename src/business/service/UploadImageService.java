@@ -1,5 +1,8 @@
 package business.service;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -168,15 +172,17 @@ public class UploadImageService {
 	    				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 	    				e.printStackTrace();
 	    			}
-
+    				
     				//ImageFileName対応
 	    			/*
 	    			 * 添付ファイルID.拡張子」 例：　1.png
 	    			 */
     				//debug
     				//System.out.println("item.getName():"+item.getName());
+    				boolean pngFlag = false;
 	    			if(item.getName().indexOf("png")>0){
-	        			ImageFileName = Integer.toString(ImageId) + ".png";    				
+	        			ImageFileName = Integer.toString(ImageId) + ".png";   
+	        			pngFlag = true;
 	    			}else if(item.getName().indexOf("jpg")>0){
 	        			ImageFileName = Integer.toString(ImageId) + ".jpg";    				    				
 	    			}else if(item.getName().indexOf("jpeg")>0){
@@ -202,6 +208,36 @@ public class UploadImageService {
 		    			in.close();
 	    			}
 
+        			/**
+        			 * png -> jpeg変換
+        			 */
+	    			boolean convertResult = true;
+	    			if(pngFlag){
+	    				//debug
+	    				System.out.println("Png -> Jpeg item:"+upPath + item.getName());
+	        			String ImageFileName_jpg = Integer.toString(ImageId) + ".jpeg";   
+	        			String from = upPath + ImageFileName;
+	        			String to   = upPath + ImageFileName_jpg;
+	        			try {
+	        			    BufferedImage image = ImageIO.read(new File(from));
+	        			    BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+	        			    Graphics2D off = tmp.createGraphics();
+	        			    off.drawImage(image, 0, 0, Color.WHITE, null);
+	        			    ImageIO.write(tmp, "jpg", new File(to));
+	        			} catch (Exception e) {
+	        				convertResult = false;
+	        			    System.out.println("error");
+	        			}
+        				//debug
+        				//System.out.println((new File(to)).length()+">"+ConfigUtil.getConfig("imagemaxsize"));
+	        			if((new File(to)).length()
+	        					> Integer.parseInt(ConfigUtil.getConfig("imagemaxsize"))){
+	        				convertResult = false;
+	        				break;
+	        			}
+	        			ImageFileName = ImageFileName_jpg;
+	    			}	    			
+	    			
 	    			//レスポンス対応(result,imageUrl)
 	    			//ImageUrl対応
 		            /*ファイル名に半角英数のみを許す
@@ -213,7 +249,7 @@ public class UploadImageService {
 		            */
 	    			ImageUrl = ConfigUtil.getConfig("imageurl") + ImageFileName;	              
 
-	    			if(insertFlag){
+	    			if(insertFlag || !convertResult){
 		    			//テーブル更新(sql insert)
 		    			try{
 		    				DBConnection dbConnection = new DBConnection();
@@ -252,7 +288,6 @@ public class UploadImageService {
           // 例外処理
         	e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

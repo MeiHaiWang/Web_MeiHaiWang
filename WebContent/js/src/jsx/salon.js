@@ -107,7 +107,7 @@ $(function(){
   var SalonOpenTime = React.createClass({
     getDefaultProps() {
       return {
-        open_time: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
+        open_time: ['9:00','10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
       };
     },
     getInitialState() {
@@ -135,7 +135,7 @@ $(function(){
   var SalonCloseTime = React.createClass({
     getDefaultProps() {
       return {
-        close_time: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
+        close_time: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
       };
     },
     getInitialState() {
@@ -163,7 +163,7 @@ $(function(){
   var SalonCloseDay = React.createClass({
     getDefaultProps() {
       return {
-        close_day: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+        close_day: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '無休']
       };
     },
     getInitialState() {

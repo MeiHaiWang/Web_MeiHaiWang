@@ -212,3 +212,10 @@ div.album_image_path {
   background:white;
 }
 
+#album_stylist_name select{
+  float: left;
+  margin: 12px 50px 10px 0;
+  height: inherit;
+  border:1px solid #BAD8D9;
+  background:white;
+}
