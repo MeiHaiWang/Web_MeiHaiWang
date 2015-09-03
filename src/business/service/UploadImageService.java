@@ -225,7 +225,7 @@ public class UploadImageService {
 	        			    off.drawImage(image, 0, 0, Color.WHITE, null);
 	        			    ImageIO.write(tmp, "jpg", new File(to));
 	        			} catch (Exception e) {
-	        				convertResult = false;
+ 	        				convertResult = false;
 	        			    System.out.println("error");
 	        			}
         				//debug
@@ -235,7 +235,20 @@ public class UploadImageService {
 	        				convertResult = false;
 	        				break;
 	        			}
-	        			ImageFileName = ImageFileName_jpg;
+
+	        			/**
+	        			 * ふぁいるの削除
+	        			 */
+        				try{
+        					File file = new File(upPath + ImageFileName);
+        					if (file.exists()){
+        						file.delete();
+        					}
+        				}catch(Exception e){
+        					e.printStackTrace();
+        				}
+
+        				ImageFileName = ImageFileName_jpg;
 	    			}	    			
 	    			
 	    			//レスポンス対応(result,imageUrl)
