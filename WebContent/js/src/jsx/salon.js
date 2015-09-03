@@ -163,7 +163,7 @@ $(function(){
   var SalonCloseDay = React.createClass({
     getDefaultProps() {
       return {
-        close_day: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '無休']
+        close_day: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日', '终年无休']
       };
     },
     getInitialState() {
