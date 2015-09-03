@@ -425,7 +425,7 @@ $(function(){
     },
     getInitialState:function() {
       return {
-        t_hairStyle_stylistId: '1',
+        t_hairStyle_stylistId: '',
       };
     },
     onChangeSelectValue:function(e) {
