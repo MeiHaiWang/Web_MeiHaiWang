@@ -104,5 +104,42 @@ public class ImageDao {
 		}
 		return t_image_id;	
 	}
+
+	public static boolean DeleteImageForMaster(DBConnection dbConnection,
+			String imagePath) {
+		boolean result = false;
+
+		/*
+		 *SELECT `t_image_id` FROM `t_image` WHERE `t_image_filepath` = 'http'
+		 *DELETE FROM `MEIHAIWAN_TEST`.`t_image` WHERE `t_image`.`t_image_id` = 10
+		 */
+		
+		String sql1 = "SELECT `t_image_id` FROM `t_image` WHERE `t_image_filepath` = '"+imagePath+"'";
+		String sql2 = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_image` WHERE `t_image`.`t_image_id` =";
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql1);
+		
+		try {
+			int imageId = -1;
+			ResultSet rs = statement.executeQuery(sql1);
+			if(rs.next()){
+				imageId = rs.getInt("t_image_id");
+			}
+
+			//debug
+			System.out.println(sql2+imageId);
+			if(imageId>0){
+				int result_int = statement.executeUpdate(sql2 + imageId);
+				if(result_int > 0) result = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 	
 }

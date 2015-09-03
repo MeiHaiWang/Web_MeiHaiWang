@@ -489,6 +489,21 @@ var getSearchConditionList = (function(data){
     };
 })();
 
+//画像をアップロードフォルダから削除する関数
+var deleteImage = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "deleteImage",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
 
 
 // リロードボタン押下時

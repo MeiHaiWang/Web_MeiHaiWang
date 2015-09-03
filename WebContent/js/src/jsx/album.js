@@ -659,8 +659,9 @@ $(function(){
   function componentSetState(album) {
 	console.log("Edit_sid of album{id "+album.t_hairStyle_id+"}:" + album.t_hairStyle_searchConditionId);
 
-	component_album_name.setProps(album);
-	
+	component_album_name.setState(album);
+	component_album_stylist_name.setState({t_hairStyle_stylistId: album.t_hairStyle_stylistId});
+
 	/*
 	console.log(" t_hairStyle_imagePath:"+album.t_hairStyle_imagePath);
 	console.log(" t_hairStyle_imagePath2:"+album.t_hairStyle_imagePath2);
@@ -1001,8 +1002,8 @@ $(function(){
   // set component
   //component_album_category.setProps({hairtype: hairtype_info.type});
   
-  //component_album_name.setProps({t_hairStyle_name: album_info.name});
-  //component_album_stylist_name.setProps({stylist: stylist_info.stylist});
+  component_album_name.setProps({t_hairStyle_name: album_info.name});
+  component_album_stylist_name.setProps({stylist: stylist_info.stylist});
 
   //searchConditionIdからalbum情報を拡張して、setState用に
   for(i=0; i<album_info.album.length; i++){
@@ -1088,10 +1089,10 @@ $(function(){
   
   /*
   component_album_category.setState({t_hairStyle_hairTypeId: component_album_category.props.hairtype[0].t_hairType_id});
+	*/
   if (component_album_stylist_name.props.stylist.length != 0) {
     component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
   }
-	*/
 
   /*
     Button Handler
