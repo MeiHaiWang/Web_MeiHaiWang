@@ -853,28 +853,79 @@ $(function(){
     }
   });
 
+  /*
+  // 画像アップロード（非同期用）
+  function work_async(data, callback) {
+	    setTimeout(function() {
+	        // 時間がかかる処理をする
+	    	var param = uploadImage(data);
+	        console.log("result"+param.result);
+	        callback(param.result);
+	    }, 0);
+	}
+  var callback = function(result) {// 処理結果を引数としてうけとる
+      if (result == "true") {
+          var salon_image_path = new Array(result.image_path);
+          var current_image_path = component_salon_image_path.state.t_hairSalonMaster_salonImagePath;
+          // 常に画像は4つまでしか管理しない
+          salon_image_path = salon_image_path.concat(current_image_path).slice(0, 4);
+          component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: salon_image_path});
+        }
+        else {
+          alert('Upload Failed');
+        }
+	}
+  */
+  
   // 画像アップロード
   $('#salon_image').change(function() {
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
+      //var result = uploadImage(data);
+      //非同期アップロード
+      (function(data){
+          $.ajax({
+              type: "POST",
+              url: API_PATH + "uploadImage",
+              async: true,
+              processData: false,
+              data: data,
+              dataType: 'text',
+              contentType: false,
+          }).then(function(response){
+        	  console.log("salon-image:"+response);
+              response = JSON.parse(response);
+              if (response.result == "true") {
+                  var salon_image_path = new Array(response.image_path);
+                  var current_image_path = component_salon_image_path.state.t_hairSalonMaster_salonImagePath;
 
-      var result = uploadImage(data);
+                  // 常に画像は4つまでしか管理しない
+                  salon_image_path = salon_image_path.concat(current_image_path).slice(0, 4);
+                  component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: salon_image_path});
+                }
+                else {
+                  alert('Upload Failed');
+                }
+          });
+      })(data);
+
+      /*
       if (result.result == "true") {
         var salon_image_path = new Array(result.image_path);
         var current_image_path = component_salon_image_path.state.t_hairSalonMaster_salonImagePath;
 
         // 常に画像は4つまでしか管理しない
         salon_image_path = salon_image_path.concat(current_image_path).slice(0, 4);
-
         component_salon_image_path.setState({t_hairSalonMaster_salonImagePath: salon_image_path});
       }
       else {
         alert('Upload Failed');
       }
+      */
     }
   });
-
+  
   // 画像削除ボタン
   $('.salon_image_trash_button').on('click', function() {
     var id = $(".salon_image_trash_button").index(this);

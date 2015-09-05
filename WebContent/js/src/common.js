@@ -466,9 +466,8 @@ var uploadImage = (function(data){
             data: data,
             dataType: 'text',
             contentType: false,
-        }).responseText;
+        });
         response = JSON.parse(response);
-
         return response;
     };
 })()

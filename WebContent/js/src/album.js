@@ -1235,24 +1235,41 @@ $(function(){
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
 
-      var result = uploadImage(data);
+      //非同期アップロード
+      (function(data){
+          var response = $.ajax({
+              type: "POST",
+              url: API_PATH + "uploadImage",
+              async: true,
+              processData: false,
+              data: data,
+              dataType: 'text',
+              contentType: false,
+          }).then(function(response){
+              response = JSON.parse(response);
+              if (response.result == "true") {
+            	  var img_path = component_album_image_path.state.t_hairStyle_imagePath;
+                  component_album_image_path.setState({t_hairStyle_imagePath: response.image_path});
+                }
+                else {
+                  alert('Upload Failed');
+                }
+          });
+      })(data);
+
+
+      /*
+	  var result = uploadImage(data);
       if (result.result == "true") {
     	  var img_path = component_album_image_path.state.t_hairStyle_imagePath;
     	  console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
     	  console.log("result.image_path:"+result.image_path)
-    	  /*
-    	  if(img_path=="img/notfound.jpg"){
-    		 img_path=result.image_path; 
-    	  }else{
-     		 img_path+=","+result.image_path; 
-    	  }
-    	  */
-          //component_album_image_path.setState({t_hairStyle_imagePath: img_path});
           component_album_image_path.setState({t_hairStyle_imagePath: result.image_path});
       }
       else {
         alert('Upload Failed');
       }
+      */
     }
   });
 
@@ -1262,25 +1279,47 @@ $(function(){
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
 
+      //非同期アップロード
+      (function(data){
+          var response = $.ajax({
+              type: "POST",
+              url: API_PATH + "uploadImage",
+              async: true,
+              processData: false,
+              data: data,
+              dataType: 'text',
+              contentType: false,
+          }).then(function(response){
+              response = JSON.parse(response);
+              if (response.result == "true") {
+            	  var img_path = component_album_image_path2.state.t_hairStyle_imagePath;
+                  component_album_image_path2.setState({t_hairStyle_imagePath2: response.image_path});
+                }
+                else {
+                  alert('Upload Failed');
+                }
+          });
+      })(data);
+
+
+      /*
       var result = uploadImage(data);
       if (result.result == "true") {
     	  var img_path = component_album_image_path2.state.t_hairStyle_imagePath2;
     	  console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
     	  //console.log("result.image_path:"+result.image_path)
-    	  /*
-    	  if(img_path=="img/notfound.jpg"){
-    		 img_path=result.image_path; 
-    	  }else{
-     		 img_path+=","+result.image_path; 
-    	  }
-    	  */
+    	  //if(img_path=="img/notfound.jpg"){
+    		// img_path=result.image_path; 
+    	  //}else{
+     		// img_path+=","+result.image_path; 
+    	  //}
           //component_album_image_path.setState({t_hairStyle_imagePath: img_path});
-
         component_album_image_path2.setState({t_hairStyle_imagePath2: result.image_path});
       }
       else {
         alert('Upload Failed');
       }
+    */
     }
   });
 
@@ -1290,24 +1329,39 @@ $(function(){
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
 
+      //非同期アップロード
+      (function(data){
+          var response = $.ajax({
+              type: "POST",
+              url: API_PATH + "uploadImage",
+              async: true,
+              processData: false,
+              data: data,
+              dataType: 'text',
+              contentType: false,
+          }).then(function(response){
+              response = JSON.parse(response);
+              if (response.result == "true") {
+            	  var img_path = component_album_image_path3.state.t_hairStyle_imagePath;
+                  component_album_image_path3.setState({t_hairStyle_imagePath3: response.image_path});
+                }
+                else {
+                  alert('Upload Failed');
+                }
+          });
+      })(data);
+
+      /*
       var result = uploadImage(data);
       if (result.result == "true") {
     	  var img_path = component_album_image_path.state.t_hairStyle_imagePath;
     	  console.log("component_album_image_path.state.t_hairStyle_imagePath:"+img_path)
-    	  //console.log("result.image_path:"+result.image_path)
-    	  /*
-    	  if(img_path=="img/notfound.jpg"){
-    		 img_path=result.image_path; 
-    	  }else{
-     		 img_path+=","+result.image_path; 
-    	  }
-        component_album_image_path.setState({t_hairStyle_imagePath: img_path});
-        */
-        component_album_image_path3.setState({t_hairStyle_imagePath3: result.image_path});
+    	  component_album_image_path3.setState({t_hairStyle_imagePath3: result.image_path});
       }
       else {
         alert('Upload Failed');
       }
+    */
     }
   });
 
