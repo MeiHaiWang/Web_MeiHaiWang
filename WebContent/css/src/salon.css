@@ -115,14 +115,6 @@ border: 1px solid tomato;
   display: block;
 }
 
-#salon_cond_list1 li {
-  display: inline;
-  padding: 0 10px;
-  line-height: 20px;
-  background : pink;
-  color:white
-}
-
 #salon_cond_list2 {
   width: 100%;
   height: 100%;  
@@ -131,10 +123,28 @@ border: 1px solid tomato;
   display: block;
 }
 
-#salon_cond_list2 li {
+#salon_cond_list1 li {
   display: inline;
-  padding: 0 10px;
+  padding: 0 19px;
   line-height: 20px;
   background : pink;
   color:white
 }
+
+#salon_cond_list2 li {
+  display: inline;
+  padding: 0 19px;
+  line-height: 20px;
+  background : pink;
+  color:white
+}
+/*
+
+#salon_cond_list2 li {
+  display: inline;
+  padding: 0 19px;
+  line-height: 20px;
+  background : pink;
+  color:white
+}
+*/
