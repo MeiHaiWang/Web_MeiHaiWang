@@ -192,6 +192,25 @@ $(function(){
 			    onChangeSelectValue:function(e) {
 				      //選択された項目のidを取得
 				      var addId = nameToId(e.target.value);
+				      /**
+				       * 
+				       */
+					  //serchConditionIdの最新版を取得
+					  var elms = document.getElementsByName("tags");
+					  var text = "";
+					  for(p=0;p<elms.length;p++){
+						  if(nameToId(elms[p].value)!=-1){
+							  if(text.length==0){
+								  text = nameToId(elms[p].value);
+							  }else{
+								  text += "," + nameToId(elms[p].value);
+							  }
+						  }
+					  }
+					  condId = text;
+				      /**
+				       * 
+				       */
 				      //すでに登録されたidでなければ、condIdに追加
 				      condId += "";
 				      if(!hasAddTag(condId, addId)){
@@ -252,6 +271,25 @@ $(function(){
 			    onChangeSelectValue:function(e) {
 				      //選択された項目のidを取得
 				      var addId = nameToId(e.target.value);
+				      /**
+				       * 
+				       */
+					  //serchConditionIdの最新版を取得
+					  var elms = document.getElementsByName("tags2");
+					  var text = "";
+					  for(p=0;p<elms.length;p++){
+						  if(nameToId(elms[p].value)!=-1){
+							  if(text.length==0){
+								  text = nameToId(elms[p].value);
+							  }else{
+								  text += "," + nameToId(elms[p].value);
+							  }
+						  }
+					  }
+					  condId = text;
+				      /**
+				       * 
+				       */
 				      //すでに登録されたidでなければ、condIdに追加
 				      condId += "";
 				      if(!hasAddTag(condId, addId)){
