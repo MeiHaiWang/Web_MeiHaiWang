@@ -187,7 +187,18 @@ public class UploadImageService {
 	        			ImageFileName = Integer.toString(ImageId) + ".jpg";    				    				
 	    			}else if(item.getName().indexOf("jpeg")>0){
 	        			ImageFileName = Integer.toString(ImageId) + ".jpeg";    				    				
-	    			}else{
+	    			}
+    				else if(item.getName().indexOf("JPG")>0){
+    					ImageFileName = Integer.toString(ImageId) + ".JPG";    				    				
+    				}
+    				else if(item.getName().indexOf("JPEG")>0){
+    					ImageFileName = Integer.toString(ImageId) + ".JPEG";    				    				
+    				}
+    				else if(item.getName().indexOf("PNG")>0){
+    					ImageFileName = Integer.toString(ImageId) + ".PNG"; 
+    					pngFlag = true;
+    				}
+	    			else{
 	    				//debug
 	    				System.out.println("Error...");
 	    				break;
