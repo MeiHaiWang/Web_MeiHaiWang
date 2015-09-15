@@ -95,8 +95,11 @@ public class SetStaffInfoService {
 		stylistInfo.setStylistName(t_stylist_name);
 		//stylistInfo.setStylistGender(Integer.parseInt(t_stylist_sex));
 		int sex = -1;
-		if(t_stylist_sex != "") sex = Integer.parseInt(t_stylist_sex);
-			else sex = 0;
+		if(t_stylist_sex != ""){
+			sex = Integer.parseInt(t_stylist_sex);
+		}else{
+			sex = 0;
+		}
 		stylistInfo.setStylistGender(sex);
 		stylistInfo.setPhoneNumber(t_stylist_phoneNumber);
 		//debug
