@@ -306,7 +306,28 @@ $(function(){
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
-
+      
+      //非同期アップロード
+      (function(data){
+          $.ajax({
+              type: "POST",
+              url: API_PATH + "uploadImage",
+              async: true,
+              processData: false,
+              data: data,
+              dataType: 'text',
+              contentType: false,
+          }).then(function(response){
+              response = JSON.parse(response);
+              if (response.result == "true") {
+            	  component_coupon_image_path.setState({t_coupon_imagePath: response.image_path});
+              }
+              else {
+                alert('Upload Failed');
+              }
+          });
+      })(data);
+      /*
       var result = uploadImage(data);
       if (result.result == "true") {
         component_coupon_image_path.setState({t_coupon_imagePath: result.image_path});
@@ -314,6 +335,7 @@ $(function(){
       else {
         alert('Upload Failed');
       }
+      */
     }
   });
 
