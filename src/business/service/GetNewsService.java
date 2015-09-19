@@ -73,7 +73,7 @@ public class GetNewsService {
 		    	newsArray.add(jsonOneData);
 		    }
 		    jsonObject.put("news",newsArray);
-		    jsonObject.put("next",String.valueOf(next));
+		    jsonObject.put("next",next);
 		    //debug
 		    System.out.println(jsonObject.toString(4));
 		    
