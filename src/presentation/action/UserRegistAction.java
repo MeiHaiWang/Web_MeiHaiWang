@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.UserRegistService;
 import common.util.EncryptUtil;
 
-@WebServlet(name="UserRegistServlet",urlPatterns={"/api/:version/regist"})
+@WebServlet(name="UserRegistServletNotUse",urlPatterns={"/api/:version/regist"})
 public class UserRegistAction extends HttpServlet {
 
 	/**

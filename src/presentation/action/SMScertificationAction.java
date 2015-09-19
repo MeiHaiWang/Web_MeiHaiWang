@@ -77,16 +77,22 @@ public class SMScertificationAction extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		//TODO テスト用key 本番ではアプリ側と調整した場所にkeyファイルを配置する
-		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes();
+		String keyStr = "azu93fzzei93084jnnekamel2asdfghj";
+		final byte[] key = keyStr.getBytes();
+		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
+		final byte[] ivIv = new String(keyStr.getBytes("UTF-8"), 0, 16, "UTF-8").getBytes();
+		
 		byte[] eTel = request.getParameter("etel").getBytes();
-		byte[] etelIv = request.getParameter("telIv").getBytes();
+		byte[] etelIv = request.getParameter("etelIv").getBytes();
 		byte[] epw = request.getParameter("epw").getBytes();
-		byte[] epwIv = request.getParameter("pwIv").getBytes();
+		byte[] epwIv = request.getParameter("epwIv").getBytes();
 		
 		try {
-			String tel = new String(EncryptUtil.decrypt(key, etelIv, eTel));
-			String pw = new String(EncryptUtil.decrypt(key, epwIv, epw));
+			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
+			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
+			
+			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes(), eTel));
+			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes(), epw));
 			//MEMO 暫定で登録する
 			//TODO SMS認証サービスを使用してワンタイムキーを返却する
 			SMScertificationService service = new SMScertificationService();
