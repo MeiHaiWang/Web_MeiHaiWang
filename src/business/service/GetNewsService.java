@@ -43,7 +43,7 @@ public class GetNewsService {
 				throw new Exception("DabaBase Connect Error");
 			}
 			
-			int next = (startIndex + Constant.ONE_PAGE_NUM) < (beautyNewsListAll.size()-1) ?
+			int next = (offset + Constant.ONE_PAGE_NUM) < (beautyNewsListAll.size()) ?
 					1 : 0;
 			
 			
