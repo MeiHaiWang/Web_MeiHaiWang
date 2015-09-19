@@ -27,6 +27,7 @@ public class GetNewsService {
         int page = request.getParameter("page") != null ?
         		Integer.parseInt(request.getParameter("page")) : 0;
         
+        int offset= Constant.ONE_PAGE_NUM * page;
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
@@ -35,30 +36,16 @@ public class GetNewsService {
 			if(conn!=null){
 				NewsDao dao = new NewsDao();
 				beautyNewsListAll = dao.getBeautyNewsInfo(dbConnection);
+				beautyNewsList = dao.getBeautyNewsInfoByOffSetAndLimit(dbConnection, offset, Constant.ONE_PAGE_NUM);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");
 			}
-			int startIndex= Constant.ONE_PAGE_NUM * page;
-			int endIndex = startIndex + Constant.ONE_PAGE_NUM-1;
-			int next = 0;
-			int i=0;
-			//20-39
-			for(BeautyNewsInfo info : beautyNewsListAll){
-				//インデックス範囲内
-				if(i >= startIndex && i <= endIndex){
-					beautyNewsList.add(info);
-				}
-				else if(i > endIndex){
-					break;
-				}
-				i++;
-			}
 			
-			if(beautyNewsListAll.get(i+1) != null){
-				next =1;
-			}
+			int next = (startIndex + Constant.ONE_PAGE_NUM) < (beautyNewsListAll.size()-1) ?
+					1 : 0;
+			
 			
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
