@@ -387,7 +387,7 @@ public class UserDao {
 		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
 		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
-				+ "`t_user_Id`, `t_user_disableFlag`, `t_user_tel`, "
+				+ "`t_user_disableFlag`, `t_user_tel`, "
 				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
 				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
 				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
@@ -402,6 +402,7 @@ public class UserDao {
 		Statement statement = dbConnection.getStatement();
 		int u_Id = -1;
 
+		/*
 		for(int i=1; i<Integer.MAX_VALUE; i++){
 			try {
 				ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
@@ -413,12 +414,13 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
+		*/
 
 		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String birth = format.format(userInfo.getUserBirth());
 	
 		//TODO 初期パスワードはとりあえず0000
-		String u_sql = u_sql1 +u_Id + sql2
+		String u_sql = u_sql1
 				+ sql4 + sql2
 				+ userInfo.getUserPhoneNumber() + sql2
 				+ userInfo.getUserMail() + sql2
