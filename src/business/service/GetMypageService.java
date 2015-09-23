@@ -62,9 +62,12 @@ public class GetMypageService {
 		    for(ReservationInfo returnMypage : reservationList){
 		    	jsonOneData.put("id", returnMypage.getReservationId());
 
+		    	/*
 		    	Date oneDate = returnMypage.getReservationDate();
 		    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmm");
-		    	jsonOneData.put("day", sdf1.format(oneDate));
+		    	*/
+		    	//jsonOneData.put("day", sdf1.format(oneDate));
+		    	jsonOneData.put("day", returnMypage.getReservationDate());
 		    	jsonOneData.put("salon_id", returnMypage.getReservationSalonId());
 		    	jsonOneData.put("salon_name", returnMypage.getReservationSalonName());
 		    	jsonOneData.put("stylist_id", returnMypage.getReservationStylistId());

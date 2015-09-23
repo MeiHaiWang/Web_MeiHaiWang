@@ -28,6 +28,7 @@ import common.util.DBConnection;
       t_menu_price,
       t_menu_detailText,
       t_menu_imagePath,
+      t_menu_time
     }
 
  *
@@ -77,6 +78,8 @@ public class SetMenuInfoService {
 				request.getParameter("t_menu_detailText").toString() : null;
 		String t_menu_imagePath = request.getParameter("t_menu_imagePath") != null ?
 				request.getParameter("t_menu_imagePath").toString() : null;
+		String t_menu_time = request.getParameter("t_menu_time") != null ?
+				request.getParameter("t_menu_time").toString() : null;
 
 		//MenuInfo を渡したほうがきれいかも.
 		MenuInfo menuInfo = new MenuInfo();
@@ -98,6 +101,7 @@ public class SetMenuInfoService {
 		menuInfo.setMenuPrice(price);
 		menuInfo.setMenuDetailText(t_menu_detailText);
 		menuInfo.setMenuImagePath(t_menu_imagePath);
+		menuInfo.setMenuTime(t_menu_time);
 
 		try{
 			DBConnection dbConnection = new DBConnection();

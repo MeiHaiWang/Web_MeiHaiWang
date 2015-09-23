@@ -27,6 +27,8 @@ public class StylistInfo {
 	private String specialMenu = "";
 	private String menuId = "";
 	private String searchConditionId = "";
+	private String restDay;
+	private String restTime;
 	
 	public StylistInfo(){
 		
@@ -172,6 +174,20 @@ public class StylistInfo {
 	}
 	public String getStylistSearchConditionId(){
 		return searchConditionId;
+	}
+
+	public void setStylistRestDay(String restDay) {
+		this.restDay = restDay != null ? restDay : "";
+	}
+	public String getStylistRestDay() {
+		return restDay;
+	}
+
+	public void setStylistRestTime(String restTime) {
+		this.restTime = restTime != null ? restTime : "";
+	}
+	public String getStylistRestTime() {
+		return restTime;
 	}
 
 }

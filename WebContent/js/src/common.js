@@ -504,6 +504,102 @@ var deleteImage = (function(data){
     };
 })();
 
+//予約情報を登録する関数
+var setReservationInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "setReservationInfo",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//予約情報一覧を取得する関数
+var getReservationList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getReservationList",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//ユーザ予約一覧取得関数
+var getUserReservationList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getUserReservationList",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//予約していた内容の終了関数
+var setReservationFinish = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "setReservationFinish",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//予約したことある顧客一覧関数
+var getCustomerList = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getCustomerList",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//クレーム登録関数
+var setClaim = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "setClaim",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
 
 // リロードボタン押下時
 $('#reload_button').on('click', function() {

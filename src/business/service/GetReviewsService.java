@@ -68,6 +68,7 @@ public class GetReviewsService {
 		    	jsonOneData.put("id", reviewInfo.getReviewId());		    	
 		    	jsonOneData.put("name", userInfoList.get(i).getUserName());
 		    	jsonOneData.put("gender", userInfoList.get(i).getUserSex());
+
 		    	/* 年齢を求める*/
 		    	Date userBirth = userInfoList.get(i).getUserBirth();
 		    	Date nowDate = new Date();

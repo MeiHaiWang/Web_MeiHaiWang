@@ -80,6 +80,7 @@ public class GetMenuInfoService {
 			          t_menu_price,
 			          t_menu_detailText,
 			          t_menu_imagePath,
+			          t_menu_time
 			        },
 			      ]
 			    }
@@ -93,6 +94,7 @@ public class GetMenuInfoService {
 		    	jsonOneData.put("t_menu_price", menuOneInfo.getMenuPrice());
 		    	jsonOneData.put("t_menu_detailText", menuOneInfo.getMenuDetailText());
 		    	jsonOneData.put("t_menu_imagePath", menuOneInfo.getMenuImagePath());
+		    	jsonOneData.put("t_menu_time", menuOneInfo.getMenuTime());
 		    	jsonArray.add(jsonOneData);
 		    }
 		    // 返却用サロンデータ（jsonデータの作成）

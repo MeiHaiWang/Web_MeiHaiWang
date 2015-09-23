@@ -88,6 +88,8 @@ public class GetStaffInfoService {
 			          t_stylist_specialMenu,
 			          t_stylist_message,
 			          t_menu_t_menu_id:カンマ区切りの文字列,
+			          t_stylist_restDay,
+			          t_stylist_restTime
 			        },
 			        ...
 			      ]
@@ -116,6 +118,9 @@ public class GetStaffInfoService {
 		    	jsonOneData.put("t_stylist_message", info.getStylistMessage());
 		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
 		    	jsonOneData.put("t_stylist_searchConditionId", info.getStylistSearchConditionId());
+		    	jsonOneData.put("t_stylist_restDay", info.getStylistRestDay());
+		    	jsonOneData.put("t_stylist_restTime", info.getStylistRestTime());
+		    	
 		    	/*
 		    	//検索条件
 		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();

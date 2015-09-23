@@ -31,6 +31,8 @@ import common.util.DBConnection;
       t_stylist_experienceYear,
       t_stylist_specialMenu,
       t_stylist_message,
+      t_stylist_restDay,
+      t_stylist_restTime
     }
  * @author kanijunnari
  *
@@ -89,6 +91,10 @@ public class SetStaffInfoService {
 				request.getParameter("t_stylist_message").toString() : null;
 		String t_stylist_searchConditionId = request.getParameter("t_stylist_searchConditionId") != null ?
 				request.getParameter("t_stylist_searchConditionId").toString() : null;
+		String t_stylist_restDay = request.getParameter("t_stylist_restDay") != null ?
+				request.getParameter("t_stylist_restDay").toString() : null;
+		String t_stylist_restTime = request.getParameter("t_stylist_restTime") != null ?
+				request.getParameter("t_stylist_restTime").toString() : null;
 
 		//stylistInfo を渡したほうがきれいかも.
 		StylistInfo stylistInfo = new StylistInfo();
@@ -129,6 +135,8 @@ public class SetStaffInfoService {
 		stylistInfo.setSpecialMenu(t_stylist_specialMenu);
 		stylistInfo.setStylistMessage(t_stylist_message);
 		stylistInfo.setStylistSearchConditionId(t_stylist_searchConditionId);
+		stylistInfo.setStylistRestDay(t_stylist_restDay);
+		stylistInfo.setStylistRestDay(t_stylist_restTime);
 		
 		try{
 			DBConnection dbConnection = new DBConnection();

@@ -100,6 +100,28 @@ public class UserDao {
 		return userInfo;
 	}
 
+	public UserInfo getUserInfo(DBConnection dbConnection, int userId) throws SQLException{
+		UserInfo userInfo = new UserInfo();
+		String sql = "SELECT * FROM `t_user` WHERE t_user_Id = ";		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			ResultSet rs = statement.executeQuery(sql+userId);
+			while(rs.next()){
+				userInfo.setUserId(rs.getInt("t_user_id"));
+				userInfo.setUserName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		if(getUserIsStylistInfo(dbConnection, userId)){
+			userInfo.setUserIsStylist(1);			
+		}
+		return userInfo;
+	}
 	
 	public boolean getUserIsStylistInfo(DBConnection dbConnection, int userId) throws SQLException {
 		//UserInfo userInfo = new UserInfo();
@@ -263,25 +285,6 @@ public class UserDao {
 		return userInfo;		
 	}
 	
-	public UserInfo getUserInfoByTel(DBConnection dbConnection, String tel) throws SQLException { 
-		UserInfo userInfo = null;
-		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel;		
-		Statement statement = dbConnection.getStatement();
-		try {			
-			//debug
-			System.out.println(sql);
-			ResultSet rs = statement.executeQuery(sql);
-			while(rs.next()){
-				userInfo = new UserInfo();
-				userInfo.setUserId(rs.getInt("t_user_Id"));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return userInfo;		
-	}
 	public UserInfo getUserInfoByHash(DBConnection dbConnection, String hash) throws SQLException { 
 		UserInfo userInfo = null;
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` = '" + hash + "'";	
@@ -454,4 +457,46 @@ public class UserDao {
 		
 		return u_Id;
 	}
+
+	public UserInfo getUserInfoByTel(DBConnection dbConnection, String tel) throws SQLException { 
+		UserInfo userInfo = null;
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel;		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;		
+	}
+
+	/*
+	public UserInfo getUserInfoByName(DBConnection dbConnection, String t_user_name) {
+		UserInfo userInfo = null;
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_name` =" + t_user_name;		
+		Statement statement = dbConnection.getStatement();
+		try {			
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setUserId(rs.getInt("t_user_Id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userInfo;		
+	}
+	*/
+	
 }

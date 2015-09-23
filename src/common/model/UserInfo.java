@@ -20,7 +20,11 @@ public class UserInfo {
 	private Integer UserIsStylist = -1;
 	private Integer UserMasterSalonId = -1;
 	private String UserPhoneNumber = "";
-
+	private String LatestCutStylist = "";
+	private String LatestCutMemo;
+	private int SalonTraffic; //来店回数
+	private double TotalPayment;
+	
 	public UserInfo(){
 		
 	}
@@ -28,7 +32,6 @@ public class UserInfo {
 	public void setUserMail(String mail){
 		this.UserMail = mail != null ? mail : "";
 	}
-	
 	public String getUserMail(){
 		return UserMail;
 	}
@@ -110,6 +113,34 @@ public class UserInfo {
 	
 	public int getUserMasterSalonId(){
 		return UserMasterSalonId;
+	}
+	
+	public void setLatestCutStylist(String stylistName){
+		this.LatestCutStylist = stylistName != null ? stylistName : "";
+	}
+	public String getLatestCutStylist(){
+		return LatestCutStylist;
+	}
+	
+	public void setLatestCutMemo(String memo){
+		this.LatestCutMemo = memo != null ? memo : "";
+	}
+	public String getLatestCutMemo(){
+		return LatestCutMemo;
+	}
+
+	public void setSalonTraffic(int salonTraffic) {
+		this.SalonTraffic = salonTraffic;
+	}
+	public int getSalonTraffic(){
+		return SalonTraffic;
+	}
+
+	public void setTotalPayment(double totalPayment2) {
+		this.TotalPayment = totalPayment2;
+	}
+	public double getTotalPayment(){
+		return TotalPayment;
 	}
 	
 }

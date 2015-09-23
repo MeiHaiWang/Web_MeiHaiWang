@@ -7,6 +7,7 @@ public class MenuInfo {
 	private int MenuCategoryId = 0;
 	private String MenuDetailText ="";
 	private String MenuImagePath ="";
+	private String menuTime;
 
 	public MenuInfo(){
 		
@@ -57,5 +58,12 @@ public class MenuInfo {
 	
 	public String getMenuDetailText(){
 		return MenuDetailText;
+	}
+
+	public void setMenuTime(String time){
+		this.menuTime = time != null ? time : "";
+	}
+	public String getMenuTime() {
+		return menuTime;
 	}
 }

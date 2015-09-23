@@ -389,6 +389,26 @@ public class MenuDao {
 		}
 		
 		return result;
+	}
+
+	public double getMenuCost(DBConnection dbConnection, List<String> menuIdList) {
+		String sql1= "SELECT `t_menu_price` FROM `t_menu` WHERE `t_menu_menuId` = ";
+		Statement statement = dbConnection.getStatement();
+		double totalCost = 0;
+		
+		for(String menuId : menuIdList){
+			try {
+				//debug
+				System.out.println(sql1+menuId);
+				ResultSet rs = statement.executeQuery(sql1 + menuId);
+				while(rs.next()){
+					totalCost += rs.getInt("t_menu_price");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalCost;
 	}	
 
 }

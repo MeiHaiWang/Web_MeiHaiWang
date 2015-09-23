@@ -108,10 +108,13 @@ public class GetStylistListService {
 		    for(StylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
+		    	jsonOneData.put("t_stylist_Id", info.getStylistId());
 		    	jsonOneData.put("t_stylist_name", info.getStylistName());
 			    stylistArray.add(jsonOneData);
 		    }
-		    jsonObject.put("stylist",stylistArray);		    
+		    jsonObject.put("stylist",stylistArray);	
+		    //debug
+		    //System.out.println(jsonObject.toString(4));
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

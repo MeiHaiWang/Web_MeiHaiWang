@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beauty Hair Net Manager - Album</title>
+    <link href="css/application.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <!-- jQueryUI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+    <!-- Tag-it CSS本体 -->
+    <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <!-- Gantt -->
+    <link href="vendor/jQuery.Gantt/css/style.css" type="text/css" rel="stylesheet">
+    
+    <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
+    <!--[if IE 9]>
+        <link href="css/application-ie9-part2.css" rel="stylesheet">
+    <![endif]-->
+    <link rel="shortcut icon" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body class="nav-static">
+
+<nav id="sidebar" class="sidebar" role="navigation">
+    <div class="js-sidebar-content">
+        <header class="logo hidden-xs">
+            <a href="index.html"><img src="./img/logo.png" width="190" height="75"></a>
+        </header>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="./salon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </span>
+                    店铺信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./stylist.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    店员信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./service.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </span>
+                    服务信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./coupon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                    </span>
+                    优惠券信息管理
+                </a>
+            </li>
+            <li class="active">
+                <a href="./album.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-picture"></i>
+                    </span>
+                    相册管理
+                </a>
+            </li>
+            <li>
+                <a href="./map.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </span>
+                    地图信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./calender.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                    予約カレンダー
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<nav class="page-controls navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li class="ml-sm mr-n-xs hidden-xs">
+                    <a id="reload_button" href="#">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
+                    &nbsp;
+                    <strong id="account-name">User Admin</strong>
+                    &nbsp;
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+<script>
+var logout = (function () {
+    var response = $.ajax({
+        type: "POST",
+        url: API_PATH + "logOutSession",
+        async: false,
+        dataType: "text",
+    }).responseText;
+    response = JSON.parse(response);
+    if (response.result == "true") {
+        location.href = "./index.html";
+    }
+});
+</script>
+                    <li><a id="logout" href="#" onClick="logout();"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<!-- ここからページ内容 -->
+<div class="content-wrap">
+    <main id="content" class="content" role="main">
+        <h1 class="page-title">カレンダーページ</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <section class="widget bg-transparent">
+                    <div class="widget-body">
+                    <dl id="calender_page">
+                        <dt id="calender_regist_area">Calender Page</dt>
+                        <dd>
+                        <table id="calender_table">
+                          <tr>
+                            <td>
+
+                              <table id = "check_list">
+                                <th colspan = 3>
+                                  Check List
+                                </th>
+                                <tr>
+                                  <td>
+                                    <div> 時計 </div>
+                                  </td>
+                                  <td>
+                                    <div> 本日予約数 </div>
+                                  </td>
+                                  <td>
+                                    <div> 本日来店数 </div>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td>
+                                    <!--
+                                    <div id = "reserve_day"> 2015/01/01 </div>
+                                    -->
+                                    <div id="RealtimeClockArea">※ここに時計が表示されます。</div>
+                                  </td>
+                                  <td>
+                                    <div id = "reserve_number"> ? </div>
+                                  </td>
+                                  <td>
+                                    <div id = "customer_number"> ? </div>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td colspan = 3>
+                                    <div id = "customer_management"></div>
+
+                                    <table>
+                                      <th>
+                                        顧客管理
+                                      </th>
+                                      <tr>
+                                        <td>
+                                          <!-- 
+                                          <input placeholeder = "名前 or 電話番号">
+                                          <div id = "react_user_find"></div>
+                                          -->
+                                          <div id = "react_user_find"></div>
+                                          <button>検索</button>
+                                          <button>本日予約一覧</button>
+                                          <button>顧客一覧</button>
+                                        </td>
+                                      </tr>
+                                    </table>
+
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td>
+                              <table id = "calender">
+                                <th>
+                                  Calender
+                                </th>
+                                <tr>
+                                  <td>
+                                    <div id = "calender1"></div>
+                                    <!--
+                                    <form class="form-horizontal">
+                                      <input type="text" class="form-control" id="date">
+                                    </form>
+                                  -->
+                                    <!-- datepicker の表示 -->
+                                    <div id="datepicker"></div>
+                                    <!-- datepicker で選択した日付を表示 -->
+                                    <!--
+                                    <p>日付: <input type="text" id="date_val" /></p>
+                                    -->
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan=2>
+                              <table id = "staff_schedule">
+                                <th>
+                                  Staff Schedule
+                                </th>
+                                <tr>
+                                  <td>
+                                    <div class="gantt"></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        </dd>
+                      </dl>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- ここまでページ内容 -->
+
+
+
+<!-- The Loader. Is shown when pjax happens -->
+<div class="loader-wrap hiding hide">
+    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+</div>
+
+<!-- common libraries. required for every page-->
+<script src="vendor/jquery/dist/jquery.min.js"></script>
+<script src="vendor/jquery-pjax/jquery.pjax.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+<script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="vendor/widgster/widgster.js"></script>
+<script src="vendor/pace.js/pace.min.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+
+<!-- tag-it  -->
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>  
+<script src="others/tag-it.js"></script>
+
+<!-- react -->
+<!-- 
+<script src="js/react.min.js"></script>
+<script src="js/JSXTransformer.js"></script>
+ -->
+<script src="http://fb.me/react-with-addons-0.12.2.js"></script>
+<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+ 
+<!-- common app js -->
+<script src="js/config.js"></script>
+<script src="js/app.min.js"></script>
+<script src="js/common.min.js"></script>
+<script src="js/calender.min.js"></script>
+
+<!-- common app js -->
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+
+<!-- page specific libs -->
+<script id="test" src="vendor/underscore/underscore.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/d3/d3.min.js"></script>
+<script src="vendor/rickshaw/rickshaw.min.js"></script>
+<script src="vendor/raphael/raphael-min.js"></script>
+<script src="vendor/jQuery-Mapael/js/jquery.mapael.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/usa_states.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/world_countries.js"></script>
+<script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script>
+<script src="vendor/jquery-animateNumber/jquery.animateNumber.min.js"></script>
+<!--  <script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script> -->
+
+<!-- カレンダーjs -->
+<script src="vendor/jQuery.Gantt/js/jquery.fn.gantt.js"></script>
+<script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
+
+<script>
+/*  <!-- 時計 --> */
+  function set2fig(num) {
+     // 桁数が1桁だったら先頭に0を加えて2桁に調整する
+     var ret;
+     if( num < 10 ) { ret = "0" + num; }
+     else { ret = num; }
+     return ret;
+  }
+  function showClock2() {
+     var nowTime = new Date();
+     var str = nowTime.getFullYear()+"年";
+     str+= nowTime.getMonth()+1+"月";
+     str+= nowTime.getDate()+"日";
+     if(nowTime.getDay()==0){
+       str+= "("+"日"+")";
+     }else if(nowTime.getDay()==1){
+       str+= "("+"月"+")";
+     }else if(nowTime.getDay()==2){
+       str+= "("+"火"+")";
+     }else if(nowTime.getDay()==3){
+       str+= "("+"水"+")";
+     }else if(nowTime.getDay()==4){
+       str+= "("+"木"+")";
+     }else if(nowTime.getDay()==5){
+       str+= "("+"金"+")";
+     }else if(nowTime.getDay()==6){
+       str+= "("+"土"+")";
+     }
+     var nowHour = set2fig( nowTime.getHours() );
+     var nowMin = set2fig( nowTime.getMinutes() );
+     var nowSec = set2fig( nowTime.getSeconds() );
+     var msg = str + "<br>" + nowHour + ":" + nowMin + ":" + nowSec;
+     document.getElementById("RealtimeClockArea").innerHTML = msg;
+  }
+  setInterval('showClock2()',1000);
+</script>
+
+</body>
+</html>

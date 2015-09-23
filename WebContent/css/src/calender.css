@@ -1,0 +1,190 @@
+#calender_page label{
+  display: block;
+  text-align: right;
+}
+
+#calender_page {
+  margin: 0 auto;
+}
+
+#calender_page input[type="text"],
+#calender_page textarea,
+#calender_page select,
+#calender_page option,
+#calender_list_page select,
+#calender_list_page option {
+  width: 100%;
+  height: 100%;
+}
+
+#calender_page textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+/*
+#calender_page td{
+  width: 250px;
+  height: 50px;
+  padding: 5px 5px;
+}
+*/
+
+#calender_page dt {
+  text-align: center;
+  font-weight: bold;
+}
+
+#calender_page dd {
+  padding: 1em;
+  margin-left: 0em;
+  margin-top: 0.5em;
+  margin-bottom: 3em;
+}
+
+#calender_page table{
+  border: 1px ;
+  width: 100%;
+  height: 100%;
+}
+
+#check_list{
+width: 100%;
+border-color: blue;
+border-collapse: collapse;
+}
+#check_list th{
+width: 25%;
+padding: 6px;
+text-align: center;
+vertical-align: center;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#check_list td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+text-align: center;
+vertical-align: center;
+
+}
+
+#calender{
+width: 100%;
+border-color: blue;
+border-collapse: collapse;
+margin:0 auto;
+}
+#calender th{
+width: 25%;
+padding: 6px;
+text-align: center;
+vertical-align: center;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#calender td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+
+#staff_schedule{
+width: 100%;
+border-color: blue;
+border-collapse: collapse;
+margin:0 auto;
+}
+#staff_schedule th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: center;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#staff_schedule td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+
+
+dt#calender_regist_area {
+  color: #F2AECF;
+  border: solid 1px #F2AECF;
+}
+dt#calender_regist_area + dd {
+  border: solid 1px #F2AECF;
+}
+
+.fn-gantt *,
+.fn-gantt *:after,
+.fn-gantt *:before {
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+}
+
+
+/*
+#calender_regist {
+  text-align: left;
+}
+
+#calender_regist button {
+  width: 200px;
+}
+
+dt#calender_list_area {
+  color: #BAD8D9;
+  border: solid 1px #BAD8D9;
+}
+
+dt#calender_list_area + dd {
+  border: solid 1px #BAD8D9;
+}
+
+div.calender_image_path {
+  position: relative;
+  background-color: white;
+  width: 180px;
+  height: 250px;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+#calender_list_page {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+#calender_list_page th {
+  width: 16%;
+  padding: 4px;
+  text-align: center;
+  vertical-align: top;
+  color: #EDF6F5;
+  background-color: #75BFBF;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+#calender_list_page td{
+  text-align: center;
+  padding: 4px 10px;
+  background-color: #fafafa;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+*/

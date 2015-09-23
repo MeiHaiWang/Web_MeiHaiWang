@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beauty Hair Net Manager - Album</title>
+    <link href="css/application.min.css" rel="stylesheet">
+    <link href="css/style.min.css" rel="stylesheet">
+    <!-- jQueryUI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+    <!-- Tag-it CSS本体 -->
+    <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <!-- Gantt -->
+    <link href="vendor/jQuery.Gantt/css/style.css" type="text/css" rel="stylesheet">
+    
+    <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
+    <!--[if IE 9]>
+        <link href="css/application-ie9-part2.css" rel="stylesheet">
+    <![endif]-->
+    <link rel="shortcut icon" href="img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body class="nav-static">
+
+<nav id="sidebar" class="sidebar" role="navigation">
+    <div class="js-sidebar-content">
+        <header class="logo hidden-xs">
+            <a href="index.html"><img src="./img/logo.png" width="190" height="75"></a>
+        </header>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="./salon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </span>
+                    店铺信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./stylist.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    店员信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./service.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </span>
+                    服务信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./coupon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                    </span>
+                    优惠券信息管理
+                </a>
+            </li>
+            <li class="active">
+                <a href="./album.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-picture"></i>
+                    </span>
+                    相册管理
+                </a>
+            </li>
+            <li>
+                <a href="./map.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </span>
+                    地图信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./calender.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                    予約カレンダー
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<nav class="page-controls navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li class="ml-sm mr-n-xs hidden-xs">
+                    <a id="reload_button" href="#">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
+                    &nbsp;
+                    <strong id="account-name">User Admin</strong>
+                    &nbsp;
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+<script>
+var logout = (function () {
+    var response = $.ajax({
+        type: "POST",
+        url: API_PATH + "logOutSession",
+        async: false,
+        dataType: "text",
+    }).responseText;
+    response = JSON.parse(response);
+    if (response.result == "true") {
+        location.href = "./index.html";
+    }
+});
+</script>
+                    <li><a id="logout" href="#" onClick="logout();"><i class="fa fa-sign-out"></i> &nbsp; Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="content-wrap">
+    <main id="content" class="content" role="main">
+        <h1 class="page-title">予約ページ</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <section class="widget bg-transparent">
+                    <div class="widget-body">
+                    <dl id="reservation_page">
+                        <dt id="reservation_regist_area">予約登録</dt>
+                        <dd>
+                        <table id="reservation_table">
+                          <tr>
+                            <td>
+                              <table id = "reservation_terms">
+                                <tr>
+                                  <td>
+                                    予約日:
+                                  </td>
+                                  <td>
+                                    <form class="form-horizontal">
+                                      <input type="text" class="form-control" id="date">
+                                    </form>
+                                  <!-- 
+                                   <div id="datepicker"></div>
+                                    -->
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    予約時間:
+                                  </td>
+                                  <td>
+                                    <div id="reservation_start"></div>
+                                    -
+                                    <div id="reservation_end"></div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    顧客No.:
+                                  </td>
+                                  <td>
+                                    <!-- 
+                                    <input placeholder = "電話番号">
+                                     -->
+                                     <div id="reservation_user_tel"></div>
+                                    >>
+                                    <button id = "search_button">検索</button>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    顧客名:
+                                  </td>
+                                  <td>
+                                     <div id="reservation_user_name"></div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    年齢層＆性別:
+                                  </td>
+                                  <td>
+                                     <div id="reservation_user_age"></div>
+                                     <div id="reservation_user_sex"></div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    担当者:
+                                  </td>
+                                  <td>
+                                     <div id="reservation_stylist"></div>
+                                  </td>
+                                </tr>
+                              </table>
+
+                            </td>
+                            <td>
+                              <table id = "menu_table">
+                                <tr>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td>
+                                          カット
+                                        </td>
+                                        <td>
+                                          カラー
+                                        </td>
+                                        <td>
+                                          パーマ
+                                        </td>
+                                        <td>
+                                          シャンプー
+                                        </td>
+                                        <td>
+                                          ヘッドスパ
+                                        </td>
+                                        <td>
+                                          トリートメント
+                                        </td>
+                                        <td>
+                                          セットメニュー
+                                        </td>
+                                        <td>
+                                          エクステ
+                                        </td>
+                                        <td>
+                                          睫毛エクステ
+                                        </td>
+                                        <td>
+                                          メイク
+                                        </td>
+                                        <td>
+                                          その他
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <table>
+                                      <tr>
+                                        <td>
+                                          メニュー名
+                                        </td>
+                                        <td>
+                                          施術時間
+                                        </td>
+                                        <td>
+                                          価格
+                                        </td>
+                                        <td>
+                                          予約
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          高級スタイリストカット
+                                        </td>
+                                        <td>
+                                          30
+                                        </td>
+                                        <td>
+                                          5000
+                                        </td>
+                                        <td>
+                                          予約
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan = 2>
+
+                              <table id = "menu_table2">
+                                <tr>
+                                  <td>
+                                    メニュー名
+                                  </td>
+                                  <td>
+                                    開始時間
+                                  </td>
+                                  <td>
+                                    施術時間
+                                  </td>
+                                  <td>
+                                    担当者
+                                  </td>
+                                  <td>
+                                    座席
+                                  </td>
+                                  <td>
+                                    削除
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    高級スタイリストカット
+                                  </td>
+                                  <td>
+                                    13:30
+                                  </td>
+                                  <td>
+                                    30
+                                  </td>
+                                  <td>
+                                    担当者１
+                                  </td>
+                                  <td>
+                                    Seat A
+                                  </td>
+                                  <td>
+                                    削除ボタン
+                                  </td>
+                                </tr>
+                              </table>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <input placeholder = "メモ">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <table>
+                                <tr>
+                                  <td>
+                                    <button>予約登録</button>
+                                  </td>
+                                  <td>
+                                    <button>来店</button>
+                                  </td>
+                                  <td>
+                                    <button>予約取消</button>
+                                  </td>
+                                  <td>
+                                    <button>クレーム</button>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+
+                        </table>
+                        </dd>
+                      </dl>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<!-- The Loader. Is shown when pjax happens -->
+<div class="loader-wrap hiding hide">
+    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+</div>
+
+<!-- common libraries. required for every page -->
+<script src="vendor/jquery/dist/jquery.min.js"></script>
+<script src="vendor/jquery-pjax/jquery.pjax.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+<script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="vendor/widgster/widgster.js"></script>
+<script src="vendor/pace.js/pace.min.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+
+<!-- tag-it  -->
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="others/tag-it.js"></script>
+
+<!-- react -->
+<!-- 
+<script src="js/react.min.js"></script>
+<script src="js/JSXTransformer.js"></script>
+ -->
+<script src="http://fb.me/react-with-addons-0.12.2.js"></script>
+<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+
+<!-- common app js -->
+<script src="js/config.js"></script>
+<script src="js/app.min.js"></script>
+<script src="js/common.min.js"></script>
+<script src="js/reservation.min.js"></script>
+
+<!-- common app js -->
+<script src="js/settings.js"></script>
+<script src="js/app.js"></script>
+
+<!-- page specific libs -->
+<script id="test" src="vendor/underscore/underscore.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/jquery.sparkline/index.js"></script>
+<script src="vendor/d3/d3.min.js"></script>
+<script src="vendor/rickshaw/rickshaw.min.js"></script>
+<script src="vendor/raphael/raphael-min.js"></script>
+<script src="vendor/jQuery-Mapael/js/jquery.mapael.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/usa_states.js"></script>
+<script src="vendor/jQuery-Mapael/js/maps/world_countries.js"></script>
+<script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script>
+<script src="vendor/jquery-animateNumber/jquery.animateNumber.min.js"></script>
+
+<!-- 時計 
+<script>
+function set2fig(num) {
+   // 桁数が1桁だったら先頭に0を加えて2桁に調整する
+   var ret;
+   if( num < 10 ) { ret = "0" + num; }
+   else { ret = num; }
+   return ret;
+}
+function showClock2() {
+   var nowTime = new Date();
+   var str = nowTime.getFullYear()+"年";
+   str+= nowTime.getMonth()+1+"月";
+   str+= nowTime.getDate()+"日";
+   var nowHour = set2fig( nowTime.getHours() );
+   var nowMin = set2fig( nowTime.getMinutes() );
+   var nowSec = set2fig( nowTime.getSeconds() );
+   var msg = str + "<br>" + nowHour + ":" + nowMin + ":" + nowSec;
+   document.getElementById("RealtimeClockArea").innerHTML = msg;
+}
+setInterval('showClock2()',1000);
+</script>
+-->
+
+</body>
+</html>
