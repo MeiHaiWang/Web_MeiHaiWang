@@ -4,7 +4,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.security.Security;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -16,7 +18,11 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptUtil {
-
+	static
+    {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+    }
+	
     public static byte[] generateKey()throws NoSuchAlgorithmException
     {
         final SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -42,9 +48,15 @@ public class EncryptUtil {
     public static byte[] decrypt(byte[] key, byte[] iv, byte[] input) throws NoSuchAlgorithmException,NoSuchPaddingException,InvalidKeyException,InvalidAlgorithmParameterException,IllegalBlockSizeException,BadPaddingException
     {
         final SecretKey secretKey = new SecretKeySpec(key, "AES");
-        final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
-        return cipher.doFinal(input);
+        Cipher cipher = null;
+		try {
+			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding","BC");
+			cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+	        
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		}
+		return cipher.doFinal(input);
     }
     
     public static String getHashValue(String targetValue){
