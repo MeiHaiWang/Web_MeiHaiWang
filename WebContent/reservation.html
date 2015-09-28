@@ -62,7 +62,7 @@
                     优惠券信息管理
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="./album.html">
                     <span class="icon">
                         <i class="glyphicon glyphicon-picture"></i>
@@ -78,7 +78,7 @@
                     地图信息管理
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="./calender.html">
                     <span class="icon">
                         <i class="glyphicon glyphicon-calendar"></i>
@@ -175,9 +175,6 @@ var logout = (function () {
                                     顧客No.:
                                   </td>
                                   <td>
-                                    <!-- 
-                                    <input placeholder = "電話番号">
-                                     -->
                                      <div id="reservation_user_tel"></div>
                                     >>
                                     <button id = "search_button">検索</button>
@@ -215,6 +212,8 @@ var logout = (function () {
                               <table id = "menu_table">
                                 <tr>
                                   <td>
+                                  <div id = "service_category"></div>
+		                            <!-- 
                                     <table>
                                       <tr>
                                         <td>
@@ -252,10 +251,12 @@ var logout = (function () {
                                         </td>
                                       </tr>
                                     </table>
+                                     -->
                                   </td>
                                 </tr>
                                 <tr>
                                   <td>
+                                    <!-- 
                                     <table>
                                       <tr>
                                         <td>
@@ -286,6 +287,8 @@ var logout = (function () {
                                         </td>
                                       </tr>
                                     </table>
+ 									-->
+ 									<div id = "service_list_info" ></div>
                                   </td>
                                 </tr>
                               </table>
@@ -293,8 +296,9 @@ var logout = (function () {
                           </tr>
                           <tr>
                             <td colspan = 2>
-
                               <table id = "menu_table2">
+                              <tr><td>
+						      <!--  
                                 <tr>
                                   <td>
                                     メニュー名
@@ -335,13 +339,15 @@ var logout = (function () {
                                     削除ボタン
                                   </td>
                                 </tr>
+							  -->
+							  <div id = "service_list_info2" ></div>
+							  </td></tr>
                               </table>
-
                             </td>
                           </tr>
                           <tr>
                             <td>
-                              <input placeholder = "メモ">
+                              <input id ="memo" placeholder = "メモ">
                             </td>
                           </tr>
                           <tr>
@@ -349,16 +355,33 @@ var logout = (function () {
                               <table>
                                 <tr>
                                   <td>
-                                    <button>予約登録</button>
+                                    <button id= "regist">予約登録</button>
                                   </td>
                                   <td>
-                                    <button>来店</button>
+                                    <button id="come">来店</button>
                                   </td>
                                   <td>
-                                    <button>予約取消</button>
+                                    <button id="cancel">予約取消</button>
+                                    <div id="dialogdemo1">
+									<p>予約取消</p>
+									</div>
                                   </td>
                                   <td>
-                                    <button>クレーム</button>
+                                    <!--  <button id="claim">クレーム</button> -->
+                                    <div class="jquery-ui-button">
+									    <button id="jquery-ui-dialog-opener">クレーム</button>
+									</div>
+									<div id="jquery-ui-dialog" title="クレーム">
+									    <form>
+									    <fieldset>
+									        <p>
+									            <label for="jquery-ui-dialog-form-comment">メモ</label>
+									            <input type="text" name="jquery-ui-dialog-form-comment" id="jquery-ui-dialog-form-comment" class="text ui-widget-content ui-corner-all" />
+									        </p>
+									    </fieldset>
+									    </form>
+									</div>
+                                    
                                   </td>
                                 </tr>
                               </table>
@@ -399,6 +422,10 @@ var logout = (function () {
 <!-- tag-it  -->
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script src="others/tag-it.js"></script>
+
+<!-- datepicker  -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
 
 <!-- react -->
 <!-- 

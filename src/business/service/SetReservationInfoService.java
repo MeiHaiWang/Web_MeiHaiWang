@@ -61,10 +61,20 @@ public class SetReservationInfoService {
 		//debug
 		//System.out.println("update menuId:"+t_menu_t_menu_id+"...:"+t_menu_t_menu_id.charAt(0));
 
-		ReservationInfo reservationInfo = new ReservationInfo();
-		reservationInfo.setReservationUserId(Integer.parseInt(t_reservation_userId));
-		reservationInfo.setReservationSalonId(Integer.parseInt(t_reservation_salonId));
-		reservationInfo.setReservationStylistId(Integer.parseInt(t_reservation_stylistId));
+		boolean rt = true;
+		if(t_reservation_userId==null || t_reservation_userId==""){
+			rt = false;
+		}
+		if(t_reservation_salonId==null || t_reservation_salonId==""){
+			rt = false;
+		}
+		if(t_reservation_stylistId==null || t_reservation_stylistId==""){
+			rt = false;
+		}
+		if(t_reservation_seatId==null || t_reservation_seatId==""){
+			rt = false;
+		}
+
 		/*
 		Date oneDate;
 		try {
@@ -75,10 +85,16 @@ public class SetReservationInfoService {
 			e1.printStackTrace();
 		}
 		*/
-		reservationInfo.setReservationDate(t_reservation_date);
-		reservationInfo.setReservationMenuId(t_reservation_menuId);
-		reservationInfo.setReservationSeatId(Integer.parseInt(t_reservation_seatId));
-		reservationInfo.setReservationMemo(t_reservation_memo);
+		ReservationInfo reservationInfo = new ReservationInfo();
+		if(rt){
+			reservationInfo.setReservationUserId(Integer.parseInt(t_reservation_userId));
+			reservationInfo.setReservationSalonId(Integer.parseInt(t_reservation_salonId));
+			reservationInfo.setReservationStylistId(Integer.parseInt(t_reservation_stylistId));
+			reservationInfo.setReservationDate(t_reservation_date);
+			reservationInfo.setReservationMenuId(t_reservation_menuId);
+			reservationInfo.setReservationSeatId(Integer.parseInt(t_reservation_seatId));
+			reservationInfo.setReservationMemo(t_reservation_memo);
+		}
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -88,11 +104,13 @@ public class SetReservationInfoService {
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
-				ReservationDao reservationDao = new ReservationDao();
-				result = reservationDao.setReservationInfo(
-						dbConnection,
-						reservationInfo
-						);
+				if(rt){
+					ReservationDao reservationDao = new ReservationDao();
+					result = reservationDao.setReservationInfo(
+							dbConnection,
+							reservationInfo
+							);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

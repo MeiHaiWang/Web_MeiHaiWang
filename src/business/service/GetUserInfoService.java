@@ -59,7 +59,7 @@ public class GetUserInfoService {
 		UserDao dao = new UserDao();
 		if(conn!=null){
 			userInfo = dao.getUserInfoByTel(dbConnection, t_user_tel);
-			if(userInfo.getUserId()>0){
+			if(userInfo!=null && userInfo.getUserId()>0){
 				userInfo = dao.getUserInfo(dbConnection, userInfo.getUserId());
 			}
 		}else{
@@ -80,33 +80,37 @@ public class GetUserInfoService {
 		    }
 		 */
 		
-		// 返却用サロンデータ（jsonデータの作成）
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("t_user_id", userInfo.getUserId());
-		jsonObject.put("t_user_name", userInfo.getUserName());
-		jsonObject.put("t_user_tel", userInfo.getUserPhoneNumber());
-    	/* 年齢を求める*/
-    	Date userBirth = userInfo.getUserBirth();
-    	Date nowDate = new Date();
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-    	Calendar birthDay = Calendar.getInstance();
-    	birthDay.setTime(userBirth);
-    	Calendar today = Calendar.getInstance();
-    	today.setTime(nowDate);
-    	int age = today.get(Calendar.YEAR)-birthDay.get(Calendar.YEAR);
-    	birthDay.clear(Calendar.YEAR);
-    	today.clear(Calendar.YEAR);
-    	if(birthDay.after(today)){
-    		age-=1;
-    	}
-    	jsonObject.put("t_user_age", age);			
-		jsonObject.put("t_user_gender", userInfo.getUserSex());
-	    
-    	PrintWriter out = response.getWriter();
-		out.print(jsonObject);
-		//debug
-		System.out.println(jsonObject.toString(4));
-		out.flush();
+		if(userInfo!=null){
+			// 返却用サロンデータ（jsonデータの作成）
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("t_user_id", userInfo.getUserId());
+			jsonObject.put("t_user_name", userInfo.getUserName());
+			jsonObject.put("t_user_tel", userInfo.getUserPhoneNumber());
+	    	/* 年齢を求める*/
+	    	Date userBirth = userInfo.getUserBirth();
+	    	Date nowDate = new Date();
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	    	Calendar birthDay = Calendar.getInstance();
+	    	birthDay.setTime(userBirth);
+	    	Calendar today = Calendar.getInstance();
+	    	today.setTime(nowDate);
+	    	int age = today.get(Calendar.YEAR)-birthDay.get(Calendar.YEAR);
+	    	birthDay.clear(Calendar.YEAR);
+	    	today.clear(Calendar.YEAR);
+	    	if(birthDay.after(today)){
+	    		age-=1;
+	    	}
+	    	jsonObject.put("t_user_age", age);			
+			jsonObject.put("t_user_gender", userInfo.getUserSex());
+		    
+	    	PrintWriter out = response.getWriter();
+			out.print(jsonObject);
+			//debug
+			System.out.println(jsonObject.toString(4));
+			out.flush();
+		}else{
+			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+		}
 		
 	}catch(Exception e){
 		responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

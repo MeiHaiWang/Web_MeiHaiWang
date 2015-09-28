@@ -124,6 +124,7 @@ public class ReservationDao {
 		/**
 		 *     t_reservation_id,
 			    t_reservation_date,
+			    t_reservation_time,
 			    t_user_name,
 			    t_user_gender,
 			    t_stylist_name,
@@ -146,13 +147,15 @@ public class ReservationDao {
 		Statement statement = dbConnection.getStatement();
 		try {
 			List<String> menuNameList = new ArrayList<String>();
+			int ope_time = 0;
 			ResultSet rs = statement.executeQuery(sql_menu1);
 			while(rs.next()){
-				String sql_menu2 = "SELECT `t_menu_name` FROM `t_menu` WHERE `t_menu_menuId` IN ("+rs.getString("t_reservation_menuId")+")";
+				String sql_menu2 = "SELECT `t_menu_name`, `t_menu_time` FROM `t_menu` WHERE `t_menu_menuId` IN ("+rs.getString("t_reservation_menuId")+")";
 				rs = statement.executeQuery(sql_menu2);
 				while(rs.next()){
 					//menuNames = Arrays.asList(rs.getString("t_menu_name").split(","));
 					menuNameList.add(rs.getString("t_menu_name"));
+					ope_time += rs.getInt("t_menu_time");
 				}
 			}
 			rs = statement.executeQuery(sql);
@@ -175,6 +178,7 @@ public class ReservationDao {
 				reservationInfo.setReservationSeatName(rs.getString("t_seat_name"));
 				reservationInfo.setisFinished(rs.getInt("t_reservation_isFinished"));
 				reservationInfo.setReservationMemo(rs.getString("t_reservation_memo"));
+				reservationInfo.setReservationTime(ope_time);
 				ReservationInfoList.add(reservationInfo);
 			}
 		} catch (SQLException e) {
@@ -271,6 +275,39 @@ public class ReservationDao {
 			e.printStackTrace();
 		}
 		return userIdList;
+	}
+
+	public ReservationInfo getReservationInfo(DBConnection dbConnection,
+			String t_reservation_id) {
+		ReservationInfo reservationInfo = new ReservationInfo();
+		/**
+		 * SELECT `t_reservation_userId` FROM `t_reservation` WHERE `t_reservation_salonId` = 1
+		 */
+		String sql = "SELECT `t_user_tel`, `t_reservation_salonId`, `t_reservation_stylistId`, "
+				+ "`t_reservation_Date`, `t_reservation_isFinished`, `t_reservation_menuId`, "
+				+ "`t_reservation_seatId`, `t_reservation_memo` "
+				+ "FROM `t_reservation` "
+				+ "JOIN t_user ON t_reservation_userId = t_user_id "
+				+ "WHERE `t_reservation_id` = " + t_reservation_id;
+		System.out.println(sql);
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				reservationInfo.setReservationUserTel(rs.getString("t_user_tel"));
+				reservationInfo.setReservationSalonId(rs.getInt("t_reservation_salonId"));
+				reservationInfo.setReservationStylistId(rs.getInt("t_reservation_stylistId"));
+				reservationInfo.setReservationDate(rs.getString("t_reservation_Date"));
+				reservationInfo.setisFinished(rs.getInt("t_reservation_isFinished"));
+				reservationInfo.setReservationMenuId(rs.getString("t_reservation_menuId"));
+				reservationInfo.setReservationSeatId(rs.getInt("t_reservation_seatId"));
+				reservationInfo.setReservationMemo(rs.getString("t_reservation_memo"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reservationInfo;
 	}	
 	
 }

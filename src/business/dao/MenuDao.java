@@ -73,7 +73,7 @@ public class MenuDao {
 	public List<MenuInfo> getMenuInfoForMaster(DBConnection dbConnection,
 			List<Integer> menuIdList) throws SQLException{
 
-		String sql1= "SELECT `t_menu_categoryId`,`t_menu_menuId`, `t_menu_name`, `t_menu_price`,"
+		String sql1= "SELECT `t_menu_categoryId`,`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_time`, "
 				+ "`t_menu_detailText`,`t_menu_imagePath` FROM `t_menu` WHERE `t_menu_menuId` = ";
 		List<MenuInfo> menuInfoList = new ArrayList<MenuInfo>();
 		Statement statement = dbConnection.getStatement();
@@ -87,6 +87,7 @@ public class MenuDao {
 					menuInfo.setMenuId(rs.getInt("t_menu_menuId"));
 					menuInfo.setMenuName(rs.getString("t_menu_name"));
 					menuInfo.setMenuPrice(rs.getInt("t_menu_price"));
+					menuInfo.setMenuTime(rs.getString("t_menu_time"));
 					menuInfo.setMenuDetailText(rs.getString("t_menu_detailText"));
 					menuInfo.setMenuImagePath(rs.getString("t_menu_imagePath"));
 					menuInfoList.add(menuInfo);
@@ -136,7 +137,7 @@ public class MenuDao {
 		String sql_before = "SELECT * FROM `t_menu` WHERE `t_menu_menuId` = "; // menuId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` ("
 				+ "`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, `t_menu_detailText`, "
-				+ "`t_menu_imagePath`) VALUES ('";
+				+ "`t_menu_imagePath`, `t_menu_time`) VALUES ('";
 		String sql2 = "', '";
 		//String sql3 = "NULL";
 		//String sql4 = "0";
@@ -149,6 +150,7 @@ public class MenuDao {
 				+ "`t_menu_price` = '" +  menuInfo.getMenuPrice()  + "',"
 				+ "`t_menu_categoryId` = '" + menuInfo.getMenuCategoryId()  + "',"
 				+ "`t_menu_detailText` = '" +  menuInfo.getMenuDetailText() + "',"
+				+ "`t_menu_time` = '" +  menuInfo.getMenuTime() + "',"
 				+ "`t_menu_imagePath` = '" +  menuInfo.getMenuImagePath()  + "'"
 				+ " WHERE `t_menu`.`t_menu_menuId` = " + menuId;
 
@@ -172,7 +174,8 @@ public class MenuDao {
 					+ menuInfo.getMenuPrice()  + sql2
 					+ menuInfo.getMenuCategoryId()  + sql2
 					+ menuInfo.getMenuDetailText() +sql2
-					+ menuInfo.getMenuImagePath()
+					+ menuInfo.getMenuImagePath() + sql2
+					+ menuInfo.getMenuTime() 
 					+ sql_end;
 	
 			//debug

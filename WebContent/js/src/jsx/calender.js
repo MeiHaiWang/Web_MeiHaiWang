@@ -46,7 +46,7 @@ $(function(){
   }
   str+= nowTime.getMonth()+1+"-";
   str+= nowTime.getDate()+" 00:00:00";
-  //console.log(str);
+  console.log(str);
 
   // セッションIDからサービス情報を取得する
   var session_info = getSessionInfo();
@@ -61,6 +61,7 @@ $(function(){
 				  t_reservation_date: str
 			  });
   reservationList = reservations.reservation_list;
+  console.log("reservationNumber : "+reservationList.length);
   //sanitaize.decode(service_info);
 
   // アカウント名を表示
@@ -125,7 +126,7 @@ $(function(){
     			//console.log(stylists[i].t_stylist_name+":"+reservationList[j].t_reservation_date);
     			var t_from = moment(reservationList[j].t_reservation_date);
     			var t_to = moment(reservationList[j].t_reservation_date).add("hours",2);
-    			//console.log(t_from.valueOf()+","+t_to.valueOf());
+    			console.log(t_from.valueOf()+","+t_to.valueOf());
         	    valueList[i].push(
         	    		{
         					from: "/Date("+t_from.valueOf()+")/",
@@ -159,6 +160,7 @@ $(function(){
     		name:"staff"+i,
     		id: i,
     		desc: stylists[i].t_stylist_name,
+    		values: valueList[i]
     		/*
     		values: [{
     			from: moment("2015-09-22 11:00:00").valueOf(),
@@ -168,7 +170,6 @@ $(function(){
 				dataObj: "data1"
     		}]
     		*/
-    		values: valueList[i]
     	});
     }
         
@@ -176,7 +177,7 @@ $(function(){
 	var stylistName2Id = function(name){
 		var id = -1;
 		for(var i=0; i<stylists.length; i++){
-			console.log(name + "," + stylists[i].t_stylist_name );
+			//console.log(name + "," + stylists[i].t_stylist_name );
 			if(name == stylists[i].t_stylist_name){
 				id = stylists[i].t_stylist_Id;
 			}
@@ -195,6 +196,8 @@ $(function(){
 	      dow : ["日", "月", "火", "水", "木", "金", "土"],
 		onItemClick: function(data) {
 			//alert("進捗バーがクリックされました。"+data);
+			console.log("reservation.html?reservationId="+data);
+            location.href = "reservation.html?reservationId="+data;
 		},
         onAddClick: function(dt, rowId) {
         	if(rowId != undefined ){
@@ -203,16 +206,18 @@ $(function(){
 	           * http://blog.asial.co.jp/1158
 	           */
 	          //console.log(Number(dt), moment(Number(dt)).year());
-	            console.log(Number(dt)+","+rowId + ","+sources[rowId].desc);
+	          //console.log(Number(dt)+","+rowId + ","+sources[rowId].desc);
 	          var m = moment(Number(dt));
-	          var paramTime = m.year() + "-";
-	          paramTime += (m.month() < 10 ) ? '0'+m.month()+"-" : m.month()+"-";
+	          var paramTime = m.year() + "/";
+	          var month = Number(m.month()) + 1;
+	          paramTime += (month < 10 ) ? '0'+month+"/" : month+"/";
 	          paramTime += (m.date() < 10 ) ? '0'+m.date()+" " : m.date()+" ";
 	          paramTime += (m.hours() < 10 ) ? '0'+m.hours()+":" : m.hours()+":";
 	          paramTime += (m.minutes() < 10 ) ? '0'+m.minutes()+":" : m.minutes()+":";
 	          paramTime += (m.seconds() < 10 ) ? '0'+m.seconds() : m.seconds();
 	          var stylistId = stylistName2Id(sources[rowId].desc);
-	          console.log("reservation.html?time="+paramTime+"&stylistId="+stylistId);
+	          alert("reservation.html?time="+paramTime+"&stylistId="+stylistId);
+	          //console.log("reservation.html?time="+paramTime+"&stylistId="+stylistId);
 	          location.href = "reservation.html?time="+paramTime+"&stylistId="+stylistId;
         	}else{
         		//alert("空白部分がクリックされました。"+dt+","+rowId);
@@ -257,5 +262,10 @@ $(function(){
 	  }
 	});
 	*/
- 
+  // 本日の予約一覧ボタン押下時
+  $('#reservation_list_button').on('click', function() {
+		console.log("reservationlist.html?date="+str);
+        location.href = "reservationlist.html?date="+str;
+  });
+
 });

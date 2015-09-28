@@ -31,6 +31,7 @@ reservation_lists:[
   {
     t_reservation_id,
     t_reservation_date,
+    t_reservation_time,
     t_user_name,
     t_user_gender,
     t_stylist_name,
@@ -101,6 +102,7 @@ public class GetReservationListService {
 			  {
 			    t_reservation_id,
 			    t_reservation_date,
+    			t_reservation_time,
 			    t_user_name,
 			    t_user_gender,
 			    t_stylist_name,
@@ -122,6 +124,7 @@ public class GetReservationListService {
 			JSONObject jsonOneData = new JSONObject();
 			jsonOneData.put("t_reservation_id", reservationInfo.getReservationId());
 			jsonOneData.put("t_reservation_date", reservationInfo.getReservationDate());
+			jsonOneData.put("t_reservation_time", reservationInfo.getReservationTime());
 			jsonOneData.put("t_user_name", reservationInfo.getReservationUserName());
 			jsonOneData.put("t_user_gender", reservationInfo.getReservationUserSex());
 			jsonOneData.put("t_stylist_name", reservationInfo.getReservationStylistName());

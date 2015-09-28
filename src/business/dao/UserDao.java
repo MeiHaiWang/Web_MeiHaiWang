@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -477,6 +478,113 @@ public class UserDao {
 		}
 		return userInfo;		
 	}
+
+	public int setRegistUserInfo(DBConnection dbConnection, int salonId,
+			UserInfo userInfo) {
+		/*
+		 * user登録を自動で行う userIdを返す
+		 * 
+		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
+		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_userId` = '1' WHERE `t_stylist`.`t_stylist_Id` = 1;
+		 * 
+		 */
+		
+		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
+		//String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
+		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
+				+ "`t_user_disableFlag`, `t_user_tel`, "
+				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
+				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
+				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
+				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
+		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
+		//String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
+		String sql2 = "', '";
+		String sql3 = "";
+		String sql4 = "0";
+		String sql_end = "');";
+		String uid_sql = "SELECT `t_user_id` FROM `t_user` WHERE `t_user_tel` = "; 
+
+		Statement statement = dbConnection.getStatement();
+		int u_Id = -1;
+
+		/*
+		for(int i=1; i<Integer.MAX_VALUE; i++){
+			try {
+				ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
+				if(!rs2.next()){
+					u_Id = i;
+					break;
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		*/
+
+		int age = userInfo.getUserAge();
+	      Calendar now = Calendar.getInstance(); 
+	      int y = now.get(now.YEAR);          //年を取得	
+	      int year_age = y-age;
+	      //SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	      //String birth = sdf1.format(Integer.toString(year_age)+"-01-01 00:00:00");
+	      String birth = Integer.toString(year_age)+"-01-01 00:00:00";
+	      //debug
+	      System.out.println(birth);
+	      
+	      //TODO 初期パスワードはとりあえず0000
+		String u_sql = u_sql1
+				+ sql4 + sql2
+				+ userInfo.getUserPhoneNumber() + sql2
+				+ userInfo.getUserPhoneNumber() + sql2
+				+ sql3 + sql2
+				+ sql3 + sql2 //cookie
+				+ sql3  + sql2
+				+ userInfo.getUserSex()  + sql2
+				+ birth + sql2
+				+ userInfo.getUserName() + sql2
+				+ sql3 + sql2 //favoriteSalon
+				+ sql3 + sql2 //favoriteStylist
+				+ sql3 + sql2 //latestviewsalon
+				+ sql3 + sql2 //latestviewstylist
+				+ sql3 + sql2 //favoritehairstyle
+				+ sql3 + sql2 //latestviewhairstyle
+				+ sql4 + sql2 //point
+				+ sql4 + sql2 //historysalon
+				+ sql4 //salonId
+				+ sql_end;
+
+		//debug
+		System.out.println(u_sql);
+		
+		int result_int = -1;
+		try {
+			result_int = statement.executeUpdate(u_sql);
+			if(result_int < 0) return -1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(result_int > 0){
+			try {			
+				//debug
+				System.out.println(uid_sql);
+				ResultSet rs = statement.executeQuery(uid_sql+userInfo.getUserPhoneNumber());
+				while(rs.next()){
+					u_Id = rs.getInt("t_user_Id");
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}		
+		}
+
+		//debug
+		// System.out.println("uid:"+u_Id);
+		return u_Id;
+	}
+
 
 	/*
 	public UserInfo getUserInfoByName(DBConnection dbConnection, String t_user_name) {

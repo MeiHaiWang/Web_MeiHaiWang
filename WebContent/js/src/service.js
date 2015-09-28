@@ -88,6 +88,24 @@ $(function(){
     }
   });
 
+  var ServiceTime = React.createClass({displayName: "ServiceTime",
+	    getInitialState:function() {
+	      return {
+	        t_menu_time: ""
+	      };
+	    },
+	    changeText:function(e) {
+	      this.setState({t_menu_time: e.target.value});
+	    },
+	    render:function() {
+	      return (
+	        React.createElement("div", null, 
+	          React.createElement("input", {type: "text", value: this.state.t_menu_time, onChange: this.changeText})
+	        )
+	      );
+	    }
+	  });
+  
   var ServiceImagePath = React.createClass({displayName: "ServiceImagePath",
     getInitialState:function() {
       return {
@@ -138,6 +156,7 @@ $(function(){
     component_service_name.setState(menu);
     component_service_detail_text.setState(menu);
     component_service_price.setState(menu);
+    component_service_time.setState(menu);
     component_service_image_path.setState(menu);
   }
 
@@ -165,6 +184,7 @@ $(function(){
   var component_service_name = React.render(React.createElement(ServiceName, null), document.getElementById('service_name'));
   var component_service_detail_text = React.render(React.createElement(ServiceDetailText, null), document.getElementById('service_detail_text'));
   var component_service_price = React.render(React.createElement(ServicePrice, null), document.getElementById('service_price'));
+  var component_service_time = React.render(React.createElement(ServiceTime, null), document.getElementById('service_time'));
   var component_service_image_path = React.render(React.createElement(ServiceImagePath, null), document.getElementById('service_image_path'));
   var component_service_list = React.render(React.createElement(ServiceList, null), document.getElementById('service_list_info'));
 
@@ -202,6 +222,7 @@ $(function(){
       t_menu_price:              component_service_price.state.t_menu_price,
       t_menu_detailText:         component_service_detail_text.state.t_menu_detailText,
       t_menu_imagePath:          component_service_image_path.state.t_menu_imagePath,
+      t_menu_time:               component_service_time.state.t_menu_time
     }
 
     // サニタイズ

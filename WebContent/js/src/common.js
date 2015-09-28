@@ -520,6 +520,22 @@ var setReservationInfo = (function(data){
     };
 })();
 
+//予約情報を登録する関数
+var getReservationInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getReservationInfo",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
 //予約情報一覧を取得する関数
 var getReservationList = (function(data){
     return function(data) {
@@ -600,6 +616,37 @@ var setClaim = (function(data){
     };
 })();
 
+//ユーザ情報取得関数
+var getUserInfo = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "getUserInfo",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
+
+//ユーザ情報登録関数
+var setRegistUser = (function(data){
+    return function(data) {
+        var response = $.ajax({
+            type: "POST",
+            url: API_PATH + "setRegistUser",
+            async: false,
+            dataType: "text",
+            data: data,
+        }).responseText;
+        response = JSON.parse(response);
+
+        return response;
+    };
+})();
 
 // リロードボタン押下時
 $('#reload_button').on('click', function() {

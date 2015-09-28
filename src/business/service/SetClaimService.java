@@ -67,51 +67,71 @@ public class SetClaimService {
 				request.getParameter("t_claim_message").toString() : null;
   		String t_claim_date = request.getParameter("t_claim_date") != null ?
 				request.getParameter("t_claim_date").toString() : null;
-				
-		ClaimInfo claimInfo = new ClaimInfo();
-		claimInfo.setClaimReservationId(Integer.parseInt(t_claim_reservationId));
-		claimInfo.setClaimSalonId(Integer.parseInt(t_claim_salonId));
-		claimInfo.setClaimUserId(Integer.parseInt(t_claim_userId));
-		claimInfo.setClaimMenuId(Integer.parseInt(t_claim_menuId));
-		claimInfo.setClaimMessage(t_claim_message);
-		claimInfo.setClaimDate(t_claim_date);
-		
-		try{
-			DBConnection dbConnection = new DBConnection();
-			java.sql.Connection conn = dbConnection.connectDB();
 
-			boolean result = false;
-			JSONObject jsonObject = new JSONObject();
-			
-			if(conn!=null){
-				ClaimDao claimDao = new ClaimDao();
-				result = claimDao.setColaim(
-						dbConnection,
-						claimInfo
-						);
-				dbConnection.close();
-			}else{
+				
+		boolean rt = true;
+		if(t_claim_userId==null || t_claim_userId==""){
+			rt = false;
+		}
+		if(t_claim_reservationId==null || t_claim_reservationId==""){
+			rt = false;
+		}
+		if(t_claim_salonId==null || t_claim_salonId==""){
+			rt = false;
+		}
+		if(t_claim_menuId==null || t_claim_menuId==""){
+			rt = false;
+		}
+
+		if(rt){
+			ClaimInfo claimInfo = new ClaimInfo();
+			claimInfo.setClaimReservationId(Integer.parseInt(t_claim_reservationId));
+			claimInfo.setClaimSalonId(Integer.parseInt(t_claim_salonId));
+			claimInfo.setClaimUserId(Integer.parseInt(t_claim_userId));
+			claimInfo.setClaimMenuId(Integer.parseInt(t_claim_menuId));
+			claimInfo.setClaimMessage(t_claim_message);
+			claimInfo.setClaimDate(t_claim_date);
+	
+			try{
+				DBConnection dbConnection = new DBConnection();
+				java.sql.Connection conn = dbConnection.connectDB();
+	
+				boolean result = false;
+				JSONObject jsonObject = new JSONObject();
+				
+				if(conn!=null){
+					ClaimDao claimDao = new ClaimDao();
+					result = claimDao.setColaim(
+							dbConnection,
+							claimInfo
+							);
+					dbConnection.close();
+				}else{
+					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+					throw new Exception("DabaBase Connect Error");
+				}
+				
+				/*
+				    {
+				      result:レコード更新成否,
+				      t_coupon_couponId:登録したサービスのID,
+				    }
+				 */
+				
+				String resultStr = String.valueOf( result );
+		    	jsonObject.put("result", resultStr);		    	
+				
+			    PrintWriter out = response.getWriter();
+			    out.print(jsonObject);
+			    out.flush();
+			    
+			}catch(Exception e){
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-				throw new Exception("DabaBase Connect Error");
+				e.printStackTrace();
 			}
-			
-			/*
-			    {
-			      result:レコード更新成否,
-			      t_coupon_couponId:登録したサービスのID,
-			    }
-			 */
-			
-			String resultStr = String.valueOf( result );
-	    	jsonObject.put("result", resultStr);		    	
-			
-		    PrintWriter out = response.getWriter();
-		    out.print(jsonObject);
-		    out.flush();
-		    
-		}catch(Exception e){
+		
+		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
 	    
 		response.setStatus(responseStatus);

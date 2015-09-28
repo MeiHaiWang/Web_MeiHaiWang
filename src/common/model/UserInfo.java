@@ -10,6 +10,7 @@ public class UserInfo {
 	private String UserImagePath="";
 	private int UserSex = 0;
 	private Date UserBirth = new Date(0);
+	private int UserAge= 0;
 	private String UserName ="";
 	private String UserFavoriteSalonId = "";
 	private String UserFavoriteStylistId = "";
@@ -142,5 +143,13 @@ public class UserInfo {
 	public double getTotalPayment(){
 		return TotalPayment;
 	}
+
+	public void setUserAge(int userAge){
+		this.UserAge = userAge;
+	}
 	
+	public int getUserAge(){
+		return UserAge;
+	}
+
 }
