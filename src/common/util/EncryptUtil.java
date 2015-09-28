@@ -51,15 +51,13 @@ public class EncryptUtil {
     {
         final SecretKey secretKey = new SecretKeySpec(key,"AES");
         Cipher cipher = null;
-        int BLOCK_SIZE = 0;
 		try {
 			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding","BC");
-			BLOCK_SIZE = cipher.getBlockSize();
 			cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
 		}
-		return cipher.doFinal(input,BLOCK_SIZE,input.length-BLOCK_SIZE);
+		return cipher.doFinal(input);
     }
     
     public static String getHashValue(String targetValue){
