@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.util.encoders.Base64;
+
 import business.service.UserLoginService;
 import common.util.EncryptUtil;
 
@@ -77,20 +79,26 @@ public class UserLoginAction extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
-		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes();
-		byte[] eTel = request.getParameter("etel").getBytes();
-		byte[] etelIv = request.getParameter("telIv").getBytes();
-		byte[] epw = request.getParameter("epw").getBytes();
-		byte[] epwIv = request.getParameter("pwIv").getBytes();
+		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes("UTF-8");
+		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
+		final byte[] ivIv = "azu93fzzei93084j".getBytes("UTF-8");
+		
+		byte[] eTel = Base64.decode(request.getParameter("etel"));
+		byte[] etelIv = Base64.decode(request.getParameter("etelIv"));
+		byte[] epw = Base64.decode(request.getParameter("epw"));
+		byte[] epwIv = Base64.decode(request.getParameter("epwIv"));
 		int snsLinkFlag = request.getParameter("snsLink") != null ?
 				Integer.parseInt(request.getParameter("snsLink").toString()) : 0;
 		String userHash = request.getParameter("userHash") != null ?
 				request.getParameter("userHash").toString() : null;
-		if(userHash == "NULL") userHash = null;
+		
+		if(userHash == "NULL" ) userHash = null;
 		
 		try {
-			byte[] tel = EncryptUtil.decrypt(key, etelIv, eTel);
-			byte[] pw = EncryptUtil.decrypt(key, epwIv, epw);
+			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
+			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
+			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes("UTF-8"), eTel));
+			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes("UTF-8"), epw));
 			
 			if(snsLinkFlag == 0){
 				UserLoginService service = new UserLoginService();

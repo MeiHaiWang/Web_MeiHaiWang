@@ -270,7 +270,7 @@ public class UserDao {
 	
 	public UserInfo getUserInfoByLoginInfo(DBConnection dbConnection, String pw, String tel) throws SQLException { 
 		UserInfo userInfo = null;
-		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel + " AND `t_user_passward` =" + pw ;		
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + "'"+tel+"'" + " AND `t_user_passward` =" + "'"+pw+"'";		
 		Statement statement = dbConnection.getStatement();
 		try {			
 			ResultSet rs = statement.executeQuery(sql);
