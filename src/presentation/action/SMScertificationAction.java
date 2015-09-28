@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.util.encoders.Base64;
+
 import common.util.EncryptUtil;
 import business.service.AddHairStyleFavoriteService;
 import business.service.SMScertificationService;
@@ -82,12 +84,12 @@ public class SMScertificationAction extends HttpServlet {
 		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
 		final byte[] ivIv = "azu93fzzei93084j".getBytes("UTF-8");
 		
-		byte[] eTel = request.getParameter("etel").getBytes("UTF-8");
-		byte[] etelIv = request.getParameter("etelIv").getBytes("UTF-8");
-		byte[] epw = request.getParameter("epw").getBytes("UTF-8");
-		byte[] epwIv = request.getParameter("epwIv").getBytes("UTF-8");
+		byte[] eTel = Base64.decode(request.getParameter("etel"));
+		byte[] etelIv = Base64.decode(request.getParameter("etelIv"));
+		byte[] epw = Base64.decode(request.getParameter("epw"));
+		byte[] epwIv = Base64.decode(request.getParameter("epwIv"));
 		System.out.println(request.getParameter("etelIv"));
-		
+		System.out.println(request.getParameter("epwIv"));
 		try {
 			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
 			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));

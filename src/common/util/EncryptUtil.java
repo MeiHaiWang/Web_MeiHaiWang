@@ -17,6 +17,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 public class EncryptUtil {
 	static
     {
@@ -47,16 +49,17 @@ public class EncryptUtil {
  
     public static byte[] decrypt(byte[] key, byte[] iv, byte[] input) throws NoSuchAlgorithmException,NoSuchPaddingException,InvalidKeyException,InvalidAlgorithmParameterException,IllegalBlockSizeException,BadPaddingException
     {
-        final SecretKey secretKey = new SecretKeySpec(key, "AES");
+        final SecretKey secretKey = new SecretKeySpec(key,"AES");
         Cipher cipher = null;
+        int BLOCK_SIZE = 0;
 		try {
 			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding","BC");
+			BLOCK_SIZE = cipher.getBlockSize();
 			cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
-	        
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
 		}
-		return cipher.doFinal(input);
+		return cipher.doFinal(input,BLOCK_SIZE,input.length-BLOCK_SIZE);
     }
     
     public static String getHashValue(String targetValue){
