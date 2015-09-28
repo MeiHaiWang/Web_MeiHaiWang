@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bouncycastle.util.encoders.Base64;
+
 import common.util.EncryptUtil;
 import business.service.AddHairStyleFavoriteService;
 import business.service.SMScertificationService;
@@ -78,21 +80,21 @@ public class SMScertificationAction extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		String keyStr = "azu93fzzei93084jnnekamel2asdfghj";
-		final byte[] key = keyStr.getBytes();
+		final byte[] key = keyStr.getBytes("UTF-8");
 		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
-		final byte[] ivIv = new String(keyStr.getBytes("UTF-8"), 0, 16, "UTF-8").getBytes();
+		final byte[] ivIv = "azu93fzzei93084j".getBytes("UTF-8");
 		
-		byte[] eTel = request.getParameter("etel").getBytes();
-		byte[] etelIv = request.getParameter("etelIv").getBytes();
-		byte[] epw = request.getParameter("epw").getBytes();
-		byte[] epwIv = request.getParameter("epwIv").getBytes();
-		
+		byte[] eTel = Base64.decode(request.getParameter("etel"));
+		byte[] etelIv = Base64.decode(request.getParameter("etelIv"));
+		byte[] epw = Base64.decode(request.getParameter("epw"));
+		byte[] epwIv = Base64.decode(request.getParameter("epwIv"));
+		System.out.println(request.getParameter("etelIv"));
+		System.out.println(request.getParameter("epwIv"));
 		try {
 			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
 			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
-			
-			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes(), eTel));
-			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes(), epw));
+			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes("UTF-8"), eTel));
+			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes("UTF-8"), epw));
 			//MEMO 暫定で登録する
 			//TODO SMS認証サービスを使用してワンタイムキーを返却する
 			SMScertificationService service = new SMScertificationService();
