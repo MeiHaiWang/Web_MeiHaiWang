@@ -56,6 +56,7 @@ border-collapse: collapse;
 }
 #check_list th{
 width: 25%;
+height: 10px;
 padding: 6px;
 text-align: center;
 vertical-align: center;
@@ -88,10 +89,18 @@ background-color: #eee;
 border: 1px solid #b9b9b9;
 }
 #calender td{
+text-align: center;
+vertical-align: center;
 padding: 6px;
 background-color: #fff;
 border: 1px solid #b9b9b9;
 }
+#datepicker{
+margin-right:auto; 
+margin-left:auto; 
+width:100px; 
+}
+
 
 #staff_schedule{
 width: 100%;

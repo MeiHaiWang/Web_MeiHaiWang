@@ -190,7 +190,7 @@ $(function(){
 		source: sources,
 		scale: "hours",
 		navigate: "scroll",
-		maxScale: "hours",
+		maxScale: "days",
 		itemsPerPage: 10,
 	      months : ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 	      dow : ["日", "月", "火", "水", "木", "金", "土"],
@@ -266,6 +266,12 @@ $(function(){
   $('#reservation_list_button').on('click', function() {
 		console.log("reservationlist.html?date="+str);
         location.href = "reservationlist.html?date="+str;
+  });
+
+  // 顧客一覧ボタン押下時
+  $('#customer_list_button').on('click', function() {
+		console.log("customer.html");
+        location.href = "customer.html";
   });
 
 });
