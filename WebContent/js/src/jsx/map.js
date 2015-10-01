@@ -91,6 +91,7 @@ $(function(){
     if($(this).prop('files')[0]){
       var data = new FormData($('#update')[0]);
 
+      console.log("async upload image.");
       //非同期アップロード
       (function(data){
           $.ajax({
