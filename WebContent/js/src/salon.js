@@ -880,6 +880,18 @@ $(function(){
       t_hairSalonMaster_pass:              component_salon_pass.state.t_hairSalonMaster_pass
     }
 
+    /*
+    //debug
+    alert("regist salonData:" +
+    		"salonId:"+data.t_hairSalonMaster_salonId
+    		+"/n name:"+data.t_hairSalonMaster_name
+    		+"/n credit:"+data.t_hairSalonMaster_creditAvailable
+    		+"/n carPark:"+data.t_hairSalonMaster_carParkAvailable
+    		+"/n japanese:"+data.t_hairSalonMaster_japaneseAvailable
+    		+"/n searchId:"+data.t_hairSalonMaster_searchConditionId
+    );
+    */
+    
     sanitaize.encode(data);
 
     var result = setSalonInfo(data);

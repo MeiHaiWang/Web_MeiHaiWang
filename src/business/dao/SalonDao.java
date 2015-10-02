@@ -640,8 +640,10 @@ public class SalonDao {
 				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
 				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
 
-				salonInfo.setSalonCreditAvailable(rs.getBoolean("t_hairSalonMaster_creditAvailable"));
-				salonInfo.setSalonCarParkAvailable(rs.getBoolean("t_hairSalonMaster_carParkAvailable"));
+				//salonInfo.setSalonCreditAvailable(rs.getBoolean("t_hairSalonMaster_creditAvailable"));
+				//salonInfo.setSalonCarParkAvailable(rs.getBoolean("t_hairSalonMaster_carParkAvailable"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
 
 				t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
 				countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
@@ -691,8 +693,9 @@ public class SalonDao {
 				ResultSet rs = statement.executeQuery(countrySql + t_country_countryId);
 				while(rs.next()){
 					salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
-					boolean japaneseAvailable = false;
-					if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
+					//boolean japaneseAvailable = false;
+					int japaneseAvailable = -1;
+					if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
 					salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
 				}	
 			} catch (SQLException e) {
@@ -780,7 +783,7 @@ public class SalonDao {
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
 		}
 		*/
-		if(salonInfo.getJapaneseAvailable()){
+		if(salonInfo.getJapaneseAvailable()==1){
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
 		}
 
@@ -809,8 +812,10 @@ public class SalonDao {
 			 +sql_end;
 			 */
 		//boolean -> int
-		int creditAvailable =  salonInfo.getSalonCreditAvailable() ? 1 : 0;
-		int carParkAvailable =  salonInfo.getSalonCarParkAvailable() ? 1 : 0;
+//		int creditAvailable =  salonInfo.getSalonCreditAvailable() ? 1 : 0;
+//		int carParkAvailable =  salonInfo.getSalonCarParkAvailable() ? 1 : 0;
+		int creditAvailable =  salonInfo.getSalonCreditAvailable();
+		int carParkAvailable =  salonInfo.getSalonCarParkAvailable();
 		
 		//debug
 		System.out.println("mail&pass:"+salonInfo.getMail()+","+salonInfo.getPassword());

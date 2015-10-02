@@ -120,6 +120,17 @@ public class SetSalonInfoService {
 			e1.printStackTrace();
 		}
 		*/
+		/*
+		System.out.println(
+			    "regist salonData:" +
+			    		"salonId:"+salonId
+			    		+"/n name:"+t_hairSalonMaster_name
+			    		+"/n credit:"+t_hairSalonMaster_creditAvailable
+			    		+"/n carPark:"+t_hairSalonMaster_carParkAvailable
+			    		+"/n japanese:"+t_hairSalonMaster_japaneseAvailable
+			    		+"/n searchId:"+t_hairSalonMaster_searchConditionId
+	    		);
+	    		*/
 				
       //salonInfo を渡したほうがきれいかも.
 		HairSalonInfo salonInfo = new HairSalonInfo();
@@ -130,11 +141,11 @@ public class SetSalonInfoService {
 		salonInfo.setSalonOpenTime(t_hairSalonMaster_openTime);
 		salonInfo.setSalonCloseTime(t_hairSalonMaster_closeTime);
 		salonInfo.setSalonCloseDay(t_hairSalonMaster_closeDay);
-		salonInfo.setSalonCreditAvailable(Boolean.getBoolean(t_hairSalonMaster_creditAvailable));
-		salonInfo.setSalonCarParkAvailable(Boolean.getBoolean(t_hairSalonMaster_carParkAvailable));
+		salonInfo.setSalonCreditAvailable(Integer.parseInt(t_hairSalonMaster_creditAvailable));
+		salonInfo.setSalonCarParkAvailable(Integer.parseInt(t_hairSalonMaster_carParkAvailable));
 		salonInfo.setHairSalonImagePath(t_hairSalonMaster_salonImagePath);
 		//salonInfo.setSalonAvailableCountries(t_hairSalonMaster_japaneseAvailable);
-		salonInfo.setSalonJapaneseAvailable(Boolean.getBoolean(t_hairSalonMaster_japaneseAvailable));
+		salonInfo.setSalonJapaneseAvailable(Integer.parseInt(t_hairSalonMaster_japaneseAvailable));
 		salonInfo.setSalonSearchConditionId(t_hairSalonMaster_searchConditionId);
 		salonInfo.setMail(t_hairSalonMaster_mail);
 		salonInfo.setPassword(t_hairSalonMaster_pass);

@@ -39,9 +39,9 @@ public class HairSalonInfo {
     private String closeTime = "";
     private String closeDay = "";
     private String countryName = "";
-    private boolean creditAvailable = false;
-    private boolean carParkAvailable = false;
-    private boolean japaneseAvailable = false;
+    private int creditAvailable = -1;
+    private int carParkAvailable = -1;
+    private int japaneseAvailable = -1;
     
     private String areaId = "";
 	private String searchConditionId = "";
@@ -266,27 +266,27 @@ public class HairSalonInfo {
 		return countryName;
 	}
 
-	public void setSalonCreditAvailable(boolean creditAvailable){
+	public void setSalonCreditAvailable(int creditAvailable){
 		this.creditAvailable = creditAvailable;
 	}
 	
-	public boolean getSalonCreditAvailable(){
+	public int getSalonCreditAvailable(){
 		return creditAvailable;
 	}
 
-	public void setSalonCarParkAvailable(boolean carParkAvailable){
+	public void setSalonCarParkAvailable(int carParkAvailable){
 		this.carParkAvailable = carParkAvailable;
 	}
 	
-	public boolean getSalonCarParkAvailable(){
+	public int getSalonCarParkAvailable(){
 		return carParkAvailable;
 	}
 
-	public void setSalonJapaneseAvailable(boolean japaneseAvailable){
+	public void setSalonJapaneseAvailable(int japaneseAvailable){
 		this.japaneseAvailable = japaneseAvailable;
 	}
 	
-	public boolean getJapaneseAvailable(){
+	public int getJapaneseAvailable(){
 		return japaneseAvailable;
 	}
 
