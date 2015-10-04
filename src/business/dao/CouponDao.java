@@ -128,6 +128,7 @@ public class CouponDao {
 				+ "`t_coupon_useCondition` = '" + couponInfo.getUseCondition()  + "',"
 				+ "`t_coupon_price` = '" +  couponInfo.getPrice()  + "',"
 				+ "`t_coupon_deadLine` = '" +  couponInfo.getDeadLine()  + "',"
+				+ "`t_coupon_presentationCondition` = '" +  couponInfo.getPresentationCondition()  + "',"
 				+ "`t_coupon_imagePath` = '" +  couponInfo.getImagePath()  + "'"
 				+ " WHERE `t_coupon`.`t_coupon_Id` = " + couponId;
 		
