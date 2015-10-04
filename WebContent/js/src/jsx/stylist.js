@@ -544,13 +544,20 @@ $(function(){
         // サニタイズ
         sanitaize.encode(data);
 
+        //debug
+        console.log(
+               " t_stylist_Id: "+            component_stylist_name.state.t_stylist_stylist_id+
+               " t_stylist_name: "+          component_stylist_name.state.t_stylist_name
+        );
+        
         var result = setStaffInfo(data);
         if (result.result == "true") {
           alert('Regist Success');
           window.location.reload();
         }
         else {
-          alert('Regist Failed');
+//            alert('Regist Failed');
+            alert('Regist Failed' + result.reason);
         }
     }
   });

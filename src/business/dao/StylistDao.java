@@ -432,10 +432,19 @@ public class StylistDao {
 		 * 
 		 */
 		
-		//Select
+		//INSERTメソッド
+		/*
 		String sql_before = "SELECT * FROM `t_stylist` WHERE `t_stylist_Id` = "; // stylistId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` ("
 				+ "`t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, "
+				+ "`t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, "
+				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
+				+ "`t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, "
+				+ "`t_stylist_hairStyleId`, `t_stylist_salonId`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`, "
+				+ "`t_stylist_searchConditionId`, `t_stylist_areaId`) VALUES ('";
+				*/
+		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` ("
+				+ "`t_stylist_name`, `t_stylist_sex`, `t_stylist_detailText`, "
 				+ "`t_stylist_userId`, `t_stylist_imagePath`, `t_stylist_position`, `t_stylist_message`, "
 				+ "`t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_goodNumber`, `t_stylist_viewNumber`, "
 				+ "`t_stylist_mail`, `t_stylist_phoneNumber`, `t_stylist_birth`, `t_stylist_menuId`, "
@@ -447,6 +456,7 @@ public class StylistDao {
 		String sql4 = "0";
 		String sql_end = "');";
 
+		//UPDATEメソッド
 		/*
 		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
@@ -475,19 +485,30 @@ public class StylistDao {
 				+ "`t_stylist_specialMenu` = '" +  stylistInfo.getSpecialMenu()  + "', "
 				+ "`t_stylist_mail` = '" +  stylistInfo.getMail()  + "', "
 				+ "`t_stylist_phoneNumber` = '" +  stylistInfo.getPhoneNumber()  + "', "
-				+ "`t_stylist_birth` = '" +  birth  + "'"
+				+ "`t_stylist_birth` = '" +  birth  + "', "
 				+ "`t_stylist_searchConditionId` = '" +  stylistInfo.getStylistSearchConditionId()  + "'"
 				+ " WHERE `t_stylist`.`t_stylist_Id` = " + stylistId;
 
-		//Select
+		//サロンid追加メソッド
 		String salon_sql1 = "SELECT `t_hairSalonMaster_stylistId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 		String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_stylistId` = '";
 		String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
 		String salon_sql2_after = ";";
 		
+		//tel -> stylistIdを取得
+		String sid_sql = "SELECT `t_stylist_id` FROM `t_stylist` WHERE `t_stylist_phoneNumber` ="; 
+
+		//DBステートメント
 		Statement statement = dbConnection.getStatement();
-		
+
+		/**
+		 * stylistIdが0より小さい場合は新規スタイリスト登録
+		 * stylistIdが0より大きい場合はスタイリスト情報修正
+		 */
 		if(stylistId < 0){
+			/*
+			 * （ 2015/10/04 ）stylistIdがAutoIncrementalのためコメントアウト
+			 * 空いているstylistIdを探す
 			for(int i=1; i<Integer.MAX_VALUE; i++){
 				try {
 					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
@@ -499,8 +520,11 @@ public class StylistDao {
 					e.printStackTrace();
 				}
 			}
-		
-			String sql = sql1 +stylistId + sql2
+			*/
+			
+			//INSERTメソッドを形成
+			String sql = sql1 
+//					+ stylistId + sql2
 					+ stylistInfo.getStylistName() + sql2
 					+ stylistInfo.getStylistGender()  + sql2
 					+ sql3 + sql2 //detail
@@ -529,14 +553,32 @@ public class StylistDao {
 			
 			try {
 				int result_int = statement.executeUpdate(sql);
-				if(result_int >= 0) result = true;
-				else return -1;
+				if(result_int >= 0){
+					result = true;
+					//debug
+					System.out.println("result_int = " + result_int);
+				}
+				else{
+					return -1;
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//stylistIdを検索
+			try {			
+				//debug
+				System.out.println(sid_sql+"'"+stylistInfo.getPhoneNumber()+"'");
+				ResultSet rs = statement.executeQuery(sid_sql+"'"+stylistInfo.getPhoneNumber()+"'");
+				while(rs.next()){
+					stylistId = rs.getInt("t_stylist_Id");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}		
 
-			//* stylist をsalon　に足さなきゃ
+			// サロンテーブルにsylistIdを追加
 			ResultSet rs;
 			String stylistIdList = "";
 			try {
@@ -549,10 +591,10 @@ public class StylistDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			String salon_sql;
 			if(stylistId != -1){
-				if(stylistIdList!=""&&stylistIdList!=null){
+				if(stylistIdList!=""&&stylistIdList!=null){ //スタイリスト一人目
 					salon_sql =  salon_sql2_before + stylistIdList + "," + stylistId + salon_sql2_middle + salonId + salon_sql2_after;				
 				}else{
 					salon_sql =  salon_sql2_before + stylistId + salon_sql2_middle + salonId + salon_sql2_after;								

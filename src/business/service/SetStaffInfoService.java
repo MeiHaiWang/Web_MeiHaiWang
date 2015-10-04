@@ -1,5 +1,6 @@
 package business.service;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -60,11 +61,15 @@ public class SetStaffInfoService {
 			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
 		}else{
 			//session is null.
+			response = faultError(response, "session is null.");
+			return response;
 		}
 		if(salonId_str.compareTo("") != 0){
 			salonId = Integer.parseInt(salonId_str);
 		}else{
 			//salonId is null.
+			response = faultError(response, "salonId is empty.");
+			return response;
 		}
 		
 		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
@@ -145,7 +150,15 @@ public class SetStaffInfoService {
 			boolean result = false;
 			int stylistId = -1;
 			if(t_stylist_Id != null){
-				if(t_stylist_Id.length()!=0) stylistId = Integer.parseInt(t_stylist_Id);
+				//debug
+				//スタイリスト情報の登録か編集かを調べるために、stylistIdをチェック
+				System.out.println("stylistId:"+t_stylist_Id);
+				if(t_stylist_Id.length()!=0){
+					//スタイリストの編集
+					stylistId = Integer.parseInt(t_stylist_Id);
+				}else{
+					//スタイリストの新規登録
+				}
 			}
 			int userId = -1; //registered UserId
 			
@@ -155,12 +168,26 @@ public class SetStaffInfoService {
 				UserDao userDao = new UserDao();
 				UserInfo userInfo = null;
 				if(t_stylist_phoneNumber!=""){
+					//電話番号からユーザ情報を取得
 					userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
 				}
-				//スタイリストが既にユーザ登録されている場合
 				if(userInfo != null){
+					//スタイリストが既にユーザ登録されている場合
 					userId = userInfo.getUserId();
+					System.out.println("userId:"+userInfo.getUserId());
+					//ユーザ情報をアップデート
+					userInfo.setUserMail(stylistInfo.getMail());
+					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
+					userInfo.setUserIsStylist(1);
+					userInfo.setUserName(stylistInfo.getStylistName());
+					userInfo.setUserSex(stylistInfo.getStylistGender());
+					userInfo.setUserBirth(stylistInfo.getBirth());
+					userInfo.setUserImagePath(stylistInfo.getImagePath());
+					userId = userDao.setUserAcount(dbConnection, userInfo);
+					//debug
+					System.out.println("スタイリストがすでにユーザ登録済み");
 				}else{
+					//ユーザ情報が登録されていない場合
 					userInfo = new UserInfo();
 					userInfo.setUserMail(stylistInfo.getMail());
 					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
@@ -171,8 +198,12 @@ public class SetStaffInfoService {
 					userInfo.setUserImagePath(stylistInfo.getImagePath());
 					userInfo.setUserPass("0000"); //TODO 初期パスワード
 					userId = userDao.setUserAcount(dbConnection, userInfo);
+					//debug
+					System.out.println("スタイリストを新規にユーザ登録:userId="+userId);
 				}
 				if(userId>-1){
+					//debug
+					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getStylistName());
 					StylistDao stylistDao = new StylistDao();
 					stylistId = stylistDao.setStylistInfoForMaster(
 							dbConnection,
@@ -181,8 +212,19 @@ public class SetStaffInfoService {
 							stylistId,
 							userId
 							);
+				}else{
+					//userId is null.
+					response = faultError(response, "Fault in Set-User-Registration."
+							+ "Your phone-number may be used by another.");
+					return response;
 				}
-				if(stylistId >= 0) result = true;
+				if(stylistId >= 0){
+					result = true;
+				}else{
+					//stylistId is -1
+					response = faultError(response, "Fault in Set-Stylist-Infomation.");
+					return response;
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -223,4 +265,22 @@ public class SetStaffInfoService {
         return date;
     }
     */
+
+	//エラーメソッド　何らかの理由でアクションに失敗
+	public HttpServletResponse faultError(HttpServletResponse response, String resultStr){
+		int responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "false");
+		jsonObject.put("reason", resultStr);
+	    try {
+			PrintWriter out = response.getWriter();
+		    out.print(jsonObject);
+		    out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		response.setStatus(responseStatus);
+		return response;
+	}
+	
 }

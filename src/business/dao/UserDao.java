@@ -384,20 +384,20 @@ public class UserDao {
 		 * user登録を自動で行う userIdを返す
 		 * 
 		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
-		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_userId` = '1' WHERE `t_stylist`.`t_stylist_Id` = 1;
+		 * UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_mail` = '111aaa', `t_user_passward` = '0000aaa' WHERE `t_user`.`t_user_Id` = 24;
 		 * 
 		 */
 		
 		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
-		String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
+		//String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
 				+ "`t_user_disableFlag`, `t_user_tel`, "
 				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
 				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
 				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
 				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
-		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
-		//String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
+		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET ";
+		//String u_sql_update_after = "' WHERE `t_user`.`t_user_Id` =";
 		String sql2 = "', '";
 		String sql3 = "";
 		String sql4 = "0";
@@ -445,15 +445,57 @@ public class UserDao {
 				+ sql4 //salonId
 				+ sql_end;
 
-		//debug
-		System.out.println(u_sql);
+		//update
+		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET "
+				+ "`t_user_name` = '" + userInfo.getUserName() + "', "
+				+ "`t_user_sex` = '" + userInfo.getUserSex() + "', "
+				+ "`t_user_imagePath` = '" + userInfo.getUserImagePath() + "', "
+				+ "`t_user_mail` = '" +  userInfo.getUserMail()  + "', "
+				+ "`t_user_birth` = '" +  birth  + "'"
+				+ " WHERE `t_user`.`t_user_Id` = " + userInfo.getUserId();
+
+		//tel -> uidを取得
+		String uid_sql = "SELECT `t_user_id` FROM `t_user` WHERE `t_user_tel` = "; 
+
+		int result_int = -1;
 		
-		try {
-			int result_int = statement.executeUpdate(u_sql);
-			if(result_int < 0) return -1;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(userInfo.getUserId()<0){
+			//新規登録
+			try {
+				//debug
+				System.out.println(u_sql);
+				result_int = statement.executeUpdate(u_sql);
+				if(result_int < 0) return -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			//登録変更
+			try {
+				//debug
+				System.out.println(sql_update);
+				result_int = statement.executeUpdate(sql_update);
+				if(result_int < 0) return -1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//UserIdを取得して返却
+		if(result_int > 0){
+			try {			
+				//debug
+				System.out.println(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
+				ResultSet rs = statement.executeQuery(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
+				while(rs.next()){
+					u_Id = rs.getInt("t_user_Id");
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}		
 		}
 		
 		return u_Id;
@@ -461,7 +503,7 @@ public class UserDao {
 
 	public UserInfo getUserInfoByTel(DBConnection dbConnection, String tel) throws SQLException { 
 		UserInfo userInfo = null;
-		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` =" + tel;		
+		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` = '" + tel +"'";		
 		Statement statement = dbConnection.getStatement();
 		try {			
 			//debug
