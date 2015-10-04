@@ -93,6 +93,8 @@ public class SMScertificationAction extends HttpServlet {
 		try {
 			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
 			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
+			System.out.println(telIv);
+			System.out.println(pwIv);
 			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes("UTF-8"), eTel));
 			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes("UTF-8"), epw));
 			//MEMO 暫定で登録する
