@@ -450,6 +450,7 @@ public class UserDao {
 				+ "`t_user_name` = '" + userInfo.getUserName() + "', "
 				+ "`t_user_sex` = '" + userInfo.getUserSex() + "', "
 				+ "`t_user_imagePath` = '" + userInfo.getUserImagePath() + "', "
+				+ "`t_user_tel` = '" + userInfo.getUserPhoneNumber() + "', "
 				+ "`t_user_mail` = '" +  userInfo.getUserMail()  + "', "
 				+ "`t_user_birth` = '" +  birth  + "'"
 				+ " WHERE `t_user`.`t_user_Id` = " + userInfo.getUserId();

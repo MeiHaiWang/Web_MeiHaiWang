@@ -411,7 +411,66 @@ $(function(){
       );
     }
   });
-
+  
+  /*
+  //休憩
+  var StylistRestTime1 = React.createClass({
+	    getDefaultProps:function() {
+	      return {
+	        start_time: ['09:00','10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+	      };
+	    },
+	    getInitialState:function() {
+	      return {
+	        start_time: this.props.start_time[0],
+	      };
+	    },
+	    onChangeSelectValue:function(e) {
+	      this.setState({start_time: e.target.value});
+	    },
+	    render:function() {
+	        var options = this.props.start_time.map(function(start_time) {
+	            return <option value={start_time}>{start_time}</option>;
+	          });
+	          return (
+    	        <div>
+    	          <select value={this.state.start_ime} onChange={this.onChangeSelectValue}>
+    	            {options}
+    	          </select>
+    	        </div>
+	          );
+	    }
+	  });
+  var StylistRestTime2 = React.createClass({
+	    getDefaultProps:function() {
+	      return {
+	        end_time: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+	      };
+	    },
+	    getInitialState:function() {
+	      return {
+	        end_time: this.props.end_time[0],
+	      };
+	    },
+	    onChangeSelectValue:function(e) {
+	      this.setState({end_time: e.target.value});
+	    },
+	    render:function() {
+	        var options = this.props.end_time.map(function(end_time) {
+	            return <option value={end_time}>{end_time}</option>;
+	          });
+	          return (
+    	        <div>
+    	          <select value={this.state.end_ime} onChange={this.onChangeSelectValue}>
+    	            {options}
+    	          </select>
+    	        </div>
+	          );
+	    }
+	  });
+	  */
+  
+  
   // set state to component
   function componentSetState(stylist) {
     // MysqlのDATETIME型から年月日に変換する
@@ -430,6 +489,7 @@ $(function(){
     component_stylist_special_menu.setState(stylist);
     component_stylist_message.setState(stylist);
     component_stylist_image_path.setState(stylist);
+    	
   }
 
 
@@ -452,7 +512,8 @@ $(function(){
   var component_stylist_list = React.render(React.createElement(StylistList, null), document.getElementById('stylist_list_info'));
   var component_stylist_service_maping_name = React.render(React.createElement(StylistServiceMapingName, null), document.getElementById('stylist_service_maping_name'));
   var component_stylist_service_maping_service = React.render(React.createElement(StylistServiceMapingService, null), document.getElementById('stylist_service_maping_service'));
-
+//  var component_stylist_rest_time1 = React.render(<StylistRestTime1 />, document.getElementById('stylist_rest_time1'));
+//  var component_stylist_rest_time2 = React.render(<StylistRestTime2 />, document.getElementById('stylist_rest_time2'));
 
   /*
     Main Part
@@ -487,7 +548,6 @@ $(function(){
     }
     stylist_info.stylist[i].t_menu_t_menu_name = menu_name.join(',');
   }
-
 
   // service maping
   component_stylist_service_maping_name.setProps({stylists: stylist_info.stylist});

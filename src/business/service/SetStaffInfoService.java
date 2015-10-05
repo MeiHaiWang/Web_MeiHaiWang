@@ -148,6 +148,7 @@ public class SetStaffInfoService {
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			boolean result = false;
+			int userId = -1; //registered UserId
 			int stylistId = -1;
 			if(t_stylist_Id != null){
 				//debug
@@ -158,24 +159,38 @@ public class SetStaffInfoService {
 					stylistId = Integer.parseInt(t_stylist_Id);
 				}else{
 					//スタイリストの新規登録
+					//stylistId = -1
 				}
 			}
-			int userId = -1; //registered UserId
 			
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
+				StylistDao stylistDao = new StylistDao();
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = null;
-				if(t_stylist_phoneNumber!=""){
-					//電話番号からユーザ情報を取得
-					userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+				UserInfo userInfo = new UserInfo();
+				StylistInfo stylistPreviousInfo = new StylistInfo();
+				if(stylistId!=-1){
+					//スタイリストもユーザもすでに登録済み
+					//スタイリスト情報のUpdate+ユーザ情報のUpdate
+					stylistPreviousInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+					userId = stylistPreviousInfo.getUserId();
+				}else{
+					//スタイリストの新規登録
+					if(t_stylist_phoneNumber!=""){
+						//電話番号からユーザ情報を取得->ユーザ情報は登録済みなのでUpdate
+						userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+						userId = userInfo.getUserId();
+					}else{
+						//ユーザ情報も新規登録
+					}
 				}
-				if(userInfo != null){
-					//スタイリストが既にユーザ登録されている場合
-					userId = userInfo.getUserId();
-					System.out.println("userId:"+userInfo.getUserId());
+				if(userId != -1){
+					//スタイリスト+ユーザが既に登録されている場合Update
+					//debug
+					System.out.println("スタイリストがすでにユーザ登録済み"+",userId:"+userId);
 					//ユーザ情報をアップデート
+					userInfo.setUserId(userId);
 					userInfo.setUserMail(stylistInfo.getMail());
 					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
 					userInfo.setUserIsStylist(1);
@@ -184,8 +199,6 @@ public class SetStaffInfoService {
 					userInfo.setUserBirth(stylistInfo.getBirth());
 					userInfo.setUserImagePath(stylistInfo.getImagePath());
 					userId = userDao.setUserAcount(dbConnection, userInfo);
-					//debug
-					System.out.println("スタイリストがすでにユーザ登録済み");
 				}else{
 					//ユーザ情報が登録されていない場合
 					userInfo = new UserInfo();
@@ -204,7 +217,6 @@ public class SetStaffInfoService {
 				if(userId>-1){
 					//debug
 					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getStylistName());
-					StylistDao stylistDao = new StylistDao();
 					stylistId = stylistDao.setStylistInfoForMaster(
 							dbConnection,
 							salonId,

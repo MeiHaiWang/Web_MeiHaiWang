@@ -29,6 +29,7 @@ public class StylistInfo {
 	private String searchConditionId = "";
 	private String restDay;
 	private String restTime;
+	private int userId = -1;
 	
 	public StylistInfo(){
 		
@@ -188,6 +189,13 @@ public class StylistInfo {
 	}
 	public String getStylistRestTime() {
 		return restTime;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public int getUserId() {
+		return userId;
 	}
 
 }

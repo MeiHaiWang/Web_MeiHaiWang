@@ -45,12 +45,16 @@ $(function(){
 	 str+="0";
   }
   str+= nowTime.getMonth()+1+"-";
-  str+= nowTime.getDate()+" 00:00:00";
-  console.log(str);
+  if(nowTime.getDate()+1<10){
+		 str+="0";
+  }
+  str+= nowTime.getDate()+" 09:00:00";
+  //console.log(str);
 
   // セッションIDからサービス情報を取得する
   var session_info = getSessionInfo();
-  var stylistList = getStylistList({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
+  //var stylistList = getStylistList({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
+  var stylistList = getStaffInfo({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
   //var staffList = getStaffInfo({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
   //予約リストreservationList
   var reservationList = {};
@@ -87,22 +91,43 @@ $(function(){
   /*<!-- データピッカー1 -->*/
   $("#datepicker").datepicker({
   // 日付が選択された時、日付をテキストフィールドへセット
-  onSelect: function(dateText, inst) {
-  $("#date_val").val(dateText);
-  }
+	  onSelect: function(dateText, inst) {
+		  //$("#date_val").val(dateText);
+		  console.log("put a "+dateText);
+		  var m_oneDay = moment(dateText);
+		  var oneDay = m_oneDay.year()+"-";
+		  if(m_oneDay.month()+1<10){
+			 oneDay+="0";
+		  }
+		  oneDay+= m_oneDay.month()+1+"-";
+		  if(m_oneDay.date()+1<10){
+				 oneDay+="0";
+		  }
+		  oneDay+= m_oneDay.date()+" 09:00:00";
+		  console.log(oneDay);
+		  reservations = 
+			  getReservationList(
+					  {
+						  t_reservation_salonId:session_info.t_hairSalonMaster_salonId,
+						  t_reservation_date: oneDay
+					  });
+		  reservationList = reservations.reservation_list;
+		  design_gantt(oneDay);
+	  }
   });
 
-  /*<!-- データピッカー2 -->*/
+  /*<!-- データピッカー2 -->
   $('#date').datepicker({
   format: "yyyy/mm/dd",
   language: "ja",
   autoclose: true,
   orientation: "top auto"
   });
+  */
 
   /*<!-- ガントチャート -->*/
-  $(function() {
-    "use strict";
+  function design_gantt(oneDay) {
+    //"use strict";
 
     /*
     console.log(today.valueOf());
@@ -114,9 +139,9 @@ $(function(){
     
     var stylists = stylistList.stylist;
     //var staffs = staffList.stylist;
+    
     var valueList = [];
     var stylistReservationNum = [];
-    
     for(var i=0; i<stylists.length; i++){
 		valueList[i] = [];
 		stylistReservationNum[i]=0;
@@ -126,7 +151,7 @@ $(function(){
     			//console.log(stylists[i].t_stylist_name+":"+reservationList[j].t_reservation_date);
     			var t_from = moment(reservationList[j].t_reservation_date);
     			var t_to = moment(reservationList[j].t_reservation_date).add("hours",2);
-    			console.log(t_from.valueOf()+","+t_to.valueOf());
+    			//console.log(t_from.valueOf()+","+t_to.valueOf());
         	    valueList[i].push(
         	    		{
         					from: "/Date("+t_from.valueOf()+")/",
@@ -139,17 +164,25 @@ $(function(){
     	}
     	if(stylistReservationNum[i]==0){
     		//console.log("stylist["+i+"] ReservationNum = 0");
-    		/*
-    		valueList[i].push(
-    	    		{
-    	    			from: moment("2015-09-22 11:00:00").valueOf(),
-    					to: moment("2015-09-22 16:00:00").valueOf(),
-    					label: "menu1",
-    					customClass: "ganttRed",
-    					dataObj: "data1"
-    	    		}
-    		);
-    		*/
+    	}
+    	//休憩
+    	if(stylists[i].t_stylist_restTime!=null && stylists[i].t_stylist_restTime!=""){
+	    	var restTimeStart = stylists[i].t_stylist_restTime.substring(0,5);
+	    	var restTimeEnd =  stylists[i].t_stylist_restTime.substring(6,11);
+	    	var os=oneDay.substring(0,11)+restTimeStart+":00";
+	    	var oe=oneDay.substring(0,11)+restTimeEnd+":00";
+	    	console.log("os:"+os+",oe:"+oe);
+			valueList[i].push(
+		    		{
+		    			from: moment(os).valueOf(),
+						to: moment(oe).valueOf(),
+						label: "休憩",
+						customClass: "",
+						dataObj: ""
+		    		}
+			);
+    	}else{
+    		//休憩なし
     	}
     }
     //sources←スタイリスト情報
@@ -172,7 +205,7 @@ $(function(){
     		*/
     	});
     }
-        
+
     //スタイリスト名→スタイリストid
 	var stylistName2Id = function(name){
 		var id = -1;
@@ -184,7 +217,7 @@ $(function(){
 		}
 		return id;
 	};
-
+        
 	//ガントチャート描画
 	$(".gantt").gantt({
 		source: sources,
@@ -230,9 +263,9 @@ $(function(){
       }
     });
     //prettyPrint();
-  });
-
-  
+  }
+  design_gantt(str);
+	  
 	  /*
 	  Button Handler
 	*/

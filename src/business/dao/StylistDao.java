@@ -90,7 +90,7 @@ public class StylistDao {
 	}	
 	
 	public StylistInfo getStylistDetailInfo(DBConnection dbConnection, Integer stylistId) throws SQLException{
-		String sql = "SELECT `t_stylist_Id`, `t_stylist_salonId`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_imagePath`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation` FROM `t_stylist` WHERE t_stylist_Id =" + stylistId.toString();
+		String sql = "SELECT `t_stylist_Id`, `t_stylist_salonId`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_imagePath`, `t_stylist_message`, `t_stylist_experienceYear`, `t_stylist_favoriteNumber`, `t_stylist_isNetReservation`,`t_stylist_userId` FROM `t_stylist` WHERE t_stylist_Id =" + stylistId.toString();
 		StylistInfo stylistInfo = new StylistInfo();
 		Statement statement = dbConnection.getStatement();
 		
@@ -106,6 +106,7 @@ public class StylistDao {
 				stylistInfo.setStylistYears(rs.getInt("t_stylist_experienceYear"));
 				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
 				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
 			}
 	
 		}catch (SQLException e) {
@@ -356,7 +357,7 @@ public class StylistDao {
 				"SELECT `t_stylist_Id`, `t_stylist_name`, `t_stylist_sex`, `t_stylist_phoneNumber`, "
 				+ "`t_stylist_mail`, `t_stylist_imagePath`, `t_stylist_birth`, `t_stylist_searchConditionId`, "
 				+ "`t_stylist_position`, `t_stylist_experienceYear`, `t_stylist_specialMenu`, `t_stylist_message`, "
-				+ "`t_stylist_menuId` FROM `t_stylist` WHERE t_stylist_Id="; 
+				+ "`t_stylist_menuId`,`t_stylist_restTime`,`t_stylist_restDay` FROM `t_stylist` WHERE t_stylist_Id="; 
 
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		
@@ -386,6 +387,8 @@ public class StylistDao {
 					stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
 					stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
 					stylistInfo.setStylistSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+					stylistInfo.setStylistRestTime(rs.getString("t_stylist_restTime"));
+					stylistInfo.setStylistRestDay(rs.getString("t_stylist_restDay"));
 					stylistInfoList.add(stylistInfo);
 				}
 			} catch (SQLException e) {
