@@ -646,6 +646,7 @@ public class SalonDao {
 				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
 
 				t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
 				countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 				
 				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));

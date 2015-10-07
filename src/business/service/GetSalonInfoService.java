@@ -117,6 +117,7 @@ public class GetSalonInfoService {
 		}else{
 			jsonOneData.put("t_area_name", "");
 		}
+		jsonOneData.put("t_hairSalonMaster_areaId", hairSalonInfo.getSalonAreaId());
 		jsonOneData.put("t_hairSalonMaster_detailText", hairSalonInfo.getSalonDetailText());
 		jsonOneData.put("t_hairSalonMaster_openTime", hairSalonInfo.getSalonOpenTime());
 		jsonOneData.put("t_hairSalonMaster_closeTime", hairSalonInfo.getSalonCloseTime());

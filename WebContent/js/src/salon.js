@@ -36,7 +36,7 @@ $(function(){
       // countryが変化したらAreaもCountryに対応したリストに変化させる
       var areas_slave = getSlaveAreasByAreaName(country_area_info.area, e.target.value);
       component_salon_area.setProps({area: areas_slave});
-
+      component_salon_area.setState({t_area_id: getAreaIdByAreaName(e.target.value, areas_slave)});
       this.setState({t_area_name: e.target.value});
     },
     render:function() {
@@ -68,6 +68,7 @@ $(function(){
       this.setState({t_area_id: e.target.value});
     },
     render:function() {
+      //console.log("taid:"+this.state.t_area_id);
       var options = this.props.area.map(function(area) {
         return React.createElement("option", {value: area.t_area_id}, area.t_area_name);
       });
@@ -697,7 +698,9 @@ $(function(){
   component_salon_name.setState(salon_info);
   component_salon_country.setState({t_area_name: area_name});
   component_salon_country.setProps({area: areas});
-  component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
+  //console.log(getAreaIdByAreaName(salon_info.t_area_name, areas_slave)+","+salon_info.t_hairSalonMaster_areaId);
+  component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
+//  component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
   component_salon_area.setProps({area: areas_slave});
   component_salon_detail_text.setState(salon_info);
   // 値がセットされている場合のみセット

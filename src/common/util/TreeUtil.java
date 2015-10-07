@@ -53,9 +53,9 @@ public final class TreeUtil {
 			// 追加すべきノードが見つかったか
 			boolean exists = false;
 			for (AreaNode child : areaNode.children) {
-				if (areaNode.name.equals(child.name)) {
+				if (areaInfo.getAreaName().equals(child.name)) {
 					// 存在するので追加しない
-					exists = true;
+						exists = true;
 				}
 			}
 			if (!exists) {
@@ -66,6 +66,7 @@ public final class TreeUtil {
 						+" *** Parent is "+"["+child.areaInfo.getParent()+"]:"
 						+treeAreaList.get(child.areaInfo.getParent()-1).getAreaName());
 						*/
+						
 			}
 		} else {
 			for (AreaNode child : areaNode.children) {
