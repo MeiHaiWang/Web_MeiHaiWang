@@ -57,6 +57,7 @@ public class GetNewsService {
 		    	jsonOneData.put("image", returnNews.getbeautyNewsImagePath());
 		    	jsonOneData.put("title", returnNews.getbeautyNewsName());
 		    	jsonOneData.put("URL", returnNews.getbeautyNewsURL());
+		    	jsonOneData.put("day", returnNews.getUpdateDate());
 		    	newsArray.add(jsonOneData);
 		    }
 		    jsonObject.put("news",newsArray);

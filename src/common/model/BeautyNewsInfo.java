@@ -9,7 +9,7 @@ public class BeautyNewsInfo {
 	private String beautyNewsName = "";
 	private String beautyNewsImagePath = "";
 	private String beautyNewsURL = "";
-	
+	private String updateDate="";
 	public BeautyNewsInfo(){
 		
 	}
@@ -51,6 +51,14 @@ public class BeautyNewsInfo {
 	
 	public String getbeautyNewsURL(){
 		return beautyNewsURL;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 	
 }
