@@ -21,12 +21,17 @@ public class UserLoginService {
         int responseStatus = HttpServletResponse.SC_OK;
         String retHash="";
         int updated=-1;
+        int autoLogin = 0;
+        String cause="noError";
+    	//レスポンスに設定するJSON Object
+		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonOneData = new JSONObject();
+		
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			UserDao userDao = new UserDao();
 			UserInfo info = null;
-			int autoLogin = 0;
 			if(conn!=null){
 				//自動ログイン
 				if(userHash != null){
@@ -47,27 +52,33 @@ public class UserLoginService {
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-				throw new Exception("DabaBase Connect Error");
+				cause = "DataBaseConnectError";
+				//throw new Exception("DabaBase Connect Error");
 			}
-			//レスポンスに設定するJSON Object
-			JSONObject jsonObject = new JSONObject();
-			JSONObject jsonOneData = new JSONObject();
+		
 			//非自動ログイン
 			if(!retHash.equals("") && updated > 0){
 				jsonOneData.put("userHash", retHash);
+				jsonOneData.put("cause", cause);
+				jsonObject.put("user_info", jsonOneData);
 			}else if(autoLogin == 1){
-				jsonOneData.put("autoLoginSuccess", 1);
+				jsonObject.put("autoLoginSuccess", 1);
+				jsonObject.put("cause", cause);
 			}
-			jsonObject.put("user_info", jsonOneData);
-			
-		    PrintWriter out = response.getWriter();
-		    out.print(jsonObject);
-		    out.flush();
 		    
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
+			cause =  e.getStackTrace().toString();
 		}
+        
+        try{
+        	PrintWriter out = response.getWriter();
+		    out.print(jsonObject);
+		    out.flush();
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
 	    
 		response.setStatus(responseStatus);
 		return response;

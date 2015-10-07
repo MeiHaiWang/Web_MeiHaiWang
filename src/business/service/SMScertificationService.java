@@ -18,13 +18,13 @@ public class SMScertificationService {
 				HttpServletResponse response,String tel ,String pw){
 			
 	        int responseStatus = HttpServletResponse.SC_OK;
+	        JSONObject jsonObject = new JSONObject();
+	        String cause="noError";
+	        boolean result = false;
+	        
 			try{
 				DBConnection dbConnection = new DBConnection();
 				java.sql.Connection conn = dbConnection.connectDB();
-
-				boolean result = false;
-				JSONObject jsonObject = new JSONObject();
-				
 				if(conn!=null){
 					UserDao userDao = new UserDao();
 					UserInfo userInfo = new UserInfo();
@@ -35,21 +35,27 @@ public class SMScertificationService {
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-					throw new Exception("DabaBase Connect Error");
+					cause = "DataBaseConnectError";
+					//throw new Exception("DabaBase Connect Error");
 				}
-
-				String resultStr = String.valueOf(result);
-		    	jsonObject.put("result", resultStr);		    	
-				
-			    PrintWriter out = response.getWriter();
-			    out.print(jsonObject);
-			    out.flush();
 			    
 			}catch(Exception e){
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				e.printStackTrace();
+				cause = e.getStackTrace().toString();
 			}
 		    
+			try{
+				String resultStr = String.valueOf(result);
+		    	jsonObject.put("result", resultStr);		    	
+		    	jsonObject.put("cause", cause);
+			    PrintWriter out = response.getWriter();
+			    out.print(jsonObject);
+			    out.flush();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 			response.setStatus(responseStatus);
 			return response;
 		}

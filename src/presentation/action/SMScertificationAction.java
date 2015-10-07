@@ -1,6 +1,7 @@
 package presentation.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.bouncycastle.util.encoders.Base64;
 
@@ -101,25 +104,45 @@ public class SMScertificationAction extends HttpServlet {
 			//TODO SMS認証サービスを使用してワンタイムキーを返却する
 			SMScertificationService service = new SMScertificationService();
 			service.excuteService(request, response, tel, pw);
+			
 		} catch (InvalidKeyException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
 		} catch (NoSuchPaddingException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
 		} catch (InvalidAlgorithmParameterException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
 		} catch (IllegalBlockSizeException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
 		} catch (BadPaddingException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			writeResponseError(response,e);
+		} catch (Exception e){
+			e.printStackTrace();
+			writeResponseError(response,e);
 		}
-
+		
 	}	
+	
+	private void writeResponseError(HttpServletResponse response,Exception e){
+		boolean result = false;
+		JSONObject jsonObject = new JSONObject();
+		String resultStr = String.valueOf(result);
+    	jsonObject.put("result", resultStr);		    	
+    	jsonObject.put("cause", e.getStackTrace().toString());
+		try {
+			 PrintWriter out = response.getWriter();
+			 out.print(jsonObject);
+			 out.flush();
+		} catch (IOException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+	}
 }
