@@ -47,7 +47,7 @@ public class NewsDao {
 	
 	public List<BeautyNewsInfo> getBeautyNewsInfoByOffSetAndLimit(DBConnection dbConnection,int offset,int limit) throws SQLException{
 		
-		String sql1 = "SELECT `t_masterNewsName`, `t_masterNewImagePath`, `t_masterNewsURL` FROM `t_masterNews` ORDER BY t_masterNewsUpdateDate DESC , t_masterNewsId DESC";
+		String sql1 = "SELECT `t_masterNewsName`, `t_masterNewImagePath`, `t_masterNewsURL`,`t_masterNewsUpdateDate` FROM `t_masterNews` ORDER BY t_masterNewsUpdateDate DESC , t_masterNewsId DESC";
 		String limitStr = " LIMIT " + limit;
 		String offsetStr = " OFFSET " + offset; 
 		String sql = sql1 + limitStr + offsetStr;
@@ -62,6 +62,11 @@ public class NewsDao {
 				BeautyNewsInfo.setbeautyNewsName(rs.getString("t_masterNewsName"));
 				BeautyNewsInfo.setbeautyNewsImagePath(rs.getString("t_masterNewImagePath"));
 				BeautyNewsInfo.setbeautyNewsURL(rs.getString("t_masterNewsURL"));
+				Date updateDate =rs.getDate("t_masterNewsUpdateDate");
+				if(updateDate!=null && updateDate != new Date(0)){
+					SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+					BeautyNewsInfo.setUpdateDate(df.format(rs.getDate("t_masterNewsUpdateDate")));
+				}
 				BeautyNewsInfoList.add(BeautyNewsInfo);
 			}
 		} catch (SQLException e) {
