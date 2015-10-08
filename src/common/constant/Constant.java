@@ -50,6 +50,6 @@ public  class Constant {
 	public static final int MEN = 0;
 	public static final int WOMEN = 1;
 	
-	public static final int JAPANESE_COUNTRY_ID = 0; //TODO: 決め打ちしないほうがいいかも
+	public static final int JAPANESE_COUNTRY_ID = 1; //TODO: 決め打ちしないほうがいいかも
 	
 }

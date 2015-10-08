@@ -97,7 +97,7 @@ public class SetSalonInfoService {
 				request.getParameter("t_hairSalonMaster_mail").toString() : null;
 		String t_hairSalonMaster_pass = request.getParameter("t_hairSalonMaster_pass") != null ?
 				request.getParameter("t_hairSalonMaster_pass").toString() : null;
-				
+
 		
 		
 				/*

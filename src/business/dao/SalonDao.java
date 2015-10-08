@@ -650,8 +650,11 @@ public class SalonDao {
 				countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
 				
 				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
-				
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
 				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+
 				/*
 				boolean japaneseAvailable = false;
 				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
@@ -695,9 +698,9 @@ public class SalonDao {
 				while(rs.next()){
 					salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
 					//boolean japaneseAvailable = false;
-					int japaneseAvailable = -1;
-					if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
-					salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+					//int japaneseAvailable = -1;
+					//if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+					//salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
 				}	
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -784,8 +787,11 @@ public class SalonDao {
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
 		}
 		*/
+		//System.out.println(salonInfo.getJapaneseAvailable()+","+Constant.JAPANESE_COUNTRY_ID);
 		if(salonInfo.getJapaneseAvailable()==1){
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
+		}else{
+			japaneseAvailable = 0;
 		}
 
 		/*
