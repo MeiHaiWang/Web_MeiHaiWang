@@ -68,7 +68,8 @@ $(function(){
       this.setState({t_area_id: e.target.value});
     },
     render:function() {
-      //console.log("taid:"+this.state.t_area_id);
+      //debug
+      console.log("taid:"+this.state.t_area_id);
       var options = this.props.area.map(function(area) {
         return React.createElement("option", {value: area.t_area_id}, area.t_area_name);
       });
@@ -683,7 +684,9 @@ $(function(){
   }
   
   // areaを参照しやすい形に変換
-  var area_name = getAreaNameBySlaveAreaName(country_area_info.area, salon_info.t_area_name);
+  var area_name = getAreaNameBySlaveAreaId(country_area_info.area, salon_info.t_hairSalonMaster_areaId);
+  //var area_name = getAreaNameBySlaveAreaName(country_area_info.area, salon_info.t_area_name);
+  console.log(area_name + ","+ salon_info.t_area_name);
   var areas_slave = getSlaveAreasByAreaName(country_area_info.area, area_name);
 
   // image画像情報を長さ4の配列に変換し、画像指定のない要素にnotfoundを表示するように
@@ -698,10 +701,11 @@ $(function(){
   component_salon_name.setState(salon_info);
   component_salon_country.setState({t_area_name: area_name});
   component_salon_country.setProps({area: areas});
-  //console.log(getAreaIdByAreaName(salon_info.t_area_name, areas_slave)+","+salon_info.t_hairSalonMaster_areaId);
-  component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
-//  component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
   component_salon_area.setProps({area: areas_slave});
+  //debug
+  console.log(salon_info.t_hairSalonMaster_areaId+":"+getAreaIdByAreaName(salon_info.t_area_name, areas_slave));
+  component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
+  //component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
   component_salon_detail_text.setState(salon_info);
   // 値がセットされている場合のみセット
   if (salon_info.t_hairSalonMaster_openTime != '') {
@@ -746,7 +750,7 @@ $(function(){
     v1.push(" ");
     for(i=0;i<v_array[title_id].length;i++){
       v1.push(v_array[title_id][i].name);
-      console.log("v1.push:"+v_array[title_id][i].name);
+      //console.log("v1.push:"+v_array[title_id][i].name);
     }
     return v1;
   };

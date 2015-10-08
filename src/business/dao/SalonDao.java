@@ -710,7 +710,7 @@ public class SalonDao {
 		SalonInfoList.add(salonInfo);
 		return SalonInfoList;	
 	}
-	
+
 	
 	public boolean setSalonInfo(
 			DBConnection dbConnection, 

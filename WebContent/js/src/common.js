@@ -81,7 +81,21 @@ var getAreaNameBySlaveAreaName = (function(area_info, area_name){
                 }
             }
         }
-        return new Array();
+        return null;
+    };
+})();
+
+//SlaveAreaIdからParentAreaNameを取得する関数
+var getAreaNameBySlaveAreaId = (function(area_info, area_id){
+    return function(area_info, area_id) {
+        for (var i = 0; i < area_info.length; i++) {
+            for (var j = 0; j < area_info[i].area_slave.length; j++) {
+                if (area_info[i].area_slave[j].t_area_id == area_id) {
+                    return area_info[i].t_area_name;
+                }
+            }
+        }
+        return null;
     };
 })();
 
