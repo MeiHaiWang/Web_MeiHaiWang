@@ -333,7 +333,7 @@ $(function(){
     getInitialState() {
       return {
         stylist_list: [{
-          "t_stylist_stylist_id": "",
+          "t_stylist_Id": "",
           "t_stylist_name": "",
           "t_stylist_position": "",
           "t_stylist_phoneNumber": "",
@@ -364,19 +364,19 @@ $(function(){
     },
     getInitialState() {
       return {
-        t_stylist_stylist_id: '',
+        t_stylist_Id: '',
       };
     },
     onChangeSelectValue(e) {
-      this.setState({t_stylist_stylist_id: e.target.value});
+      this.setState({t_stylist_Id: e.target.value});
     },
     render() {
       var options = this.props.stylists.map(function(stylist) {
-        return <option value={stylist.t_stylist_stylist_id}>{stylist.t_stylist_name}</option>;
+        return <option value={stylist.t_stylist_Id}>{stylist.t_stylist_name}</option>;
       });
       return (
         <div>
-          <select value={this.state.t_stylist_stylist_id} onChange={this.onChangeSelectValue}>
+          <select value={this.state.t_stylist_Id} onChange={this.onChangeSelectValue}>
             {options}
           </select>
         </div>
@@ -588,7 +588,7 @@ $(function(){
     if(validate_check == true){
         var data = {
           t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
-          t_stylist_Id:              component_stylist_name.state.t_stylist_stylist_id,
+          t_stylist_Id:              component_stylist_name.state.t_stylist_Id,
           t_stylist_name:            component_stylist_name.state.t_stylist_name,
           t_stylist_sex:             component_stylist_sex.state.t_stylist_sex,
           t_stylist_phoneNumber:     component_stylist_phone_number.state.t_stylist_phoneNumber,
@@ -606,7 +606,7 @@ $(function(){
 
         //debug
         console.log(
-               " t_stylist_Id: "+            component_stylist_name.state.t_stylist_stylist_id+
+               " t_stylist_Id: "+            component_stylist_name.state.t_stylist_Id+
                " t_stylist_name: "+          component_stylist_name.state.t_stylist_name
         );
         
@@ -638,9 +638,9 @@ $(function(){
     if (stylist_info.stylist.length == 0) {
       return false;
     }
-
     var id = $(".delete").index(this);
-    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_stylist_id};
+    console.log(stylist_info.stylist[id].t_stylist_Id+","+id);
+    var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
 
     // サニタイズ
     sanitaize.encode(data);
@@ -658,7 +658,7 @@ $(function(){
   // ServiceMaping登録ボタン押下時
   $('#stylist_service_maping_regist_button').on('click', function() {
     var id = $('#stylist_service_maping_name select').prop("selectedIndex");
-    var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
 
     // スタッフの対応可能サービス一覧を追加する
     if (typeof stylist_info.stylist[id] != 'undefined') {
@@ -704,7 +704,7 @@ $(function(){
   // ServiceMaping削除ボタン押下時
   $('#stylist_service_maping_delete_button').on('click', function() {
 
-    var stylist_id = component_stylist_service_maping_name.state.t_stylist_stylist_id;
+    var stylist_id = component_stylist_service_maping_name.state.t_stylist_Id;
 
     var data = {
       t_stylist_Id: stylist_id,

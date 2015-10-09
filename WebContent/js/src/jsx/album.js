@@ -471,7 +471,7 @@ $(function(){
     },
     render() {
       var options = this.props.stylist.map(function(stylist) {
-        return <option value={stylist.t_stylist_stylist_id}>{stylist.t_stylist_name}</option>;
+        return <option value={stylist.t_stylist_Id}>{stylist.t_stylist_name}</option>;
       });
       return (
         <div>
@@ -852,7 +852,7 @@ $(function(){
   var stylist_info = getStylistList({'t_hairSalonMaster_salonId':session_info.t_hairSalonMaster_salonId});
   sanitaize.decode(stylist_info);
   for (var i = 0; i < stylist_info.stylist.length; i++) {
-    var stylist_id = stylist_info.stylist[i].t_stylist_stylist_id;
+    var stylist_id = stylist_info.stylist[i].t_stylist_Id;
     var stylist_name = stylist_info.stylist[i].t_stylist_name;
     stylists[stylist_id] = stylist_name;
   }
@@ -1129,7 +1129,7 @@ $(function(){
   component_album_category.setState({t_hairStyle_hairTypeId: component_album_category.props.hairtype[0].t_hairType_id});
 	*/
   if (component_album_stylist_name.props.stylist.length != 0) {
-    component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_stylist_id});
+    component_album_stylist_name.setState({t_hairStyle_stylistId: component_album_stylist_name.props.stylist[0].t_stylist_Id});
   }
 
   /*

@@ -48,7 +48,9 @@ public class DeleteStaffInfoService {
   		
 		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
 				request.getParameter("t_stylist_Id").toString() : null;
-
+		//debug
+		System.out.println("delete:"+t_stylist_Id);
+				
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();

@@ -107,7 +107,7 @@ public class GetStylistListService {
 		    JSONArray stylistArray = new JSONArray();
 		    for(StylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
+		    	//jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
 		    	jsonOneData.put("t_stylist_Id", info.getStylistId());
 		    	jsonOneData.put("t_stylist_name", info.getStylistName());
 			    stylistArray.add(jsonOneData);

@@ -174,13 +174,15 @@ public class SetStaffInfoService {
 					//スタイリストもユーザもすでに登録済み
 					//スタイリスト情報のUpdate+ユーザ情報のUpdate
 					stylistPreviousInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					userId = stylistPreviousInfo.getUserId();
+					if(stylistPreviousInfo != null) userId = stylistPreviousInfo.getUserId();
 				}else{
 					//スタイリストの新規登録
 					if(t_stylist_phoneNumber!=""){
 						//電話番号からユーザ情報を取得->ユーザ情報は登録済みなのでUpdate
 						userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
-						userId = userInfo.getUserId();
+						if(userInfo!=null){
+							userId = userInfo.getUserId();
+						}
 					}else{
 						//ユーザ情報も新規登録
 					}
