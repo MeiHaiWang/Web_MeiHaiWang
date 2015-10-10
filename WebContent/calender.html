@@ -148,14 +148,14 @@ var logout = (function () {
                         <dd>
                         <table id="calender_table">
                           <tr>
-                            <td>
+                            <td id="calender_table_left">
 
                               <table id = "check_list">
                                 <th colspan = 3>
                                   Check List
                                 </th>
                                 <tr>
-                                  <td>
+                                  <td id="check_list_tokei">
                                     <div> 時計 </div>
                                   </td>
                                   <td>
@@ -166,39 +166,39 @@ var logout = (function () {
                                   </td>
                                 </tr>
 
-                                <tr>
+                                <tr id="check_list_term">
                                   <td>
                                     <!--
                                     <div id = "reserve_day"> 2015/01/01 </div>
                                     -->
-                                    <div id="RealtimeClockArea">※ここに時計が表示されます。</div>
+                                    <div id="RealtimeClockArea">※時計表示</div>
                                   </td>
                                   <td>
-                                    <div id = "reserve_number"> ? </div>
+                                    <div id = "reserve_number"> _ </div>
                                   </td>
                                   <td>
-                                    <div id = "customer_number"> ? </div>
+                                    <div id = "customer_number"> _ </div>
                                   </td>
                                 </tr>
-
                                 <tr>
                                   <td colspan = 3>
-                                    <div id = "customer_management"></div>
-
-                                    <table>
+                                    <!-- <div id = "customer_management"></div> -->
+                                    <table id = "customer_management_table">
                                       <th>
                                         顧客管理
                                       </th>
                                       <tr>
                                         <td>
-                                          <!-- 
-                                          <input placeholeder = "名前 or 電話番号">
-                                          <div id = "react_user_find"></div>
-                                          -->
-                                          <div id = "react_user_find"></div>
-                                          <button>検索</button>
-                                          <button id = "reservation_list_button">本日予約一覧</button>
-                                          <button id = "customer_list_button">顧客一覧</button>
+                                          <div class="form-group">
+                                            <input id="form_user_search" class="form-inline" placeholder = "名前 or 電話番号">
+	                                          <!-- 
+	                                          <div id = "react_user_find"></div>
+	                                          -->
+	                                          <button id = "search_button">検索</button>
+	                                          <button id = "reservation_list_button">本日予約一覧</button>
+	                                          <button id = "customer_list_button">顧客一覧</button>
+	                                       </div>
+                                          
                                         </td>
                                       </tr>
                                     </table>
@@ -207,7 +207,8 @@ var logout = (function () {
                                 </tr>
                               </table>
                             </td>
-                            <td>
+                            
+                            <td id="calender_table_right">
                               <table id = "calender">
                                 <th>
                                   Calender
@@ -219,9 +220,9 @@ var logout = (function () {
                                     <form class="form-horizontal">
                                       <input type="text" class="form-control" id="date">
                                     </form>
-                                  -->
+	                                  -->
                                     <!-- datepicker の表示 -->
-                                    <div id="datepicker"></div>
+                                    <div id="datepicker" align="center"></div>
                                     <!-- datepicker で選択した日付を表示 -->
                                     <!--
                                     <p>日付: <input type="text" id="date_val" /></p>
@@ -303,7 +304,6 @@ var logout = (function () {
 <!-- page specific libs -->
 <script id="test" src="vendor/underscore/underscore.js"></script>
 <script src="vendor/jquery.sparkline/index.js"></script>
-<script src="vendor/jquery.sparkline/index.js"></script>
 <script src="vendor/d3/d3.min.js"></script>
 <script src="vendor/rickshaw/rickshaw.min.js"></script>
 <script src="vendor/raphael/raphael-min.js"></script>
@@ -327,30 +327,31 @@ var logout = (function () {
      else { ret = num; }
      return ret;
   }
+  //2015/09/05 Man 13:20
   function showClock2() {
      var nowTime = new Date();
-     var str = nowTime.getFullYear()+"年";
-     str+= nowTime.getMonth()+1+"月";
-     str+= nowTime.getDate()+"日";
+     var str = nowTime.getFullYear()+"/";
+     str+= nowTime.getMonth()+1+"/";
+     str+= nowTime.getDate()+"  ";
      if(nowTime.getDay()==0){
-       str+= "("+"日"+")";
+       str+= ""+"Sun"+"";
      }else if(nowTime.getDay()==1){
-       str+= "("+"月"+")";
+       str+= ""+"Mon"+"";
      }else if(nowTime.getDay()==2){
-       str+= "("+"火"+")";
+       str+= ""+"Tue"+"";
      }else if(nowTime.getDay()==3){
-       str+= "("+"水"+")";
+       str+= ""+"Wed"+"";
      }else if(nowTime.getDay()==4){
-       str+= "("+"木"+")";
+       str+= ""+"Thu"+"";
      }else if(nowTime.getDay()==5){
-       str+= "("+"金"+")";
+       str+= ""+"Fri"+"";
      }else if(nowTime.getDay()==6){
-       str+= "("+"土"+")";
+       str+= ""+"Sat"+"";
      }
      var nowHour = set2fig( nowTime.getHours() );
      var nowMin = set2fig( nowTime.getMinutes() );
      var nowSec = set2fig( nowTime.getSeconds() );
-     var msg = str + "<br>" + nowHour + ":" + nowMin + ":" + nowSec;
+     var msg = str + "  " + nowHour + ":" + nowMin + ":" + nowSec;
      document.getElementById("RealtimeClockArea").innerHTML = msg;
   }
   setInterval('showClock2()',1000);

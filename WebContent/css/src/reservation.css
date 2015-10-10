@@ -63,25 +63,101 @@ dt#reservation_regist_area + dd {
 box-sizing: content-box;
 }
 
+#reservation_table { 
+  background-color: #eee;
+  border: solid 0px;
+  vertical-align: center;
+}
 
-#menu_table{
+#reservation_terms{
 width: 100%;
 border-color: blue;
 border-collapse: collapse;
 }
+#reservation_terms th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: center;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#reservation_terms td{
+width : 10px;
+	padding: 6px;
+vertical-align: center;
+border: 1px solid #b9b9b9;
+}
+#reservation_terms div{
+	margin-top:auto;
+	margin-bottom:auto;
+}
+
+/*
+#reservation_term{
+width : 10px;
+}
+#reservation_term_day{
+width : 10px;
+height : 100px;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#reservation_term div{
+	margin-top:auto;
+	margin-bottom:auto;
+}
+*/
+
+
+
+#menu_table{
+	background-color: #eee;
+	width: 100%;
+height: 100%;
+border-color: blue;
+border-collapse: collapse;
+}
+
 #menu_table th{
 width: 25%;
 padding: 6px;
 text-align: left;
 vertical-align: top;
-color: #333;
+//color: #333;
 background-color: #eee;
 border: 1px solid #b9b9b9;
 }
 #menu_table td{
 padding: 6px;
-background-color: #fff;
 border: 1px solid #b9b9b9;
+}
+
+#menu_table_td1{
+width: 400px; 
+height: 100px; 
+}
+#menu_table_td2{
+width: 400px; 
+height: 250px; 
+}
+
+#service_category{
+width:400px; 
+height:100px;
+overflow-x:scroll;
+vertical-align: top;
+margin-left:auto;
+margin-right:auto;
+}
+#service_list_info{
+width:400px; 
+height:300px; 
+overflow-x:scroll;
+vertical-align: top;
+margin-left:auto;
+margin-right:auto;
 }
 
 #menu_table2{
@@ -100,30 +176,14 @@ border: 1px solid #b9b9b9;
 }
 #menu_table2 td{
 padding: 6px;
-background-color: #fff;
 border: 1px solid #b9b9b9;
 }
 
-
-#reservation_terms{
+#memo_td input{
 width: 100%;
-border-color: blue;
-border-collapse: collapse;
+height:100px;	
 }
-#reservation_terms th{
-width: 25%;
-padding: 6px;
-text-align: left;
-vertical-align: top;
-color: #333;
-background-color: #eee;
-border: 1px solid #b9b9b9;
-}
-#reservation_terms td{
-padding: 6px;
-background-color: #fff;
-border: 1px solid #b9b9b9;
-}
+
 
 
 /*

@@ -109,7 +109,12 @@ public class GetUserInfoService {
 			System.out.println(jsonObject.toString(4));
 			out.flush();
 		}else{
-			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("t_user_id", "-1");
+	    	PrintWriter out = response.getWriter();
+			out.print(jsonObject);
+			System.out.println("I don't have a this-client. ");
+			//responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 		}
 		
 	}catch(Exception e){

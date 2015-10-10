@@ -49,6 +49,13 @@
   height: 100%;
 }
 
+#calender_table_left{
+	width: 60%
+}
+#calender_table_right{
+	width: 40%
+}
+
 #check_list{
 width: 100%;
 border-color: blue;
@@ -65,12 +72,38 @@ background-color: #eee;
 border: 1px solid #b9b9b9;
 }
 #check_list td{
+height: 10px;
 padding: 6px;
 background-color: #fff;
 border: 1px solid #b9b9b9;
 text-align: center;
 vertical-align: center;
+}
+#check_list_tokei{
+width: 60%;
+}
+#check_list_term div{
+font-size: x-large;
+}
 
+#customer_management_table{
+width: 100%;
+border-color: blue;
+border-collapse: collapse;
+}
+#customer_management_table td{
+height: 10px;
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+text-align: center;
+vertical-align: center;
+}
+#customer_management_table input{
+width: 30%;
+}
+#form_user_search{
+width: 10%;
 }
 
 #calender{
@@ -80,7 +113,6 @@ border-collapse: collapse;
 margin:0 auto;
 }
 #calender th{
-width: 25%;
 padding: 6px;
 text-align: center;
 vertical-align: center;
@@ -91,14 +123,13 @@ border: 1px solid #b9b9b9;
 #calender td{
 text-align: center;
 vertical-align: center;
-padding: 6px;
 background-color: #fff;
 border: 1px solid #b9b9b9;
 }
+
 #datepicker{
-margin-right:auto; 
-margin-left:auto; 
-width:100px; 
+ margin-right:auto; 
+ margin-left:auto; 
 }
 
 

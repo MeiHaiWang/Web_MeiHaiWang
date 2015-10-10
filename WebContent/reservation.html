@@ -10,7 +10,7 @@
     <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
     <!-- Gantt -->
     <link href="vendor/jQuery.Gantt/css/style.css" type="text/css" rel="stylesheet">
-    
+
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
@@ -148,7 +148,7 @@ var logout = (function () {
                             <td>
                               <table id = "reservation_terms">
                                 <tr>
-                                  <td>
+                                  <td id = "reservation_term">
                                     予約日:
                                   </td>
                                   <td>
@@ -161,27 +161,29 @@ var logout = (function () {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td>
+                                  <td id = "reservation_term">
                                     予約時間:
                                   </td>
                                   <td>
-                                    <div id="reservation_start"></div>
-                                    -
-                                    <div id="reservation_end"></div>
+                                  <table id="reaservation_time"><tr>
+                                    <td>開始時間<br><div id="reservation_start"></div></td>
+                                    <!-- <td>-</td> -->
+                                    <td>終了時間<br><div id="reservation_end"></div></td>
+                                  </tr></table>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td>
+                                  <td id = "reservation_term">
                                     顧客No.:
                                   </td>
                                   <td>
                                      <div id="reservation_user_tel"></div>
                                     >>
-                                    <button id = "search_button">検索</button>
+                                    <button class="btn btn-warning" id = "search_button">検索</button>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td>
+                                  <td id = "reservation_term">
                                     顧客名:
                                   </td>
                                   <td>
@@ -189,16 +191,19 @@ var logout = (function () {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td>
-                                    年齢層＆性別:
+                                  <td id = "reservation_term">
+                                    年齢層<br>性別:
                                   </td>
                                   <td>
-                                     <div id="reservation_user_age"></div>
-                                     <div id="reservation_user_sex"></div>
+                                  	<table id="reaservation_user_age_sex"><tr><td>
+                                     年齢層<br><div id="reservation_user_age"></div>
+                                    </td><td>
+                                     性別<br><div id="reservation_user_sex"></div>
+									</td></tr></table>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td>
+                                  <td id = "reservation_term">
                                     担当者:
                                   </td>
                                   <td>
@@ -211,47 +216,8 @@ var logout = (function () {
                             <td>
                               <table id = "menu_table">
                                 <tr>
-                                  <td>
-                                  <div id = "service_category"></div>
-		                            <!-- 
-                                    <table>
-                                      <tr>
-                                        <td>
-                                          カット
-                                        </td>
-                                        <td>
-                                          カラー
-                                        </td>
-                                        <td>
-                                          パーマ
-                                        </td>
-                                        <td>
-                                          シャンプー
-                                        </td>
-                                        <td>
-                                          ヘッドスパ
-                                        </td>
-                                        <td>
-                                          トリートメント
-                                        </td>
-                                        <td>
-                                          セットメニュー
-                                        </td>
-                                        <td>
-                                          エクステ
-                                        </td>
-                                        <td>
-                                          睫毛エクステ
-                                        </td>
-                                        <td>
-                                          メイク
-                                        </td>
-                                        <td>
-                                          その他
-                                        </td>
-                                      </tr>
-                                    </table>
-                                     -->
+                                  <td id = "menu_table_td1">
+	                                  <div id = "service_category"></div>
                                   </td>
                                   <!-- 
                                   <td>
@@ -266,42 +232,10 @@ var logout = (function () {
 									</select>
 									<button id="rest_regist">休憩登録</button>
                                   </td>
-                                   -->
+                                  -->
                                 </tr>
                                 <tr>
-                                  <td>
-                                    <!-- 
-                                    <table>
-                                      <tr>
-                                        <td>
-                                          メニュー名
-                                        </td>
-                                        <td>
-                                          施術時間
-                                        </td>
-                                        <td>
-                                          価格
-                                        </td>
-                                        <td>
-                                          予約
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td>
-                                          高級スタイリストカット
-                                        </td>
-                                        <td>
-                                          30
-                                        </td>
-                                        <td>
-                                          5000
-                                        </td>
-                                        <td>
-                                          予約
-                                        </td>
-                                      </tr>
-                                    </table>
- 									-->
+                                  <td id = "menu_table_td1">
  									<div id = "service_list_info" ></div>
                                   </td>
                                 </tr>
@@ -312,91 +246,49 @@ var logout = (function () {
                             <td colspan = 2>
                               <table id = "menu_table2">
                               <tr><td>
-						      <!--  
-                                <tr>
-                                  <td>
-                                    メニュー名
-                                  </td>
-                                  <td>
-                                    開始時間
-                                  </td>
-                                  <td>
-                                    施術時間
-                                  </td>
-                                  <td>
-                                    担当者
-                                  </td>
-                                  <td>
-                                    座席
-                                  </td>
-                                  <td>
-                                    削除
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    高級スタイリストカット
-                                  </td>
-                                  <td>
-                                    13:30
-                                  </td>
-                                  <td>
-                                    30
-                                  </td>
-                                  <td>
-                                    担当者１
-                                  </td>
-                                  <td>
-                                    Seat A
-                                  </td>
-                                  <td>
-                                    削除ボタン
-                                  </td>
-                                </tr>
-							  -->
 							  <div id = "service_list_info2" ></div>
 							  </td></tr>
                               </table>
                             </td>
                           </tr>
                           <tr>
-                            <td>
+                            <td colspan=2 id="memo_td" >
                               <input id ="memo" placeholder = "メモ">
                             </td>
                           </tr>
                           <tr>
-                            <td>
-                              <table>
+                            <td colspan=2>
+                              <table id="button_table">
                                 <tr>
                                   <td>
-                                    <button id= "regist">予約登録</button>
+                                      <button class="btn btn-primary" id= "regist">予約登録</button>
                                   </td>
                                   <td>
-                                    <button id="come">来店</button>
+                                    <button class="btn btn-success" id="come">来店</button>
                                   </td>
                                   <td>
-                                    <button id="cancel">予約取消</button>
+                                    <button class="btn btn-danger" id="cancel">予約取消</button>
                                     <div id="dialogdemo1">
 									<p>予約取消</p>
 									</div>
                                   </td>
                                   <td>
                                     <!--  <button id="claim">クレーム</button> -->
-                                    <div class="jquery-ui-button">
-									    <button id="jquery-ui-dialog-opener">クレーム</button>
-									</div>
+									    <button class="btn btn-danger" id="jquery-ui-dialog-opener">クレーム</button>
 									<div id="jquery-ui-dialog" title="クレーム">
 									    <form>
 									    <fieldset>
 									        <p>
-									            <label for="jquery-ui-dialog-form-comment">メモ</label>
-									            <input type="text" name="jquery-ui-dialog-form-comment" id="jquery-ui-dialog-form-comment" class="text ui-widget-content ui-corner-all" />
+									            <input type="text" name="jquery-ui-dialog-form-comment"
+									             id="jquery-ui-dialog-form-comment" class="text ui-widget-content ui-corner-all"
+									             placeholder="メモ"  />
 									        </p>
 									    </fieldset>
 									    </form>
 									</div>
                                     
                                   </td>
+                                  <td></td><td></td><td></td><td></td><td></td>
                                 </tr>
                               </table>
                             </td>
@@ -431,23 +323,25 @@ var logout = (function () {
 <script src="vendor/widgster/widgster.js"></script>
 <script src="vendor/pace.js/pace.min.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
-<script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
 <!-- tag-it  -->
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script src="others/tag-it.js"></script>
 
-<!-- datepicker  -->
+<!-- datepicker  
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
 <script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
+-->
+<script type="text/javascript" src="others/datepicker-ja.js"></script>
 
 <!-- react -->
 <!-- 
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
  -->
-<script src="http://fb.me/react-with-addons-0.12.2.js"></script>
-<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+<script src="http://fb.me/react-with-addons-0.13.3.js"></script>
+<script src="http://fb.me/JSXTransformer-0.13.3.js"></script>
+<script src="vendor/bootstrap-sass/assets/javascripts/react-bootstrap.min.js"></script>
 
 <!-- common app js -->
 <script src="js/config.js"></script>

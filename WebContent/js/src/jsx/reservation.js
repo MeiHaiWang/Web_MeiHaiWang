@@ -2,6 +2,9 @@ $(function(){
   /*
     Component for React
   */
+  //ReactBootstrap
+	var Input = ReactBootstrap.Input;
+	
   // コンポーネントの定義
   var ReservationStartTime = React.createClass({
     getDefaultProps() {
@@ -19,10 +22,10 @@ $(function(){
     },
     render() {
     	return (
-    			<input type="text" value={this.state.t_reservation_start} onChange={this.changeText} />
+    			<Input type="text" value={this.state.t_reservation_start} onChange={this.changeText} />
     			);
-    }
-  });
+	    }
+	  });
   
   var ReservationEndTime = React.createClass({
 	    getDefaultProps() {
@@ -40,7 +43,7 @@ $(function(){
 	    },
 	    render() {
 	    	return(
-	        <input type="text" value={this.state.t_reservation_end} onChange={this.changeText} />
+	        <Input type="text" value={this.state.t_reservation_end} onChange={this.changeText} disabled/>
 	        );
 	    }
 	  });
@@ -119,7 +122,7 @@ $(function(){
 	    render() {
 	      return (
 	        <div>
-	          <input type="text" value={this.state.t_user_tel} onChange={this.changeText} placeholder = "電話番号" />
+	          <Input type="text" value={this.state.t_user_tel} onChange={this.changeText} placeholder = "電話番号" />
 	        </div>
 	      );
 	    }
@@ -138,7 +141,7 @@ $(function(){
     render() {
       return (
         <div>
-          <input type="text" value={this.state.t_user_name} onChange={this.changeText} />
+          <Input type="text" value={this.state.t_user_name} onChange={this.changeText} />
         </div>
       );
     }
@@ -164,6 +167,7 @@ $(function(){
 	  });
 	*/
   
+  //var SelectPicker = ReactBootstrap.SelectPicker;
   var ReservationUserGender = React.createClass({
 	    getInitialState() {
 	      return {
@@ -186,7 +190,22 @@ $(function(){
 	    }
 	  });
 
+  var ages = (function(){
+	  var ages = [];
+	  for(var i=10;i<=70;i++){
+		  //i_ = ""+i;
+		  //ages.push(i_);
+		  ages.push(i);
+		  //console.log(i_);
+	  }
+	  return ages;
+  })();
   var ReservationUserAge = React.createClass({
+	    getDefaultProps() {
+	        return {
+	          t_user_age: ages
+	        };
+	      },
 	    getInitialState() {
 	      return {
 	        t_user_age: ""
@@ -196,14 +215,32 @@ $(function(){
 	      this.setState({t_user_age: e.target.value});
 	    },
 	    render() {
-	      return (
-	        <div>
-	          <input type="text" value={this.state.t_user_age} onChange={this.changeText} />
-	        </div>
-	      );
+	    	  var options = this.props.t_user_age.map(function(t_user_age) {
+	    	      return <option value={t_user_age}>{t_user_age}</option>;
+	    	    });
+	    	  var options1 = 
+	    		  <div>
+		  	        <select value={this.state.t_user_age} onChange={this.onChangeSelectValue}>
+			          {options}
+			        </select>
+			      </div>;
+	    	    return (
+	    	    	<div>
+	    	    		{options1}
+	    	    	</div>
+	    	    );
 	    }
 	  });
+  
+/*
+ * 	      return (
+	        <div>
+	          <Input type="text" value={this.state.t_user_age} onChange={this.changeText} />
+	        </div>
+	      );
 
+ */
+  
   var ReservationStylist = React.createClass({
     getDefaultProps() {
       return {
@@ -220,7 +257,7 @@ $(function(){
     },
     render() {
       var options = this.props.stylist.map(function(stylist) {
-        return <option value={stylist.t_stylist_stylist_id}>{stylist.t_stylist_name}</option>;
+        return <option value={stylist.t_stylist_Id}>{stylist.t_stylist_name}</option>;
       });
       return (
         <div>
@@ -232,6 +269,7 @@ $(function(){
     }
   });
   
+  /*
   var ServiceCategory = React.createClass({
 	    getDefaultProps() {
 	      return {
@@ -251,17 +289,132 @@ $(function(){
 	    },
 	    render() {
 	      var options = this.props.category.map(function(category) {
-	        return <option value={category.t_menuCategory_categoryId}>{category.t_menuCategory_name}</option>;
+	    	  var link = "#"+category.t_menuCategory_name;
+	    	  return <li class="active"><a href={link} data-toggle="tab" value={category.t_menuCategory_categoryId}>{category.t_menuCategory_name}</a></li>;
 	      });
 	      return (
-	        <div>
-	          <select value={this.state.t_menu_categoryId} onChange={this.onChangeSelectValue}>
+	    	<ul class="nav nav-tabs">
 	            {options}
-	          </select>
-	        </div>
+        	</ul>
 	      );
 	    }
 	  });
+	  */
+  
+  //var Tabs = ReactBootstrap.Tabs;
+  //var Tab = ReactBootstrap.Tab;
+  var Nav = ReactBootstrap.Nav;
+  var Navbar = ReactBootstrap.Navbar;
+  var NavItem = ReactBootstrap.NavItem;
+  var Button = ReactBootstrap.Button;
+  var ServiceCategory = React.createClass({
+	    getDefaultProps() {
+		      return {
+		        category: ['']
+		      };
+		    },
+	    getInitialState() {
+	      return {
+	        t_menu_categoryId: '',
+	      };
+	    },
+	  handleSelect(e) {
+	    //alert('selected ' + e);
+	      // メニュー一覧
+	      var menu_options = getMenuListOfCategory(e);
+	      component_service_list.setState({"service_list":menu_options});
+	      this.setState({t_menu_categoryId: e});
+	  },
+	  render() {
+		  var category1 = [];
+		  var category2 = [];
+		  //console.log("a:"+this.props.category.length);
+		  for(var i=0;i<this.props.category.length;i++){
+			  //console.log(this.props.category[i].t_menuCategory_name);
+			  if(i<6) category1.push(this.props.category[i]);
+			  else category2.push(this.props.category[i]);
+		  }
+	      var options1 = category1.map(function(category1) {
+	    	  return <NavItem bsSize="xsmall" eventKey={category1.t_menuCategory_categoryId}>
+	    	  {category1.t_menuCategory_name}
+	    	  </NavItem>;
+	      });
+	      var options2 = category2.map(function(category2) {
+	    	  return <NavItem bsSize="xsmall" eventKey={category2.t_menuCategory_categoryId}>
+	    	  {category2.t_menuCategory_name}
+	    	  </NavItem>;
+	      });
+	    return (
+		<div>
+	    	<Navbar bsStyle="warning" >
+				<Nav activeKey={this.state.t_menu_categoryId} onSelect={this.handleSelect} >
+				{options1}
+				</Nav>
+		    	</Navbar>
+		    	<Navbar bsStyle="warning" >
+				<Nav activeKey={this.state.t_menu_categoryId} onSelect={this.handleSelect} >
+				{options2}
+				</Nav>
+	    	</Navbar>
+    	</div>
+	    );
+	  }
+	});
+ 
+  /*
+   * 	      <Tabs activeKey={this.state.t_menu_categoryId} onSelect={this.handleSelect}>
+	      	{options}
+	      </Tabs>
+		<Tab eventKey={category.t_menuCategory_categoryId} title={category.t_menuCategory_name}></Tab>;
+   * 
+   * <!-- タブの表示 -->
+	<ul class="nav nav-tabs">
+	    <li class="active"><a href="#menu1" data-toggle="tab">登録</a></li>
+	    <li><a href="#menu2" data-toggle="tab">変更</a></li>
+	    <li><a href="#menu3" data-toggle="tab">削除</a></li>
+	</ul>
+
+	<!-- Old -->
+      var options = this.props.category.map(function(category) {
+        return <option value={category.t_menuCategory_categoryId}>{category.t_menuCategory_name}</option>;
+      });
+      return (
+        <div>
+          <select value={this.state.t_menu_categoryId} onChange={this.onChangeSelectValue}>
+            {options}
+          </select>
+        </div>
+      );
+
+   *
+   */
+  /*
+  var Tabs = ReactBootstrap.Tabs;
+  var Tab = ReactBootstrap.Tab;
+  var ControlledTabs = React.createClass({
+	  getInitialState() {
+	    return {
+	      key: 1
+	    };
+	  },
+
+	  handleSelect(key) {
+	    alert('selected ' + key);
+	    this.setState({key});
+	  },
+
+	  render() {
+	    return (
+	      <Tabs activeKey={this.state.key} onSelect={this.handleSelect}>
+	        <Tab eventKey={1} title="Tab 1">Tab 1 content</Tab>
+	        <Tab eventKey={2} title="Tab 2">Tab 2 content</Tab>
+	        <Tab eventKey={3} title="Tab 3" disabled>Tab 3 content</Tab>
+	      </Tabs>
+	    );
+	  }
+	});
+  	*/
+	//React.render(<ControlledTabs />, document.getElementById("test_tab"));
   
   var ServiceList = React.createClass({
     getInitialState() {
@@ -518,7 +671,7 @@ $(function(){
 	  // stylistを参照しやすい形に変換
 	  var stylists = new Array();
 	  for (var i = 0; i < stylist_info.stylist.length; i++) {
-	    var stylist_id = stylist_info.stylist[i].t_stylist_stylist_id;
+	    var stylist_id = stylist_info.stylist[i].t_stylist_Id;
 	    var stylist_name = stylist_info.stylist[i].t_stylist_name;
 	    stylists[stylist_id] = stylist_name;
 	  }

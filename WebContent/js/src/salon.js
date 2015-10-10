@@ -69,7 +69,7 @@ $(function(){
     },
     render:function() {
       //debug
-      console.log("taid:"+this.state.t_area_id);
+      //console.log("taid:"+this.state.t_area_id);
       var options = this.props.area.map(function(area) {
         return React.createElement("option", {value: area.t_area_id}, area.t_area_name);
       });
@@ -426,7 +426,7 @@ $(function(){
 		      for(i=0;i<_v2_2.length;i++){
 	    	    $("#salon_cond_list2").tagit("createTag", _v2_2[i]);
 	    	  }
-	    	  console.log("title2_condId:"+condId);
+	    	  //console.log("title2_condId:"+condId);
 		      this.setState({t_hairSalonMaster_searchConditionId: condId});
 		      //component_cond_list.setProps({cond_list: _v2});
 	    },
@@ -686,7 +686,7 @@ $(function(){
   // areaを参照しやすい形に変換
   var area_name = getAreaNameBySlaveAreaId(country_area_info.area, salon_info.t_hairSalonMaster_areaId);
   //var area_name = getAreaNameBySlaveAreaName(country_area_info.area, salon_info.t_area_name);
-  console.log(area_name + ","+ salon_info.t_area_name);
+  //console.log(area_name + ","+ salon_info.t_area_name);
   var areas_slave = getSlaveAreasByAreaName(country_area_info.area, area_name);
 
   // image画像情報を長さ4の配列に変換し、画像指定のない要素にnotfoundを表示するように
@@ -703,7 +703,7 @@ $(function(){
   component_salon_country.setProps({area: areas});
   component_salon_area.setProps({area: areas_slave});
   //debug
-  console.log(salon_info.t_hairSalonMaster_areaId+":"+getAreaIdByAreaName(salon_info.t_area_name, areas_slave));
+  //console.log(salon_info.t_hairSalonMaster_areaId+":"+getAreaIdByAreaName(salon_info.t_area_name, areas_slave));
   component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
   //component_salon_area.setState({t_area_id:getAreaIdByAreaName(salon_info.t_area_name, areas_slave)});
   component_salon_detail_text.setState(salon_info);

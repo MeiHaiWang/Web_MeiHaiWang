@@ -3,21 +3,22 @@ $(function(){
     Component for React
   */
 	
+/*	
   // コンポーネントの定義
-  var UserFind = React.createClass({displayName: "UserFind",
-    getInitialState:function() {
+  var UserFind = React.createClass({
+    getInitialState() {
       return {
         t_user_term: ""
       };
     },
-    changeText:function(e) {
+    changeText(e) {
       this.setState({t_user_term: e.target.value});
     },
-    render:function() {
+    render() {
       return (
-        React.createElement("div", null, 
-          React.createElement("input", {type: "text", value: this.state.t_user_term, onChange: this.changeText, placeholeder: "名前 or 電話番号"})
-        )
+        <div>
+          <input type="text" class="form-control" value={this.state.t_user_term} onChange={this.changeText} placeholeder = "名前 or 電話番号" />
+        </div>
       );
     }
   });
@@ -28,12 +29,9 @@ $(function(){
     component_calender_user_find.setState(term);
   }
 
-  /*
-    Component Render
-  */
   // コンポーネントをエレメントに割り当てる
-  var component_service_user_find = React.render(React.createElement(UserFind, null), document.getElementById('react_user_find'));
-
+  var component_service_user_find = React.render(<UserFind />, document.getElementById('react_user_find'));
+*/
 
   /*
     Main Part
@@ -169,9 +167,9 @@ $(function(){
     	if(stylists[i].t_stylist_restTime!=null && stylists[i].t_stylist_restTime!=""){
 	    	var restTimeStart = stylists[i].t_stylist_restTime.substring(0,5);
 	    	var restTimeEnd =  stylists[i].t_stylist_restTime.substring(6,11);
-	    	var os=oneDay.substring(0,11)+restTimeStart+":00";
-	    	var oe=oneDay.substring(0,11)+restTimeEnd+":00";
-	    	console.log("os:"+os+",oe:"+oe);
+	    	var os=oneDay.substring(0,10)+restTimeStart+":00";
+	    	var oe=oneDay.substring(0,10)+restTimeEnd+":00";
+	    	//console.log("os:"+os+",oe:"+oe);
 			valueList[i].push(
 		    		{
 		    			from: moment(os).valueOf(),
@@ -210,11 +208,12 @@ $(function(){
 	var stylistName2Id = function(name){
 		var id = -1;
 		for(var i=0; i<stylists.length; i++){
-			//console.log(name + "," + stylists[i].t_stylist_name );
+			//console.log(name + "," +stylists[i].t_stylist_Id +stylists[i].t_stylist_name );
 			if(name == stylists[i].t_stylist_name){
 				id = stylists[i].t_stylist_Id;
 			}
 		}
+		//console.log("stylistId="+id);
 		return id;
 	};
         
