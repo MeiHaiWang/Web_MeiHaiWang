@@ -87,20 +87,48 @@ $(function(){
       );
     }
   });
-
-  var ServiceTime = React.createClass({displayName: "ServiceTime",
-	    getInitialState:function() {
+/*
+  var ServiceTime = React.createClass({
+	    getInitialState() {
 	      return {
 	        t_menu_time: ""
 	      };
 	    },
-	    changeText:function(e) {
+	    changeText(e) {
+	      this.setState({t_menu_time: e.target.value});
+	    },
+	    render() {
+	      return (
+	        <div>
+	          <input type="text" value={this.state.t_menu_time} onChange={this.changeText} placeholder="分単位"/>
+	        </div>
+	      );
+	    }
+	  });
+  */
+  var ServiceTime = React.createClass({displayName: "ServiceTime",
+	    getDefaultProps:function() {
+	      return {
+	    	  menu_time: ['10','20', '30', '40', '50', '60']
+	      };
+	    },
+	    getInitialState:function() {
+	      return {
+	    	  t_menu_time: this.props.menu_time[0],
+	      };
+	    },
+	    onChangeSelectValue:function(e) {
 	      this.setState({t_menu_time: e.target.value});
 	    },
 	    render:function() {
+	      var options = this.props.menu_time.map(function(menu_time) {
+	        return React.createElement("option", {value: menu_time}, menu_time);
+	      });
 	      return (
 	        React.createElement("div", null, 
-	          React.createElement("input", {type: "text", value: this.state.t_menu_time, onChange: this.changeText})
+	          React.createElement("select", {value: this.state.t_menu_time, onChange: this.onChangeSelectValue}, 
+	            options
+	          )
 	        )
 	      );
 	    }
@@ -136,12 +164,12 @@ $(function(){
     render:function() {
       var index = 1;
       var service = this.state.service_list.map(function(service) {
-        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
+        return React.createElement("tr", null, React.createElement("td", null, index++), React.createElement("td", null, categorys[service.t_menu_categoryId]), React.createElement("td", null, service.t_menu_name), React.createElement("td", null, service.t_menu_time), React.createElement("td", null, React.createElement("img", {src: service.t_menu_imagePath?service.t_menu_imagePath:'img/notfound.jpg'})), React.createElement("td", null, React.createElement("a", {className: "edit"}, "编辑"), "/", React.createElement("a", {className: "delete"}, "删除")));
       });
       return (
         React.createElement("div", null, 
           React.createElement("table", null, 
-            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "分类"), React.createElement("th", null, "服务名称"), React.createElement("th", null, "照片"), React.createElement("th", null, "编辑")), 
+            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "分类"), React.createElement("th", null, "服务名称"), React.createElement("th", null, "時間"), React.createElement("th", null, "照片"), React.createElement("th", null, "编辑")), 
             service
           )
         )
