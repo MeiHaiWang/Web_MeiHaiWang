@@ -28,6 +28,28 @@ public class GetNewsService {
         		Integer.parseInt(request.getParameter("page")) : 0;
         
         int offset= Constant.ONE_PAGE_NUM * page;
+        
+        int next = 1;
+        //アプリ側で表示する上限を超えた場合に検索せずリターン
+        if(offset > Constant.PAGE_DISPLAY_LIMIT){
+        	next = 0;
+    		//レスポンスに設定するJSON Object
+			JSONObject jsonObject = new JSONObject();
+		    // 返却用サロンデータ（jsonデータの作成）
+			JSONArray newsArray = new JSONArray();
+		    jsonObject.put("news",newsArray);
+		    jsonObject.put("next",next);
+		    try{
+		    	PrintWriter out = response.getWriter();
+		    	out.print(jsonObject);
+		    	out.flush();
+				response.setStatus(responseStatus);
+				return response;
+		    }catch (Exception e){
+		    	e.printStackTrace();
+		    }
+        }
+        
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
@@ -43,9 +65,8 @@ public class GetNewsService {
 				throw new Exception("DabaBase Connect Error");
 			}
 			
-			int next = (offset + Constant.ONE_PAGE_NUM) < (beautyNewsListAll.size()) ?
+			next = (offset + Constant.ONE_PAGE_NUM) < (beautyNewsListAll.size()) ?
 					1 : 0;
-			
 			
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();

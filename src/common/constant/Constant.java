@@ -18,7 +18,7 @@ public  class Constant {
 	public static final String ID = "id";
 	public static final int ONE_PAGE_NUM = 20;
 	public static final int COUNTRY_NUMBER = 20; //TODO: 国の数、定数にする？
-
+	public static final int PAGE_DISPLAY_LIMIT = 100;
 	public static final String TYPE_FOR_SALON_CONDITION = "サロン検索条件";
 	public static final String TYPE_FOR_STYLIST_CONDITION = "スタイリスト条件検索（サービス）";
 	public static final String TYPE_FOR_STYLIST_LIKE = "スタイリスト条件検索（好み）";
