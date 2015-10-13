@@ -305,7 +305,7 @@ public class HairStyleDao {
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
 				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`) VALUES ('";
 		String sql2 = "', '";
-		String sql3 = "NULL";
+		//String sql3 = "NULL";
 		String sql4 = "0";
 		String sql_end = "');";
 

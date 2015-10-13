@@ -164,7 +164,9 @@ public class SalonDao {
 	}
 	
 	public HairSalonInfo getSalonMapInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
-		String sql ="SELECT `t_hairSalonMaster_mapUrl`, `t_hairSalonMaster_mapImagePath`, `t_hairSalonMaster_mapLatitude`, `t_hairSalonMaster_mapLongitude`, `t_hairSalonMaster_mapInfoText` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId=" + salonId.toString(); 		
+		String sql ="SELECT `t_hairSalonMaster_mapUrl`, `t_hairSalonMaster_mapImagePath`,"
+				+ " `t_hairSalonMaster_mapLatitude`, `t_hairSalonMaster_mapLongitude`, `t_hairSalonMaster_mapInfoText` "
+				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId=" + salonId.toString(); 		
 		Statement statement = dbConnection.getStatement();
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		try {
@@ -909,18 +911,41 @@ public class SalonDao {
 		 *     mapUrl', `t_hairSalonMaster_mapImagePath` = 'image' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 7;
 		 */
 
+		//http://tousu.baidu.com/map/add?new_poi=1&x=11605781.17&y=1736159.05&lat=15.506860161245294&lng=104.25537169474694
+		
 		boolean result = false;
-		String sql1 ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = '"; 		
-		String sql2 ="', `t_hairSalonMaster_mapImagePath` = '"; 		
-		String sql3 ="' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = "; 		
-		String sql4 =";";
+		String sql1 ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster`"
+				+ " SET `t_hairSalonMaster_mapUrl` = '"; 		
+		String sql2 ="', `t_hairSalonMaster_mapLatitude` = '";
+		String sql3 ="', `t_hairSalonMaster_mapLongitude` = '";
+		String sql4 ="', `t_hairSalonMaster_mapImagePath` = '"; 		
+		String sql5 ="' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = "; 		
+		String sql6 =";";
+
+		String latitude = "";
+		String longitude = "";
+		String url = t_hairSalonMaster_mapUrl;
+		latitude = url.substring(url.indexOf("lat=")+4,url.lastIndexOf("&"));
+		longitude = url.substring(url.indexOf("lng=")+4,url.length());
+		
 		Statement statement = dbConnection.getStatement();
 		
-		String sql = sql1 + t_hairSalonMaster_mapUrl + sql2 + t_hairSalonMaster_mapImagePath + sql3 + salonId + sql4;
-		System.out.println(sql);
+		StringBuilder sql = new StringBuilder(sql1);
+		sql.append(url);
+		sql.append(sql2);
+		sql.append(latitude);
+		sql.append(sql3);
+		sql.append(longitude);
+		sql.append(sql4);
+		sql.append(t_hairSalonMaster_mapImagePath);
+		sql.append(sql5);
+		sql.append(salonId);
+		sql.append(sql6);
+		//String sql = sql1 + t_hairSalonMaster_mapUrl + sql2 + t_hairSalonMaster_mapImagePath + sql3 + salonId + sql4;
+		System.out.println(sql.toString());
 		
 		try {
-			int result_int = statement.executeUpdate(sql);
+			int result_int = statement.executeUpdate(sql.toString());
 			if(result_int >= 0) result = true;
 		} catch (SQLException e) {
 			e.printStackTrace();

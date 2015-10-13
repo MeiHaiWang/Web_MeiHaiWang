@@ -52,8 +52,11 @@ public class SetMapInfoService {
 
 	    String t_hairSalonMaster_mapUrl = request.getParameter("t_hairSalonMaster_mapUrl") != null ?
 				request.getParameter("t_hairSalonMaster_mapUrl").toString() : null;
+				/*
 		String t_hairSalonMaster_mapImagePath = request.getParameter("t_hairSalonMaster_mapImagePath") != null ?
 				request.getParameter("t_hairSalonMaster_mapImagePath").toString() : null;
+				*/
+		String t_hairSalonMaster_mapImagePath = "";
 
 		try{
 			DBConnection dbConnection = new DBConnection();

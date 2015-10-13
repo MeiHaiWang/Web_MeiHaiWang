@@ -67,6 +67,8 @@ public class GetMapInfoService {
 			 */
 			jsonObject.put("t_hairSalonMaster_mapUrl", salonInfo.getSalonMapUrl());
 			jsonObject.put("t_hairSalonMaster_mapImagePath", salonInfo.getSalonMapImagePath());
+			jsonObject.put("t_hairSalonMaster_mapLatitude", salonInfo.getSalonLatitude());
+			jsonObject.put("t_hairSalonMaster_mapLongitude", salonInfo.getSalonLongitude());
 
 			// 返却用サロンデータ（jsonデータの作成）
 						    		    

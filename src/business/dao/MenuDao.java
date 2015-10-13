@@ -401,11 +401,13 @@ public class MenuDao {
 		
 		for(String menuId : menuIdList){
 			try {
-				//debug
-				System.out.println(sql1+menuId);
-				ResultSet rs = statement.executeQuery(sql1 + menuId);
-				while(rs.next()){
-					totalCost += rs.getInt("t_menu_price");
+				if(menuId.indexOf("R")<0){
+					//debug
+					System.out.println(sql1+menuId);
+					ResultSet rs = statement.executeQuery(sql1 + menuId);
+					while(rs.next()){
+						totalCost += rs.getInt("t_menu_price");
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

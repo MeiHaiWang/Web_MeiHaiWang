@@ -111,7 +111,7 @@ public class CouponDao {
 				+ "`t_coupon_useCondition`, `t_coupon_imagePath`, `t_coupon_price`, `t_coupon_deadLine`, "
 				+ "`t_coupon_isFirstFlag`, `t_coupon_presentationCondition`) VALUES ('";
 		String sql2 = "', '";
-		String sql3 = "NULL";
+		//String sql3 = "NULL";
 		String sql4 = "0";
 		String sql_end = "');";
 		
