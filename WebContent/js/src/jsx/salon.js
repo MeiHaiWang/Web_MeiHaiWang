@@ -245,7 +245,7 @@ $(function(){
       );
     }
   });
-
+/*
   var SalonJapaneseAvailable = React.createClass({
     getDefaultProps() {
       return {
@@ -273,6 +273,7 @@ $(function(){
       );
     }
   });
+  */
 
   var SalonImagePath = React.createClass({
     getInitialState() {
@@ -603,7 +604,7 @@ $(function(){
   var component_salon_close_day = React.render(<SalonCloseDay />, document.getElementById('salon_close_day'));
   var component_salon_credit_available = React.render(<SalonCreditAvailable />, document.getElementById('salon_credit_available'));
   var component_salon_car_park_available = React.render(<SalonCarParkAvailable />, document.getElementById('salon_car_park_available'));
-  var component_salon_japanese_available = React.render(<SalonJapaneseAvailable />, document.getElementById('salon_japanese_available'));
+  //var component_salon_japanese_available = React.render(<SalonJapaneseAvailable />, document.getElementById('salon_japanese_available'));
   var component_salon_image_path = React.render(<SalonImagePath />, document.getElementById('salon_image_path'));
   var component_salon_service_tag = React.render(<SalonServiceTag />, document.getElementById('salon_cond_tag1'));
   var component_salon_service_tag2 = React.render(<SalonServiceTag2 />, document.getElementById('salon_cond_tag2'));
@@ -723,9 +724,11 @@ $(function(){
   if (salon_info.t_hairSalonMaster_carParkAvailable != '') {
     component_salon_car_park_available.setState(salon_info);
   }
+  /*
   if (salon_info.t_hairSalonMaster_japaneseAvailable != '') {
     component_salon_japanese_available.setState(salon_info);
   }
+  */
   component_salon_image_path.setState(salon_info);
   component_salon_mail.setState(salon_info);
 
@@ -881,7 +884,8 @@ $(function(){
       t_hairSalonMaster_creditAvailable:   component_salon_credit_available.state.t_hairSalonMaster_creditAvailable,
       t_hairSalonMaster_carParkAvailable:  component_salon_car_park_available.state.t_hairSalonMaster_carParkAvailable,
       t_hairSalonMaster_salonImagePath:    component_salon_image_path.state.t_hairSalonMaster_salonImagePath.join(','),
-      t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
+      //t_hairSalonMaster_japaneseAvailable: component_salon_japanese_available.state.t_hairSalonMaster_japaneseAvailable,
+      t_hairSalonMaster_japaneseAvailable : "0", //使用しない。検索条件で設定.
       t_hairSalonMaster_searchConditionId: searchConditionIds,
       t_hairSalonMaster_mail:              component_salon_mail.state.t_hairSalonMaster_mail,
       t_hairSalonMaster_pass:              component_salon_pass.state.t_hairSalonMaster_pass

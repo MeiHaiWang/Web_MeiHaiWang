@@ -1,5 +1,6 @@
 package business.service;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,11 +53,13 @@ public class GetSearchSalonService {
 	}
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-	if(searchConditionIdList.isEmpty()){
-		searchConditionIdList.add("0");
+	if(searchConditionIdList.isEmpty()||searchConditionIdList.get(0)==""){
+		searchConditionIdList.set(0,"-1");
+		//searchConditionIdList.add("-1");
 		//TODO テスト用パラメータ
 		//searchConditionIdList.add("1");
 	}
+	//System.out.println("area:"+areaId+",cond:"+searchConditionIdList.get(0)+","+searchConditionIdList.size());
 	int pageNumber = request.getParameter("page") != null ?
 			Integer.valueOf(request.getParameter("page").toString()) : 0;
 	
@@ -127,4 +130,24 @@ public class GetSearchSalonService {
 	return response;
 
 	}
+	
+	private HttpServletResponse retError(HttpServletResponse response, String reason){
+		//response
+		int responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+		response.setStatus(responseStatus);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "false");
+		jsonObject.put("reason", reason);
+		try {
+			PrintWriter out;
+			out = response.getWriter();
+			out.print(jsonObject);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
 }

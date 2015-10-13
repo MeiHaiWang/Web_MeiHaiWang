@@ -15,6 +15,12 @@ public class HairStyleInfo {
 	private int isGood = 0;
 	private int hairTypeId = 0;
 	private String searchConditionId = "";
+	private int goodNumber =-1;
+	private int viewNumber = -1;
+	private String areaId = "";
+	private String areaName = "";
+	private String message = "";
+	
 	public HairStyleInfo(){
 		
 	}
@@ -98,4 +104,40 @@ public class HairStyleInfo {
 		return searchConditionId;
 	}
 
+	public void setHairStyleGoodNumber(int goodNumber) {
+		this.goodNumber = goodNumber;
+	}
+	public int getHairStyleGoodNumber(){
+		return this.goodNumber ;
+	}
+
+	public void setHairStyleViewNumber(int viewNumber) {
+		this.viewNumber  = viewNumber;
+	}
+	public int getHairStyleViewNumber(){
+		return this.viewNumber ;
+	}
+
+	public void setHairStyleAreaId(String areaId) {
+		this.areaId  = areaId != null ? areaId:"";
+	}
+	public String getHairStyleAreaId(){
+		return this.areaId ;
+	}
+
+	public void setHairStyleAreaName(String areaName) {
+		this.areaName   = areaName != null ? areaName:"";
+	}
+	public String getHairStyleAreaName(){
+		return this.areaName;
+	}
+
+	public void setHairStyleMessage(String message) {
+		this.message   = message != null ? message:"";
+	}
+	public String getHairStyleMessage(){
+		return this.message;
+	}
+	
+	
 }

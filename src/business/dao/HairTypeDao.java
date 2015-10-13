@@ -62,71 +62,71 @@ public class HairTypeDao {
 
 	
 	
-	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderNewInfo(DBConnection dbConnection, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
 		String sql = "";
 		String sql2="";
-		String sql3="";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
-		if(categoryId>=0){
-			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_hairTypeId="+categoryId;
-			sql2= " AND FIND_IN_SET(";
-			sql3= ",`t_hairStyle_searchConditionId`) "
-					+" ORDER BY `t_hairStyle_updateDate` DESC "
+		/**
+		 * SELECT `t_hairStyle_id`, `t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_areaId`, 
+		 * `t_hairStyle_imagePath`, `t_hairStyle_favoriteNumber` 
+		 * FROM `t_hairStyle` 
+		 * WHERE `t_hairStyle_stylistId` = 1 AND `t_hairStyle_salonId` = 1
+		 */
+		if(stylistId>=0){
+			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_goodNumber`, "
+					+ "`t_hairStyle_viewNumber`, `t_hairStyle_areaId`, `t_hairStyle_favoriteNumber` "
+					+ "FROM `t_hairStyle` " 
+					+ "WHERE t_hairStyle_stylistId="+ stylistId
+					//+ " AND t_hairStyle_salonId ="+salonId;
+					+ " AND FIND_IN_SET(";
+			sql2= ",`t_hairStyle_searchConditionId`) "
+					+" ORDER BY `t_hairStyle_updateDate` DESC " 
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
-		}else if(stylistId>=0){
-			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
-					+ "WHERE t_hairStyle_stylistId="+ stylistId;
-			sql2= " AND FIND_IN_SET(";
-			sql3= ",`t_hairStyle_searchConditionId`) "
-					+" ORDER BY `t_hairStyle_updateDate` DESC "
-					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
-					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
+
+			int hitNum = 0;
+			Statement statement = dbConnection.getStatement();
+			try {
+				for(String conditionId : searchConditionIdList){
+					//debug
+					System.out.println(sql+conditionId+sql2);
+					ResultSet rs = statement.executeQuery(sql+conditionId+sql2);
+					while(rs.next()){
+						HairStyleInfo hairStyleInfo = new HairStyleInfo();
+						hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
+						hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+						hairStyleInfo.setHairStyleGoodNumber(rs.getInt("t_hairStyle_goodNumber"));
+						hairStyleInfo.setHairStyleViewNumber(rs.getInt("t_hairStyle_viewNumber"));
+						hairStyleInfo.setHairStyleAreaId(rs.getString("t_hairStyle_areaId"));
+						hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
+						infoList.add(hairStyleInfo);
+						hitNum++;
+					}
+					if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+						jsonObject.put("next", 0);
+					}
+					else{
+						jsonObject.put("next", 1);
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+
 		}else{
 			infoList.add(retNull());
-	 		return infoList;
 		}
-
-		int hitNum=0;
-		Statement statement = dbConnection.getStatement();
-		try {
-			for(String conditionId : searchConditionIdList){
-			//debug
-			System.out.println(sql+sql2+conditionId+sql3);
-	
-				ResultSet rs = statement.executeQuery(sql);
-				while(rs.next()){
-					HairStyleInfo hairStyleInfo = new HairStyleInfo();
-					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
-					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-					infoList.add(hairStyleInfo);
-					hitNum++;
-				}
-				
-				if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
-					jsonObject.put("next", 0);
-				}
-				else{
-					jsonObject.put("next", 1);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-
 
 		return infoList;
 	}	
 
-	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int categoryId, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
+	public List<HairStyleInfo> getHairTypeOrderGoodInfo(DBConnection dbConnection, int stylistId, int pageNumber, JSONObject jsonObject, List<String> searchConditionIdList) throws SQLException{
 		String sql = "";
 		String sql2="";
-		String sql3="";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
-		
+		/*
 		if(categoryId>=0){
 			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` "
 					+ "WHERE t_hairStyle_hairTypeId="+categoryId;
@@ -135,48 +135,79 @@ public class HairTypeDao {
 					+" ORDER BY `t_hairStyle_goodNumber` DESC "
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
-		}else if(stylistId>=0){
-			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath` FROM `t_hairStyle` " 
-					+ "WHERE t_hairStyle_stylistId="+ stylistId;
-			sql2= " AND FIND_IN_SET(";
-			sql3= ",`t_hairStyle_searchConditionId`) "
+		}else
+			*/
+		/**
+		 * SELECT `t_hairStyle_id`, `t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_areaId`, 
+		 * `t_hairStyle_imagePath`, `t_hairStyle_favoriteNumber` 
+		 * FROM `t_hairStyle` 
+		 * WHERE `t_hairStyle_stylistId` = 1 AND `t_hairStyle_salonId` = 1
+		 */
+		if(stylistId>=0){
+			sql = "SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_goodNumber`, "
+					+ "`t_hairStyle_viewNumber`, `t_hairStyle_areaId`, `t_hairStyle_favoriteNumber` "
+					+ "FROM `t_hairStyle` " 
+					+ "WHERE t_hairStyle_stylistId="+ stylistId
+					//+ " AND t_hairStyle_salonId ="+salonId;
+					+ " AND FIND_IN_SET(";
+			sql2= ",`t_hairStyle_searchConditionId`) "
 					+" ORDER BY `t_hairStyle_goodNumber` DESC " 
 					+ "limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " 
 					+ String.valueOf(pageNumber * Constant.ONE_PAGE_NUM);
+					
+			int hitNum = 0;
+			Statement statement = dbConnection.getStatement();
+			try {
+				for(String conditionId : searchConditionIdList){
+					//debug
+					System.out.println(sql+conditionId+sql2);
+					ResultSet rs = statement.executeQuery(sql+conditionId+sql2);
+					while(rs.next()){
+						HairStyleInfo hairStyleInfo = new HairStyleInfo();
+						hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
+						hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
+						hairStyleInfo.setHairStyleGoodNumber(rs.getInt("t_hairStyle_goodNumber"));
+						hairStyleInfo.setHairStyleViewNumber(rs.getInt("t_hairStyle_viewNumber"));
+						hairStyleInfo.setHairStyleAreaId(rs.getString("t_hairStyle_areaId"));
+						hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
+						infoList.add(hairStyleInfo);
+						hitNum++;
+					}
+					if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
+						jsonObject.put("next", 0);
+					}
+					else{
+						jsonObject.put("next", 1);
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+
 		}else{
 			infoList.add(retNull());
-	 		return infoList;
 		}
-				
-		int hitNum = 0;
+		
+		return infoList;
+	}	
+
+	public String getHairTypeImage(DBConnection dbConnection, int conditionId) throws SQLException {
+		String sql = "SELECT `t_hairType_imagePath` FROM `t_masterHairType` WHERE `t_hairType_searchConditionId` ="+conditionId;
+
+		String hairTypeImage = "";
 		Statement statement = dbConnection.getStatement();
 		try {
-			for(String conditionId : searchConditionIdList){
-				//debug
-				System.out.println(sql+sql2+conditionId+sql3);
-				ResultSet rs = statement.executeQuery(sql+sql2+conditionId+sql3);
-				while(rs.next()){
-					HairStyleInfo hairStyleInfo = new HairStyleInfo();
-					hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_Id"));
-					hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-					infoList.add(hairStyleInfo);
-					hitNum++;
-				}
-			
-				if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
-					jsonObject.put("next", 0);
-				}
-				else{
-					jsonObject.put("next", 1);
-				}
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				hairTypeImage=rs.getString("t_hairType_ImagePath");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
-		return infoList;
-	}	
+		return hairTypeImage;
+	}
 
 	
 	/*空っぽのデータをつっこむ*/
@@ -186,7 +217,6 @@ public class HairTypeDao {
 		hairStyleInfo.setHairStyleImagePath("");
 		hairStyleInfo.setStylistId(Integer.MIN_VALUE);
 		hairStyleInfo.setFavoriteNumber(Integer.MIN_VALUE);
-
 		return hairStyleInfo;
 
 	}

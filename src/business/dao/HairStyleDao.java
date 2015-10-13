@@ -163,31 +163,47 @@ public class HairStyleDao {
 		return HairStyleInfoList;
 	}
 	
-	//Detail
-	public List<HairStyleInfo> getHairStyleDetailInfo(DBConnection dbConnection, int cataloglistID) throws SQLException{
+	//アプリ側：ヘアスタイル情報の詳細を取得
+	/**
+	{
+		   id: 1,
+		   image1: "http://exsample.com/minibobex.png",
+		   image2: "http://exsample.com/minibobex.png",
+		   image3: "http://exsample.com/minibobex.png",
+		   isgood: 1,
+		   stylistName: "aaaa",
+		   message: "aaaaaa",
+		   area: "北京",
+		   good_count: 144,
+		   stylistID: 1
+		}
+	*/
+	public HairStyleInfo getHairStyleDetailInfo(DBConnection dbConnection, int cataloglistID) throws SQLException{
 		String sql = 
-				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, "
-				+ "`t_hairStyle_favoriteNumber`, `t_hairStyle_stylistId` FROM `t_hairStyle` WHERE t_hairStyle_id="+cataloglistID;
+				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_stylistId`, "
+				+ "`t_hairStyle_message`, `t_hairStyle_areaId`,  `t_hairStyle_goodNumber`, "
+				+ "`t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE t_hairStyle_id="+cataloglistID;
 				
 		Statement statement = dbConnection.getStatement();
-		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
+		HairStyleInfo hairStyleInfo = new HairStyleInfo();
 
 		try {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				HairStyleInfo hairStyleInfo = new HairStyleInfo();
 				hairStyleInfo.setHairStyleId(rs.getInt("t_hairStyle_id"));
-				hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
 				hairStyleInfo.setHairStyleImagePath(rs.getString("t_hairStyle_imagePath"));
-				hairStyleInfo.setIsGood(rs.getInt("t_hairStyle_favoriteNumber"));
-				HairStyleInfoList.add(hairStyleInfo);
+				hairStyleInfo.setStylistId(rs.getInt("t_hairStyle_stylistId"));
+				hairStyleInfo.setHairStyleMessage(rs.getString("t_hairStyle_message"));
+				hairStyleInfo.setHairStyleAreaId(rs.getString("t_hairStyle_areaId"));
+				hairStyleInfo.setHairStyleGoodNumber(rs.getInt("t_hairStyle_goodNumber"));
+				hairStyleInfo.setFavoriteNumber(rs.getInt("t_hairStyle_favoriteNumber"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
 
-		return HairStyleInfoList;
+		return hairStyleInfo;
 	}
 	
 	/*空っぽのデータをつっこむ*/

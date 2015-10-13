@@ -567,6 +567,85 @@ img.coupon_image_img {
   cursor: pointer;
 }
 
+#customer_list_page label{
+  display: block;
+  text-align: right;
+}
+
+#customer_list_page td{
+  width: 250px;
+  height: 50px;
+  padding: 5px 5px;
+}
+
+#customer_list_page {
+  margin: 0 auto;
+}
+
+#customer_list_page input[type="text"],
+#customer_list_page textarea,
+#customer_list_page select,
+#customer_list_page option{
+  width: 100%;
+  height: 100%;
+}
+
+#customer_list_page textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+#customer_list_page table{
+  border: 1px ;
+  width: 100%;
+  height: 100%;
+}
+
+#customer_list_page dt {
+  text-align: center;
+  font-weight: bold;
+}
+
+#customer_list_page dd {
+  padding: 1em;
+  margin-left: 0em;
+  margin-top: 0.5em;
+  margin-bottom: 3em;
+}
+
+dt#customer_list_area {
+  color: #F2AECF;
+  border: solid 1px #F2AECF;
+}
+dt#customer_list_area + dd {
+  border: solid 1px #F2AECF;
+}
+
+.fn-gantt *,
+.fn-gantt *:after,
+.fn-gantt *:before {
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+}
+
+#thead1{
+	color: white;
+	background-color: #F2AECF;
+	text-align: center;	
+}
+#customer_list_info th{
+	border-width: 1px;
+	border-color: #b9b9b9;
+	border-style: solid;
+}
+#customer_list_info td{
+	border-width: 1px;
+	border-color: #b9b9b9;
+	border-style: solid;
+}
+
 /*
 ul.tagit {
     padding: 1px 5px;
@@ -874,7 +953,7 @@ width: 400px;
 height: 250px; 
 }
 
-#service_category{
+#service_menu_category{
 width:400px; 
 height:100px;
 overflow-x:scroll;
@@ -882,7 +961,7 @@ vertical-align: top;
 margin-left:auto;
 margin-right:auto;
 }
-#service_list_info{
+#service_menu_list_info{
 width:400px; 
 height:300px; 
 overflow-x:scroll;
@@ -974,6 +1053,115 @@ div.reservation_image_path {
 }
 */
 
+#reservation_list_page label{
+  display: block;
+  text-align: right;
+}
+
+#reservation_list_page td{
+  width: 250px;
+  height: 50px;
+  padding: 5px 5px;
+}
+
+#reservation_list_page {
+  margin: 0 auto;
+}
+
+#reservation_list_page input[type="text"],
+#reservation_list_page textarea,
+#reservation_list_page select,
+#reservation_list_page option{
+  width: 100%;
+  height: 100%;
+}
+
+#reservation_list_page textarea {
+  resize: none;
+  overflow: auto;
+  min-height: 150px;
+}
+
+#reservation_list_page table{
+  border: 1px ;
+  width: 100%;
+  height: 100%;
+}
+
+#reservation_list_page dt {
+  text-align: center;
+  font-weight: bold;
+}
+
+#reservation_list_page dd {
+  padding: 1em;
+  margin-left: 0em;
+  margin-top: 0.5em;
+  margin-bottom: 3em;
+}
+
+dt#reservation_list_area {
+  color: #F2AECF;
+  border: solid 1px #F2AECF;
+}
+dt#reservation_list_area + dd {
+  border: solid 1px #F2AECF;
+}
+
+.fn-gantt *,
+.fn-gantt *:after,
+.fn-gantt *:before {
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+}
+
+
+#reservation_list_table{
+background-color: #eee;
+width: 100%;
+height: 100%;
+border-color: blue;
+border-collapse: collapse;
+}
+
+/*
+#reservation_list_table th{
+padding: 6px;
+text-align: left;
+vertical-align: top;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+#reservation_list_table td{
+border-width: 1px;
+border-color: #b9b9b9;
+border-style: solid;
+}
+*/
+
+#thead1{
+	color: white;
+	background-color: #F2AECF;
+	text-align: center;	
+	/*
+	border-width: 1px;
+	border-color: #b9b9b9;
+	border-style: solid;
+	*/
+}
+#reservation_list_info th{
+	border-width: 1px;
+	border-color: #b9b9b9;
+	border-style: solid;
+}
+#reservation_list_info td{
+	border-width: 1px;
+	border-color: #b9b9b9;
+	border-style: solid;
+}
+
+
 #salon_info label {
   display: block;
   text-align: right;
@@ -1039,6 +1227,7 @@ div.salon_image_path_div {
 .salontag{
 width: 100%;
 height: 300px;
+overflow-x:scroll;
 border-collapse: collapse;
 }
 
@@ -1085,7 +1274,7 @@ border: 1px solid tomato;
 
 #salon_cond_list1 {
   width: 100%;
-  height: 100%;  
+  height: 300px;  
   float: left;
   margin: 12px 0 1px 0;
   display: block;
@@ -1093,7 +1282,7 @@ border: 1px solid tomato;
 
 #salon_cond_list2 {
   width: 100%;
-  height: 100%;  
+  height: 300px;  
   float: left;
   margin: 12px 0 1px 0;
   display: block;

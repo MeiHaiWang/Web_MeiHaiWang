@@ -64,7 +64,12 @@ public class SalonDao {
 	
 	public List<HairSalonInfo> getSalonDetailInfo(Integer salonId ,DBConnection dbConnection) throws SQLException{
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, `t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` , `t_hairSalonMaster_isNetReservation` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND `t_hairSalonMaster_salonId` =" + salonId.toString();		
+		String sql = "SELECT `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, "
+				+ "`t_hairSalonMaster_phoneNumber`, `t_hairSalonMaster_address`, `t_hairSalonMaster_openTime`, "
+				+ "`t_hairSalonMaster_closeTime`, `t_hairSalonMaster_closeDay`, `t_hairSalonMaster_reviewId`, "
+				+ "`t_hairSalonMaster_favoriteNumber` , `t_hairSalonMaster_availableCountryId` ,"
+				+ " `t_hairSalonMaster_isNetReservation`, `t_hairSalonMaster_searchConditionId` "
+				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND `t_hairSalonMaster_salonId` =" + salonId.toString();		
 		String sql2 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
 		String sql3 = ",t_review_id)";
 		Statement statement = dbConnection.getStatement();
@@ -97,6 +102,7 @@ public class SalonDao {
 				salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 				salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
 				salonInfo.setIsNetReservation(rs.getInt("t_hairSalonMaster_isNetReservation"));
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
 				
 				reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
 						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
@@ -412,7 +418,8 @@ public class SalonDao {
 				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
 				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
 				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
-				+ "`t_hairSalonMaster_favoriteNumber` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId IN(";
+				+ "`t_hairSalonMaster_favoriteNumber` "
+				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId IN(";
 		String sql2 =  ") AND FIND_IN_SET(";
 		String sql3 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
 		String sql4 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";

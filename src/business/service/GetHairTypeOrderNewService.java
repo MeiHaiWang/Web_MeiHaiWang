@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.AreaDao;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
 import common.constant.Constant;
@@ -37,30 +38,11 @@ public class GetHairTypeOrderNewService {
 			顔型
 			page=0
 		 */
+		//パラメータ取得
         int stylistId = request.getParameter("stylistID")!= null
            		?Integer.parseInt(request.getParameter("stylistID")) : -1;
-		/*
-		int categoryId = request.getParameter("categoryID")!= null
-        		?Integer.parseInt(request.getParameter("categoryID")) : 0;
-        List<String> searchConditionIdList = new ArrayList<String>();
-   		List<String> _searchConditionIdList = request.getParameter("menu") != null ?
-   				Arrays.asList(request.getParameter("menu").split(",")) : new ArrayList<String>();	
-   		if(searchConditionIdList.isEmpty()){
-				//searchConditionIdList.add("-1");
-		}else{
-			searchConditionIdList.addAll(_searchConditionIdList);
-		}
-		List<String> searchFaceIdList = request.getParameter("face") != null ?
-				Arrays.asList(request.getParameter("face").split(",")) : new ArrayList<String>();	
-		if(searchFaceIdList.isEmpty()){
-				//searchFaceIdList.add("-1");
-		}
-		searchConditionIdList.addAll(searchFaceIdList);
-		*/
-		int categoryId = -1;
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-				
 		int page = request.getParameter("page")!= null
            		?Integer.parseInt(request.getParameter("page")) : -1;
 
@@ -72,42 +54,76 @@ public class GetHairTypeOrderNewService {
 			List<HairStyleInfo> HairStyleOrderNewList  = new ArrayList<HairStyleInfo>();
 			java.sql.Connection conn = dbConnection.connectDB();
 			
-			if(categoryId >= 0 && stylistId < 0){
-				HairTypeInfo hairTypeInfo = new HairTypeInfo();
-				if(conn!=null){
-					HairTypeDao hairTypeDao = new HairTypeDao();
-					hairTypeInfo = hairTypeDao.getHairTypeInfo(dbConnection, categoryId);				
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId, page, jsonObject, searchConditionIdList);
-					dbConnection.close();
-				}else{
-					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-					throw new Exception("DabaBase Connect Error");
+			StylistInfo stylistInfo = new StylistInfo();
+			if(conn!=null){
+				HairTypeDao hairTypeDao = new HairTypeDao();
+				StylistDao stylistDao = new StylistDao();
+				stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+				HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, page, jsonObject, searchConditionIdList);
+				AreaDao areaDao = new AreaDao();
+				for(int i=0;i<HairStyleOrderNewList.size();i++){
+					HairStyleInfo hInfo = HairStyleOrderNewList.get(i);
+					List<String> areaNameList = areaDao.getAreaName(dbConnection, hInfo.getHairStyleAreaId());
+					String areaName = "";
+					for(String area : areaNameList){
+						areaName += area + ",";
+					}
+					if(areaNameList.size()>0) areaName.substring(0, areaName.length()-1);
+					hInfo.setHairStyleAreaName(areaName);
+					HairStyleOrderNewList.set(i, hInfo);
 				}
-				
-				//レスポンスに設定するJSON Object
-				JSONObject jsonOneData = new JSONObject();
-				jsonOneData.put("id", hairTypeInfo.getHairTypeId());
-				jsonOneData.put("name", hairTypeInfo.getHairTypeName());
-			    // 返却用サロンデータ（jsonデータの作成）
-			    jsonObject.put("category",jsonOneData);
-				
-			}else if(stylistId >=0 && categoryId < 0){
-				StylistInfo stylistInfo = new StylistInfo();
-				if(conn!=null){
-					HairTypeDao hairTypeDao = new HairTypeDao();
-					StylistDao stylistDao = new StylistDao();
-					stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, categoryId, page, jsonObject, searchConditionIdList);
-					dbConnection.close();
-				}
-
-				//レスポンスに設定するJSON Object
-				JSONObject jsonOneData = new JSONObject();
-				jsonOneData.put("id", stylistInfo.getStylistId());
-				jsonOneData.put("name", stylistInfo.getStylistName());
-			    // 返却用サロンデータ（jsonデータの作成）
-			    jsonObject.put("stylist",jsonOneData);
+				dbConnection.close();
 			}
+			
+
+			/**
+			 * {
+				   cataloglist:[
+				      {
+				         id:1,
+				         image: "http://exsample.com/Shor1.png",
+				         stylistName: "aaaaaa",
+				         area: "北京",
+				　　　　　goodCount: 100,
+				         isGood: 1
+				      },
+				      {
+				         id:2,
+				         image: "http://exsample.com/Shor2.png",
+				         stylistName: "aaaaaa",
+				         area: "北京",
+				　　　　　goodCount: 100,
+				         isGood: 1
+				      },
+				      {
+				         id:3,
+				         image: "http://exsample.com/Shor3.png",
+				         stylistName: "aaaaaa",
+				         area: "北京",
+				　　　　　goodCount: 100,
+				         isGood: 1
+				      },
+				      {
+				         id:4,
+				         image: "http://exsample.com/Shor4.png",
+				         stylistName: "aaaaaa",
+				         area: "北京",
+				　　　　　goodCount: 100,
+				         isGood: 1
+				      }
+				   ],
+				   next:1
+			   }
+			 */
+			
+			/*
+			//レスポンスに設定するJSON Object
+			JSONObject jsonOneData = new JSONObject();
+			jsonOneData.put("id", stylistInfo.getStylistId());
+			jsonOneData.put("name", stylistInfo.getStylistName());
+		    // 返却用サロンデータ（jsonデータの作成）
+		    jsonObject.put("stylist",jsonOneData);
+		    */
 
 			// 返却用サロンデータ（jsonデータの作成）
 			JSONArray HairStyleArray = new JSONArray();
@@ -120,6 +136,14 @@ public class GetHairTypeOrderNewService {
 		    		i++;
 		    		jsonOneData.put("image"+i, str);		    		
 		    	}
+		    	jsonOneData.put("stylistName", stylistInfo.getStylistName());
+		    	jsonOneData.put("area", hairStyleInfo.getHairStyleAreaName());
+		    	jsonOneData.put("goodCount", hairStyleInfo.getHairStyleGoodNumber());
+		    	if(hairStyleInfo.getHairStyleGoodNumber()>0){
+		    		jsonOneData.put("isGood", 1);
+		    	}else{
+		    		jsonOneData.put("isGood", 0);
+		    	}		    	
 		    	HairStyleArray.add(jsonOneData);
 		    }
 		    jsonObject.put("cataloglist", HairStyleArray);
@@ -127,6 +151,7 @@ public class GetHairTypeOrderNewService {
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();
+		    
 		    
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

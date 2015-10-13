@@ -4,6 +4,7 @@ public class ConditionInfo {
 	private int conditionId = Integer.MIN_VALUE;
 	private String conditionName ="";
 	private int conditionTitleId = Integer.MIN_VALUE;
+	private String hairTypeImage = "";
 
 	public ConditionInfo(){
 		
@@ -31,6 +32,13 @@ public class ConditionInfo {
 	
 	public int getConditionTitleId(){
 		return conditionTitleId;
+	}
+
+	public void setConditionImagePath(String hairTypeImage) {
+		this.hairTypeImage  = hairTypeImage != null ? hairTypeImage : "";
+	}
+	public String getConditionImagePathImage(){
+		return hairTypeImage;
 	}
 
 }

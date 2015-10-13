@@ -45,6 +45,7 @@ public class HairSalonInfo {
     
     private String areaId = "";
 	private String searchConditionId = "";
+	private String salonCondName ="";
     
 	public HairSalonInfo(){
 		
@@ -326,6 +327,13 @@ public class HairSalonInfo {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setSalonConditionName(String salonCondName) {
+		this.salonCondName = salonCondName != null ? salonCondName : "";		
+	}
+	public String getSalonCondName(){
+		return salonCondName ;
 	}
 
 }

@@ -97,7 +97,7 @@ public class AreaDao {
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs;
-			rs = statement.executeQuery(sql+areaId);			
+			rs = statement.executeQuery(sql);			
 			//debug
 			System.out.println(sql);
 			while(rs.next()){
@@ -109,6 +109,27 @@ public class AreaDao {
 		return parent_areaId;
 	}
 
+	/*
+	 * areaの名前を返す
+	 * */
+	public List<String> getAreaName(DBConnection dbConnection, String areaId) {
+		List<String> areaNameList = new ArrayList<String>();
+		String sql = "SELECT `t_area_areaName` FROM `t_masterArea` WHERE `t_area_areaId` IN (" + areaId + ")";
+		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs;
+			rs = statement.executeQuery(sql);			
+			//debug
+			System.out.println(sql);
+			while(rs.next()){
+				areaNameList.add(rs.getString("t_area_areaName"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return areaNameList;
+	}
+	
 	public List<String> getAreaChildren(DBConnection dbConnection, String areaId) {
 		String sql = "SELECT * FROM `t_masterArea` WHERE `t_area_parentAreaId` = " + areaId;
 		List<String> childrenList = new ArrayList<String>();

@@ -20,7 +20,7 @@ $(function(){
       );
     }
   });
-
+/*
   var MapImagePath = React.createClass({
     getInitialState() {
       return {
@@ -35,14 +35,14 @@ $(function(){
       );
     }
   });
-
+*/
 
   /*
     Component Render
   */
   // コンポーネントをエレメントに割り当てる
   var component_map_url = React.render(<MapUrl />, document.getElementById('map_url'));
-  var component_map_image_path = React.render(<MapImagePath />, document.getElementById('map_image_path'));
+ // var component_map_image_path = React.render(<MapImagePath />, document.getElementById('map_image_path'));
 
 
   /*
@@ -58,7 +58,7 @@ $(function(){
 
   // コンポーネントにjsonを渡して関係する部分だけ書き換わる
   component_map_url.setState(map_info);
-  component_map_image_path.setState(map_info);
+  //component_map_image_path.setState(map_info);
 
 
   /*
@@ -69,7 +69,8 @@ $(function(){
     var data = {
       t_hairSalonMaster_salonId:      session_info.t_hairSalonMaster_salonId,
       t_hairSalonMaster_mapUrl:       component_map_url.state.t_hairSalonMaster_mapUrl,
-      t_hairSalonMaster_mapImagePath: component_map_image_path.state.t_hairSalonMaster_mapImagePath,
+      //t_hairSalonMaster_mapImagePath: component_map_image_path.state.t_hairSalonMaster_mapImagePath,
+      t_hairSalonMaster_mapImagePath: ""
     }
 
     // サニタイズ
@@ -85,6 +86,7 @@ $(function(){
     }
   });
 
+  /*
   // 画像アップロード
   $('#map_image').change(function() {
     // ファイルが選択されたか
@@ -112,7 +114,9 @@ $(function(){
               }
           });
       })(data);
-      
+
+      */
+  
       /*
       var result = uploadImage(data);
       if (result.result == "true") {
@@ -122,11 +126,12 @@ $(function(){
         alert('Upload Failed');
       }
       */
-    }
-  });
-
+//    }
+//  });
+/*
   // 画像削除ボタン
   $('.map_image_trash_button').on('click', function() {
     component_map_image_path.setState({t_hairSalonMaster_mapImagePath: 'img/notfound.jpg'});
   });
+  */
 });

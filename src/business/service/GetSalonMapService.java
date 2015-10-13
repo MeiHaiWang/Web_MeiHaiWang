@@ -42,6 +42,7 @@ public class GetSalonMapService {
 			jsonOneData.put("latitude", salonInfo.getSalonLatitude());
 			jsonOneData.put("longitude", salonInfo.getSalonLongitude());
 			jsonOneData.put("info", salonInfo.getSalonMapInfo());
+			jsonOneData.put("baiduURL", salonInfo.getSalonMapUrl());
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("shop_map",jsonOneData);
 		    PrintWriter out = response.getWriter();
