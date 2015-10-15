@@ -230,6 +230,9 @@ public class HairStyleDao {
 			          t_hairStyle_name,
 			          t_hairStyle_stylistId,
 			          t_hairStyle_imagePath,
+			          t_hairStyle_areaId,
+			          t_hairStyle_areaName,
+			          t_hairStyle_message
 			        },
 			      ]
 			    }
@@ -237,7 +240,8 @@ public class HairStyleDao {
 		
 		String sql = 
 				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_hairTypeId`, `t_hairStyle_searchConditionId`, "
-				+ "`t_hairStyle_name`, `t_hairStyle_stylistId` FROM `t_hairStyle` WHERE t_hairStyle_id=";
+				+ "`t_hairStyle_name`, `t_hairStyle_stylistId`, `t_hairStyle_areaId`, `t_hairStyle_message`"
+				+ "FROM `t_hairStyle` WHERE t_hairStyle_id=";
 				
 		Statement statement = dbConnection.getStatement();
 		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
@@ -256,6 +260,8 @@ public class HairStyleDao {
 					hairStyleInfo.setHairTypeId(rs.getInt("t_hairStyle_hairTypeId"));
 					hairStyleInfo.setHairStyleName(rs.getString("t_hairStyle_name"));
 					hairStyleInfo.setHairStyleSearchConditionId(rs.getString("t_hairStyle_searchConditionId"));
+					hairStyleInfo.setHairStyleAreaId(rs.getString("t_hairStyle_areaId"));
+					hairStyleInfo.setHairStyleMessage(rs.getString("t_hairStyle_message"));
 					HairStyleInfoList.add(hairStyleInfo);
 				}
 			} catch (SQLException e) {
@@ -283,6 +289,9 @@ public class HairStyleDao {
 		      t_hairStyle_name,
 		      t_hairStyle_stylistId,
 		      t_hairStyle_imagePath,
+		      t_hairStyle_areaId,
+		      t_hairStyle_message,
+		      t_hairStyle_updateDate
 		    }
 		 */
 
@@ -299,20 +308,25 @@ public class HairStyleDao {
 			
 		*/
 		
-		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_Id` = "; // hairStyleId 
+		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_id` = "; // hairStyleId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` ("
 				+ "`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
-				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`) VALUES ('";
+				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`, "
+				+ "`t_hairStyle_message`) VALUES ('";
 		String sql2 = "', '";
 		//String sql3 = "NULL";
 		String sql4 = "0";
 		String sql_end = "');";
 
+		/*
 		//TODO: Update time?
-		Date oneDate = new Date(0);
+		//Date oneDate = new Date(0);
+		Date oneDate = new Date(hairStyleInfo.getUpdateTime());
 		DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 		String updateTime = sdf.format(oneDate);
+		System.out.println("updateTime:"+updateTime);
+		*/
 		
 		//update
 		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET "
@@ -321,10 +335,12 @@ public class HairStyleDao {
 				+ "`t_hairStyle_hairTypeId` = '" +  hairStyleInfo.getHairTypeId()  + "',"
 				+ "`t_hairStyle_stylistId` = '" + hairStyleInfo.getStylistId()  + "',"
 				+ "`t_hairStyle_salonId` = '" +  salonId  + "',"
-				+ "`t_hairStyle_updateDate` = '" +  updateTime  + "',"
+				+ "`t_hairStyle_updateDate` = '" +  hairStyleInfo.getUpdateTime()  + "',"
 				+ "`t_hairStyle_imagePath` = '" +  hairStyleInfo.getHairStyleImagePathStr()  + "',"
-				+ "`t_hairStyle_searchConditionId` = '" + hairStyleInfo.getHairStyleSearchConditionId() + "'"
-				+ " WHERE `t_hairStyle`.`t_hairStyle_Id` = " + hairStyleId;
+				+ "`t_hairStyle_searchConditionId` = '" + hairStyleInfo.getHairStyleSearchConditionId() + "',"
+				+ "`t_hairStyle_areaId` = '" +  hairStyleInfo.getHairStyleAreaId()  + "',"
+				+ "`t_hairStyle_message` = '" + hairStyleInfo.getHairStyleMessage() + "'"
+				+ " WHERE `t_hairStyle`.`t_hairStyle_id` = " + hairStyleId;
 
 		
 		Statement statement = dbConnection.getStatement();
@@ -350,10 +366,11 @@ public class HairStyleDao {
 					+ sql4 + sql2 
 					+ sql4 + sql2 
 					+ salonId + sql2
-					+ sql4 + sql2 
-					+ updateTime + sql2 				
+					+ hairStyleInfo.getHairStyleAreaId() + sql2
+					+ hairStyleInfo.getUpdateTime() + sql2 				
 					+ hairStyleInfo.getHairStyleImagePathStr() + sql2
-					+ hairStyleInfo.getHairStyleSearchConditionId()
+					+ hairStyleInfo.getHairStyleSearchConditionId() + sql2
+					+ hairStyleInfo.getHairStyleMessage()
 					+ sql_end;
 			//debug
 			System.out.println(sql);
@@ -408,7 +425,7 @@ public class HairStyleDao {
 		//update
 		}else{
 			//debug
-			System.out.println("sql_update :" + sql_update);			
+			System.out.println(sql_update);			
 			try {
 				int result_int = statement.executeUpdate(sql_update);
 				if(result_int >= 0) result = true;

@@ -620,13 +620,13 @@ $(function(){
   var session_info = getSessionInfo();
   var salon_info = getSalonInfo(session_info.t_hairSalonMaster_salonId);
   var country_area_info = getCountryAreaList();
+  sanitaize.decode(salon_info);
+  sanitaize.decode(country_area_info);
   var search_condition_type = {
 		  t_masterSearchConditionType: "サロン検索条件"
   }
   sanitaize.encode(search_condition_type);
   var search_condition = getSearchConditionList(search_condition_type);
-  sanitaize.decode(salon_info);
-  sanitaize.decode(country_area_info);
   sanitaize.decode(search_condition);
   var titles = search_condition.titles;
   var values = search_condition.values;

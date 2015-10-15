@@ -20,6 +20,7 @@ public class HairStyleInfo {
 	private String areaId = "";
 	private String areaName = "";
 	private String message = "";
+	private String updateTime;
 	
 	public HairStyleInfo(){
 		
@@ -137,6 +138,13 @@ public class HairStyleInfo {
 	}
 	public String getHairStyleMessage(){
 		return this.message;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime   = updateTime != null ? updateTime:"";
+	}
+	public String getUpdateTime(){
+		return this.updateTime;
 	}
 	
 	

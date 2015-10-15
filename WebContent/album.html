@@ -154,6 +154,24 @@ var logout = (function () {
                                     <div id="album_name"></div>
                                 </td>
                            </tr>
+                           <tr>
+                                <td>
+                                    <label for="album_country">城市 - 地区：</label>
+                                </td>
+                                <td colspan=2>
+    	                            <table id="album_area_table"><tr>
+    	                            	<td>
+	                                    	<div id="album_country"></div>
+		                                </td>
+		                                <td class="album_hyphen">
+		                                    <span> - </span>
+		                                </td>
+		                                <td>
+		                                    <div id="album_area"></div>
+	                                	</td>
+	                                </tr></table>
+                                </td>
+                           </tr>
                            <tr>    
                                 <th>
                                     <label for="album_stylist" id="album_stylist">发型师：</label>
@@ -193,6 +211,14 @@ var logout = (function () {
                                 </td>
                                 <td>
                                     <ul id="album_feel_list"></ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="album_message">ALBUM_MESSAGE：</label>
+                                </td>
+                                <td colspan="2">
+                                    <div id="album_message"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -348,6 +374,8 @@ var logout = (function () {
 <script src="http://fb.me/react-with-addons-0.12.2.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
  -->
+ <!-- ReactBootstrap -->
+<script src="vendor/bootstrap-sass/assets/javascripts/react-bootstrap.min.js"></script>
  
 <!-- common app js -->
 <script src="js/config.js"></script>

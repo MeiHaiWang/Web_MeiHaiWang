@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import business.dao.AreaDao;
 import business.dao.ConditionDao;
 import business.dao.HairStyleDao;
 import business.dao.SalonDao;
@@ -61,6 +62,13 @@ public class GetAlbumInfoService {
 				if(hairStyleIdList.size()>0){
 					HairStyleDao hairStyleDao = new HairStyleDao();
 					hairStyleInfoList = hairStyleDao.getHairStyleInfoForMaster(dbConnection, hairStyleIdList, salonId);				
+					AreaDao areaDao = new AreaDao();
+					for(int i=0;i<hairStyleInfoList.size();i++){
+						HairStyleInfo hInfo = hairStyleInfoList.get(i);
+						hInfo.setHairStyleAreaName(String.join(",", areaDao.getAreaName(dbConnection, hInfo.getHairStyleAreaId())));
+						//System.out.println(areaDao.getAreaName(dbConnection, hInfo.getHairStyleAreaId()).get(0)+","+hInfo.getHairStyleAreaName());
+						hairStyleInfoList.set(i, hInfo);
+					}
 				}
 				dbConnection.close();
 			}else{
@@ -93,6 +101,9 @@ public class GetAlbumInfoService {
 		    	jsonOneData.put("t_hairStyle_stylistId", hairStyleOneInfo.getStylistId());
 		    	jsonOneData.put("t_hairStyle_imagePath", hairStyleOneInfo.getHairStyleImagePath());
 		    	jsonOneData.put("t_hairStyle_searchConditionId", hairStyleOneInfo.getHairStyleSearchConditionId());
+		    	jsonOneData.put("t_hairStyle_areaId", hairStyleOneInfo.getHairStyleAreaId());
+		    	jsonOneData.put("t_hairStyle_areaName", hairStyleOneInfo.getHairStyleAreaName());
+		    	jsonOneData.put("t_hairStyle_message", hairStyleOneInfo.getHairStyleMessage());
 		    	/*
 		    	//検索条件
 		    	List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
@@ -132,7 +143,7 @@ public class GetAlbumInfoService {
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("album",jsonArray);
 		    //debug
-		    //System.out.println(jsonObject.toString(4));
+		    System.out.println(jsonObject.toString(4));
 						    		    
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

@@ -1,6 +1,7 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,9 @@ import common.util.DBConnection;
       t_hairStyle_name,
       t_hairStyle_stylistId,
       t_hairStyle_imagePath,
-      t_hairStyle_searchConditionId
+      t_hairStyle_searchConditionId,
+      t_hairStyle_areaId,
+      t_hairStyle_message
     }
 
     出力：
@@ -73,6 +76,12 @@ public class SetAlbumInfoService {
 				request.getParameter("t_hairStyle_imagePath").toString() : null;
 		String t_hairStyle_searchConditionId = request.getParameter("t_hairStyle_searchConditionId") != null ?
 				request.getParameter("t_hairStyle_searchConditionId").toString() : null;
+		String t_hairStyle_areaId = request.getParameter("t_hairStyle_areaId") != null ?
+				request.getParameter("t_hairStyle_areaId").toString() : null;
+		String t_hairStyle_message = request.getParameter("t_hairStyle_message") != null ?
+				request.getParameter("t_hairStyle_message").toString() : null;
+		String t_hairStyle_updateDate = request.getParameter("t_hairStyle_updateDate") != null ?
+				request.getParameter("t_hairStyle_updateDate").toString() : null;
 
 		if(t_hairSalonMaster_salonId != null) salonId = Integer.parseInt(t_hairSalonMaster_salonId);
 		//hairStyleInfo を渡したほうがきれいかも.
@@ -94,6 +103,10 @@ public class SetAlbumInfoService {
 		}
 		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
 			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
+		hairStyleInfo.setHairStyleAreaId(t_hairStyle_areaId);
+		hairStyleInfo.setHairStyleMessage(t_hairStyle_message);
+		hairStyleInfo.setUpdateTime(t_hairStyle_updateDate);
+		//System.out.println("updateDate:"+t_hairStyle_updateDate);
 		
 		try{
 			DBConnection dbConnection = new DBConnection();

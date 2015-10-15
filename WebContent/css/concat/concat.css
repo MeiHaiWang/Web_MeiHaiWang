@@ -105,6 +105,31 @@ div.album_image_path {
 }
 
 <!--kani-->
+#album_area_table{
+	width: 100%;
+	height:100%;
+}
+#album_area_table td{
+	width:inherit;
+}
+
+#album_country select{
+  width: 100%;
+  height: 25px;
+  float: left;
+  margin: 0px 0 0px 0;
+  border:1px solid #F2AECF;
+  background:white;
+}
+#album_area select{
+  width: 100%;
+  height: 25px;
+  float: left;
+  margin: 0px 0 0px 0;
+  border:1px solid #F2AECF;
+  background:white;
+}
+
 #image_path_list{
   height:0px;
 }
@@ -170,7 +195,7 @@ div.album_image_path {
 }
 
 #album_feel_list {
-  width: 450px;
+  width: 400px;
   height: 30px;
   float: left;
   margin: 0px 0 1px 0;

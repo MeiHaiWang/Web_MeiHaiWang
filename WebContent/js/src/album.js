@@ -54,7 +54,98 @@ $(function(){
     }
   });
 */
+	/**
+	 * アルバムにエリア追加
+	 */
+	  var AlbumCountry = React.createClass({displayName: "AlbumCountry",
+		    getDefaultProps:function() {
+		      return {
+		        area: ['']
+		      };
+		    },
+		    getInitialState:function() {
+		      return {
+		        t_area_name: '',
+		      };
+		    },
+		    onChangeSelectValue:function(e) {
+		      // countryが変化したらAreaもCountryに対応したリストに変化させる
+		      var areas_slave = getSlaveAreasByAreaName(country_area_info.area, e.target.value);
+		      component_album_area.setProps({area: areas_slave});
+		      component_album_area.setState({t_area_id: getAreaIdByAreaName(e.target.value, areas_slave)});
+		      this.setState({t_area_name: e.target.value});
+		    },
+		    render:function() {
+		      var options = this.props.area.map(function(area) {
+		        return React.createElement("option", {value: area.area_name}, area.area_name);
+		      });
+		      return (
+		        React.createElement("div", null, 
+		          React.createElement("select", {value: this.state.t_area_name, onChange: this.onChangeSelectValue}, 
+		            options
+		          )
+		        )
+		      );
+		    }
+		  });
 
+		  var AlbumArea = React.createClass({displayName: "AlbumArea",
+		    getDefaultProps:function() {
+		      return {
+		        area: ['']
+		      };
+		    },
+		    getInitialState:function() {
+		      return {
+		        t_area_id: '',
+		      };
+		    },
+		    onChangeSelectValue:function(e) {
+		      this.setState({t_area_id: e.target.value});
+		    },
+		    render:function() {
+		      //debug
+		      //console.log("taid:"+this.state.t_area_id);
+		      var options = this.props.area.map(function(area) {
+		        return React.createElement("option", {value: area.t_area_id}, area.t_area_name);
+		      });
+		      return (
+		        React.createElement("div", null, 
+		          React.createElement("select", {value: this.state.t_area_id, onChange: this.onChangeSelectValue}, 
+		            options
+		          )
+		        )
+		      );
+		    }
+		  });
+
+		  /**
+		 *  Message 
+		 */
+		  //ReactBootstrap
+		  var Input = ReactBootstrap.Input;
+		  var AlbumMessage = React.createClass({displayName: "AlbumMessage",
+			    getDefaultProps:function() {
+			      return {
+			        t_album_message: ['']
+			      };
+			    },
+			    getInitialState:function() {
+			      return {
+			        t_album_message: '',
+			      };
+			    },
+			    changeText:function(e) {
+			      this.setState({t_album_message: e.target.value});
+			    },
+			    render:function() {
+			    	return (
+			    			React.createElement(Input, {type: "text", value: this.state.t_album_message, onChange: this.changeText})
+			    		);
+				    }
+				  });
+		  
+		  
 	var AlbumSex = React.createClass({displayName: "AlbumSex",
 		    getDefaultProps:function() {
 		      return {
@@ -69,12 +160,12 @@ $(function(){
 		    onChangeSelectValue:function(e) {
 		    	//console.log(v_array[0][0].name+":"+e.target.value);
 		    	if(v_array[0][0].name == e.target.value){
-		    		console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		//console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
 		    		  titles = mens_search_condition.titles;
 		    		  values = mens_search_condition.values;
 		    		  toArrays(titles, values);
 		    	}else{
-		    		console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		//console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
 		    		  titles = womens_search_condition.titles;
 		    		  values = womens_search_condition.values;
 		    		  toArrays(titles, values);
@@ -196,7 +287,7 @@ $(function(){
 				       * 
 				       */
 					  //serchConditionIdの最新版を取得
-					  var elms = document.getElementsByName("tags");
+					  var elms = document.getElementsByName("tags2");
 					  var text = "";
 					  for(p=0;p<elms.length;p++){
 						  if(nameToId(elms[p].value)!=-1){
@@ -274,9 +365,10 @@ $(function(){
 				      /**
 				       * 
 				       */
-					  //serchConditionIdの最新版を取得
-					  var elms = document.getElementsByName("tags2");
+					  //serchConditionIdの最新版を取得:album_feel_list
+					  var elms = document.getElementsByName("tags3");
 					  var text = "";
+					  //console.log("elms.length:"+elms.length);
 					  for(p=0;p<elms.length;p++){
 						  if(nameToId(elms[p].value)!=-1){
 							  if(text.length==0){
@@ -312,7 +404,7 @@ $(function(){
 				      for(i=0;i<_v2_3.length;i++){
 			    	    $("#album_feel_list").tagit("createTag", _v2_3[i]);
 			    	  }
-			    	  //console.log("title2_condId:"+condId);
+			    	  console.log("title2_condId:"+condId);
 				      this.setState({t_hairStyle_searchConditionId: condId});
 				      //component_cond_list.setProps({cond_list: _v2});
 				      // this.setState({t_hairStyle_hairTypeId: e.target.value});
@@ -348,12 +440,12 @@ $(function(){
 		    },
 		    onChangeSelectValue:function(e) {
 		    	if(v_array[0][0].name == e.target.value){
-		    		console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		//console.log("mens_search_condition.titles:"+womens_search_condition.titles[0].name);
 		    		  titles = mens_search_condition.titles;
 		    		  values = mens_search_condition.values;
 		    		  toArrays(titles, values);
 		    	}else{
-		    		console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
+		    		//console.log("womens_search_condition.titles:"+womens_search_condition.titles[0].name);
 		    		  titles = womens_search_condition.titles;
 		    		  values = womens_search_condition.values;
 		    		  toArrays(titles, values);
@@ -591,7 +683,6 @@ $(function(){
 	      );
 	    }
 	  });
-
   
   //アルバム一覧
   var AlbumList = React.createClass({displayName: "AlbumList",
@@ -695,11 +786,25 @@ $(function(){
 
   // set state to component
   function componentSetState(album) {
-	console.log("Edit_sid of album{id "+album.t_hairStyle_id+"}:" + album.t_hairStyle_searchConditionId);
+	//console.log("Edit_sid of album{id "+album.t_hairStyle_id+"}:" + album.t_hairStyle_searchConditionId);
 
 	component_album_name.setState(album);
 	component_album_stylist_name.setState({t_hairStyle_stylistId: album.t_hairStyle_stylistId});
 
+	//console.log(album.t_hairStyle_areaId+","
+		//	+getAreaNameBySlaveAreaId(country_area_info.area,album.t_hairStyle_areaId));
+	component_album_country.setState({t_area_name: getAreaNameBySlaveAreaId(country_area_info.area,album.t_hairStyle_areaId)});
+    var areas_slave = getSlaveAreasByAreaName(country_area_info.area, getAreaNameBySlaveAreaId(country_area_info.area,album.t_hairStyle_areaId));
+    component_album_area.setProps({area: areas_slave});
+	component_album_area.setState({t_area_id: album.t_hairStyle_areaId});
+	/*
+	component_salon_country.setState({t_area_name: area_name});
+	  component_salon_country.setProps({area: areas});
+	  component_salon_area.setProps({area: areas_slave});
+	  component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
+	*/
+	component_album_message.setState({t_album_message:album.t_hairStyle_message});
+	
 	/*
 	console.log(" t_hairStyle_imagePath:"+album.t_hairStyle_imagePath);
 	console.log(" t_hairStyle_imagePath2:"+album.t_hairStyle_imagePath2);
@@ -763,6 +868,7 @@ $(function(){
   var womens_search_condition = getSearchConditionList(womens_search_condition_type);
   sanitaize.decode(mens_search_condition);
   sanitaize.decode(womens_search_condition);
+
   //初期値は男性
   var titles = mens_search_condition.titles;
   var values = mens_search_condition.values;
@@ -781,7 +887,7 @@ $(function(){
     for(i=0;i<titles.length;i++){
       //console.log("titles.length-i:"+i);
     	t_array[i] = {id: titles[i].id, name: titles[i].name};
-    	console.log("t_array["+i+"]:{"+t_array[i].id+":"+t_array[i].name+"}");
+    	//console.log("t_array["+i+"]:{"+t_array[i].id+":"+t_array[i].name+"}");
     }    
     for(i=0;i<t_array.length;i++){
       v_array[i] = new Array();
@@ -790,7 +896,7 @@ $(function(){
         if(t_array[i].id == values[j].titleID){
           v_array[i][index] = {id: values[j].id, name: values[j].name};
           //console.log("(i,index)="+i+","+index+": "+v_array[i][index].id+","+v_array[i][index].name+"<br>");
-          console.log("v_array["+i+"]["+index+"]:{"+v_array[i][index].id+":"+v_array[i][index].name+"}");
+          //console.log("v_array["+i+"]["+index+"]:{"+v_array[i][index].id+":"+v_array[i][index].name+"}");
           index++;
         }
       }
@@ -829,6 +935,12 @@ $(function(){
   var component_album_image_path3 = React.render(React.createElement(AlbumImagePath3, null), document.getElementById('album_image_path3'));
   var component_album_list = React.render(React.createElement(AlbumList, null), document.getElementById('album_list_info'));
 
+  //area
+  var component_album_country = React.render(React.createElement(AlbumCountry, null), document.getElementById('album_country'));
+  var component_album_area = React.render(React.createElement(AlbumArea, null), document.getElementById('album_area'));
+  //message
+  var component_album_message = React.render(React.createElement(AlbumMessage, null), document.getElementById('album_message'));
+  
   //search
   var component_search_album_sex = React.render(React.createElement(AlbumSearchSex, null), document.getElementById('album_search_sex'));
   var component_search_album_long = React.render(React.createElement(AlbumSearchLong, null), document.getElementById('album_search_long'));
@@ -845,9 +957,30 @@ $(function(){
   // セッションIDからアルバム情報を取得する
   var session_info = getSessionInfo();
   var album_info = getAlbumInfo(session_info.t_hairSalonMaster_salonId);
-
   sanitaize.decode(album_info);
-  
+  //エリア情報
+  var country_area_info = getCountryAreaList();
+  sanitaize.decode(country_area_info);
+  // countryを参照しやすい形に変換
+  var areas = new Array();
+  var country_area_id_info = new Array();
+  for (var i = 0; i < country_area_info.area.length; i++) {
+    var area_id = country_area_info.area[i].t_area_id;
+    var area_name = country_area_info.area[i].t_area_name;
+    areas[i] = {area_id: area_id, area_name: area_name};
+  }
+  /*
+  // areaが登録されていない場合は先頭をセットするように
+  if (album_info.t_hairStyle_areaName == '') {
+    album_info.t_hairStyle_areaName = country_area_info.area[0].area_slave[0].t_area_name;
+  }
+  */
+  // areaを参照しやすい形に変換
+  var area_name = getAreaNameBySlaveAreaId(country_area_info.area, album_info.album[0].t_hairStyle_areaId);
+  //var area_name = getAreaNameBySlaveAreaName(country_area_info.area, salon_info.t_area_name);
+  //console.log(country_area_info.area.length+","+area_name + ","+ album_info.album[0].t_hairStyle_areaName+","+album_info.album[0].t_hairStyle_areaId);
+  var areas_slave = getSlaveAreasByAreaName(country_area_info.area, area_name);
+
   // stylistを参照しやすい形に変換
   var stylist_info = getStylistList({'t_hairSalonMaster_salonId':session_info.t_hairSalonMaster_salonId});
   sanitaize.decode(stylist_info);
@@ -888,7 +1021,7 @@ $(function(){
 	   * タグとして表示しておくためのリスト
 	   */
 	  var v2 = function(t_hairStyle_searchConditionId, t_id){
-		  console.log("function v2: ["+ t_hairStyle_searchConditionId+":"+t_id+" ]");
+		  //console.log("function v2: ["+ t_hairStyle_searchConditionId+":"+t_id+" ]");
 		  var v2 = [];
 		var index=0;
 		var mt = mens_search_condition.titles;
@@ -911,7 +1044,7 @@ $(function(){
     	for(i=0;i<idlist.length;i++){
 	       for(j=0;j<mv.length;j++){
 	         if(idlist[i] == mv[j].id){
-	        	 console.log("i,j="+i+","+j+" men_values:"+mv[j].id+","+mv[j].name+","+mv[j].titleID);
+	        	 //console.log("i,j="+i+","+j+" men_values:"+mv[j].id+","+mv[j].name+","+mv[j].titleID);
 	        	 if(mv[j].titleID == t_array[t_id].id){
 	                 v2.push(mv[j].name);
 	        	 }
@@ -919,7 +1052,7 @@ $(function(){
 	       }
 	       for(j=0;j<wv.length;j++){
 		         if(idlist[i] == wv[j].id){
-		        	 console.log("i,j="+i+","+j+" women_values:"+wv[j].id+","+wv[j].name+","+wv[j].titleID);
+		        	 //console.log("i,j="+i+","+j+" women_values:"+wv[j].id+","+wv[j].name+","+wv[j].titleID);
 		        	 if(wv[j].titleID == t_array[t_id].id){
 		                 v2.push(wv[j].name);
 		        	 }
@@ -1039,10 +1172,15 @@ $(function(){
 
   // set component
   //component_album_category.setProps({hairtype: hairtype_info.type});
-  
   component_album_name.setProps({t_hairStyle_name: album_info.name});
   component_album_stylist_name.setProps({stylist: stylist_info.stylist});
-
+  component_album_country.setState({t_area_name: area_name});
+  component_album_country.setProps({area: areas});
+  //debug
+  //console.log("areas:"+areas.length+",areas_slave:"+areas_slave.length);
+  component_album_area.setProps({area: areas_slave});
+  component_album_area.setState({t_area_id:album_info.album[0].t_hairStyle_areaId});
+  
   //searchConditionIdからalbum情報を拡張して、setState用に
   for(i=0; i<album_info.album.length; i++){
 	  var album = album_info.album[i];
@@ -1082,10 +1220,10 @@ $(function(){
 		for(k=0;k<path_list.length;k++){
 			if(k==0){
 				album_info.album[i]["t_hairStyle_imagePath"] = path_list[k];			
-				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"]);			
+				//console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"]);			
 			}else{
 				album_info.album[i]["t_hairStyle_imagePath"+k+1] = path_list[k];			
-				console.log("album_imagePath["+i+"]["+k+1+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k+1]);			
+				//console.log("album_imagePath["+i+"]["+k+1+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k+1]);			
 			}
 		}
   }
@@ -1100,9 +1238,9 @@ $(function(){
 	  console.log(" t_hairStyle_imagePath2:"+album.t_hairStyle_imagePath2);
 	  console.log(" t_hairStyle_imagePath3:"+album.t_hairStyle_imagePath3);
 	  console.log(" t_hairStyle_searchConditionId:"+album.t_hairStyle_searchConditionId);
- 	  console.log(" gender:"+album.gender);
- 	  console.log(" hair_length:"+album.hair_length);
- 	  console.log(" feeling:"+album.feeling);
+ 	  //console.log(" gender:"+album.gender);
+ 	  //console.log(" hair_length:"+album.hair_length);
+ 	  //console.log(" feeling:"+album.feeling);
   }
   
   // アルバム一覧をsetState
@@ -1182,7 +1320,7 @@ $(function(){
 	  image_paths = component_album_image_path.state.t_hairStyle_imagePath;
 	  image_paths += "," + component_album_image_path2.state.t_hairStyle_imagePath2;
 	  image_paths += "," + component_album_image_path3.state.t_hairStyle_imagePath3;
-	  console.log("combine image_path:"+image_paths);
+	  //console.log("combine image_path:"+image_paths);
 	  
 	  /*
     var data = {
@@ -1195,6 +1333,23 @@ $(function(){
       t_hairStyle_searchConditionId: searchConditionId
     }
     */
+    var nowTime = new Date();
+    var dateStr = nowTime.getFullYear()+"-";
+    dateStr+= nowTime.getMonth()+1+"-";
+    dateStr+= nowTime.getDate()+"";
+    var nowHour = set2fig( nowTime.getHours() );
+    var nowMin = set2fig( nowTime.getMinutes() );
+    var nowSec = set2fig( nowTime.getSeconds() );
+    var msg = dateStr + " " + nowHour + ":" + nowMin + ":" + nowSec;
+    function set2fig(num) {
+        // 桁数が1桁だったら先頭に0を加えて2桁に調整する
+        var ret;
+        if( num < 10 ) { ret = "0" + num; }
+        else { ret = num; }
+        return ret;
+     }
+    //console.log(msg);
+    
     var data = {
     	      t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId,
     	      t_hairStyle_id:            edit_id,
@@ -1202,7 +1357,10 @@ $(function(){
     	      t_hairStyle_name:          component_album_name.state.t_hairStyle_name,
     	      t_hairStyle_stylistId:     component_album_stylist_name.state.t_hairStyle_stylistId,
     	      t_hairStyle_imagePath:     image_paths,
-    	      t_hairStyle_searchConditionId: searchConditionIds
+    	      t_hairStyle_searchConditionId: searchConditionIds,
+    	      t_hairStyle_areaId:		 component_album_area.state.t_area_id,
+    	      t_hairStyle_updateDate:	 msg,
+    	      t_hairStyle_message:		 component_album_message.state.t_album_message
     }
 
     // サニタイズ
@@ -1235,11 +1393,11 @@ $(function(){
 
     // component set state
     var id = $(".edit").index(this);
-    console.log("edit album["+id+"]");
+    //console.log("edit album["+id+"]");
     //edit_id = album_info.album[id].t_hairStyle_id;
     var _albums = component_album_list.state.album_list;
     edit_id = _albums[id].t_hairStyle_id;
-    console.log("edit_id:"+edit_id);
+    //console.log("edit_id:"+edit_id);
     //componentSetState(album_info.album[id]);
     componentSetState(_albums[id]);
 
@@ -1421,7 +1579,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_sex_id==cond_list[y]){
 					  sa1.push(albums[x]);
-					  console.log("sd1.push: "+x)
+					  //console.log("sd1.push: "+x)
 				  }
 			  }
 		  }
@@ -1437,7 +1595,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_long_id==cond_list[y]){
 					  sa2.push(albums[x]);
-					  console.log("sd2.push: "+x)
+					  //console.log("sd2.push: "+x)
 				  }
 			  }
 		  }
@@ -1456,7 +1614,7 @@ $(function(){
 			  for(y=0;y<cond_list.length;y++){
 				  if(album_feel_id==cond_list[y]){
 					  sa3.push(albums[x]);
-					  console.log("sd3.push: "+x)
+					  //console.log("sd3.push: "+x)
 				  }
 			  }
 		  }
@@ -1484,7 +1642,7 @@ $(function(){
 	  */
 	  searched_albums=sa3;
 	  for(i=0;i<searched_albums.length;i++){
-		  console.log("Result:::searched_albums : length:"+searched_albums.length+", "+searched_albums[i].t_hairStyle_id);
+		  //console.log("Result:::searched_albums : length:"+searched_albums.length+", "+searched_albums[i].t_hairStyle_id);
 	  }
 	  if(searched_albums.length>0){
 		  component_album_list.setState({"album_list":searched_albums});
