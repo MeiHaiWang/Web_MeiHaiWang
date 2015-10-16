@@ -48,7 +48,7 @@ dt#album_regist_area {
   border: solid 1px #F2AECF;
 }
 dt#album_list_area {
-  color: #BAD8D9;
+	color: #BAD8D9;
   border: solid 1px #BAD8D9;
 }
 
@@ -103,6 +103,14 @@ div.album_image_path {
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
+
+#album_list_info img {
+	width:auto;
+	height:auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
 
 <!--kani-->
 #album_area_table{

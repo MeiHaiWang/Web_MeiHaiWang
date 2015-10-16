@@ -797,12 +797,6 @@ $(function(){
     var areas_slave = getSlaveAreasByAreaName(country_area_info.area, getAreaNameBySlaveAreaId(country_area_info.area,album.t_hairStyle_areaId));
     component_album_area.setProps({area: areas_slave});
 	component_album_area.setState({t_area_id: album.t_hairStyle_areaId});
-	/*
-	component_salon_country.setState({t_area_name: area_name});
-	  component_salon_country.setProps({area: areas});
-	  component_salon_area.setProps({area: areas_slave});
-	  component_salon_area.setState({t_area_id:salon_info.t_hairSalonMaster_areaId});
-	*/
 	component_album_message.setState({t_album_message:album.t_hairStyle_message});
 	
 	/*

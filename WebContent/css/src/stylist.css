@@ -95,6 +95,12 @@ div#stylist_image_path {
   color: #CCCCCC;
   text-align: center;
 }
+#stylist_image_path img{
+	width:auto;
+	height:auto;
+	max-width: 100%;
+	max-height: 100%;
+}
 
 #stylist_list_info {
   width:100%;
