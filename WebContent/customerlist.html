@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Beauty Hair Net Manager - Album</title>
+    <title>Beauty Hair Net Manager - CustomerList</title>
     <link href="css/application.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
     <!-- jQueryUI -->
@@ -24,6 +24,73 @@
 </head>
 <body class="nav-static">
 
+<nav id="sidebar" class="sidebar" role="navigation">
+    <div class="js-sidebar-content">
+        <header class="logo hidden-xs">
+            <a href="index.html"><img src="./img/logo.png" width="190" height="75"></a>
+        </header>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="./salon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-home"></i>
+                    </span>
+                    店铺信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./stylist.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    店员信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./service.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </span>
+                    服务信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./coupon.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-star-empty"></i>
+                    </span>
+                    优惠券信息管理
+                </a>
+            </li>
+            <li>
+                <a href="./album.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-picture"></i>
+                    </span>
+                    相册管理
+                </a>
+            </li>
+            <li>
+                <a href="./map.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                    </span>
+                    地图信息管理
+                </a>
+            </li>
+            <li class="active">
+                <a href="./calender.html">
+                    <span class="icon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                    予約カレンダー
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
 
 <nav class="page-controls navbar navbar-default">
     <div class="container-fluid">
@@ -36,7 +103,6 @@
                 </li>
             </ul>
         </div>
-        <!-- 
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle dropdown-toggle-notifications" id="notifications-dropdown-toggle" data-toggle="dropdown">
@@ -46,7 +112,6 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                 -->
 <script>
 var logout = (function () {
     var response = $.ajax({
@@ -68,8 +133,39 @@ var logout = (function () {
     </div>
 </nav>
 
-<!-- Main part  -->
-<div id = "customer_list_info" ></div>
+
+<!-- ここからページ内容 -->
+<div class="content-wrap">
+    <main id="content" class="content" role="main">
+        <h1 class="page-title">顧客一覧</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <section class="widget bg-transparent">
+                    <div class="widget-body">
+                    <dl id="customer_list_page">
+                        <dt id="customer_list_area">CustomerList Page</dt>
+                        <dd>
+						<!-- Main Part -->
+				          <table id="customer_table">
+				          	<thead id="thead1">
+				          	<tr><th>顧客一覧</th></tr>
+				            </thead>
+				            <tbody>
+				            <tr><td>
+								<div id = "customer_list_info" ></div>
+							</td></tr>
+							</tbody>
+						</table>
+						<!-- /Main Part -->
+                        </dd>
+                      </dl>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- ここまでページ内容 -->
 
 <!-- The Loader. Is shown when pjax happens -->
 <div class="loader-wrap hiding hide">
@@ -100,12 +196,13 @@ var logout = (function () {
 <script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
 
 <!-- react -->
-<!-- 
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
- -->
+<!-- 
 <script src="http://fb.me/react-with-addons-0.12.2.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+ -->
+<script src="vendor/bootstrap-sass/assets/javascripts/react-bootstrap.min.js"></script>
 
 <!-- common app js -->
 <script src="js/config.js"></script>

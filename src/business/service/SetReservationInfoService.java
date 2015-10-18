@@ -29,6 +29,7 @@ import common.util.DBConnection;
 　 menuId,
 　 seatId,
 	memo　
+	appoint
 　}
 	出力：
 	{true（予約取れた）／false}　
@@ -42,7 +43,9 @@ public class SetReservationInfoService {
 		
         int responseStatus = HttpServletResponse.SC_OK;
    		HttpSession session = request.getSession(false);
-		
+
+		String t_reservation_id = request.getParameter("t_reservation_id") != null ?
+				request.getParameter("t_reservation_id").toString() : null;
 		String t_reservation_userId = request.getParameter("t_reservation_userId") != null ?
 				request.getParameter("t_reservation_userId").toString() : null;
 		String t_reservation_salonId = request.getParameter("t_reservation_salonId") != null ?
@@ -57,8 +60,11 @@ public class SetReservationInfoService {
 				request.getParameter("t_reservation_seatId").toString() : null;
 		String t_reservation_memo = request.getParameter("t_reservation_memo") != null ?
 				request.getParameter("t_reservation_memo").toString() : null;
+		String t_reservation_appoint = request.getParameter("t_reservation_appoint") != null ?
+				request.getParameter("t_reservation_appoint") : null;
 
 		//debug
+		System.out.println("t_reservation_id:"+t_reservation_id);
 		//System.out.println("update menuId:"+t_menu_t_menu_id+"...:"+t_menu_t_menu_id.charAt(0));
 
 		boolean rt = true;
@@ -74,6 +80,10 @@ public class SetReservationInfoService {
 		if(t_reservation_seatId==null || t_reservation_seatId==""){
 			rt = false;
 		}
+		int appoint = 0;
+		if(t_reservation_appoint!=null || t_reservation_appoint!=""){
+			appoint = Integer.parseInt(t_reservation_appoint);
+		}
 
 		/*
 		Date oneDate;
@@ -87,6 +97,10 @@ public class SetReservationInfoService {
 		*/
 		ReservationInfo reservationInfo = new ReservationInfo();
 		if(rt){
+			if(t_reservation_id!=null && t_reservation_id!=""){
+				//予約修正時にのみ入る
+				reservationInfo.setReservationId(Integer.parseInt(t_reservation_id));
+			}
 			reservationInfo.setReservationUserId(Integer.parseInt(t_reservation_userId));
 			reservationInfo.setReservationSalonId(Integer.parseInt(t_reservation_salonId));
 			reservationInfo.setReservationStylistId(Integer.parseInt(t_reservation_stylistId));
@@ -94,6 +108,7 @@ public class SetReservationInfoService {
 			reservationInfo.setReservationMenuId(t_reservation_menuId);
 			reservationInfo.setReservationSeatId(Integer.parseInt(t_reservation_seatId));
 			reservationInfo.setReservationMemo(t_reservation_memo);
+			reservationInfo.setReservationAppoint(appoint);
 		}
 
 		try{

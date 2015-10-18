@@ -1,8 +1,4 @@
 $(function(){
-  /*
-    Component for React
-  */
-	
 /*	
   // コンポーネントの定義
   var UserFind = React.createClass({
@@ -38,19 +34,21 @@ $(function(){
   */
   //日時取得
   var nowTime = new Date();
-  var str = nowTime.getFullYear()+"-";
+  var nowDate = nowTime.getFullYear()+"-";
   if(nowTime.getMonth()+1<10){
-	 str+="0";
+	 nowDate+="0";
   }
-  str+= nowTime.getMonth()+1+"-";
+  nowDate+= nowTime.getMonth()+1+"-";
   if(nowTime.getDate()+1<10){
-		 str+="0";
+		 nowDate+="0";
   }
-  str+= nowTime.getDate()+" 09:00:00";
-  //console.log(str);
+  nowDate+= nowTime.getDate()+" 09:00:00";
+  //console.log(nowDate);
 
   // セッションIDからサービス情報を取得する
   var session_info = getSessionInfo();
+  //サロン情報を取得
+  var salon_info = getSalonInfo({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
   //var stylistList = getStylistList({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
   var stylistList = getStaffInfo({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
   //var staffList = getStaffInfo({t_hairSalonMaster_salonId: session_info.t_hairSalonMaster_salonId});
@@ -60,23 +58,26 @@ $(function(){
 	  getReservationList(
 			  {
 				  t_reservation_salonId:session_info.t_hairSalonMaster_salonId,
-				  t_reservation_date: str
+				  t_reservation_date: nowDate
 			  });
   reservationList = reservations.reservation_list;
-  console.log("reservationNumber : "+reservationList.length);
+  //console.log("本日の予約数は、 : "+reservationList.length +"件です");
   //sanitaize.decode(service_info);
 
   // アカウント名を表示
   $('#account-name').text(session_info.t_hairSalonMaster_contactUserName);
 
-  //予約数index1、来店数index2
+  //本日の予約数index1、
+  //来店数index2をそれぞれ表示
   var unfinishedList = {};
   var finishedList = {};
   var index1 = 0; var index2 = 0;
 	 for(i=0; i<reservationList.length; i++){
 		 if(reservationList[i].t_reservation_isFinished==0){
-			 unfinishedList[index1]=reservationList[i];
-			 index1++;
+			 if(reservationList[i].t_reservation_menuId.indexOf('R')<0){
+				 unfinishedList[index1]=reservationList[i];
+				 index1++;
+			 }
 		 }else if(reservationList[i].t_reservation_isFinished>0){
 			 finishedList[index2]=reservationList[i];
 			 index2++;
@@ -91,7 +92,7 @@ $(function(){
   // 日付が選択された時、日付をテキストフィールドへセット
 	  onSelect: function(dateText, inst) {
 		  //$("#date_val").val(dateText);
-		  console.log("put a "+dateText);
+		  //console.log("put a "+dateText);
 		  var m_oneDay = moment(dateText);
 		  var oneDay = m_oneDay.year()+"-";
 		  if(m_oneDay.month()+1<10){
@@ -102,7 +103,7 @@ $(function(){
 				 oneDay+="0";
 		  }
 		  oneDay+= m_oneDay.date()+" 09:00:00";
-		  console.log(oneDay);
+		  //console.log("選択した日付は "+oneDay+" です.");
 		  reservations = 
 			  getReservationList(
 					  {
@@ -110,10 +111,41 @@ $(function(){
 						  t_reservation_date: oneDay
 					  });
 		  reservationList = reservations.reservation_list;
-		  design_gantt(oneDay);
+		  //console.log("予約数は "+reservationList.length+ " 件です.");
+		  if(reservationList.length==0){
+			  //当日に予約がなかったら.
+			console.log("reservation.html?time="+oneDay+"&stylistId=1");
+			if(checkAfterDate(oneDay)){
+				alert("No reservations. Go to reservation page.");
+		        //location.href = "reservation.html?time="+oneDay+"&stylistId=1";
+				design_gantt(oneDay);
+			}else{
+				alert("No reservations. The day is before than today.");
+			}
+		  }else{
+			  design_gantt(oneDay);
+		  }
 	  }
   });
 
+  //その日が今日よりも前ならfalse
+  function checkAfterDate(oneDate){
+	  result=true;
+	  //console.log(oneDate+">"+nowDate+"?");
+	  var mt1=Number(oneDate.substring(5,7));
+	  var mt2=Number(nowDate.substring(5,7));
+	  var dt1=Number(oneDate.substring(8,10));
+	  var dt2=Number(nowDate.substring(8,10));
+	  //console.log(mt1+","+mt2+","+dt1+","+dt2);
+	  if(mt1<mt2){
+		  result = false;
+	  }
+	  if(dt1<dt2){
+		  result = false;
+	  }
+	  return result;
+  }
+  
   /*<!-- データピッカー2 -->
   $('#date').datepicker({
   format: "yyyy/mm/dd",
@@ -138,6 +170,8 @@ $(function(){
     var stylists = stylistList.stylist;
     //var staffs = staffList.stylist;
     
+    //スタイリストごとの予約情報を確認
+    //valueListに予約dataを詰め込む
     var valueList = [];
     var stylistReservationNum = [];
     for(var i=0; i<stylists.length; i++){
@@ -146,45 +180,98 @@ $(function(){
     	for(var j=0; j<reservationList.length; j++){
     		if(stylists[i].t_stylist_name == reservationList[j].t_stylist_name){
     			stylistReservationNum[i]++;
-    			//console.log(stylists[i].t_stylist_name+":"+reservationList[j].t_reservation_date);
-    			var t_from = moment(reservationList[j].t_reservation_date);
-    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",2);
-    			//console.log(t_from.valueOf()+","+t_to.valueOf());
-        	    valueList[i].push(
-        	    		{
-        					from: "/Date("+t_from.valueOf()+")/",
-        					to: "/Date("+t_to.valueOf()+")/",
-        					label: reservationList[j].t_menu_name,
-        					customClass: "ganttRed",
-        					dataObj: reservationList[j].t_reservation_id
-        				});
+    			if(reservationList[j].t_reservation_menuId.indexOf("R1")>=0){
+    				//休憩の場合
+    				//console.log(stylists[i].t_stylist_name+" rest time is "+reservationList[j].t_reservation_date+"("+reservationList[j].t_reservation_time+").");
+	    			var t_from = moment(reservationList[j].t_reservation_date);
+	    			var oneOpTime=Number(reservationList[j].t_reservation_time)/60;
+	    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",oneOpTime);
+	        	    valueList[i].push(
+	        	    		{
+	        					from: "/Date("+t_from.valueOf()+")/",
+	        					to: "/Date("+t_to.valueOf()+")/",
+	        					label: reservationList[j].t_menu_name,
+	        					customClass: "ganttBlue",
+	        					dataObj: reservationList[j].t_reservation_id
+	        				});
+    			}else if(reservationList[j].t_reservation_menuId=="R2"){
+    				//休暇の場合
+    				var t_rest_day=reservationList[j].t_reservation_date.substring(0,10);
+    				var t_rest_start=salon_info.t_hairSalonMaster_openTime;
+    				//var t_rest_end=salon_info.t_hairSalonMaster_closeTime;
+    			    //閉店時間を１時間減らしておかないとガントチャートがうまく表示できない
+    			    var close_time = salon_info.t_hairSalonMaster_closeTime;
+    			    var close_time_hour=Number(close_time.substring(0,2))-1;
+    			    close_time = close_time_hour+":00";
+    			    var salon_close_time = oneDay.substring(0,10)+" "+close_time;
+	    			var t_from = moment(t_rest_day+" "+t_rest_start);
+	    			var t_to = moment(t_rest_day+" "+close_time);
+	        	    valueList[i].push(
+	        	    		{
+	        					from: "/Date("+t_from.valueOf()+")/",
+	        					to: "/Date("+t_to.valueOf()+")/",
+	        					label: reservationList[j].t_menu_name,
+	        					customClass: "ganttBlue",
+	        					dataObj: reservationList[j].t_reservation_id
+	        				});
+    			}else{
+	    			//console.log(stylists[i].t_stylist_name+":"+reservationList[j].t_reservation_date);
+	    			var t_from = moment(reservationList[j].t_reservation_date);
+	    			var oneOpTime=Number(reservationList[j].t_reservation_time)/60;
+	    			//console.log("施術時間:"+oneOpTime);
+	    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",oneOpTime);
+	    			//console.log(t_from.valueOf()+","+t_to.valueOf());
+	        	    valueList[i].push(
+	        	    		{
+	        					from: "/Date("+t_from.valueOf()+")/",
+	        					to: "/Date("+t_to.valueOf()+")/",
+	        					label: reservationList[j].t_menu_name,
+	        					customClass: "ganttRed",
+	        					dataObj: reservationList[j].t_reservation_id
+	        				});
+    			}
     		}
     	}
     	if(stylistReservationNum[i]==0){
     		//console.log("stylist["+i+"] ReservationNum = 0");
     	}
-    	//休憩
-    	if(stylists[i].t_stylist_restTime!=null && stylists[i].t_stylist_restTime!=""){
-	    	var restTimeStart = stylists[i].t_stylist_restTime.substring(0,5);
-	    	var restTimeEnd =  stylists[i].t_stylist_restTime.substring(6,11);
-	    	var os=oneDay.substring(0,10)+restTimeStart+":00";
-	    	var oe=oneDay.substring(0,10)+restTimeEnd+":00";
-	    	//console.log("os:"+os+",oe:"+oe);
-			valueList[i].push(
-		    		{
-		    			from: moment(os).valueOf(),
-						to: moment(oe).valueOf(),
-						label: "休憩",
-						customClass: "",
-						dataObj: ""
-		    		}
-			);
-    	}else{
-    		//休憩なし
+    }
+    /*
+    function minutes2hour(total_time){
+    	var ope_hours = Math.floor(total_time/60);
+    	var ope_minutes = total_time%60;
+    	var end_hours = start_hours+ope_hours;
+    	var end_minutes = start_minutes+ope_minutes;
+    	//console.log(start_hours+","+start_minutes+","+end_hours+","+end_minutes);
+    	if(end_minutes >= 60){
+    		end_minutes -= 60;
+    		end_hours += 1;
     	}
     }
+    */
+    
     //sources←スタイリスト情報
     var sources = [];
+    var salon_open_time = oneDay.substring(0,10)+" "+salon_info.t_hairSalonMaster_openTime;
+    //閉店時間を１時間減らしておかないとガントチャートがうまく表示できない
+    var close_time = salon_info.t_hairSalonMaster_closeTime;
+    var close_time_hour=Number(close_time.substring(0,2))-1;
+    close_time = close_time_hour+":00";
+    var salon_close_time = oneDay.substring(0,10)+" "+close_time;
+    //console.log(salon_open_time+","+salon_close_time);
+    //souces[0]には、営業時間を入れる
+    sources.push({
+		name:"営業時間",
+		desc:"Opentime",
+		id:-1,
+		values: [{
+			from: moment(salon_open_time).valueOf(),
+			to: moment(salon_close_time).valueOf(),
+			label: "営業時間",
+			customClass: "ganttGreen",
+			dataObj: "Opentime"
+		}]
+    });
     for(var i=0; i<stylists.length; i++){
     	sources.push( 
     	{
@@ -225,14 +312,19 @@ $(function(){
 		maxScale: "days",
 		itemsPerPage: 10,
 	      months : ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-	      dow : ["日", "月", "火", "水", "木", "金", "土"],
+	      dow : ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
 		onItemClick: function(data) {
 			//alert("進捗バーがクリックされました。"+data);
-			console.log("reservation.html?reservationId="+data);
-            location.href = "reservation.html?reservationId="+data;
+			if(data=="Opentime"){
+				//console.log("Opentime.");
+			}else{
+				console.log("reservation.html?reservationId="+data);
+	            location.href = "reservation.html?reservationId="+data;
+			}
 		},
         onAddClick: function(dt, rowId) {
-        	if(rowId != undefined ){
+        	//console.log("rowId ="+ rowId);
+        	if(rowId != undefined && rowId>=0){
 	           /*
 	           * moment関数
 	           * http://blog.asial.co.jp/1158
@@ -240,30 +332,31 @@ $(function(){
 	          //console.log(Number(dt), moment(Number(dt)).year());
 	          //console.log(Number(dt)+","+rowId + ","+sources[rowId].desc);
 	          var m = moment(Number(dt));
-	          var paramTime = m.year() + "/";
+	          var paramTime = m.year() + "-";
 	          var month = Number(m.month()) + 1;
-	          paramTime += (month < 10 ) ? '0'+month+"/" : month+"/";
+	          paramTime += (month < 10 ) ? '0'+month+"-" : month+"-";
 	          paramTime += (m.date() < 10 ) ? '0'+m.date()+" " : m.date()+" ";
 	          paramTime += (m.hours() < 10 ) ? '0'+m.hours()+":" : m.hours()+":";
 	          paramTime += (m.minutes() < 10 ) ? '0'+m.minutes()+":" : m.minutes()+":";
 	          paramTime += (m.seconds() < 10 ) ? '0'+m.seconds() : m.seconds();
-	          var stylistId = stylistName2Id(sources[rowId].desc);
+	          var stylistId = stylistName2Id(sources[rowId+1].desc);
+	          //console.log(sources[rowId+1].desc);
 	          alert("reservation.html?time="+paramTime+"&stylistId="+stylistId);
 	          //console.log("reservation.html?time="+paramTime+"&stylistId="+stylistId);
 	          location.href = "reservation.html?time="+paramTime+"&stylistId="+stylistId;
         	}else{
-        		//alert("空白部分がクリックされました。"+dt+","+rowId);
+        		//console.log("空白部分がクリックされました。"+dt+","+rowId);
         	}
       },
       onRender: function() {
           if (window.console && typeof console.log === "function") {
-              console.log("chart rendered");
+              //console.log("chart rendered");
           }
       }
     });
     //prettyPrint();
   }
-  design_gantt(str);
+  design_gantt(nowDate);
 	  
 	  /*
 	  Button Handler
@@ -293,17 +386,26 @@ $(function(){
 	    alert('Regist Failed');
 	  }
 	});
+	
 	*/
+
+  // 顧客検索ボタン押下時
+  $('#search_button').on('click', function() {
+	  var target = $('#form_user_search').val();
+	  console.log("customerlist.html?target="+target);
+      location.href = "customerlist.html?target="+target;
+  });
+  
   // 本日の予約一覧ボタン押下時
   $('#reservation_list_button').on('click', function() {
-		console.log("reservationlist.html?date="+str);
-        location.href = "reservationlist.html?date="+str;
+		console.log("reservationlist.html?date="+nowDate);
+        location.href = "reservationlist.html?date="+nowDate;
   });
 
   // 顧客一覧ボタン押下時
   $('#customer_list_button').on('click', function() {
-		console.log("customer.html");
-        location.href = "customer.html";
+		console.log("customerlist.html");
+        location.href = "customerlist.html";
   });
 
 });

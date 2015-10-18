@@ -318,6 +318,8 @@
             // Create and return the left panel with labels
             leftPanel: function (element) {
                 /* Left panel */
+            	//kani-debug
+            	//console.log("height:"+ tools.getCellSize() * element.headerRows + "px");
                 var ganttLeftPanel = $('<div class="leftPanel"/>')
                     .append($('<div class="row spacer"/>')
                     .css("height", tools.getCellSize() * element.headerRows + "px")
@@ -335,7 +337,8 @@
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.desc + '</span>');
                             entries.push('</div>');
                         }
-
+                    	//kani-debug
+                    	//console.log("entry:"+ entries);                        
                     }
                 });
                 ganttLeftPanel.append(entries.join(""));
@@ -353,7 +356,6 @@
                 // Handle click events and dispatch to registered `onAddClick`
                 // function
                 dataPanel.click(function (e) {
-
                     e.stopPropagation();
                     var corrX/* <- never used? */, corrY;
                     var leftpanel = $(element).find(".fn-gantt .leftPanel");
@@ -442,30 +444,38 @@
                     case "hours":
 
                         range = tools.parseTimeRange(element.dateStart, element.dateEnd, element.scaleStep);
-
+                        /*
+                        //kani-debug
+                        console.log("range:"+range);
+                        console.log("element.dateStart:"+element.dateStart);
+                        console.log("element.dateEnd:"+element.dateEnd);
+                        console.log("element.scaleStep:"+element.scaleStep);
+                        */
+                        
                         var year = range[0].getFullYear();
                         var month = range[0].getMonth();
                         var day = range[0];
 
+                        //kani-debug
+                        //console.log("year:"+year);
+                        //console.log("month:"+month);
+                        //console.log("day:"+day);
+                        
                         for (var i = 0, len = range.length; i < len; i++) {
                             var rday = range[i];
-
                             // Fill years
                             var rfy = rday.getFullYear();
                             if (rfy !== year) {
                                 yearArr.push(
-                                    ('<div class="row header year" style="width: '
-                                        + tools.getCellSize() * daysInYear
-                                        + 'px;"><div class="fn-label">'
-                                        + year
-                                        + '</div></div>'));
-
+                                        ('<div class="row header year" style="width: '
+                                            + tools.getCellSize() * daysInYear
+                                            + 'px;"><div class="fn-label">'
+                                            + year
+                                            + '</div></div>'));
                                 year = rfy;
                                 daysInYear = 0;
                             }
                             daysInYear++;
-
-
                             // Fill months
                             var rm = rday.getMonth();
                             if (rm !== month) {
@@ -479,10 +489,8 @@
                                 daysInMonth = 0;
                             }
                             daysInMonth++;
-
-
+	
                             // Fill days & hours
-
                             var rgetDay = rday.getDay();
                             var getDay = day.getDay();
                             var day_class = dowClass[rgetDay];
@@ -498,7 +506,8 @@
                                 dowArr.push('<div class="row day ' + day_class2 + '" '
                                         + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                         + ' <div class="fn-label">' + settings.dow[getDay] + '</div></div>');
-
+                                //kani-debug
+                                //console.log("dayArr:"+dayArr);
                                 day = rday;
                                 hoursInDay = 0;
                             }
@@ -511,16 +520,35 @@
                                     + '"  offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '"><div class="fn-label">'
                                     + rday.getHours()
                                     + '</div></div>');
+                            //kani-debug
+                            //console.log(rday);
+                            /*
+                             * 
+                            console.log("horArr:"+horArr);
+                            console.log("day_class:"+day_class);
+                            var m = moment(rday.getTime());
+                            console.log("rday.getTime():"+rday.getTime());
+                            console.log("moment:"+m.month()+"/"+m.date()+" "+m.hour()+":"+m.minute());
+                            console.log("day.getHours():"+day.getHours());
+                            console.log(i+","+tools.getCellSize());
+                            console.log("rday.getRepDate():"+rday.getRepDate());
+                            */
                         }
 
-
                         // Last year
+                        /*
                         yearArr.push(
                             '<div class="row header year" style="width: '
                             + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
                             + year
                             + '</div></div>');
-
+                            */
+                        yearArr.push(
+                                '<div class="row header year" style="width: '
+                                + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
+                                + 'スケジュール'
+                                + '</div></div>');
+                        
                         // Last month
                         monthArr.push(
                             '<div class="row header month" style="width: '
@@ -544,12 +572,16 @@
 
                         var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
 
-
                         // Append panel elements
-                        dataPanel.append(yearArr.join(""));
-                        dataPanel.append(monthArr.join(""));
-                        dataPanel.append($('<div class="row"/>').html(dayArr.join("")));
-                        dataPanel.append($('<div class="row"/>').html(dowArr.join("")));
+                        /*
+                         * kani modify.
+                         * year, month, date-remove?
+                         */
+                        console.log("yearArr:"+yearArr);
+                        dataPanel.append(yearArr.join(""));//年
+                        dataPanel.append(monthArr.join(""));//月
+                        dataPanel.append($('<div class="row"/>').html(dayArr.join("")));//日付
+                        dataPanel.append($('<div class="row"/>').html(dowArr.join("")));//曜日
                         dataPanel.append($('<div class="row"/>').html(horArr.join("")));
 
                         break;
@@ -1439,6 +1471,8 @@
                 maxDate = maxDate || new Date();
                 switch (settings.scale) {
                     case "hours":
+                    	//kani-debug
+                    	//console.log(Math.ceil((maxDate.getHours()) / element.scaleStep) * element.scaleStep+","+element.scaleStep);
                         maxDate.setHours(Math.ceil((maxDate.getHours()) / element.scaleStep) * element.scaleStep);
                         maxDate.setHours(maxDate.getHours() + element.scaleStep * 3);
                         break;
@@ -1510,9 +1544,13 @@
 
             // Return an array of Date objects between `from` and `to`,
             // scaled hourly
+            // from 06:00 , to 21:00 , scaleStep 1
             parseTimeRange: function (from, to, scaleStep) {
                 var current = new Date(from);
                 var end = new Date(to);
+
+                //kani-debug
+                //console.log("current:"+current);
 
                 // GR: Fix begin
                 current.setMilliseconds(0);
@@ -1526,6 +1564,8 @@
                     end.setMinutes(0);
                     end.setHours(0);
                     end.setTime(end.getTime() + (86400000)); // Add day
+                    //kani-debug
+                    console.log("end:"+end);
                 }
                 // GR: Fix end
 
@@ -1539,8 +1579,16 @@
                         // If mark-cursor jumped to next day, make sure it starts at 0 hours
                         dayStartTime.setHours(0);
                     }
-                    ret[i] = dayStartTime;
+                    //ret[i] = dayStartTime;
 
+                    //kani-debug
+                    //営業時間内だけを表示
+                    if(current.getHours()>=7 && current.getHours()<=23){
+                    	ret[i] = dayStartTime;
+                    }else{
+                    	i--;
+                    }
+                    
                     // Note that we use ">" because we want to include the end-time point.
                     if (current.getTime() > to.getTime()) break;
 

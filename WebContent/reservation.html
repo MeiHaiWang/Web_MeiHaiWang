@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Beauty Hair Net Manager - Album</title>
+    <title>Beauty Hair Net Manager - Reservation</title>
     <link href="css/application.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
-    <!-- jQueryUI -->
+    <!-- jQueryUI 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+	-->
+    <link rel="stylesheet" href="others/jquery-ui.css" />
     <!-- Tag-it CSS本体 -->
     <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
     <!-- Gantt -->
@@ -207,7 +209,17 @@ var logout = (function () {
                                     担当者:
                                   </td>
                                   <td>
-                                     <div id="reservation_stylist"></div>
+	                                  <table id="reservation_stylist_table"><tr>
+	                                  <td>
+	                                     <div id="reservation_stylist"></div>
+	                                  </td>
+	                                  <td>
+	                                  	<span>指名:</span>
+	                                  	<form id="check_form">
+		                                  	<label><input type="checkbox" id="appoint" name="shimei" value="1"></label>
+										</form>
+	                                  	</td>
+	                                  	</tr></table>
                                   </td>
                                 </tr>
                               </table>
@@ -217,7 +229,7 @@ var logout = (function () {
                               <table id = "menu_table">
                                 <tr>
                                   <td id = "menu_table_td1">
-	                                  <div id = "service_category"></div>
+	                                  <div id = "service_menu_category"></div>
                                   </td>
                                   <!-- 
                                   <td>
@@ -236,7 +248,7 @@ var logout = (function () {
                                 </tr>
                                 <tr>
                                   <td id = "menu_table_td1">
- 									<div id = "service_list_info" ></div>
+ 									<div id = "service_menu_list_info" ></div>
                                   </td>
                                 </tr>
                               </table>
@@ -246,7 +258,7 @@ var logout = (function () {
                             <td colspan = 2>
                               <table id = "menu_table2">
                               <tr><td>
-							  <div id = "service_list_info2" ></div>
+							  <div id = "service_menu_list_info2" ></div>
 							  </td></tr>
                               </table>
                             </td>
@@ -268,19 +280,19 @@ var logout = (function () {
                                   </td>
                                   <td>
                                     <button class="btn btn-danger" id="cancel">予約取消</button>
-                                    <div id="dialogdemo1">
+                                    <div id="cancel_dialog">
 									<p>予約取消</p>
 									</div>
                                   </td>
                                   <td>
                                     <!--  <button id="claim">クレーム</button> -->
-									    <button class="btn btn-danger" id="jquery-ui-dialog-opener">クレーム</button>
-									<div id="jquery-ui-dialog" title="クレーム">
+									    <button class="btn btn-danger" id="claim-opener">クレーム</button>
+									<div id="claim-dialog" title="クレーム">
 									    <form>
 									    <fieldset>
 									        <p>
-									            <input type="text" name="jquery-ui-dialog-form-comment"
-									             id="jquery-ui-dialog-form-comment" class="text ui-widget-content ui-corner-all"
+									            <input type="text" name="claim-dialog-form-comment"
+									             id="claim-dialog-form-comment" class="text ui-widget-content ui-corner-all"
 									             placeholder="メモ"  />
 									        </p>
 									    </fieldset>
@@ -325,22 +337,22 @@ var logout = (function () {
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
 <!-- tag-it  -->
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="others/jquery-ui.min.js"></script>
 <script src="others/tag-it.js"></script>
 
 <!-- datepicker  
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-<script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
 -->
+<script src="vendor/jQuery.Gantt/tests/moment.min.js"></script>
 <script type="text/javascript" src="others/datepicker-ja.js"></script>
 
 <!-- react -->
-<!-- 
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
- -->
+<!-- 
 <script src="http://fb.me/react-with-addons-0.13.3.js"></script>
 <script src="http://fb.me/JSXTransformer-0.13.3.js"></script>
+ -->
 <script src="vendor/bootstrap-sass/assets/javascripts/react-bootstrap.min.js"></script>
 
 <!-- common app js -->

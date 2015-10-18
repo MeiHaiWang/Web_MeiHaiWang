@@ -3,7 +3,7 @@ $(function(){
     Component for React
   */
   //ReactBootstrap
-	var Input = ReactBootstrap.Input;
+  var Input = ReactBootstrap.Input;
 	
   // コンポーネントの定義
   var ReservationStartTime = React.createClass({displayName: "ReservationStartTime",
@@ -17,13 +17,13 @@ $(function(){
         t_reservation_start: '',
       };
     },
-    onChangeSelectValue:function(e) {
+    changeText:function(e) {
       this.setState({t_reservation_start: e.target.value});
     },
     render:function() {
     	return (
     			React.createElement(Input, {type: "text", value: this.state.t_reservation_start, onChange: this.changeText})
-    			);
+    		);
 	    }
 	  });
   
@@ -47,82 +47,33 @@ $(function(){
 	        );
 	    }
 	  });
-  /*
-  var ReservationUserInfo = React.createClass({
-	    getDefaultProps() {
-		      return {
-		        t_user_id: ""
-		      };
-		    },
-	    getInitialState() {
-	      return {
-    	    t_user_id: "",
-	        t_user_tel: "",
-	        t_user_name: "",
-	        t_user_gender: "",
-	        t_user_age: ""
-	      };
-	    },
-	    changeText(e) {
-	      this.setState({t_user_id: e.target.value});
-	    },
-	    render() {
-	      return (
-            <tr>
-            <td>
-              顧客No.:
-            </td>
-            <td>
-		        <div>
-		          <input type="text" value={this.state.t_user_tel} onChange={this.changeText} placeholder = "電話番号" />
-		        </div>
-		        <div>
-		        	>>
-              	</div>
-              <button id = "search_button">検索</button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              顧客名:
-            </td>
-            <td>
-	            <div>
-	            <input type="text" value={this.state.t_user_name} onChange={this.changeText} />
-	          </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              年齢層＆性別:
-            </td>
-            <td>
-		        <div>
-		          <input type="text" value={this.state.t_user_age} onChange={this.changeText} />
-		        </div>
-		        <div>
-		          <input type="text" value={this.state.t_user_gender} onChange={this.changeText} />
-		        </div>
-            </td>
-          </tr>
-	      );
-	    }
-	  });
-   */
   
   var ReservationUserTel = React.createClass({displayName: "ReservationUserTel",
 	    getInitialState:function() {
 	      return {
-	        t_user_tel: ""
+	        t_user_tel: "",
+	        reserveId: -1
 	      };
 	    },
 	    changeText:function(e) {
 	      this.setState({t_user_tel: e.target.value});
 	    },
 	    render:function() {
+	      var input_user_tel = (function(){
+	    	  var user_tel;
+	    	  //console.log("reserveId:"+reserveId);
+	    	  if(this.state.reserveId<0){
+	    		  user_tel=
+	    			  React.createElement(Input, {type: "text", value: this.state.t_user_tel, onChange: this.changeText, placeholder: "電話番号"});
+	    	  }else{
+	    		  user_tel=
+	    			  React.createElement(Input, {type: "text", value: this.state.t_user_tel, onChange: this.changeText, placeholder: "電話番号", disabled: true});
+	    	  }
+	    	  return user_tel;
+	      }).bind(this)();
 	      return (
 	        React.createElement("div", null, 
-	          React.createElement(Input, {type: "text", value: this.state.t_user_tel, onChange: this.changeText, placeholder: "電話番号"})
+	        input_user_tel
 	        )
 	      );
 	    }
@@ -132,16 +83,28 @@ $(function(){
     getInitialState:function() {
       return {
     	  t_user_id: "",
-        t_user_name: ""
+        t_user_name: "",
+        reserveId: -1
       };
     },
     changeText:function(e) {
       this.setState({t_user_name: e.target.value});
     },
     render:function() {
+	      var input_user_name = (function(){
+	    	  var user_name;
+	    	  if(this.state.reserveId<0){
+	    		  user_name=
+	    	          React.createElement(Input, {type: "text", value: this.state.t_user_name, onChange: this.changeText})
+	    	  }else{
+	    		  user_name=
+	    	          React.createElement(Input, {type: "text", value: this.state.t_user_name, onChange: this.changeText, disabled: true})
+	    	  }
+	    	  return user_name;
+	      }).bind(this)();
       return (
         React.createElement("div", null, 
-          React.createElement(Input, {type: "text", value: this.state.t_user_name, onChange: this.changeText})
+        input_user_name
         )
       );
     }
@@ -171,7 +134,8 @@ $(function(){
   var ReservationUserGender = React.createClass({displayName: "ReservationUserGender",
 	    getInitialState:function() {
 	      return {
-	        t_user_gender: '0'
+	        t_user_gender: '0',
+		        reserveId: -1
 	      };
 	    },
 	    onChangeSelectValue:function(e) {
@@ -179,12 +143,26 @@ $(function(){
 	      this.setState({t_user_gender: e.target.value});
 	    },
 	    render:function() {
+	      var input_user_gender = (function(){
+	    	  var user_gender;
+	    	  if(this.state.reserveId<0){
+	    		  user_gender=
+	    	          React.createElement("select", {value: this.state.t_user_gender, onChange: this.onChangeSelectValue}, 
+		  	          	React.createElement("option", {value: "0"}, "男性"), 
+			          	React.createElement("option", {value: "1"}, "女性")
+			          );
+	    	  }else{
+	    		  user_gender=
+	    	          React.createElement("select", {value: this.state.t_user_gender, onChange: this.onChangeSelectValue, disabled: true}, 
+		  	          	React.createElement("option", {value: "0"}, "男性"), 
+			          	React.createElement("option", {value: "1"}, "女性")
+			          );
+	    	  }
+	    	  return user_gender;
+	      }).bind(this)();
 	      return (
     	        React.createElement("div", null, 
-    	          React.createElement("select", {value: this.state.t_user_gender, onChange: this.onChangeSelectValue}, 
-    	          	React.createElement("option", {value: "0"}, "男性"), 
-    	          	React.createElement("option", {value: "1"}, "女性")
-    	          )
+    	        input_user_gender
     	        )
 	      );
 	    }
@@ -208,21 +186,35 @@ $(function(){
 	      },
 	    getInitialState:function() {
 	      return {
-	        t_user_age: ""
+	        t_user_age: "20",
+		        reserveId: -1
 	      };
 	    },
-	    changeText:function(e) {
+	    onChangeSelectValue:function(e) {
 	      this.setState({t_user_age: e.target.value});
 	    },
 	    render:function() {
 	    	  var options = this.props.t_user_age.map(function(t_user_age) {
 	    	      return React.createElement("option", {value: t_user_age}, t_user_age);
 	    	    });
+		      var input_user_age = (function(){
+		    	  var user_age;
+		    	  if(this.state.reserveId<0){
+		    		  user_age=
+		    	          React.createElement("select", {value: this.state.t_user_age, onChange: this.onChangeSelectValue}, 
+	    	  			options
+				        );
+		    	  }else{
+		    		  user_age=
+		    	          React.createElement("select", {value: this.state.t_user_age, onChange: this.onChangeSelectValue, disabled: true}, 
+		    	  			options
+					        );
+		    	  }
+		    	  return user_age;
+		      }).bind(this)();
 	    	  var options1 = 
 	    		  React.createElement("div", null, 
-		  	        React.createElement("select", {value: this.state.t_user_age, onChange: this.onChangeSelectValue}, 
-			          options
-			        )
+	    	  			input_user_age
 			      );
 	    	    return (
 	    	    	React.createElement("div", null, 
@@ -524,9 +516,9 @@ $(function(){
   var component_reservation_user_sex = React.render(React.createElement(ReservationUserGender, null), document.getElementById('reservation_user_sex'));
   var component_reservation_user_age = React.render(React.createElement(ReservationUserAge, null), document.getElementById('reservation_user_age'));  
   var component_reservation_stylist = React.render(React.createElement(ReservationStylist, null), document.getElementById('reservation_stylist'));
-  var component_service_category = React.render(React.createElement(ServiceCategory, null), document.getElementById('service_category'));
-  var component_service_list = React.render(React.createElement(ServiceList, null), document.getElementById('service_list_info'));
-  var component_service_list2 = React.render(React.createElement(ServiceList2, null), document.getElementById('service_list_info2'));
+  var component_service_category = React.render(React.createElement(ServiceCategory, null), document.getElementById('service_menu_category'));
+  var component_service_list = React.render(React.createElement(ServiceList, null), document.getElementById('service_menu_list_info'));
+  var component_service_list2 = React.render(React.createElement(ServiceList2, null), document.getElementById('service_menu_list_info2'));
   /*
   var component_service_name = React.render(<ServiceName />, document.getElementById('service_name'));
   var component_service_detail_text = React.render(<ServiceDetailText />, document.getElementById('service_detail_text'));
@@ -558,31 +550,35 @@ $(function(){
 	  //console.log("Parameters: " + reserveId);
 	  var reservationInfo = getReservationInfo({t_reservation_id:reserveId});
 	  if(reservationInfo!=null){
-		  //time
+		  //予約時間を取得
 		  var param_time = reservationInfo.t_reservation_date;
-		  console.log("param_time:"+reservationInfo.t_reservation_date);
+		  //console.log("param_time:"+reservationInfo.t_reservation_date);
 		  var month = Number(moment(param_time).month()) + 1;
-		 var p_date = moment(param_time).year() + "/" + month +"/"+ moment(param_time).date();
+		 var p_date = moment(param_time).year() + "-" + month +"-"+ moment(param_time).date();
 		  var hours = (Number(moment(param_time).hours())<10) ? '0'+moment(param_time).hours(): moment(param_time).hours();
 		  var minutes = (Number(moment(param_time).minutes())<10) ? '0'+moment(param_time).minutes(): moment(param_time).minutes();
-		 //var p_start_time = hours + ":" +minutes;
-		  //var p_end_time = p_start_time;
 		  reservation_start_time = hours + ":" +minutes;
 		  reservation_menu_start_time = reservation_start_time;
 		  reservation_end_time = reservation_start_time;
 		  var param_stylistId = reservationInfo.t_reservation_stylistId;
-		  //userInfo~
+		  //userInfo~を取得
 		  var userInfo = getUserInfo({t_user_tel: reservationInfo.t_reservation_userTel});
-		  component_reservation_user_tel.setState({t_user_tel: userInfo.t_user_tel});
+		  component_reservation_user_tel.setState({t_user_tel: userInfo.t_user_tel,reserveId:reserveId});
 		  component_reservation_user_name.setState({
 			  t_user_id: userInfo.t_user_id,
-			  t_user_name: userInfo.t_user_name});
+			  t_user_name: userInfo.t_user_name,
+			  reserveId:reserveId});
 		  //var gender = getGenderStr(userInfo.t_user_gender);
 		  //component_reservation_user_sex.setState({t_user_gender: gender});
-		  component_reservation_user_sex.setState({t_user_gender: userInfo.t_user_gender});
-		  component_reservation_user_age.setState({t_user_age: userInfo.t_user_age});
+		  component_reservation_user_sex.setState({t_user_gender: userInfo.t_user_gender,reserveId:reserveId});
+		  component_reservation_user_age.setState({t_user_age: userInfo.t_user_age,reserveId:reserveId});
 		  //reserved menus
 		  var reserved_menus = reservationInfo.t_reservation_menuId;
+		  //apoint_check
+		  //console.log("appoint:"+reservationInfo.t_reservation_appoint);
+		  if(reservationInfo.t_reservation_appoint==1){
+			  $('#appoint').prop("checked",true);
+		  }
 	  }
   }else{
 	  var param_time = parameter_info['time'];
@@ -627,21 +623,59 @@ $(function(){
 	}
 
 	//Menu系
+	  //メニューカテゴリを取得
 	  var service_category_info = getServiceCategoryList();
 	  sanitaize.decode(service_category_info);
 	  var category = service_category_info.category;
+	  //categoryに休憩・休暇を追加
+	  category.push({
+          t_menuCategory_categoryId:"R",
+          t_menuCategory_name:"休憩"
+        });
+	  //メニューリストを取得
 	  var menu_list = getMenuInfo({t_hairSalonMaster_salonId : session_info.t_hairSalonMaster_salonId});
 	  sanitaize.decode(menu_list);
+	  //メニューリストに休憩・休暇を追加
+	  menu_list.menu.push({
+          t_menu_menuId:"R1",
+          t_menu_name:"休憩",
+          t_menu_time: "60"
+        });
+	  menu_list.menu.push({
+          t_menu_menuId:"R2",
+          t_menu_name:"休暇",
+          t_menu_time:"ALLDAY"  
+        });
 	  var menus = new Array();
 	  for (var i = 0; i < menu_list.menu.length; i++) {
-	    var menu_id = menu_list.menu[i].t_menu_id;
+	    var menu_id = menu_list.menu[i].t_menu_menuId;
 	    var menu_name = menu_list.menu[i].t_menu_name;
 	    menus[menu_id] = menu_name;
 	  }
+
 	  //categoryIdにマッチするメニューを取得
 	  var getMenuListOfCategory = function(t_category_id){
 		  var ret = [];
 		  //console.log("getMenuList:"+t_category_id);
+		  //休憩対応
+		  if(t_category_id == "R"){
+			  ret.push({
+		          "t_menu_categoryId": "R",
+		          "t_menu_menuId": "R1",
+		          "t_menu_name": "休憩",
+		          "t_menu_price": "0",
+		          "t_menu_time": "60"
+			  });
+			  ret.push({
+		          "t_menu_categoryId": "R",
+		          "t_menu_menuId": "R2",
+		          "t_menu_name": "休暇",
+		          "t_menu_price": "0",
+		          "t_menu_time": "ALLDAY"
+			  });
+			  return ret;
+		  }
+		  //メニュー対応
 		  for(var i=0; i<menu_list.menu.length; i++){
 			  if(menu_list.menu[i].t_menu_categoryId == t_category_id){
 				  ret.push({
@@ -678,6 +712,7 @@ $(function(){
 
 	  //予約終了時刻
 	  function getEndTime(st,total_time){
+		//console.log("getEndTime("+st+","+total_time+")");
     	//var start_time = component_reservation_start.state.t_reservation_start;
 		  //var start_time = reservation_start_time;
 		  var start_time = st;
@@ -687,6 +722,7 @@ $(function(){
     	ope_minutes = total_time%60;
     	var end_hours = start_hours+ope_hours;
     	var end_minutes = start_minutes+ope_minutes;
+    	//console.log(start_hours+","+start_minutes+","+end_hours+","+end_minutes);
     	if(end_minutes >= 60){
     		end_minutes -= 60;
     		end_hours += 1;
@@ -694,24 +730,25 @@ $(function(){
     	var end_hours_str = (end_hours<10) ? '0'+end_hours: end_hours;
     	var end_minutes_str = (end_minutes<10) ? '0'+end_minutes: end_minutes;
     	var end_time = end_hours_str + ":" + end_minutes_str;
-		  console.log("start_time="+start_time+", total_time="+total_time+", end_time="+end_time);
+    	//console.log("start_time="+start_time+", total_time="+total_time+", end_time="+end_time);
     	return end_time;
 	  }
 	  
   /*<!-- データピッカー2　予約日時設定 -->*/
   $('#date').datepicker({
-  format: "yyyy/mm/dd",
+  dateFormat: "yy-mm-dd",
   language: "ja",
   autoclose: true,
   orientation: "top auto"
   });
   
   // Component set. 
+  //console.log("p_date:"+p_date);
   $("#date").datepicker("setDate", p_date);
   component_reservation_start.setState({t_reservation_start: reservation_start_time});
   component_reservation_end.setState({t_reservation_end: reservation_end_time});
   component_reservation_stylist.setProps({stylist: stylist_info.stylist});
-  component_reservation_stylist.setState({t_stylist_id: param_stylistId})
+  component_reservation_stylist.setState({t_stylist_id: param_stylistId});
   component_service_category.setProps({category: service_category_info.category});
   component_service_category.setState({t_menu_categoryId: component_service_category.props.category[0].t_menuCategory_categoryId});
   var menu_options = getMenuListOfCategory(1);
@@ -723,12 +760,14 @@ $(function(){
   var total_price = 0;
   var total_time  = 0;
 
-  //予約されていた情報を配置
+  //予約情報編集の場合、予約されていた情報を配置する
   if(reservationFlag){
 	  var s_time = reservation_start_time;
 	  var menu_ids =  reserved_menus.split(',');
+	  //console.log(menu_ids.length+","+menu_list.menu.length);
 	  for (var i = 0; i < menu_ids.length; i++) {
 		  for (var j = 0; j < menu_list.menu.length; j++) {
+			  //console.log(menu_ids[i]+","+menu_list.menu[j].t_menu_menuId);
 			  if(menu_ids[i] == menu_list.menu[j].t_menu_menuId){
 				  reserve_menu_list.push({
 				    	"t_menu_menuId": menu_ids[i],
@@ -750,7 +789,10 @@ $(function(){
 	  component_service_list2.setState({"service_list2": reserve_menu_list});
   }
 
-  //予約競合チェック conflictしてたらtrue
+  //予約競合チェック関数 conflictしてたらtrue
+  /* oneStart, oneEnd: 予約されている開始時間、終了時間
+   * checkStart, checkEnd: 新しく予約する開始時間、終了時間
+   */
   function checkConflict(oneStart, oneEnd, checkStart, checkEnd){
 	  var result = true;
 	  var oneStart_hours = oneStart.substring(0,2);
@@ -825,6 +867,7 @@ $(function(){
 		  //console.log("search button clicked."+component_reservation_user_tel.state.t_user_tel);
 		  var user_info = getUserInfo({t_user_tel: component_reservation_user_tel.state.t_user_tel});
 		  if(user_info.t_user_id>0){
+			  //console.log("user_info.t_user_age:"+user_info.t_user_age);
 			  //var gender = getGenderStr(user_info.t_user_gender);
 			  //component_reservation_user_sex.setState({t_user_gender: gender});
 			  component_reservation_user_sex.setState({t_user_gender: user_info.t_user_gender});
@@ -839,22 +882,35 @@ $(function(){
   
   // 右メニューの予約ボタン押下時
   $('.reserve').on('click', function() {
-	  /*
-	  if (album_info.album.length == 0) {
-        return false;
-      }
-      */
     var id = $(".reserve").index(this);
-	//var service_id = component_service_list.state.service_list[id].t_menu_menuId;
-    //console.log("r_id:"+id);
+    //console.log("予約ボタンがオサレました:r_id:"+id);
     var exist=false;
     for(var i=0; i<reserve_menu_list.length; i++){
-        if(reserve_menu_list[i].t_menu_menuId == component_service_list.state.service_list[id].t_menu_menuId){
-        	exist = true;
-        }
+    	//予約メニューに休憩が含まれていて、休憩以外のメニューを選択したら初期化
+    	if(reserve_menu_list[i].t_menu_menuId=="R1"){
+    		if(!component_service_list.state.service_list[id].t_menu_menuId=="R1"){
+        		reserve_menu_list = [];
+    		}
+    	}else if(reserve_menu_list[i].t_menu_menuId=="R2"){
+			reserve_menu_list = [];
+    	}else{
+    	    //すでに登録されているメニューではないかをチェック
+    	    if(reserve_menu_list[i].t_menu_menuId == component_service_list.state.service_list[id].t_menu_menuId){
+    	    	exist = true;
+    	    }
+    	}
     }
     if(exist==false){
-    	//console.log(reservation_menu_start_time);
+    	if(component_service_list.state.service_list[id].t_menu_menuId=="R1"){
+    		//休憩は追加できる
+    		//console.log("length:"+reserve_menu_list.length);
+    		if(reserve_menu_list.length>0 && reserve_menu_list[0].t_menu_menuId!="R1"){
+        		reserve_menu_list = [];
+    		}
+    	}else if(component_service_list.state.service_list[id].t_menu_menuId=="R2"){
+    		//休暇が選ばれたらメニューを空にする
+    		reserve_menu_list = [];
+    	}
     	//push
 	    reserve_menu_list.push({
 	    	"t_menu_menuId": component_service_list.state.service_list[id].t_menu_menuId,
@@ -868,8 +924,12 @@ $(function(){
 	    total_price+=Number(component_service_list.state.service_list[id].t_menu_price);
 	    total_time+=Number(component_service_list.state.service_list[id].t_menu_time);
 	    //console.log(total_price+","+total_time);
-	    var end = getEndTime(reservation_start_time, total_time);
-	    reservation_menu_start_time = getEndTime(reservation_start_time, total_time);
+	    //var end = getEndTime(reservation_start_time, total_time);
+	    //reservation_menu_start_time = getEndTime(reservation_start_time, total_time);
+	    //console.log("aaa:"+component_reservation_start.state.t_reservation_start);
+	    var end = getEndTime(component_reservation_start.state.t_reservation_start, total_time);
+	    reservation_start_time = component_reservation_start.state.t_reservation_start;
+	    reservation_menu_start_time = end;
 	    component_reservation_end.setState({t_reservation_end: end});
     }
     component_service_list2.setState({"service_list2": reserve_menu_list});
@@ -895,109 +955,182 @@ $(function(){
 	  //日付取得
 	  var md = moment($('#date').datepicker('getDate'));
 	  var mth = Number(md.month())+1;
-	  var d = md.year() +"/" + mth +"/"+ md.date()+ 
+	  var d = md.year() +"-" + mth +"-"+ md.date()+ 
 		  " "+component_reservation_start.state.t_reservation_start;
 
-	  //かかる時間
-	 var m_time = 0;
-	 for(var i=0; i<reserve_menu_list.length ; i++){
-		 for(var j=0; j<menu_list.length; j++){
-			 if(reserve_menu_list[i].t_menu_menuId == menu_list.menu[j].t_menu_id){
-				 m_time += menu_list.menu[j].t_menu_time;
-			 }
-		 }
-	 }
-	  
-	 if(reserveId < 0){
-		 //競合チェック
-		  var r_lists = getReservationList({
-			　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId,
-			　 t_reservation_date: param_time
-		  });
-		  var r_list = [];
-		  r_list = r_lists.reservation_lists;
-		  if(r_list==undefined){
-			  console.log("No reservation.");
-		  }else{
-			  for(var i=0; i<r_list.length; i++){
-				  console.log(d.substring(0, 10)+","+r_list[i].t_reservation_date.substring(0, 10));
-				  if(d.substring(0, 10)!=r_list[i].t_reservation_date.substring(0, 10)){
-					  continue;
-				  }
-				  var representative = "";
-				  for(var j=0; j<stylist_info.stylist.length; j++){
-					  if(stylist_info.stylist[j].t_stylist_id == component_reservation_stylist.state.t_stylist_id){
-						  representative = stylist_info.stylist[j].t_stylist_name;
-					  }
-				  }
-				  if(representative != r_list.t_stylist_name){
-					  continue;
-				  }
-				  var oneSt = r_list[i].t_reservation_date.substring(13, 18);
-				  var oneEt = getEndTime(st, r_list[i].t_reservation_time);
-				  var cSt = component_reservation_start.state.t_reservation_start;
-				  var cEt = getEndTime(cSt ,m_time);
-				  console.log(oneSt+","+ oneEt+","+ cSt+","+ cEt);
-				  var result = checkConflict(oneSt, oneEt, cSt, cEt);
-				  if(result){
-					  return;
-				  }
-			  }
-		  }
-	 }
-	  
-	  //メニューリストをカンマつづりで取得
+	  //console.log("rl:"+reserve_menu_list.length+","+reserve_menu_list[0].t_menu_menuId);
+	  //予約するメニューリストをカンマつづりで取得
 	  var ms = (function(){
 		 var ms = "";
 		 for(var i=0; i<reserve_menu_list.length ; i++){
 			 ms += reserve_menu_list[i].t_menu_menuId + ",";
 		 }
 		 //console.log(ms + "," +ms.length);
-		 if(ms.length>0){
+		 if(ms.length>1){
 			 ms = ms.substring(0, ms.length-1);
 		 }
-		 console.log(ms);
+		 //console.log(ms);
 		 return ms;
-	  });
-	  
-	  //ユーザidを発見できなかった場合は、ユーザを仮登録
-	  var uid = (function(){
-		  var uid = -1;
-		  uid = component_reservation_user_name.state.t_user_id;
-		  console.log("uid:"+uid);
-		  if(uid == ""){
-			  ui = setRegistUser(
-				{
-					t_user_name: component_reservation_user_name.state.t_user_name,
-					t_user_gender: component_reservation_user_sex.state.t_user_gender,
-					t_user_tel: component_reservation_user_tel.state.t_user_tel,
-					t_user_age: component_reservation_user_age.state.t_user_age
-				}	  
-			  );
-			  uid=ui.t_user_id;
-			  //console.log("uid:"+uid.t_user_id);
+	  })();
+
+	  //Validate- 予約するための項目が埋まっているかチェック
+	  //予約メニューなしでは登録できない
+	  if(ms.length<=0){
+		  console.log("予約メニューが選択されていません.");
+		  alert("予約メニューが選択されていません.");
+		  return;
+	  }
+	  //休憩以外でユーザ情報が入力されていないと登録できない
+	  //console.log(reserve_menu_list[0].t_menu_menuId+","+reserve_menu_list[0].t_menu_menuId.indexOf("R"));
+	  var restCheck = reserve_menu_list[0].t_menu_menuId+"";
+	  if(restCheck.indexOf("R")<0){
+		  if(component_reservation_user_name.state.t_user_name==""
+			  || component_reservation_user_tel.state.t_user_tel==""){
+			  console.log("ユーザ情報の入力が足りません.");
+			  alert("ユーザ情報の入力が足りません.");
+			  return;
 		  }
-		  return uid;
+	  }
+	  
+	  //予約メニューにかかる時間を算出
+		 var m_time = 0;
+		 //console.log(reserve_menu_list.length+","+menu_list.menu.length);
+		 for(var i=0; i<reserve_menu_list.length ; i++){
+			 for(var j=0; j<menu_list.menu.length; j++){
+				 //console.log(reserve_menu_list[i].t_menu_menuId +","+ menu_list.menu[j].t_menu_menuId);
+				 if(reserve_menu_list[i].t_menu_menuId == menu_list.menu[j].t_menu_menuId){
+					 m_time += menu_list.menu[j].t_menu_time;
+				 }
+			 }
+			 if(reserve_menu_list[i].t_menu_menuId == "R1"){
+				 m_time += 60;
+			 }
+		 }
+		 console.log("予約メニューにかかる時間："+m_time+"分.");
+		  
+	 
+	 //競合チェック
+	  var r_lists = getReservationList({
+		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId,
+		  t_reservation_date: d
 	  });
+	  var r_list = [];
+	  r_list = r_lists.reservation_list;
+	  //予約編集の場合は、編集している予約情報をのぞく
+	  for(var i=0; i<r_list.length; i++){
+		  if(r_list[i].t_reservation_id == reserveId){
+			  console.log("予約編集中："+r_list[i].t_reservation_id);
+			  r_list.splice(i,1);
+		  }
+	  }
+	  if(r_list==undefined){
+		  //予約なし
+		  console.log("予約しようとしている日に他の予約はありません.");
+	  }else{
+		  //予約あり(競合チェック)
+		  for(var i=0; i<r_list.length; i++){
+			  //console.log(d.substring(0, 10)+","+r_list[i].t_reservation_date.substring(0, 10));
+			  if(d.substring(0, 10)!=r_list[i].t_reservation_date.substring(0, 10)){
+				  continue;
+			  }
+			  var representative = "";
+			  for(var j=0; j<stylist_info.stylist.length; j++){
+				  //console.log(stylist_info.stylist[j].t_stylist_Id+","+component_reservation_stylist.state.t_stylist_id);
+				  if(stylist_info.stylist[j].t_stylist_Id == component_reservation_stylist.state.t_stylist_id){
+					  representative = stylist_info.stylist[j].t_stylist_name;
+				  }
+			  }
+			  //console.log(representative+","+r_list[i].t_stylist_name);
+			  if(representative != r_list[i].t_stylist_name){
+				  continue;
+			  }
+			  //console.log("予約された時間:"+r_list[i].t_reservation_date)
+			  var oneSt = r_list[i].t_reservation_date.substring(11, 16);
+			  var oneEt = getEndTime(oneSt, r_list[i].t_reservation_time);
+			  var cSt = component_reservation_start.state.t_reservation_start;
+			  var cEt = getEndTime(cSt ,m_time);
+			  //console.log("CoflictCheck:"+oneSt+","+ oneEt+","+ cSt+","+ cEt);
+			  var result = checkConflict(oneSt, oneEt, cSt, cEt);
+			  if(result){
+				  console.log("予約時間が競合しています. : 競合予約時刻（"+oneSt+"〜"+oneEt+")");
+				  alert("予約時間が競合しています. : 競合予約時刻（"+oneSt+"〜"+oneEt+")");
+				  return;
+			  }else{
+				  //console.log("競合していません.");
+			  }
+		  }
+	  }
+		  
+	  //ユーザidを発見できなかった場合は、ユーザを仮登録
+	  if(restCheck.indexOf("R")<0){
+		  var uid = (function(){
+			  var uid = -1;
+			  uid = component_reservation_user_name.state.t_user_id;
+			  console.log("uid:"+uid);
+			  if(uid == ""){
+				  ui = setRegistUser(
+					{
+						t_user_name: component_reservation_user_name.state.t_user_name,
+						t_user_gender: component_reservation_user_sex.state.t_user_gender,
+						t_user_tel: component_reservation_user_tel.state.t_user_tel,
+						t_user_age: component_reservation_user_age.state.t_user_age
+					}	  
+				  );
+				  uid=ui.t_user_id;
+				  //console.log("uid:"+uid.t_user_id);
+			  }
+			  return uid;
+		  })();
+	  }else{
+		  var uid=0;
+	  }
 
+	  //指名かどうか
+	  var check = document.forms.check_form.appoint.checked;
+	  console.log("appoint:"+check);
+	  var appoint;
+	  if(check==true){
+		  appoint=1;
+	  }else{
+		  appoint=0;
+	  }
+		  
 	  //サーブレット送信情報
-    var data = {
-      t_reservation_userId: uid,
-    　 t_reservation_salonId: session_info.t_hairSalonMaster_salonId,
-    　 t_reservation_stylistId: component_reservation_stylist.state.t_stylist_id,
-    　 t_reservation_date: d,
-    　 t_reservation_menuId: ms,
-    　 t_reservation_seatId: 1,
-      t_reservation_memo: $('#memo').text()　
-     };
-
+	  var data;
+	  if(reserveId<0){
+	    data = {
+	      t_reservation_userId: uid,
+	    　 t_reservation_salonId: session_info.t_hairSalonMaster_salonId,
+	    　 t_reservation_stylistId: component_reservation_stylist.state.t_stylist_id,
+	    　 t_reservation_date: d,
+	    　 t_reservation_menuId: ms,
+	    　 t_reservation_seatId: 1,
+	      t_reservation_memo: $('#memo').text()　,
+	      t_reservation_appoint: appoint
+	     };
+	  }else{
+		  //サーブレットUpdate情報
+	    data = {
+	      t_reservation_id: reserveId,
+	      t_reservation_userId: uid,
+	    　 t_reservation_salonId: session_info.t_hairSalonMaster_salonId,
+	    　 t_reservation_stylistId: component_reservation_stylist.state.t_stylist_id,
+	    　 t_reservation_date: d,
+	    　 t_reservation_menuId: ms,
+	    　 t_reservation_seatId: 1,
+	      t_reservation_memo: $('#memo').text()　,
+	      t_reservation_appoint: appoint
+	     };
+	  }
+    
     // サニタイズ
     sanitaize.encode(data);
 
     var result = setReservationInfo(data);
     if (result.result == "true") {
       alert('Regist Success');
-      window.location.reload();
+      //window.location.reload();
+      location.href="calender.html";
     }
     else {
       alert('Regist Failed');
@@ -1009,12 +1142,12 @@ $(function(){
 	  * http://alphasis.info/2011/06/jquery-ui-dialog-form/
 	  */
 	    $( 'button', '.jquery-ui-button' ).button();
-	    $( '#jquery-ui-dialog-opener' ).click( function() {
-	        $( '#jquery-ui-dialog' ).dialog( 'open' );
+	    $( '#claim-opener' ).click( function() {
+	        $( '#claim-dialog' ).dialog( 'open' );
 	    } );
-	    var name = $( '#jquery-ui-dialog-form-name' );
-	    var comment = $( '#jquery-ui-dialog-form-comment' );
-	    $( '#jquery-ui-dialog' ).dialog( {
+	    var name = $( '#claim-dialog-form-name' );
+	    var comment = $( '#claim-dialog-form-comment' );
+	    $( '#claim-dialog' ).dialog( {
 	        autoOpen: false,
 	        width: 350,
 	        show: 'explode',
@@ -1023,8 +1156,10 @@ $(function(){
 	        buttons: {
 	            '登録': function() {
 	                if ( comment . val() ) {
-	               	 if(function(reserveId){return 0;}){
+	               	 if(reserveId>0){
 	                	setClaimFunc(comment.val());
+	               	 }else{
+	               		 alert('予約情報が取得できません.');
 	               	 }
 	                	$( this ).dialog( 'close' );
 	                }
@@ -1073,6 +1208,7 @@ $(function(){
   //予約終了関数呼び出し
   function finishReservation(flag){
 	  if(reserveId < 0){
+		  alert('予約情報が把握できません.');
 		  return;
 	  }
 	  
@@ -1102,9 +1238,9 @@ $(function(){
 
   // 取り消しボタン押下時
   $('#cancel').on('click', function() {
-	  $('#dialogdemo1').dialog('open');
+	  $('#cancel_dialog').dialog('open');
   });
-  $('#dialogdemo1').dialog({
+  $('#cancel_dialog').dialog({
 	  /*
 	   * http://jquery.keicode.com/ui/dialog.php
 	   */

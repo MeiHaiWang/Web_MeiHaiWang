@@ -110,6 +110,12 @@ border: 1px solid #b9b9b9;
 }
 */
 
+#reservation_stylist_table td{
+	background-color: #eee;
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+}
 
 
 #menu_table{
@@ -143,7 +149,7 @@ width: 400px;
 height: 250px; 
 }
 
-#service_category{
+#service_menu_category{
 width:400px; 
 height:100px;
 overflow-x:scroll;
@@ -151,7 +157,7 @@ vertical-align: top;
 margin-left:auto;
 margin-right:auto;
 }
-#service_list_info{
+#service_menu_list_info{
 width:400px; 
 height:300px; 
 overflow-x:scroll;

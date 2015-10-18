@@ -1,5 +1,4 @@
 $(function(){
-	
 	var ReservationList = React.createClass({
 	    getDefaultProps() {
 	        return {
@@ -36,17 +35,10 @@ $(function(){
 	      });
 	      return (
 	        <div>
-	          <table>
-	          	<thead>
-	          	<tr><th>本日の予約一覧</th></tr>
-	            </thead>
-	            <tbody>
-	            <tr><th>服务名称</th><th>Time</th><th>Price</th><th>予約</th></tr>
-	            <tr><td>No.</td><td>予約日時</td><td>顧客名</td><td>性別</td><td>担当者名</td><td>メニュー</td><td>座席</td><td>備考</td></tr>	
+	            <table>
+	            <tr><th>No.</th><th>予約日時</th><th>顧客名</th><th>性別</th><th>担当者名</th><th>メニュー</th><th>座席</th><th>備考</th></tr>	
 	            {reservation}
-	            <tr></tr>
-	            </tbody>
-	          </table>
+	            </table>
 	        </div>
 	      );
 	    }
@@ -80,7 +72,25 @@ $(function(){
 		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId,
 		　 t_reservation_date: date
 	  });
-	  console.log(res_list.reservation_list.length);
-	  component_reservation_list.setState({reservation_list: res_list.reservation_list}); 
+	  
+	  var rList = res_list.reservation_list;
+
+	  if(rList.length>0){
+		  (function(){
+			  for(var i=0;i<rList.length;i++){
+				  if(rList[i].t_user_gender==0){
+					  rList[i].t_user_gender="男性";
+				  }else if(rList[i].t_user_gender==1){
+					  rList[i].t_user_gender="女性";
+				  }
+			  }
+		  })();
+		  /*
+		  console.log("Reservation Number: "+res_list.reservation_list.length);
+		  component_reservation_list.setState({reservation_list: res_list.reservation_list});
+		  */ 
+		  console.log("Reservation Number: "+rList.length);
+		  component_reservation_list.setState({reservation_list: rList});
+	  }
 	  
 });

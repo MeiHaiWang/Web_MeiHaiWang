@@ -1,4 +1,6 @@
 $(function(){
+	var ButtonToolbar = ReactBootstrap.ButtonToolbar;
+	var Button = ReactBootstrap.Button;
 	var CustomerList = React.createClass({
 	    getDefaultProps() {
 	        return {
@@ -31,6 +33,12 @@ $(function(){
 	        <td>{customer.t_reservation_memo}</td>
 	        <td>{customer.salon_traffic}</td>
 	        <td>{customer.total_payment}</td>
+	        <td>
+	        <ButtonToolbar>
+	        <Button className="previous">前回</Button>
+	        <Button className="next">次回</Button>
+	        </ButtonToolbar>
+	        </td>
 	        </tr>;
 	      });
 	      return (
@@ -39,22 +47,23 @@ $(function(){
 	  No,	顧客名	携帯番号	年齢層	性別	担当者	備考	来店数	消費額	予約状況	
 	  	    	 */
 	        <div>
-	          <table>
-	          	<thead>
-	          	<tr><th>本日の予約一覧</th></tr>
-	            </thead>
-	            <tbody>
-	            <tr><th>服务名称</th><th>Time</th><th>Price</th><th>予約</th></tr>
-	            <tr><td>No.</td><td>顧客名</td><td>携帯番号</td><td>年齢層</td><td>性別</td><td>担当者</td><td>備考</td><td>来店数</td><td>消費額</td><td>メニュー</td><td>予約状況</td></tr>	
+        	  <table>
+	            <tr><th>No.</th><th style={style1.container}>顧客名</th><th>携帯番号</th><th>年齢層</th><th>性別</th><th>担当者</th><th>備考</th><th>来店数</th><th>消費額</th><th>予約状況</th></tr>	
 	            {customer}
 	            <tr></tr>
-	            </tbody>
 	          </table>
 	        </div>
 	      );
 	    }
 	  });
 	  
+	var style1 = {
+			  container: {
+			    backgroundColor: "#ddd",
+			    width: 150
+			  }
+			}
+	
 	  var component_customer_list = React.render(<CustomerList />, document.getElementById('customer_list_info'));
 	
 	  // セッションIDからサービス情報を取得する
@@ -80,7 +89,22 @@ $(function(){
 	  var customer_list = getCustomerList({
 		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
 	  });
-	  console.log(customer_list.user_lists.length);
-	  component_customer_list.setState({customer_list: customer_list.user_lists}); 
 	  
+	  var cList = customer_list.user_lists;
+	  if(cList.length>0){
+		  (function(){
+			  for(var i=0;i<cList.length;i++){
+				  if(cList[i].t_user_gender==0){
+					  cList[i].t_user_gender="男性";
+				  }else if(cList[i].t_user_gender==1){
+					  cList[i].t_user_gender="女性";
+				  }
+			  }
+		  })();
+		  console.log("customerList number: "+cList.length);
+		  component_customer_list.setState({customer_list: cList}); 
+//		  console.log(customer_list.user_lists.length);
+//		  component_customer_list.setState({customer_list: customer_list.user_lists}); 
+	  }	  
+
 });

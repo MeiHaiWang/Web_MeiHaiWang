@@ -1,5 +1,4 @@
 $(function(){
-	
 	var ReservationList = React.createClass({displayName: "ReservationList",
 	    getDefaultProps:function() {
 	        return {
@@ -36,17 +35,10 @@ $(function(){
 	      });
 	      return (
 	        React.createElement("div", null, 
-	          React.createElement("table", null, 
-	          	React.createElement("thead", null, 
-	          	React.createElement("tr", null, React.createElement("th", null, "本日の予約一覧"))
-	            ), 
-	            React.createElement("tbody", null, 
-	            React.createElement("tr", null, React.createElement("th", null, "服务名称"), React.createElement("th", null, "Time"), React.createElement("th", null, "Price"), React.createElement("th", null, "予約")), 
-	            React.createElement("tr", null, React.createElement("td", null, "No."), React.createElement("td", null, "予約日時"), React.createElement("td", null, "顧客名"), React.createElement("td", null, "性別"), React.createElement("td", null, "担当者名"), React.createElement("td", null, "メニュー"), React.createElement("td", null, "座席"), React.createElement("td", null, "備考")), 	
-	            reservation, 
-	            React.createElement("tr", null)
+	            React.createElement("table", null, 
+	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "予約日時"), React.createElement("th", null, "顧客名"), React.createElement("th", null, "性別"), React.createElement("th", null, "担当者名"), React.createElement("th", null, "メニュー"), React.createElement("th", null, "座席"), React.createElement("th", null, "備考")), 	
+	            reservation
 	            )
-	          )
 	        )
 	      );
 	    }
@@ -80,7 +72,25 @@ $(function(){
 		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId,
 		　 t_reservation_date: date
 	  });
-	  console.log(res_list.reservation_list.length);
-	  component_reservation_list.setState({reservation_list: res_list.reservation_list}); 
+	  
+	  var rList = res_list.reservation_list;
+
+	  if(rList.length>0){
+		  (function(){
+			  for(var i=0;i<rList.length;i++){
+				  if(rList[i].t_user_gender==0){
+					  rList[i].t_user_gender="男性";
+				  }else if(rList[i].t_user_gender==1){
+					  rList[i].t_user_gender="女性";
+				  }
+			  }
+		  })();
+		  /*
+		  console.log("Reservation Number: "+res_list.reservation_list.length);
+		  component_reservation_list.setState({reservation_list: res_list.reservation_list});
+		  */ 
+		  console.log("Reservation Number: "+rList.length);
+		  component_reservation_list.setState({reservation_list: rList});
+	  }
 	  
 });

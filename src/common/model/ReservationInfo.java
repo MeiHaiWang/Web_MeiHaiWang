@@ -24,14 +24,15 @@ public class ReservationInfo {
 	private String ReservationSalonName = "";
 	private String ReservationStylistName = "";
 	private String ReservationMenuId = "";
-	private int ReservationSeatId;
-	private String ReservationMemo;
-	private String ReservationUserName;
-	private String ReservationUserSex;
-	private String ReservationMenuName;
-	private String ReservationSeatName;
-	private String ReservationUserTel;
-	private int ReservationTime;
+	private int ReservationSeatId =-1;
+	private String ReservationMemo ="";
+	private String ReservationUserName="";
+	private String ReservationUserSex="";
+	private String ReservationMenuName="";
+	private String ReservationSeatName="";
+	private String ReservationUserTel="";
+	private int ReservationTime=-1;
+	private int ReservationAppoint=-1;
 	
 	
 	public ReservationInfo(){
@@ -180,6 +181,12 @@ public class ReservationInfo {
 		return ReservationTime;
 	}
 	
+	public void setReservationAppoint(int appoint){
+		this.ReservationAppoint = appoint;
+	}
+	public int getReservationAppoint() {
+		return ReservationAppoint;
+	}
 }
 
 

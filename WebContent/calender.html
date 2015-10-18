@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Beauty Hair Net Manager - Album</title>
+    <title>Beauty Hair Net Manager - Calender</title>
     <link href="css/application.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
-    <!-- jQueryUI -->
+    <!-- jQueryUI 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+	-->
+    <link rel="stylesheet" href="others/jquery-ui.css" />
     <!-- Tag-it CSS本体 -->
     <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
     <!-- Gantt -->
@@ -190,13 +192,13 @@ var logout = (function () {
                                       <tr>
                                         <td>
                                           <div class="form-group">
-                                            <input id="form_user_search" class="form-inline" placeholder = "名前 or 電話番号">
+                                            <input id="form_user_search" type="text" class="form-inline" placeholder = "名前 or 電話番号">
 	                                          <!-- 
 	                                          <div id = "react_user_find"></div>
 	                                          -->
-	                                          <button id = "search_button">検索</button>
-	                                          <button id = "reservation_list_button">本日予約一覧</button>
-	                                          <button id = "customer_list_button">顧客一覧</button>
+	                                          <button class ="btn btn-warning" id = "search_button">検索</button>
+	                                          <button class = "btn btn-info" id = "reservation_list_button">本日予約一覧</button>
+	                                          <button class = "btn btn-success" id = "customer_list_button">顧客一覧</button>
 	                                       </div>
                                           
                                         </td>
@@ -280,16 +282,17 @@ var logout = (function () {
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 
 <!-- tag-it  -->
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>  
+<!-- <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>   -->
+<script src="others/jquery-ui.min.js"></script>
 <script src="others/tag-it.js"></script>
 
 <!-- react -->
-<!-- 
 <script src="js/react.min.js"></script>
 <script src="js/JSXTransformer.js"></script>
- -->
+<!-- 
 <script src="http://fb.me/react-with-addons-0.12.2.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+ -->
  
 <!-- common app js -->
 <script src="js/config.js"></script>

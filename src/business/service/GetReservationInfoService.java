@@ -75,7 +75,8 @@ public class GetReservationInfoService {
 			　 t_reservation_menuId,
 			  t_reservation_isFinished,
 			　 t_reservation_seatId,
-			     t_reservation_memo　
+			     t_reservation_memo　,
+			     t_reservation_appoint
 			　}
 		 */
 		
@@ -89,6 +90,7 @@ public class GetReservationInfoService {
 			jsonObject.put("t_reservation_seatId", reservationInfo.getReservationSeatId());
 			jsonObject.put("t_reservation_isFinished", reservationInfo.getisFinished());
 			jsonObject.put("t_reservation_memo", reservationInfo.getReservationMemo());
+			jsonObject.put("t_reservation_appoint", reservationInfo.getReservationAppoint());
     	PrintWriter out = response.getWriter();
 		out.print(jsonObject);
 		//debug

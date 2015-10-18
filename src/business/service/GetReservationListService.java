@@ -109,7 +109,8 @@ public class GetReservationListService {
 			    t_menu_name,
 			    t_seat_name,
 			    t_reservation_isFinished,
-			    t_reservation_memo
+			    t_reservation_memo,
+			    t_reservation_menuId
 			  },
 			  {
 			
@@ -132,6 +133,7 @@ public class GetReservationListService {
 			jsonOneData.put("t_seat_name", reservationInfo.getReservationSeatName());
 			jsonOneData.put("t_reservation_isFinished", reservationInfo.getisFinished());
 			jsonOneData.put("t_reservation_memo", reservationInfo.getReservationMemo());
+			jsonOneData.put("t_reservation_menuId", reservationInfo.getReservationMenuId());
 			jsonArray.add(jsonOneData);
 		}
 		jsonObject.put("reservation_list", jsonArray);
