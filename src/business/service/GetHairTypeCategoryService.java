@@ -94,7 +94,10 @@ public class GetHairTypeCategoryService {
 					//debug
 					System.out.println("conditionType:"+conditionType);
 					ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, conditionType);
-					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);	
+					List<ConditionTitleInfo> LongTypeList = new ArrayList<ConditionTitleInfo>();
+					LongTypeList.add(ConditionTitleInfoList.get(1));
+					//ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);	
+					ConditionInfoList = conditionDao.getConditionInfo(dbConnection, LongTypeList);	
 
 					//ヘアタイプの画像を取得
 					HairTypeDao hairTypeDao = new HairTypeDao();
@@ -128,7 +131,7 @@ public class GetHairTypeCategoryService {
 			// レスポンスに設定するJSON Object(value)
 			JSONArray condInfoArray = new JSONArray();
 			//0,1は、男性、女性が格納されているので必要無し
-		    for(int i=2; i<ConditionInfoList.size(); i++){
+		    for(int i=0; i<ConditionInfoList.size(); i++){
 		    	ConditionInfo condInfo = ConditionInfoList.get(i);
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("id", condInfo.getConditionId());
