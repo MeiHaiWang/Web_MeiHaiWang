@@ -39,7 +39,7 @@ import common.util.DBConnection;
 import common.util.PropertiesManager;
 import common.util.ResizeImage;
 
-public class UploadImageService {
+public class UploadSalonImageService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response,
@@ -263,17 +263,15 @@ public class UploadImageService {
         				ImageFileName = ImageFileName_jpg;
 	    			}	    			
 
-	    			/*
         			//画像リサイズ
         			String ImageFileName2 = "R"+ImageFileName;
         			try{
-        				String args[] = {upPath + ImageFileName, upPath+ImageFileName2, "720", "1024"};
+        				String args[] = {upPath + ImageFileName, upPath+ImageFileName2, "720", "2048"};
         				//System.out.println("resize-path:"+upPath+ImageFileName2);
         				ResizeImage.main(args);
         			}catch(Exception e){
         				e.printStackTrace();
         			}
-        			*/
 	    			
 	    			//レスポンス対応(result,imageUrl)
 	    			//ImageUrl対応
@@ -284,7 +282,7 @@ public class UploadImageService {
 			            result = true;
 		            }
 		            */
-	    			ImageUrl = ConfigUtil.getConfig("imageurl") + ImageFileName;	              
+	    			ImageUrl = ConfigUtil.getConfig("imageurl") + ImageFileName2;	              
 
 	    			if(insertFlag || !convertResult){
 		    			//テーブル更新(sql insert)

@@ -949,7 +949,7 @@ $(function(){
       (function(data){
           $.ajax({
               type: "POST",
-              url: API_PATH + "uploadImage",
+              url: API_PATH + "uploadSalonImage",
               async: true,
               processData: false,
               data: data,
