@@ -46,6 +46,7 @@ public class HairSalonInfo {
     private String areaId = "";
 	private String searchConditionId = "";
 	private String salonCondName ="";
+	private String salonReviewIdList="";
     
 	public HairSalonInfo(){
 		
@@ -213,11 +214,17 @@ public class HairSalonInfo {
 		//this.salonReviewId = reviewId != null ? reviewId : "";
 		this.salonReviewId = reviewId;
 	}
-	
 	public int getSalonReviewId(){
 		return salonReviewId;
 	}
 
+	public void setSalonReviewIdList(String reviewIdList){
+		this.salonReviewIdList = reviewIdList;
+	}
+	public String getSalonReviewIdList(){
+		return salonReviewIdList;
+	}
+	
 	public void setSalonContactUserName(String name){
 		this.salonContactName = name != null ? name : "";
 	}

@@ -201,15 +201,17 @@ public class StylistDao {
 		String sql = "SELECT `t_stylist_Id`,`t_stylist_areaId`,`t_stylist_searchConditionId`,`t_stylist_salonId` FROM `t_stylist` ORDER BY `t_stylist_Id` ASC";
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		Statement statement = dbConnection.getStatement();
-		List<String> styListAreaIdList = new ArrayList<String>();
-		List<String> stylistSearchConditionList = new ArrayList<String>();
 		Map<Integer,List<String>> stylistAreaMap = new HashMap<Integer, List<String>>();
 		Map<Integer,List<String>> stylistConditionMap = new HashMap<Integer, List<String>>();
 		Map<Integer,Integer> stylistSalonMap = new HashMap<Integer, Integer>();
 		
 		try {
+			//debug
+			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
+				List<String> styListAreaIdList = new ArrayList<String>();
+				List<String> stylistSearchConditionList = new ArrayList<String>();
 				String searchCondtionIds = rs.getString("t_stylist_searchConditionId");
 				String areaIds = rs.getString("t_stylist_areaId");
 				int stylistSalonId = rs.getInt("t_stylist_salonId");
@@ -244,12 +246,16 @@ public class StylistDao {
 			 
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
+			    		//debug
+			    		//System.out.println("Stylist "+stylistId+" contains condId:"+condList+","+searchConditionIdList);
 			    		searchCondFlag = true;
 			    		break;
 			    	}
 			    }
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
+			    		//debug
+			    		//System.out.println("Stylist "+stylistId+" contains areaId:"+areaList+","+areaIdList);
 			    		areaFlag = true;
 			    		break;
 			    	}
@@ -266,6 +272,8 @@ public class StylistDao {
 			int offset = pageNum * Constant.ONE_PAGE_NUM;
 			for(int retStylistId : retStylistIdList){
 				if(Constant.ONE_PAGE_NUM > hitCount ){
+					//debug
+					System.out.println(innerSQL+String.valueOf(retStylistIdList.get(offset)));
 					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retStylistIdList.get(offset)) );
 					while(innerRs.next()){
 						StylistInfo stylistInfo = new StylistInfo();

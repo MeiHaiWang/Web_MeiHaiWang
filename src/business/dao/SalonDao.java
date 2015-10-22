@@ -9,7 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.json.JSONObject;
 
@@ -20,6 +24,7 @@ import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
+import common.model.StylistInfo;
 import common.model.UserInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
@@ -386,12 +391,19 @@ public class SalonDao {
 		return salonInfo;
 	}
 
-	public List<String> getSalonIdListByArea(DBConnection dbConnection, List<String> areaIdList) throws SQLException{
+	public List<HairSalonInfo> getSalonListByArea(DBConnection dbConnection, List<String> areaIdList) throws SQLException{
 		
-		String sql1 = "SELECT t_hairSalonMaster_salonId FROM t_hairSalonMaster WHERE `t_hairSalonMaster_disableFlag` = 0 AND  FIND_IN_SET(";
+		//String sql1 = "SELECT t_hairSalonMaster_salonId FROM t_hairSalonMaster WHERE `t_hairSalonMaster_disableFlag` = 0 AND  FIND_IN_SET(";
+		String sql1 = "SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , "
+				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
+				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_favoriteNumber` "
+				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND  FIND_IN_SET(";
 		String sql2 =  ",t_hairSalonMaster_areaId)";
 		
 		Statement statement = dbConnection.getStatement();
+		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		List<String> salonIdList = new ArrayList<String>();
 		
 		try {
@@ -400,10 +412,27 @@ public class SalonDao {
 				System.out.println(sql1 + areaId+ sql2);
 				ResultSet rs = statement.executeQuery(sql1 + areaId+ sql2);
 				while(rs.next()){
-					if(!salonIdList.contains(rs.getInt("t_hairSalonMaster_salonId"))){
-						salonIdList.add(String.valueOf(rs.getInt("t_hairSalonMaster_salonId")));
-						//debug
-						System.out.println("t_hairSalonMaster_salonId:"+String.valueOf(rs.getInt("t_hairSalonMaster_salonId")));
+					if(!salonIdList.contains(rs.getString("t_hairSalonMaster_salonId"))){
+						salonIdList.add(rs.getString("t_hairSalonMaster_salonId"));
+						HairSalonInfo salonInfo = new HairSalonInfo();
+						salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+						salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+						salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+						salonInfo.setSalonReviewIdList(rs.getString("t_hairSalonMaster_reviewId"));
+						salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
+						salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
+						salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));
+						salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
+						salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
+						//重複確認
+						boolean add = true;
+						for(HairSalonInfo hs : salonInfoList){
+							if(hs.getHairSalonId() == salonInfo.getHairSalonId()){
+								add = false;
+								break;
+							}
+						}
+						if(add) salonInfoList.add(salonInfo);
 					}
 				}
 			}
@@ -411,40 +440,46 @@ public class SalonDao {
 			e.printStackTrace();
 			throw e;
 		}
-		return salonIdList;		
+		return salonInfoList;		
 	}
 	
-	public List<HairSalonInfo> getSalonListBySearchCondition(DBConnection dbConnection, List<String> searchConditionIdList,List<String> salonIdList,int pageNumber,JSONObject jsonObject) throws SQLException{
+	public List<HairSalonInfo> getSalonListBySearchCondition(DBConnection dbConnection, 
+			List<String> searchConditionIdList,List<HairSalonInfo> salonInfoListByArea, 
+			int pageNumber,JSONObject jsonObject) throws SQLException{
 		
 		String sql1 = "SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , "
 				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
 				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
 				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
 				+ "`t_hairSalonMaster_favoriteNumber` "
-				+ "FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId IN(";
-		String sql2 =  ") AND FIND_IN_SET(";
-		String sql3 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
-		String sql4 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
-		String sql5 = ",t_review_id)";
+				+ "FROM `t_hairSalonMaster` "
+				+ "WHERE `t_hairSalonMaster_disableFlag` = 0 "
+				+ "AND FIND_IN_SET(";
+		String sql2 = ",`t_hairSalonMaster_searchConditionId`) ORDER BY `t_hairSalonMaster_salonId` limit " + String.valueOf(Constant.ONE_PAGE_NUM) + " offset " + String.valueOf(pageNumber * Constant.ONE_PAGE_NUM) ;
+		String sql3 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
+		String sql4 = ",t_review_id)";
 		Statement statement = dbConnection.getStatement();
 		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		int hitNum = 0;
 		try {
 			for(String conditionId : searchConditionIdList){
-				String sql = sql1 + String.join(",", salonIdList)+ sql2 + conditionId + sql3;
+				String sql = sql1 + conditionId + sql2;
 				//debug
 				System.out.println(sql);
 				ResultSet rs = statement.executeQuery(sql);
 				List<String> reviewIdList = new ArrayList<String>();
-				HairSalonInfo salonInfo = new HairSalonInfo();
+				List<HairSalonInfo> sList = new ArrayList<HairSalonInfo>();
 				while(rs.next()){
-					salonInfo = new HairSalonInfo();
+					HairSalonInfo salonInfo = new HairSalonInfo();
 					salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
 					salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
 					salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+					/*
 					reviewIdList = rs.getString("t_hairSalonMaster_reviewId")!= null ?
 							Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+							*/
+					salonInfo.setSalonReviewIdList(rs.getString("t_hairSalonMaster_reviewId"));
 					salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
 					salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
 					/*
@@ -457,33 +492,54 @@ public class SalonDao {
 					salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));
 					salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 					salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
-					hitNum++;
-				}
-				
-				double reviewPoint = 0.0;
-				int reviewNumber = 0;
-				for(String reviewId : reviewIdList){
-					ResultSet rsReview = statement.executeQuery(sql4 +reviewId + sql5);
-					while(rsReview.next()){
-						reviewPoint += rsReview.getDouble("t_review_evaluation_point");
-						reviewNumber++;
+					//重複確認
+					boolean add = true;
+					for(HairSalonInfo hs : sList){
+						if(hs.getHairSalonId() == salonInfo.getHairSalonId()){
+							add = false;
+							break;
+						}
 					}
+					if(add) sList.add(salonInfo);
 				}
-				if(reviewNumber > 0){ //zero-divide
-					salonInfo.setEvaluationPointMid(reviewPoint/reviewNumber);
-				}else{
-					salonInfo.setEvaluationPointMid(0);	
+
+				for(int i=0;i<sList.size();i++){
+					HairSalonInfo oneSalon = sList.get(i);
+					reviewIdList = oneSalon.getSalonReviewIdList()!= null ?
+							Arrays.asList(oneSalon.getSalonReviewIdList()) : new ArrayList<String>();
+					double reviewPoint = 0.0;
+					int reviewNumber = 0;
+					for(String reviewId : reviewIdList){
+						String review_sql=sql3+reviewId+sql4;
+						//debug
+						System.out.println(review_sql);
+						ResultSet rsReview = statement.executeQuery(review_sql);
+						while(rsReview.next()){
+							reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+							reviewNumber++;
+						}
+					}
+					if(reviewNumber > 0){ //zero-divide
+						oneSalon.setEvaluationPointMid(reviewPoint/reviewNumber);
+					}else{
+						oneSalon.setEvaluationPointMid(0);	
+					}
+					oneSalon.setWordOfMonth(reviewNumber);
+					sList.set(i, oneSalon);
 				}
-				salonInfo.setWordOfMonth(reviewNumber);
 
 				//重複確認
-				boolean addFlag = true;
+				//boolean addFlag = true;
 				for(HairSalonInfo info : salonInfoList){
-					if(info.getHairSalonId() ==  salonInfo.getHairSalonId()){
-						addFlag = false;
+					for(int i=0;i<sList.size();i++){
+						HairSalonInfo info2 = sList.get(i);
+						if(info.getHairSalonId() ==  info2.getHairSalonId()){
+							sList.remove(i);
+						}
 					}
 				}
-				if(addFlag) salonInfoList.add(salonInfo);
+				hitNum+=sList.size();
+				salonInfoList.addAll(sList);
 			}
 
 			if(Constant.ONE_PAGE_NUM * pageNumber + Constant.ONE_PAGE_NUM >= hitNum){
@@ -1006,4 +1062,150 @@ public class SalonDao {
 			}
 			return couponIdList;	
 		}
+	
+	
+	public List<HairSalonInfo> getSalonInfoList(DBConnection dbConnection,
+			List<String> searchConditionIdList, List<String> areaIdList,
+			int pageNum, JSONObject jsonObject) throws SQLException {
+
+		String sql = "SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_areaId`, `t_hairSalonMaster_searchConditionId` "
+				+ "FROM `t_hairSalonMaster` ORDER BY `t_hairSalonMaster_salonId` ASC";
+		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
+		Statement statement = dbConnection.getStatement();
+		Map<Integer,List<String>> salonAreaMap = new HashMap<Integer, List<String>>();
+		Map<Integer,List<String>> salonConditionMap = new HashMap<Integer, List<String>>();
+		
+		try {
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				List<String> salonAreaIdList = new ArrayList<String>();
+				List<String> salonSearchConditionList = new ArrayList<String>();
+				String searchCondtionIds = rs.getString("t_hairSalonMaster_searchConditionId");
+				String areaIds = rs.getString("t_hairSalonMaster_areaId");
+				
+				if(searchCondtionIds != null){
+					String[] searchCondtionArray = searchCondtionIds.split(",");
+					for(String condId : searchCondtionArray){
+						salonSearchConditionList.add(condId);
+					}
+				}
+				
+				if(areaIds != null){
+					String[] areaIdsArray = areaIds.split(",");
+					for(String areaId : areaIdsArray){
+						salonAreaIdList.add(areaId);
+					}
+				}
+				salonConditionMap.put(rs.getInt("t_hairSalonMaster_salonId"), salonSearchConditionList);
+				salonAreaMap.put(rs.getInt("t_hairSalonMaster_salonId"), salonAreaIdList);
+			}
+			List<Integer> retSalonIdList = new ArrayList<Integer>();
+			for (Iterator<Entry<Integer, List<String>>> it = salonConditionMap.entrySet().iterator(); it.hasNext();) {
+			    Entry entry = it.next();
+			    boolean searchCondFlag = false;
+			    boolean areaFlag = false;
+			    int salonId = Integer.parseInt(entry.getKey().toString());
+			    List<String> condList = salonConditionMap.get(salonId);
+			    List<String> areaList = salonAreaMap.get(salonId);
+			 
+			    for(String condId : searchConditionIdList){
+			    	if(condList.contains(condId)){
+			    		//debug
+			    		System.out.println("Salon "+salonId+" contains condId:"+condList+","+searchConditionIdList);
+			    		searchCondFlag = true;
+			    		break;
+			    	}
+			    }
+			    for(String id :areaIdList ){
+			    	if(areaList.contains(id)){
+			    		//debug
+			    		System.out.println("Salon "+salonId+" contains areaId:"+areaList+","+areaIdList);
+			    		areaFlag = true;
+			    		break;
+			    	}
+			    }
+			    
+			    if(searchCondFlag || areaFlag) retSalonIdList.add(salonId);
+			}
+			
+			String innerSQL ="SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , "
+				+ "`t_hairSalonMaster_salonImagePath`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_message`,`t_hairSalonMaster_address`,`t_hairSalonMaster_openTime`,"
+				+ "`t_hairSalonMaster_closeTime`,`t_hairSalonMaster_closeDay`,`t_hairSalonMaster_reviewId`,"
+				+ "`t_hairSalonMaster_favoriteNumber` "
+				+ "FROM `t_hairSalonMaster` "
+				+ "WHERE `t_hairSalonMaster_disableFlag` = 0 "
+				+ "AND `t_hairSalonMaster_salonId`=";
+			int hitCount=0;
+			int offset = pageNum * Constant.ONE_PAGE_NUM;
+			for(int retSalonId : retSalonIdList){
+				if(Constant.ONE_PAGE_NUM > hitCount ){
+					//debug
+					System.out.println(innerSQL+String.valueOf(retSalonIdList.get(offset)));
+					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retSalonIdList.get(offset)) );
+					while(innerRs.next()){
+						HairSalonInfo salonInfo = new HairSalonInfo();
+						salonInfo.setHairSalonId(innerRs.getInt("t_hairSalonMaster_salonId"));
+						salonInfo.setHairSalonName(innerRs.getString("t_hairSalonMaster_name"));
+						salonInfo.setHairSalonImagePath(innerRs.getString("t_hairSalonMaster_salonImagePath"));
+						salonInfo.setSalonReviewIdList(innerRs.getString("t_hairSalonMaster_reviewId"));
+						salonInfo.setMessage(innerRs.getString("t_hairSalonMaster_message"));
+						salonInfo.setAddress(innerRs.getString("t_hairSalonMaster_address"));
+						salonInfo.setBusinessHour(innerRs.getString("t_hairSalonMaster_openTime") + "〜"  + innerRs.getString("t_hairSalonMaster_closeTime"));
+						salonInfo.setRegularHoliday(innerRs.getString("t_hairSalonMaster_closeDay"));
+						salonInfo.setFavoriteNumber(innerRs.getInt("t_hairSalonMaster_favoriteNumber"));
+						salonInfoList.add(salonInfo);
+						offset++;
+						hitCount++;
+					}
+					
+					//評価値を計算して反映
+					List<String> reviewIdList = new ArrayList<String>();
+					String review_sql1 = "SELECT `t_review_evaluation_point` FROM t_review WHERE FIND_IN_SET(";
+					String review_sql2 = ",t_review_id)";
+					for(int i=0;i<salonInfoList.size();i++){
+						HairSalonInfo oneSalon = salonInfoList.get(i);
+						reviewIdList = oneSalon.getSalonReviewIdList()!= null ?
+								Arrays.asList(oneSalon.getSalonReviewIdList()) : new ArrayList<String>();
+						double reviewPoint = 0.0;
+						int reviewNumber = 0;
+						for(String reviewId : reviewIdList){
+							String review_sql=review_sql1+reviewId+review_sql2;
+							//debug
+							System.out.println(review_sql);
+							ResultSet rsReview = statement.executeQuery(review_sql);
+							while(rsReview.next()){
+								reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+								reviewNumber++;
+							}
+						}
+						if(reviewNumber > 0){ //zero-divide
+							oneSalon.setEvaluationPointMid(reviewPoint/reviewNumber);
+						}else{
+							oneSalon.setEvaluationPointMid(0);	
+						}
+						oneSalon.setWordOfMonth(reviewNumber);
+						salonInfoList.set(i, oneSalon);
+					}
+				}
+				else{
+					break;
+				}
+			}
+			
+			if(Constant.ONE_PAGE_NUM * pageNum + Constant.ONE_PAGE_NUM >= retSalonIdList.size()){
+				jsonObject.put("next", 0);
+			}
+			else{
+				jsonObject.put("next", 1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return salonInfoList;
+	}
 }

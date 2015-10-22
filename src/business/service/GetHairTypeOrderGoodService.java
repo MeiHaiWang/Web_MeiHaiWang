@@ -30,11 +30,18 @@ public class GetHairTypeOrderGoodService {
 		//パラメータ取得
         int stylistId = request.getParameter("stylistID")!= null
            		?Integer.parseInt(request.getParameter("stylistID")) : -1;
+   		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
+		*/
+		List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
+				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+		if(searchConditionIdList.isEmpty()){
+			searchConditionIdList.add("-1");
+		}
    		int page = request.getParameter("page")!= null
-   				?Integer.parseInt(request.getParameter("page")) : -1;
-		
+   				?Integer.parseInt(request.getParameter("page")) : 0;
+        
         int responseStatus = HttpServletResponse.SC_OK;
 				
 		try{

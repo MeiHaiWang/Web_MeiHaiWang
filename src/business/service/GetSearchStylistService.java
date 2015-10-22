@@ -27,19 +27,29 @@ public class GetSearchStylistService {
 	List<String> areaIdList = request.getParameter("area") != null ?
 			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
 	if(areaIdList.isEmpty()){
-			//areaIdList.add("-1");
+			areaIdList.add("0");
 	}	
+	/*
 	List<String> searchConditionIdList = request.getParameter("condition") != null ?
 			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
 	if(searchConditionIdList.isEmpty()){
 			searchConditionIdList.add("-1");
 	}
+	 */
+	List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
+			Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+	if(searchConditionIdList.isEmpty()){
+		searchConditionIdList.add("-1");
+	}
+				
+	/*
 	List<String> searchLikingIdList = request.getParameter("liking") != null ?
 			Arrays.asList(request.getParameter("liking").split(",")) : new ArrayList<String>();	
 	if(searchLikingIdList.isEmpty()){
 			searchLikingIdList.add("-1");
 	}
 	searchConditionIdList.addAll(searchLikingIdList);
+	*/
 	
 	int pageNumber = request.getParameter("page") != null ?
 			Integer.valueOf(request.getParameter("page").toString()) : 0;
@@ -52,14 +62,15 @@ public class GetSearchStylistService {
 	int salonId = request.getParameter("shopId") != null ?
 			Integer.valueOf(request.getParameter("shopId").toString()) : -1;
 
+			/*
 	//test用パラメータ
 	userId=1;
 	pageNumber = 0;
 	//onePageDisplayNum = 20;
 	salonId = 1;
-	searchConditionIdList.add("1");
-	areaIdList.add("1");
-	
+	searchConditionIdList.add("-1");
+	areaIdList.add("0");
+	*/
 				
 	int responseStatus = HttpServletResponse.SC_OK;
 	try{
