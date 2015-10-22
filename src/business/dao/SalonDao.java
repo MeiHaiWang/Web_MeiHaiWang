@@ -1208,4 +1208,21 @@ public class SalonDao {
 		}
 		return salonInfoList;
 	}
+	public String getSalonAreaId(DBConnection dbConnection, int salonId) {
+		String sql ="SELECT `t_hairSalonMaster_areaId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
+		Statement statement = dbConnection.getStatement();
+		String areaId = "";
+		
+		try {
+			ResultSet rs = statement.executeQuery(sql);
+			//debug
+			System.out.println(sql);
+			while(rs.next()){
+				areaId = rs.getString("t_hairSalonMaster_areaId");
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return areaId;	
+	}
 }

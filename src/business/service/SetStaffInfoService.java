@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
+import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
 import common.constant.Constant;
@@ -217,6 +218,8 @@ public class SetStaffInfoService {
 					System.out.println("スタイリストを新規にユーザ登録:userId="+userId);
 				}
 				if(userId>-1){
+					SalonDao salonDao = new SalonDao();
+					String salonAreaId = salonDao.getSalonAreaId(dbConnection,salonId);
 					//debug
 					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getStylistName());
 					stylistId = stylistDao.setStylistInfoForMaster(
@@ -224,7 +227,8 @@ public class SetStaffInfoService {
 							salonId,
 							stylistInfo,
 							stylistId,
-							userId
+							userId,
+							salonAreaId
 							);
 				}else{
 					//userId is null.

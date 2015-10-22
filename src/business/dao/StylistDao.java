@@ -262,6 +262,8 @@ public class StylistDao {
 			    }
 			    
 			    if(salonId == stylistSalonId){
+			    	//debug
+			    	//System.out.println("Stylist "+stylistId+" contains salonId:"+salonId);
 			    	salonFlag = true;
 			    }
 			    if(searchCondFlag || areaFlag || salonFlag) retStylistIdList.add(stylistId);
@@ -273,7 +275,7 @@ public class StylistDao {
 			for(int retStylistId : retStylistIdList){
 				if(Constant.ONE_PAGE_NUM > hitCount ){
 					//debug
-					System.out.println(innerSQL+String.valueOf(retStylistIdList.get(offset)));
+					System.out.println(innerSQL+String.valueOf("ArraySize["+retStylistIdList.size()+"]:"+retStylistIdList.get(offset)));
 					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retStylistIdList.get(offset)) );
 					while(innerRs.next()){
 						StylistInfo stylistInfo = new StylistInfo();
@@ -411,7 +413,7 @@ public class StylistDao {
 	}
 
 	public int  setStylistInfoForMaster(DBConnection dbConnection, int salonId,
-			StylistInfo stylistInfo, int t_stylist_Id, int userId) {
+			StylistInfo stylistInfo, int t_stylist_Id, int userId, String areaId) {
 		int stylistId = t_stylist_Id;
 		//int u_Id = -1;
 		boolean result = false;
@@ -497,7 +499,8 @@ public class StylistDao {
 				+ "`t_stylist_mail` = '" +  stylistInfo.getMail()  + "', "
 				+ "`t_stylist_phoneNumber` = '" +  stylistInfo.getPhoneNumber()  + "', "
 				+ "`t_stylist_birth` = '" +  birth  + "', "
-				+ "`t_stylist_searchConditionId` = '" +  stylistInfo.getStylistSearchConditionId()  + "'"
+				+ "`t_stylist_searchConditionId` = '" +  stylistInfo.getStylistSearchConditionId()  + "',"
+				+ "`t_stylist_areaId` = '" + areaId + "'"
 				+ " WHERE `t_stylist`.`t_stylist_Id` = " + stylistId;
 
 		//サロンid追加メソッド
@@ -556,7 +559,7 @@ public class StylistDao {
 					+ sql4 + sql2 //favorite
 					+ sql4 + sql2 //isNetReserv
 					+ stylistInfo.getStylistSearchConditionId() + sql2
-					+ sql4 //areaId
+					+ areaId //areaId
 					+ sql_end;
 	
 			//debug
