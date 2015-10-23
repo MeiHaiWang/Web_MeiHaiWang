@@ -274,6 +274,7 @@ public class StylistDao {
 			int offset = pageNum * Constant.ONE_PAGE_NUM;
 			for(int retStylistId : retStylistIdList){
 				if(Constant.ONE_PAGE_NUM > hitCount ){
+					if(offset>=retStylistIdList.size()) break;
 					//debug
 					System.out.println(innerSQL+String.valueOf("ArraySize["+retStylistIdList.size()+"]:"+retStylistIdList.get(offset)));
 					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retStylistIdList.get(offset)) );

@@ -1142,6 +1142,7 @@ public class SalonDao {
 			int offset = pageNum * Constant.ONE_PAGE_NUM;
 			for(int retSalonId : retSalonIdList){
 				if(Constant.ONE_PAGE_NUM > hitCount ){
+					if(offset>=retSalonIdList.size()) break;
 					//debug
 					System.out.println(innerSQL+String.valueOf(retSalonIdList.get(offset)));
 					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retSalonIdList.get(offset)) );
