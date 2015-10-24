@@ -6,3 +6,5 @@ WebContent/exsample/dest
 .externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator.launch
 .externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator (1).launch
 *.launch
+
+*.bak
