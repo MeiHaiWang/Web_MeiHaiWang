@@ -198,12 +198,16 @@ public class StylistDao {
 	}
 
 	public List<StylistInfo> getStylistInfoList(DBConnection dbConnection, int salonId, List<String> areaIdList , List<String> searchConditionIdList , int pageNum,JSONObject jsonObject) throws SQLException{
-		String sql = "SELECT `t_stylist_Id`,`t_stylist_areaId`,`t_stylist_searchConditionId`,`t_stylist_salonId` FROM `t_stylist` ORDER BY `t_stylist_Id` ASC";
+		String sql = "SELECT `t_stylist_Id`,`t_stylist_areaId`,`t_stylist_searchConditionId`,`t_stylist_salonId` "
+				+ "FROM `t_stylist` ORDER BY `t_stylist_Id` ASC";
 		List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 		Statement statement = dbConnection.getStatement();
 		Map<Integer,List<String>> stylistAreaMap = new HashMap<Integer, List<String>>();
 		Map<Integer,List<String>> stylistConditionMap = new HashMap<Integer, List<String>>();
 		Map<Integer,Integer> stylistSalonMap = new HashMap<Integer, Integer>();
+		
+		//salonId, area, searchConditionIdが空ならreturn
+		if(salonId==-1 && areaIdList.get(0).equals("") && searchConditionIdList.get(0).equals("")) return stylistInfoList;
 		
 		try {
 			//debug
@@ -265,6 +269,7 @@ public class StylistDao {
 			    		searchCondFlag = false;
 			    	}
 			    }
+			    if(searchConditionIdList.get(0).equals("")) searchCondFlag = true;
 			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
@@ -274,6 +279,7 @@ public class StylistDao {
 			    		break;
 			    	}
 			    }
+			    if(areaIdList.get(0).equals("")) areaFlag = true;
 			    
 			    if(salonId == stylistSalonId){
 			    	//debug

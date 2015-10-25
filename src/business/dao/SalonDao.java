@@ -1074,6 +1074,9 @@ public class SalonDao {
 		Statement statement = dbConnection.getStatement();
 		Map<Integer,List<String>> salonAreaMap = new HashMap<Integer, List<String>>();
 		Map<Integer,List<String>> salonConditionMap = new HashMap<Integer, List<String>>();
+
+		//area, searchConditionIdが空ならreturn
+		if(areaIdList.get(0).equals("") && searchConditionIdList.get(0).equals("")) return salonInfoList;
 		
 		try {
 			//debug
@@ -1131,6 +1134,7 @@ public class SalonDao {
 			    		searchCondFlag = false;
 			    	}
 			    }
+			    if(searchConditionIdList.get(0).equals("")) searchCondFlag = true;
 			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
@@ -1140,6 +1144,7 @@ public class SalonDao {
 			    		break;
 			    	}
 			    }
+			    if(areaIdList.get(0).equals("")) areaFlag = true;
 			    
 			    if(searchCondFlag && areaFlag) retSalonIdList.add(salonId);
 			}
