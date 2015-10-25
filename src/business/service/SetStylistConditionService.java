@@ -21,8 +21,12 @@ public class SetStylistConditionService {
         int responseStatus = HttpServletResponse.SC_OK;
         HttpSession session = request.getSession(false);
 
-		int stylistId = request.getParameter("id") != null ?
-				Integer.parseInt(request.getParameter("id")) : null;
+		String stylistIdstr = request.getParameter("id") != null ?
+				request.getParameter("id") : null;
+		int stylistId = -1;
+		if(stylistIdstr!=null){
+			stylistId = Integer.parseInt(stylistIdstr);
+		}
 		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
@@ -31,11 +35,14 @@ public class SetStylistConditionService {
 		*/
 		List<String> conditionIdList = request.getParameterValues("condition") != null ?
 				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+		
 		String searchConditionIdList = "";
-		for(String cond: conditionIdList){
-			searchConditionIdList += cond+",";
+		if(conditionIdList.size()>0){
+			for(String cond: conditionIdList){
+				searchConditionIdList += cond+",";
+			}
+			searchConditionIdList = searchConditionIdList.substring(0,searchConditionIdList.length()-1);
 		}
-		searchConditionIdList = searchConditionIdList.substring(0,searchConditionIdList.length()-1);
 		
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -43,21 +50,23 @@ public class SetStylistConditionService {
 
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
-			int status;
+			int status = -1;
 			
 			if(conn!=null){
 				ConditionDao condDao = new ConditionDao();
-				status = condDao.setStylistCondition(
-						dbConnection,
-						stylistId,
-						searchConditionIdList
-						);
+				if(!searchConditionIdList.equals("") && stylistId>0){
+					status = condDao.setStylistCondition(
+							dbConnection,
+							stylistId,
+							searchConditionIdList
+							);
+				}
 				if(status > 0) result = true;
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");
-			}
+			}	
 			
 			/*
 				{status: 0}

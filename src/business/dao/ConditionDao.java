@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import common.constant.Constant;
@@ -152,17 +153,63 @@ public class ConditionDao {
 		return result_int;
 	}
 
+	/**
+	 * 
+	 * @param dbConnection
+	 * @param stylistId
+	 * @param searchConditionIdList
+	 * @return
+	 * 
+	 * スタイリストの検索条件を登録されているものに追加
+	 */
 	public int setStylistCondition(DBConnection dbConnection, int stylistId,
 			String searchConditionIdList) {
 		/**
 		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_searchConditionId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 1;
 		 */
-		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_searchConditionId` = '"
-				+ searchConditionIdList + "' WHERE `t_stylist`.`t_stylist_Id` = "+stylistId+";";
-		
+		String search = "SELECT `t_stylist_searchConditionId` FROM `t_stylist` WHERE `t_stylist_Id` = "+stylistId;
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_searchConditionId` = '";
+		String sql2 = "' WHERE `t_stylist`.`t_stylist_Id` = "+stylistId+";";
+
+		//既存の検索条件リストを取得
+		String conditionlist = "";
 		//debug
-		System.out.println(sql);
+		System.out.println(search);
 		Statement statement = dbConnection.getStatement();
+		try {
+			ResultSet rs = statement.executeQuery(search);
+			while (rs.next()) {
+				conditionlist = rs.getString("t_stylist_searchConditionId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		//重複してない検索条件だけを詰め込む追加listを作成
+		String addlist = "";
+		if(conditionlist!=null && !conditionlist.equals("")){
+			List<String> existIdList = Arrays.asList(conditionlist.split(","));
+			List<String> addIdList = Arrays.asList(searchConditionIdList.split(","));
+			for(String a: addIdList){
+				if(!existIdList.contains(a)){
+					addlist+=a+",";
+				}
+			}
+			if(addlist.length()>0){
+				//追加する項目あり。
+				addlist = addlist.substring(0,addlist.length()-1);
+				addlist = conditionlist+","+addlist;
+			}else{
+				//追加する項目なし。そのまま。
+				addlist = conditionlist;
+			}
+		}else{
+			//新規登録
+			addlist = searchConditionIdList;
+		}
+		//いざ検索条件を追加update
+		//debug
+		System.out.println(sql1+addlist+sql2);
+		String sql = sql1+addlist+sql2;
 		int result_int = -1;
 		try {
 			result_int = statement.executeUpdate(sql);
