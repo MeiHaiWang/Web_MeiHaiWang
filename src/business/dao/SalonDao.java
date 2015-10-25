@@ -1110,6 +1110,7 @@ public class SalonDao {
 			    List<String> condList = salonConditionMap.get(salonId);
 			    List<String> areaList = salonAreaMap.get(salonId);
 
+			    /*
 			    //OR検索, ひとつでも合えばtrue
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
@@ -1119,7 +1120,7 @@ public class SalonDao {
 			    		break;
 			    	}
 			    }
-			    /*
+			    */
 			    //AND検索			    
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
@@ -1130,7 +1131,6 @@ public class SalonDao {
 			    		searchCondFlag = false;
 			    	}
 			    }
-			    */
 			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){

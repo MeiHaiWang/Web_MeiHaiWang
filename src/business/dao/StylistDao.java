@@ -244,6 +244,8 @@ public class StylistDao {
 			    List<String> areaList = stylistAreaMap.get(stylistId);
 			    int stylistSalonId = stylistSalonMap.get(stylistId);
 			 
+			    /*
+			    //OR検索
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
 			    		//debug
@@ -252,6 +254,18 @@ public class StylistDao {
 			    		break;
 			    	}
 			    }
+			    */
+			    //AND検索			    
+			    for(String condId : searchConditionIdList){
+			    	if(condList.contains(condId)){
+			    		//debug
+			    		//System.out.println("Stylist "+salonId+" contains condId:"+condList+","+searchConditionIdList);
+			    		searchCondFlag = true;
+			    	}else{
+			    		searchCondFlag = false;
+			    	}
+			    }
+			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
 			    		//debug
