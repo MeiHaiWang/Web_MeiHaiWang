@@ -52,7 +52,7 @@ public class GetSearchConditionListService {
 		String t_masterSearchConditionType = request.getParameter("t_masterSearchConditionType") != null ?
 				request.getParameter("t_masterSearchConditionType") : null;				
 		//debug
-		System.out.println("t_masterSearchCoditionType : "+t_masterSearchConditionType);
+		//System.out.println("t_masterSearchCoditionType : "+t_masterSearchConditionType);
 				
         try{
 			DBConnection dbConnection = new DBConnection();

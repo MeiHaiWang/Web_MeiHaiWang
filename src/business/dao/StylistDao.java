@@ -266,7 +266,8 @@ public class StylistDao {
 			    	//System.out.println("Stylist "+stylistId+" contains salonId:"+salonId);
 			    	salonFlag = true;
 			    }
-			    if(searchCondFlag || areaFlag || salonFlag) retStylistIdList.add(stylistId);
+			    if(searchCondFlag && areaFlag)  retStylistIdList.add(stylistId);
+		    	if(searchCondFlag && salonFlag) retStylistIdList.add(stylistId);
 			}
 			
 			String innerSQL ="SELECT `t_stylist_Id` ,`t_stylist_salonId`,`t_stylist_name`,`t_stylist_sex`,`t_stylist_imagePath`,`t_stylist_message`,`t_stylist_experienceYear`,`t_stylist_favoriteNumber` FROM `t_stylist` WHERE `t_stylist_Id` =";
@@ -276,7 +277,7 @@ public class StylistDao {
 				if(Constant.ONE_PAGE_NUM > hitCount ){
 					if(offset>=retStylistIdList.size()) break;
 					//debug
-					System.out.println(innerSQL+String.valueOf("ArraySize["+retStylistIdList.size()+"]:"+retStylistIdList.get(offset)));
+					//System.out.println(innerSQL+String.valueOf("ArraySize["+retStylistIdList.size()+"]:"+retStylistIdList.get(offset)));
 					ResultSet innerRs = statement.executeQuery(innerSQL + String.valueOf(retStylistIdList.get(offset)) );
 					while(innerRs.next()){
 						StylistInfo stylistInfo = new StylistInfo();
@@ -924,6 +925,44 @@ public class StylistDao {
 			
 			return result;	
 		}
+
+	public boolean setStylistCondition(DBConnection dbConnection,
+			String stylistId, List<String> tagList) {
+		boolean result = false;
+		
+		/**
+		 * stylistId のstylistに対して、
+		 * conditionタグをインサート。
+		 */
+
+		/**
+		 * SQL 例:
+		 *UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_searchConditionId` = '1,2,3' WHERE `t_stylist`.`t_stylist_Id` = 31;
+		 * 
+		*/
+		
+		String tags="";
+		for(String tag:tagList){
+			tags += tag+",";
+		}
+		tags = tags.substring(0,tags.length()-1);
+		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_searchConditionId` = '"
+		+tags+ "' WHERE `t_stylist`.`t_stylist_Id` = "+stylistId;
+		Statement statement = dbConnection.getStatement();
+		
+		//debug
+		System.out.println(sql);
+		
+		try {
+			int result_int = statement.executeUpdate(sql);
+			if(result_int > 0) result = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
 	
 	
 }

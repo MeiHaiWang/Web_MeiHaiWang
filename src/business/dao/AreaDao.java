@@ -135,10 +135,10 @@ public class AreaDao {
 		List<String> childrenList = new ArrayList<String>();
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs;
-			rs = statement.executeQuery(sql);			
 			//debug
 			System.out.println(sql);
+			ResultSet rs;
+			rs = statement.executeQuery(sql);			
 			while(rs.next()){
 				childrenList.add(Integer.toString(rs.getInt("t_area_areaId")));
 			}

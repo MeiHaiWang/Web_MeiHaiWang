@@ -1,6 +1,9 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
-
 import common.util.DBConnection;
 
 public class SetStylistConditionService {
@@ -24,10 +26,17 @@ public class SetStylistConditionService {
 		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-		*/
 		String searchConditionIdList = request.getParameter("condition") != null ?
 				request.getParameter("condition").toString() : null;
-				
+		*/
+		List<String> conditionIdList = request.getParameterValues("condition") != null ?
+				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+		String searchConditionIdList = "";
+		for(String cond: conditionIdList){
+			searchConditionIdList += cond+",";
+		}
+		searchConditionIdList = searchConditionIdList.substring(0,searchConditionIdList.length()-1);
+		
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();

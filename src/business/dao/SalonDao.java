@@ -1109,25 +1109,39 @@ public class SalonDao {
 			    int salonId = Integer.parseInt(entry.getKey().toString());
 			    List<String> condList = salonConditionMap.get(salonId);
 			    List<String> areaList = salonAreaMap.get(salonId);
-			 
+
+			    //OR検索, ひとつでも合えばtrue
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
 			    		//debug
-			    		System.out.println("Salon "+salonId+" contains condId:"+condList+","+searchConditionIdList);
+			    		//System.out.println("Salon "+salonId+" contains condId:"+condList+","+searchConditionIdList);
 			    		searchCondFlag = true;
 			    		break;
 			    	}
 			    }
+			    /*
+			    //AND検索			    
+			    for(String condId : searchConditionIdList){
+			    	if(condList.contains(condId)){
+			    		//debug
+			    		//System.out.println("Salon "+salonId+" contains condId:"+condList+","+searchConditionIdList);
+			    		searchCondFlag = true;
+			    	}else{
+			    		searchCondFlag = false;
+			    	}
+			    }
+			    */
+			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
 			    		//debug
-			    		System.out.println("Salon "+salonId+" contains areaId:"+areaList+","+areaIdList);
+			    		//System.out.println("Salon "+salonId+" contains areaId:"+areaList+","+areaIdList);
 			    		areaFlag = true;
 			    		break;
 			    	}
 			    }
 			    
-			    if(searchCondFlag || areaFlag) retSalonIdList.add(salonId);
+			    if(searchCondFlag && areaFlag) retSalonIdList.add(salonId);
 			}
 			
 			String innerSQL ="SELECT `t_hairSalonMaster_salonId` , `t_hairSalonMaster_name` , "

@@ -34,57 +34,19 @@ public class GetSearchSalonService {
 	int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 			Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 
-	/*
-	List<String> areaIdList = request.getParameter("area") != null ?
-			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
-	if(areaIdList.isEmpty()){
-		areaIdList.add("-1");
-		//TODO テスト用パラメータ
-		//areaIdList.add("1");
-	}
-	*/
 	List<String> areaIdList = new ArrayList<String>();
 	String areaIdListStr  = request.getParameter("area") != null ?
 			request.getParameter("area") : null;
 	if(areaIdListStr!=null){
 		areaIdList.addAll(Arrays.asList(areaIdListStr));
 	}
-	/*
-	List<String> areaIdList = request.getParameter("area") != null ?
-			Arrays.asList(request.getParameter("area").split(",")) : new ArrayList<String>();	
-			*/
 	if(areaIdList.isEmpty()||areaIdList.get(0)==""){
-		areaIdList.add("0");
+		areaIdList.add("");
 	}
-	/*
-	List<String> areaIdList = new ArrayList<String>();
-	String areaId =  request.getParameter("area") != null ?
-			request.getParameter("area") : "";
-	if(areaId == ""){
-		areaId = "0";
-	}else{
-		areaIdList.add(areaId);
-	}
-	*/
-	/*
-	List<String> searchConditionIdList = request.getParameter("condition") != null ?
-			Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-			*/
-	/*
-	List<String> searchConditionIdList = new ArrayList<String>();
-	String searchConditionIdListStr  = request.getParameter("condition") != null ?
-			request.getParameter("condition") : null;
-	if(searchConditionIdListStr!=null){
-		searchConditionIdList.addAll(Arrays.asList(searchConditionIdListStr));
-	}
-	if(searchConditionIdList.isEmpty()||searchConditionIdList.get(0)==""){
-		searchConditionIdList.add("-1");
-	}
-	*/
 	List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
 			Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
-	if(searchConditionIdList.isEmpty()){
-		searchConditionIdList.add("-1");
+	if(searchConditionIdList.isEmpty()||searchConditionIdList.get(0)==""){
+		searchConditionIdList.add("");
 	}
 
 	//debug
@@ -111,15 +73,17 @@ public class GetSearchSalonService {
 			List<String> aList = new ArrayList<String>();
 			aList.addAll(areaIdList);
 			for(String aId : aList){
-				List<String> childAreaIdList = areaDao.getAreaChildren(dbConnection, aId);
-				if(!childAreaIdList.isEmpty()){
-					areaIdList.addAll(childAreaIdList);
+				if(aId!=""){
+					List<String> childAreaIdList = areaDao.getAreaChildren(dbConnection, aId);
+					if(!childAreaIdList.isEmpty()){
+						areaIdList.addAll(childAreaIdList);
+					}
+					/*
+					for(String child: childAreaIdList){
+						areaIdList.add(child);
+					}
+					*/
 				}
-				/*
-				for(String child: childAreaIdList){
-					areaIdList.add(child);
-				}
-				*/
 			}
 			
 			//List<HairSalonInfo> salonInfoListByArea = dao.getSalonListByArea(dbConnection, areaIdList);

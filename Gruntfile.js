@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                     'WebContent/js/reservation.min.js': 'WebContent/js/src/reservation.js',
                     'WebContent/js/calender.min.js': 'WebContent/js/src/calender.js',
                     'WebContent/js/customerlist.min.js': 'WebContent/js/src/customerlist.js',
-                    'WebContent/js/reservationlist.min.js': 'WebContent/js/src/reservationlist.js',
+                    'WebContent/js/reservationlist.min.js': 'WebContent/js/src/reservationlist.js'
                 },
             }
         },
