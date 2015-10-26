@@ -64,11 +64,9 @@ public class GetReviewCommentService {
 		    //for(ReviewInfo reviewInfo : reviewInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	jsonOneData.put("name", commentInfo.getCommentUserName());		    	
-		    	/*
-		    	Date day = commentInfo.getCommentDay();
+		    	Date day = commentInfo.getCommentDate();
 		    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		    	jsonOneData.put("day", sdf.format(day));
-		    	*/
 		    	jsonOneData.put("comment", commentInfo.getCommentMessage());		    	
 		    	commentArray.add(jsonOneData);
 		    	//i++;

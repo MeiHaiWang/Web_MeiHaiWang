@@ -1293,7 +1293,7 @@ public class SalonDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				String reviewIds = rs.getString("t_hairSalonMaster_reviewId");
-				if(reviewIds.length()>0){
+				if(reviewIds!=null && reviewIds.length()>0){
 					List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
 					if(reviewIdList.contains(t_reviewId)){
 						salonId = rs.getInt("t_hairSalonMaster_salonId");
