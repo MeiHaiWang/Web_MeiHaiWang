@@ -943,7 +943,15 @@ border: 1px solid #b9b9b9;
 	margin-bottom:auto;
 }
 
+#user_search_table td{
+ border: 0px;
+	text-align: right;
+}
+
 /*
+#reservation_terms button{
+ text-align: right;
+}
 #reservation_term{
 width : 10px;
 }

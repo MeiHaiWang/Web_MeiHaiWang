@@ -179,9 +179,12 @@ var logout = (function () {
                                     顧客No.:
                                   </td>
                                   <td>
+                                  	<table id="user_search_table"><tr><td>
                                      <div id="reservation_user_tel"></div>
-                                    >>
-                                    <button class="btn btn-warning" id = "search_button">検索</button>
+                                     </td></tr>
+                                     <tr><td>
+                                     <button class="btn btn-warning" id = "search_button">検索</button>
+                                    </td></tr></table>
                                   </td>
                                 </tr>
                                 <tr>
@@ -272,6 +275,7 @@ var logout = (function () {
                             <td colspan=2>
                               <table id="button_table">
                                 <tr>
+                                <td></td><td></td><td></td><td></td>
                                   <td>
                                       <button class="btn btn-primary" id= "regist">予約登録</button>
                                   </td>
@@ -286,7 +290,7 @@ var logout = (function () {
                                   </td>
                                   <td>
                                     <!--  <button id="claim">クレーム</button> -->
-									    <button class="btn btn-danger" id="claim-opener">クレーム</button>
+									<button class="btn btn-danger" id="claim-opener">クレーム</button>
 									<div id="claim-dialog" title="クレーム">
 									    <form>
 									    <fieldset>
@@ -298,9 +302,11 @@ var logout = (function () {
 									    </fieldset>
 									    </form>
 									</div>
-                                    
                                   </td>
-                                  <td></td><td></td><td></td><td></td><td></td>
+                                  <td>
+                                  	<a href = "./calender.html">
+                   				  	<button class="btn btn-default" id="claim-opener">戻る</button></a>
+                                  </td>
                                 </tr>
                               </table>
                             </td>
