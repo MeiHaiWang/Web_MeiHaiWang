@@ -1253,7 +1253,7 @@ public class SalonDao {
 		String sql_before = "SELECT `t_hairSalonMaster_reviewId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId`="+salonId;
 		String sql ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` "
 				+ "SET `t_hairSalonMaster_reviewId` = '";
-		String sql2 = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
+		String sql2 = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
 		Statement statement = dbConnection.getStatement();
 		
 		try {
@@ -1311,7 +1311,7 @@ public class SalonDao {
 		boolean result = false;
 		String sql_before = "SELECT `t_hairSalonMaster_reviewId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = "+salonId;
 		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_reviewId` = '";
-		String sql2 = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
+		String sql2 = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
 		Statement statement = dbConnection.getStatement();
 
 		String reviewId="";
