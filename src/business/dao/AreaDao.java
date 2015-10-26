@@ -117,12 +117,13 @@ public class AreaDao {
 		String sql = "SELECT `t_area_areaName` FROM `t_masterArea` WHERE `t_area_areaId` IN (" + areaId + ")";
 		Statement statement = dbConnection.getStatement();
 		try {
-			ResultSet rs;
-			rs = statement.executeQuery(sql);			
-			//debug
-			System.out.println(sql);
-			while(rs.next()){
-				areaNameList.add(rs.getString("t_area_areaName"));
+			if(areaId!=""){
+				//debug
+				System.out.println(sql);
+				ResultSet rs = statement.executeQuery(sql);			
+				while(rs.next()){
+					areaNameList.add(rs.getString("t_area_areaName"));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

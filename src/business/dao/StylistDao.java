@@ -269,7 +269,7 @@ public class StylistDao {
 			    		searchCondFlag = false;
 			    	}
 			    }
-			    if(searchConditionIdList.get(0).equals("")) searchCondFlag = true;
+			    //if(searchConditionIdList.get(0).equals("")) searchCondFlag = true;
 			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
@@ -279,15 +279,28 @@ public class StylistDao {
 			    		break;
 			    	}
 			    }
-			    if(areaIdList.get(0).equals("")) areaFlag = true;
+			    //if(areaIdList.get(0).equals("")) areaFlag = true;
 			    
 			    if(salonId == stylistSalonId){
 			    	//debug
 			    	//System.out.println("Stylist "+stylistId+" contains salonId:"+salonId);
 			    	salonFlag = true;
 			    }
-			    if(searchCondFlag && areaFlag)  retStylistIdList.add(stylistId);
-		    	if(searchCondFlag && salonFlag) retStylistIdList.add(stylistId);
+			    
+			    boolean addFlag = false;
+			    if(salonFlag && searchCondFlag) addFlag=true;
+			    if(salonFlag && searchConditionIdList.get(0).equals("")) addFlag=true;
+			    if(areaFlag && searchCondFlag) addFlag=true;
+			    if(areaFlag && searchConditionIdList.get(0).equals("")) addFlag=true;
+			    if(addFlag) retStylistIdList.add(stylistId);
+			    /*
+			    if(searchCondFlag && salonFlag){
+		    		retStylistIdList.add(stylistId);
+		    	}else if(searchCondFlag && areaFlag){
+		    		retStylistIdList.add(stylistId);
+		    	}
+		    	if(searchCondFlag && salonFlag && areaFlag) retStylistIdList.add(stylistId);
+		    	*/
 			}
 			
 			String innerSQL ="SELECT `t_stylist_Id` ,`t_stylist_salonId`,`t_stylist_name`,`t_stylist_sex`,`t_stylist_imagePath`,`t_stylist_message`,`t_stylist_experienceYear`,`t_stylist_favoriteNumber` FROM `t_stylist` WHERE `t_stylist_Id` =";
@@ -982,6 +995,66 @@ public class StylistDao {
 		}
 	
 		return result;
+	}
+
+	public int getStylistSalonId(DBConnection dbConnection, String stylistId) throws SQLException {
+		String sql = 
+				"SELECT `t_stylist_salonId` FROM `t_stylist` WHERE `t_stylist_Id` = "+stylistId;
+		int salonId = -1;
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				salonId = rs.getInt("t_stylist_salonId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return salonId;
+	}
+
+	public StylistInfo getStylistInfoByUserId(DBConnection dbConnection, int userId) throws SQLException {
+		StylistInfo stylistInfo = new StylistInfo();
+		String sql = 
+				"SELECT `t_stylist_Id`,`t_stylist_name` FROM `t_stylist` WHERE `t_stylist_userId` = "+userId;
+		
+		Statement statement = dbConnection.getStatement();
+		try {
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfo;
+	}
+
+	public String getStylistAreaId(DBConnection dbConnection, int stylistId) throws SQLException {
+		String areaId = "-1";
+		String sql = 
+				"SELECT `t_stylist_areaId` FROM `t_stylist` WHERE `t_stylist_Id` = "+stylistId;
+		Statement statement = dbConnection.getStatement();
+		try {
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				areaId = rs.getString("t_stylist_areaId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return areaId;
 	}
 	
 	

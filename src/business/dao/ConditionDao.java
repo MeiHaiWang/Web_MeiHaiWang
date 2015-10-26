@@ -180,6 +180,7 @@ public class ConditionDao {
 			ResultSet rs = statement.executeQuery(search);
 			while (rs.next()) {
 				conditionlist = rs.getString("t_stylist_searchConditionId");
+				if(conditionlist.equals("-1")) conditionlist="";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

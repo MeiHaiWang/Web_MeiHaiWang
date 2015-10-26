@@ -26,7 +26,7 @@ public class StylistInfo {
 	private String position = "";
 	private String specialMenu = "";
 	private String menuId = "";
-	private String searchConditionId = "";
+	private String searchConditionId = "-1";
 	private String restDay;
 	private String restTime;
 	private int userId = -1;
@@ -171,7 +171,7 @@ public class StylistInfo {
 	}
 
 	public void setStylistSearchConditionId(String searchConditionId) {
-		this.searchConditionId = searchConditionId;
+		this.searchConditionId = searchConditionId!=null?searchConditionId:"-1";
 	}
 	public String getStylistSearchConditionId(){
 		return searchConditionId;

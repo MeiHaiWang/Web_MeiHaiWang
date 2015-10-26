@@ -14,10 +14,10 @@ public class HairStyleInfo {
 	private int favoriteNumber = Integer.MIN_VALUE;
 	private int isGood = 0;
 	private int hairTypeId = 0;
-	private String searchConditionId = "";
+	private String searchConditionId = "-1";
 	private int goodNumber =-1;
 	private int viewNumber = -1;
-	private String areaId = "";
+	private String areaId = "-1";
 	private String areaName = "";
 	private String message = "";
 	private String updateTime;
@@ -99,7 +99,7 @@ public class HairStyleInfo {
 
 	public void setHairStyleSearchConditionId(
 			String searchConditionId) {
-		this.searchConditionId = searchConditionId;
+		this.searchConditionId = searchConditionId != null ? searchConditionId : "";
 	}
 	public String getHairStyleSearchConditionId(){
 		return searchConditionId;
@@ -120,7 +120,7 @@ public class HairStyleInfo {
 	}
 
 	public void setHairStyleAreaId(String areaId) {
-		this.areaId  = areaId != null ? areaId:"";
+		this.areaId  = areaId != null ? areaId:"-1";
 	}
 	public String getHairStyleAreaId(){
 		return this.areaId ;

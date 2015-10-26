@@ -269,6 +269,17 @@ public class UploadSalonImageService {
         				String args[] = {upPath + ImageFileName, upPath+ImageFileName2, "720", "2048"};
         				//System.out.println("resize-path:"+upPath+ImageFileName2);
         				ResizeImage.main(args);
+	        			/**
+	        			 * ふぁいるの削除
+	        			 */
+        				try{
+        					File file = new File(upPath + ImageFileName);
+        					if (file.exists()){
+        						file.delete();
+        					}
+        				}catch(Exception e){
+        					e.printStackTrace();
+        				}
         			}catch(Exception e){
         				e.printStackTrace();
         			}

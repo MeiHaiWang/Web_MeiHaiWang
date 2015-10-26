@@ -41,12 +41,18 @@ public class ImageDao {
 		
 		Statement statement = dbConnection.getStatement();
 
-		String sql = sql1 + ImageId + sql2 + ImageName + sql2 + ImageUrl + sql2 + ImageSize + sql2 + salonId +sql2 + hashValue+ sql3;
+		StringBuilder sql = new StringBuilder(sql1);
+		sql.append(ImageId+sql2);
+		sql.append(ImageName+sql2);
+		sql.append(ImageUrl + sql2);
+		sql.append(ImageSize + sql2);
+		sql.append(salonId +sql2);
+		sql.append(hashValue+ sql3);
 		//debug
 		System.out.println(sql);
 		
 		try {
-			int result_int = statement.executeUpdate(sql);
+			int result_int = statement.executeUpdate(sql.toString());
 			if(result_int >= 0) result = true;
 		} catch (SQLException e) {
 			e.printStackTrace();

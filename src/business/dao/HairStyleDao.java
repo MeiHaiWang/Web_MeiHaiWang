@@ -304,13 +304,12 @@ public class HairStyleDao {
 			`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_stylistId`, `t_hairStyle_areaId`, 
 			`t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_updateDate`, `t_hairStyle_favoriteNumber`) VALUES ('
 			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');	
-			
-			
 		*/
 		
-		String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_id` = "; // hairStyleId 
+		//String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_id` = "; // hairStyleId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` ("
-				+ "`t_hairStyle_id`, `t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
+				/*+ "`t_hairStyle_id`, "*/
+				+ "`t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
 				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`, "
 				+ "`t_hairStyle_message`) VALUES ('";
@@ -318,7 +317,8 @@ public class HairStyleDao {
 		//String sql3 = "NULL";
 		String sql4 = "0";
 		String sql_end = "');";
-
+		//String sql_after = "SELECT `t_hairStyle_id` FROM `t_hairStyle` WHERE `t_hairStyle_updateDate`='"+hairStyleInfo.getUpdateTime()+"'";
+		
 		/*
 		//TODO: Update time?
 		//Date oneDate = new Date(0);
@@ -346,6 +346,7 @@ public class HairStyleDao {
 		Statement statement = dbConnection.getStatement();
 		
 		if(hairStyleInfo.getHairStyleId()<0){
+			/*
 			for(int i=1; i<Integer.MAX_VALUE; i++){
 				try {
 					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
@@ -357,9 +358,10 @@ public class HairStyleDao {
 					e.printStackTrace();
 				}
 			}
-			
+			*/
+						
 			//combine insert sentence
-			String sql = sql1 +hairStyleId + sql2
+			String sql = sql1 /*+hairStyleId + sql2*/
 					+ hairStyleInfo.getHairStyleName()  + sql2
 					+ hairStyleInfo.getHairTypeId() +sql2
 					+ hairStyleInfo.getStylistId()  + sql2
@@ -376,8 +378,16 @@ public class HairStyleDao {
 			System.out.println(sql);
 			
 			try {
-				int result_int = statement.executeUpdate(sql);
-				if(result_int >= 0) result = true;
+				int result_int = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+				if(result_int >= 0){
+					//更新したidをget
+					ResultSet rs = statement.getGeneratedKeys();
+			        if (rs.next()){
+			        	hairStyleId = rs.getInt(1);
+		        	}
+			        rs.close();
+			        result = true;
+				}
 			} catch (SQLException e) {
 							// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -405,7 +415,7 @@ public class HairStyleDao {
 				e.printStackTrace();
 			}
 			String salon_sql = null;
-			if(hairStyleId != -1){
+			if(hairStyleId > 0 ){
 				if(hairStyleIdList!="" && hairStyleIdList!=null){
 					salon_sql =  salon_sql2_before + hairStyleIdList + "," + hairStyleId + salon_sql2_middle + salonId + salon_sql2_after;				
 				}else{
@@ -420,7 +430,10 @@ public class HairStyleDao {
 					e.printStackTrace();
 					hairStyleId = -1;
 				}
-			}		
+			}else{
+				//debug
+				System.out.println("hairStyle-regist error.");
+			}
 			
 		//update
 		}else{

@@ -43,8 +43,8 @@ public class HairSalonInfo {
     private int carParkAvailable = -1;
     private int japaneseAvailable = -1;
     
-    private String areaId = "";
-	private String searchConditionId = "";
+    private String areaId = "-1";
+	private String searchConditionId = "-1";
 	private String salonCondName ="";
 	private String salonReviewIdList="";
     
@@ -306,7 +306,8 @@ public class HairSalonInfo {
 	}
 
 	public void setSalonAreaId(String areaId) {
-		this.areaId = areaId;
+		this.areaId = areaId!=null?areaId:"-1";
+		
 	}
 	public String getSalonAreaId(){
 		return areaId;
@@ -314,7 +315,7 @@ public class HairSalonInfo {
 
 	public void setSalonSearchConditionId(
 			String searchConditionId) {
-		this.searchConditionId  = searchConditionId;
+		this.searchConditionId  = searchConditionId!=null?searchConditionId:"-1";
 	}
 	public String getSalonSearchConditionId(){
 		return searchConditionId;

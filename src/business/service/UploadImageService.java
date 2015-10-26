@@ -79,6 +79,13 @@ public class UploadImageService {
   			?Integer.parseInt(request.getParameter(Constant.PARAMETER_SALONID)) : -1;
   		}
   		//salonId kokomade		
+  		
+  		/*
+  		//getParameterはできない
+		String id = request.getParameter("id") != null ?
+				request.getParameter("id").toString() : null;
+		System.out.println("id="+id); //nullになる
+		*/
 	
   		//変数定義
         int ImageId = -1;
@@ -316,9 +323,12 @@ public class UploadImageService {
 	    			//uploadImage成功
 	    			result = true;
     			} else {
-    				//TODO
-    				System.out.println("ファイル以外の処理...");
-    				// ここでは処理せず、直接requestからgetParamしてもいいと思います。
+    				//パラメータはここで取得
+    				//System.out.println("ファイル以外の処理...");
+    				String otherFieldName = item.getFieldName();
+    	            String otherFieldValue = item.getString();
+    	            //debug
+    	            //System.out.println(otherFieldName+","+otherFieldValue);
 				}
 			}
 		} catch (FileUploadException e) {

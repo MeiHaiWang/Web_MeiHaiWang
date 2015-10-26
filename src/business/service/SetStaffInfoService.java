@@ -96,7 +96,7 @@ public class SetStaffInfoService {
 		String t_stylist_message = request.getParameter("t_stylist_message") != null ?
 				request.getParameter("t_stylist_message").toString() : null;
 		String t_stylist_searchConditionId = request.getParameter("t_stylist_searchConditionId") != null ?
-				request.getParameter("t_stylist_searchConditionId").toString() : null;
+				request.getParameter("t_stylist_searchConditionId").toString() : "";
 		String t_stylist_restDay = request.getParameter("t_stylist_restDay") != null ?
 				request.getParameter("t_stylist_restDay").toString() : null;
 		String t_stylist_restTime = request.getParameter("t_stylist_restTime") != null ?
