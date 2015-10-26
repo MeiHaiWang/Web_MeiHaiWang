@@ -336,6 +336,8 @@ public class SalonDao {
 		List<Integer> reviewIdList = new ArrayList<Integer>();
 		
 		try {
+			//debug
+			System.out.println(sql);
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				String reviewIdStr = rs.getString("t_hairSalonMaster_reviewId");
@@ -1244,5 +1246,101 @@ public class SalonDao {
 			e.printStackTrace();
 		}
 		return areaId;	
+	}
+	
+	public boolean setSalonReview(DBConnection dbConnection, String salonId, int rid) {
+		boolean result = false;
+		String sql_before = "SELECT `t_hairSalonMaster_reviewId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId`="+salonId;
+		String sql ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` "
+				+ "SET `t_hairSalonMaster_reviewId` = '";
+		String sql2 = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
+		Statement statement = dbConnection.getStatement();
+		
+		try {
+			String reviewId = "";
+			//debug
+			System.out.println(sql_before);
+			ResultSet rs = statement.executeQuery(sql_before);
+			while(rs.next()){
+				reviewId = rs.getString("t_hairSalonMaster_reviewId");
+			}
+			if(reviewId!=null && !reviewId.equals("")){
+				reviewId += "," + rid;
+			}else{
+				reviewId = Integer.toString(rid);
+			}
+
+			sql = sql + reviewId + sql2;
+			//debug
+			System.out.println(sql);
+			int result_sql = statement.executeUpdate(sql);
+			if(result_sql>0) result = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;			
+	}
+	public int getReviewedSalonId(DBConnection dbConnection, String t_reviewId) {
+		String sql ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_reviewId` "
+				+ "FROM `t_hairSalonMaster` ORDER BY `t_hairSalonMaster_salonId` ASC"; 		
+		Statement statement = dbConnection.getStatement();
+		int salonId = -1;
+		
+		try {
+			//debug
+			System.out.println(sql);
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				String reviewIds = rs.getString("t_hairSalonMaster_reviewId");
+				List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
+				if(reviewIdList.contains(t_reviewId)){
+					salonId = rs.getInt("t_hairSalonMaster_salonId");
+					break;
+				}
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return salonId;
+	}
+	
+	public boolean DeleteReviewId(DBConnection dbConnection, String t_reviewId,
+			int salonId) {
+		boolean result = false;
+		String sql_before = "SELECT `t_hairSalonMaster_reviewId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = "+salonId;
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_reviewId` = '";
+		String sql2 = "' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = "+salonId+";";
+		Statement statement = dbConnection.getStatement();
+
+		String reviewId="";
+		try {
+			//debug
+			System.out.println(sql_before);
+			ResultSet rs = statement.executeQuery(sql_before);
+			while(rs.next()){
+				String reviewIds = rs.getString("t_hairSalonMaster_reviewId");
+				List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
+				for(int index=0;index<reviewIdList.size();index++){
+					if(!reviewIdList.get(index).equals(t_reviewId)){
+						reviewId += reviewIdList.get(index)+",";
+					}
+				}
+				reviewId = reviewId.substring(0,reviewId.length()-1);
+			}
+
+			//debug
+			String sql = sql1 + reviewId + sql2;
+			System.out.println(sql);
+			int result_sql = statement.executeUpdate(sql);
+			if(result_sql>0) result = true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
 	}
 }

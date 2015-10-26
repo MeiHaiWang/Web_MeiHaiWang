@@ -8,7 +8,11 @@ public class ReviewInfo {
 	private String ReviewText ="";
 	private String ReviewCommentId ="";
 	private Date ReviewPostedDate = new Date();
-	private Double ReviewPoint = Double.MAX_VALUE;
+	//private Double ReviewPoint = Double.MAX_VALUE;
+	private String ReviewPoint = "";
+	private String ReviewUserName = "";
+	private int ReviewUserGender=-1;
+	private Date ReviewUserBirth=new Date();
 
 	public ReviewInfo(){
 	}
@@ -53,6 +57,7 @@ public class ReviewInfo {
 		return ReviewPostedDate;
 	}
 
+	/*
 	public void setReviewPoint(double ReviewPoint){
 		this.ReviewPoint = ReviewPoint;
 	}
@@ -60,6 +65,35 @@ public class ReviewInfo {
 	public double getReviewPoint(){
 		return ReviewPoint;
 	}
-		
+	*/
+	public void setReviewPoint(String ReviewPoint){
+		this.ReviewPoint = ReviewPoint!=null?ReviewPoint:"-1";
+	}
 	
+	public String getReviewPoint(){
+		return ReviewPoint;
+	}
+
+	public void setReviewUserName(String ReviewUserName) {
+		this.ReviewUserName = ReviewUserName!=null?ReviewUserName:"";
+	}
+	
+	public String getReviewUserName(){
+		return ReviewUserName;
+	}
+
+	public void setReviewUserSex(int sex) {
+		this.ReviewUserGender = sex;
+	}
+	public int getReviewUserSex(){
+		return ReviewUserGender;
+	}
+		
+	public void setReviewUserBirth(Date ReviewUserBirth){
+		this.ReviewUserBirth = ReviewUserBirth != null ? ReviewUserBirth : new Date(0);
+	}
+	public Date getReviewUserBirth(){
+		return ReviewUserBirth;
+	}
+
 }
