@@ -284,6 +284,23 @@ $(function(){
     if (service_info.menu.length == 0) {
       return false;
     }
+    
+    //削除していいか確認
+    var check_delete = false;
+    (function disp(){
+    	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+    	if(window.confirm('本当に削除しますか？')){
+    		console.log("OK clicked.")
+    		check_delete = true;
+    	}
+    	// 「キャンセル」時の処理開始
+    	else{
+    		alert('キャンセルされました'); // 警告ダイアログを表示
+    		check_delete = false;
+    	}
+    	// 「キャンセル」時の処理終了
+    })();
+    if(!check_delete) return false;
 
     var id = $(".delete").index(this);
     var data = {t_menu_menuId: service_info.menu[id].t_menu_menuId};

@@ -806,11 +806,9 @@ $(function(){
 	*/
 
     // コンポーネントにjsonを渡して関係する部分だけ書き換わる
-	/*
     component_album_image_path.setState(album);
     component_album_image_path2.setState(album);
     component_album_image_path3.setState(album);
-	*/
 	
     //サロン検索条件のリストをいったん削除
     $("#album_sex_list").tagit("removeAll");
@@ -1394,7 +1392,7 @@ $(function(){
     //console.log("edit_id:"+edit_id);
     //componentSetState(album_info.album[id]);
     componentSetState(_albums[id]);
-
+    
   });
 
   // 削除ボタン押下時
@@ -1403,6 +1401,23 @@ $(function(){
       return false;
     }
 
+    //削除していいか確認
+    var check_delete = false;
+    (function disp(){
+    	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+    	if(window.confirm('本当に削除しますか？')){
+    		console.log("OK clicked.")
+    		check_delete = true;
+    	}
+    	// 「キャンセル」時の処理開始
+    	else{
+    		alert('キャンセルされました'); // 警告ダイアログを表示
+    		check_delete = false;
+    	}
+    	// 「キャンセル」時の処理終了
+    })();
+    if(!check_delete) return false;
+    
     var id = $(".delete").index(this);
     var data = {t_hairStyle_id: album_info.album[id].t_hairStyle_id};
 
@@ -1641,6 +1656,7 @@ $(function(){
 	  if(searched_albums.length>0){
 		  component_album_list.setState({"album_list":searched_albums});
 	  }else{
+		  alert("検索結果がありませんでした。");
 		  console.log("No albums.");
 	  }
   });

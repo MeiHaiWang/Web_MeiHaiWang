@@ -638,6 +638,24 @@ $(function(){
     if (stylist_info.stylist.length == 0) {
       return false;
     }
+    
+    //削除していいか確認
+    var check_delete = false;
+    (function disp(){
+    	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+    	if(window.confirm('本当に削除しますか？')){
+    		console.log("OK clicked.")
+    		check_delete = true;
+    	}
+    	// 「キャンセル」時の処理開始
+    	else{
+    		alert('キャンセルされました'); // 警告ダイアログを表示
+    		check_delete = false;
+    	}
+    	// 「キャンセル」時の処理終了
+    })();
+    if(!check_delete) return false;
+    
     var id = $(".delete").index(this);
     console.log(stylist_info.stylist[id].t_stylist_Id+","+id);
     var data = {t_stylist_Id: stylist_info.stylist[id].t_stylist_Id};
