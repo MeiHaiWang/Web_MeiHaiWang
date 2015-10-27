@@ -717,7 +717,9 @@ $(function(){
       */
       var album = this.state.album_list.map(function(album) {
     	//console.log("album_render:-["+album.t_hairStyle_id+"]:"+album.t_hairStyle_searchConditionId+","+album.gender+","+album.hair_length+","+album.feeling);
-    	//console.log("imagePath:"+album.t_hairStyle_imagePath);
+    	console.log("imagePath:"+album.t_hairStyle_imagePath);
+      	console.log("imagePath2:"+album.t_hairStyle_imagePath2);
+      	console.log("imagePath3:"+album.t_hairStyle_imagePath3);
     	return <tr><td>{index++}</td>
     	<td><img src={album.t_hairStyle_imagePath?album.t_hairStyle_imagePath:'img/notfound.jpg'} /></td>
         <td><img src={album.t_hairStyle_imagePath2?album.t_hairStyle_imagePath2:'img/notfound.jpg'} /></td>
@@ -1209,13 +1211,13 @@ $(function(){
 
 		var t_path_list = album.t_hairStyle_imagePath + "";
 		var path_list = t_path_list.split(',');
-		for(k=0;k<path_list.length;k++){
-			if(k==0){
-				album_info.album[i]["t_hairStyle_imagePath"] = path_list[k];			
-				//console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"]);			
+		for(k=1;k<path_list.length+1;k++){
+			if(k==1){
+				album_info.album[i]["t_hairStyle_imagePath"] = path_list[k-1];			
+				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"]);			
 			}else{
-				album_info.album[i]["t_hairStyle_imagePath"+k+1] = path_list[k];			
-				//console.log("album_imagePath["+i+"]["+k+1+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k+1]);			
+				album_info.album[i]["t_hairStyle_imagePath"+k] = path_list[k-1];			
+				console.log("album_imagePath["+i+"]["+k+"]:"+album_info.album[i]["t_hairStyle_imagePath"+k]);			
 			}
 		}
   }
@@ -1478,12 +1480,18 @@ $(function(){
     }
   });
 
+  /**
+   * 画像アップロード１が埋まらないと、エラーになるらしい
+   */
+  
   // 画像アップロード2
   $('#album_image2').change(function() {
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
-      var data = new FormData($('#update')[0]);
-
+      var data = new FormData($('#update2')[0]);
+      //debug
+      console.log("data:"+data);
+      
       //非同期アップロード
       (function(data){
           var response = $.ajax({
@@ -1532,7 +1540,7 @@ $(function(){
   $('#album_image3').change(function() {
     // ファイルが選択されたか
     if($(this).prop('files')[0]){
-      var data = new FormData($('#update')[0]);
+      var data = new FormData($('#update3')[0]);
 
       //非同期アップロード
       (function(data){

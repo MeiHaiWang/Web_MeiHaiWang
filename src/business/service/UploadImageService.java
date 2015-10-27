@@ -145,6 +145,8 @@ public class UploadImageService {
 	    			ImageName = item.getName();
 	    			//アップロードしたファイルのサイズ
 	    			ImageSize = item.getSize();
+	    			//debug
+	    			//System.out.println("File name "+ImageName+",size "+ImageSize);
 	    			
     				try{
 	    				DBConnection dbConnection = new DBConnection();
