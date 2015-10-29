@@ -590,7 +590,7 @@ $(function(){
 	  reservation_end_time = reservation_start_time;
 	  //var p_end_time = Number(p_start_time.substring(0,2)) + 2 ;
 	  var param_stylistId = parameter_info['stylistId'];
-	  console.log("Parameters: "+p_date + " " + reservation_start_time + "-" +reservation_end_time +" ,"+param_stylistId);
+	  //console.log("Parameters: "+p_date + " " + reservation_start_time + "-" +reservation_end_time +" ,"+param_stylistId);
   }
 
   //genderを文字列に
@@ -938,7 +938,7 @@ $(function(){
   // 削除ボタン押下時
   $('.delete').on('click', function() {
     var id = $(".delete").index(this);
-    console.log("d_id:"+id);
+    //console.log("d_id:"+id);
     for(var i=0; i<reserve_menu_list.length; i++){
         if(reserve_menu_list[i].t_menu_menuId == component_service_list2.state.service_list2[id].t_menu_menuId){
         	console.log(reserve_menu_list[i].t_menu_name+","+component_service_list2.state.service_list2[id].t_menu_price);
@@ -1006,7 +1006,7 @@ $(function(){
 				 m_time += 60;
 			 }
 		 }
-		 console.log("予約メニューにかかる時間："+m_time+"分.");
+		 //console.log("予約メニューにかかる時間："+m_time+"分.");
 		  
 	 
 	 //競合チェック
@@ -1019,7 +1019,7 @@ $(function(){
 	  //予約編集の場合は、編集している予約情報をのぞく
 	  for(var i=0; i<r_list.length; i++){
 		  if(r_list[i].t_reservation_id == reserveId){
-			  console.log("予約編集中："+r_list[i].t_reservation_id);
+			  //console.log("予約編集中："+r_list[i].t_reservation_id);
 			  r_list.splice(i,1);
 		  }
 	  }
@@ -1066,7 +1066,7 @@ $(function(){
 		  var uid = (function(){
 			  var uid = -1;
 			  uid = component_reservation_user_name.state.t_user_id;
-			  console.log("uid:"+uid);
+			  //console.log("uid:"+uid);
 			  if(uid == ""){
 				  ui = setRegistUser(
 					{
@@ -1087,7 +1087,7 @@ $(function(){
 
 	  //指名かどうか
 	  var check = document.forms.check_form.appoint.checked;
-	  console.log("appoint:"+check);
+	  //console.log("appoint:"+check);
 	  var appoint;
 	  if(check==true){
 		  appoint=1;
@@ -1126,6 +1126,10 @@ $(function(){
     // サニタイズ
     sanitaize.encode(data);
 
+    //debug
+    //alert(data);
+    console.log(data);
+    
     var result = setReservationInfo(data);
     if (result.result == "true") {
       alert('Regist Success');

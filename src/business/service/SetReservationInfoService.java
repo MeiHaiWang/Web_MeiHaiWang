@@ -63,9 +63,18 @@ public class SetReservationInfoService {
 		String t_reservation_appoint = request.getParameter("t_reservation_appoint") != null ?
 				request.getParameter("t_reservation_appoint") : null;
 
+		/*
 		//debug
 		System.out.println("t_reservation_id:"+t_reservation_id);
-		//System.out.println("update menuId:"+t_menu_t_menu_id+"...:"+t_menu_t_menu_id.charAt(0));
+		System.out.println("t_reservation_userId:"+t_reservation_userId);
+		System.out.println("t_reservation_salonId:"+t_reservation_salonId);
+		System.out.println("t_reservation_stylistId:"+t_reservation_stylistId);
+		System.out.println("t_reservation_date:"+t_reservation_date);
+		System.out.println("t_reservation_menuId:"+t_reservation_menuId);
+		System.out.println("t_reservation_seatId:"+t_reservation_seatId);
+		System.out.println("t_reservation_memo:"+t_reservation_memo);
+		System.out.println("t_reservation_appoint:"+t_reservation_appoint);
+		*/
 
 		boolean rt = true;
 		if(t_reservation_userId==null || t_reservation_userId==""){
@@ -81,10 +90,10 @@ public class SetReservationInfoService {
 			rt = false;
 		}
 		int appoint = 0;
-		if(t_reservation_appoint!=null || t_reservation_appoint!=""){
+		if(t_reservation_appoint!=null && t_reservation_appoint!=""){
 			appoint = Integer.parseInt(t_reservation_appoint);
 		}
-
+				
 		/*
 		Date oneDate;
 		try {
@@ -120,6 +129,7 @@ public class SetReservationInfoService {
 			
 			if(conn!=null){
 				if(rt){
+					System.out.println("setReservation call!!");
 					ReservationDao reservationDao = new ReservationDao();
 					result = reservationDao.setReservationInfo(
 							dbConnection,

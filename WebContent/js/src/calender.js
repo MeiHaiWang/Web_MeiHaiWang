@@ -341,7 +341,7 @@ $(function(){
 	          paramTime += (m.seconds() < 10 ) ? '0'+m.seconds() : m.seconds();
 	          var stylistId = stylistName2Id(sources[rowId+1].desc);
 	          //console.log(sources[rowId+1].desc);
-	          alert("reservation.html?time="+paramTime+"&stylistId="+stylistId);
+	          //alert("reservation.html?time="+paramTime+"&stylistId="+stylistId);
 	          //console.log("reservation.html?time="+paramTime+"&stylistId="+stylistId);
 	          location.href = "reservation.html?time="+paramTime+"&stylistId="+stylistId;
         	}else{

@@ -84,6 +84,7 @@ public class ReservationDao {
 	
 	public boolean setReservationInfo(DBConnection dbConnection,
 			ReservationInfo reservationInfo) {
+				
 		/**
 		 * INSERT INTO `MEIHAIWAN_TEST`.`t_reservation` (`t_reservation_userId`, `t_reservation_salonId`, 
 		 * `t_reservation_stylistId`, `t_reservation_Date`, `t_reservation_isFinished`, `t_reservation_menuId`, 
