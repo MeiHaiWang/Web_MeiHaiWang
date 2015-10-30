@@ -85,7 +85,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
-                    予約カレンダー
+                    预约表
                 </a>
             </li>
         </ul>
@@ -137,13 +137,13 @@ var logout = (function () {
 
 <div class="content-wrap">
     <main id="content" class="content" role="main">
-        <h1 class="page-title">予約ページ</h1>
+        <h1 class="page-title">预约</h1>
         <div class="row">
             <div class="col-md-12">
                 <section class="widget bg-transparent">
                     <div class="widget-body">
                     <dl id="reservation_page">
-                        <dt id="reservation_regist_area">予約登録</dt>
+                        <dt id="reservation_regist_area">预约登记</dt>
                         <dd>
                         <table id="reservation_table">
                           <tr>
@@ -151,7 +151,7 @@ var logout = (function () {
                               <table id = "reservation_terms">
                                 <tr>
                                   <td id = "reservation_term">
-                                    予約日:
+                                    预约日:
                                   </td>
                                   <td>
                                     <form class="form-horizontal">
@@ -164,32 +164,32 @@ var logout = (function () {
                                 </tr>
                                 <tr>
                                   <td id = "reservation_term">
-                                    予約時間:
+                                    预约时间:
                                   </td>
                                   <td>
                                   <table id="reaservation_time"><tr>
-                                    <td>開始時間<br><div id="reservation_start"></div></td>
+                                    <td>开始时间<br><div id="reservation_start"></div></td>
                                     <!-- <td>-</td> -->
-                                    <td>終了時間<br><div id="reservation_end"></div></td>
+                                    <td>结束时间<br><div id="reservation_end"></div></td>
                                   </tr></table>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td id = "reservation_term">
-                                    顧客No.:
+                                    顾客号码:
                                   </td>
                                   <td>
                                   	<table id="user_search_table"><tr><td>
                                      <div id="reservation_user_tel"></div>
                                      </td></tr>
                                      <tr><td>
-                                     <button class="btn btn-warning" id = "search_button">検索</button>
+                                     <button class="btn btn-warning" id = "search_button">搜索</button>
                                     </td></tr></table>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td id = "reservation_term">
-                                    顧客名:
+                                    顾客姓名:
                                   </td>
                                   <td>
                                      <div id="reservation_user_name"></div>
@@ -197,19 +197,19 @@ var logout = (function () {
                                 </tr>
                                 <tr>
                                   <td id = "reservation_term">
-                                    年齢層<br>性別:
+                                    年龄层<br>性別:
                                   </td>
                                   <td>
                                   	<table id="reaservation_user_age_sex"><tr><td>
-                                     年齢層<br><div id="reservation_user_age"></div>
+                                     年龄层<br><div id="reservation_user_age"></div>
                                     </td><td>
-                                     性別<br><div id="reservation_user_sex"></div>
+                                     性别<br><div id="reservation_user_sex"></div>
 									</td></tr></table>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td id = "reservation_term">
-                                    担当者:
+                                    专人:
                                   </td>
                                   <td>
 	                                  <table id="reservation_stylist_table"><tr>
@@ -217,7 +217,7 @@ var logout = (function () {
 	                                     <div id="reservation_stylist"></div>
 	                                  </td>
 	                                  <td>
-	                                  	<span>指名:</span>
+	                                  	<span>点名:</span>
 	                                  	<form id="check_form">
 		                                  	<label><input type="checkbox" id="appoint" name="shimei" value="1"></label>
 										</form>
@@ -277,27 +277,27 @@ var logout = (function () {
                                 <tr>
                                 <td></td><td></td><td></td><td></td>
                                   <td>
-                                      <button class="btn btn-primary" id= "regist">予約登録</button>
+                                      <button class="btn btn-primary" id= "regist">预约登记</button>
                                   </td>
                                   <td>
-                                    <button class="btn btn-success" id="come">来店</button>
+                                    <button class="btn btn-success" id="come">到店</button>
                                   </td>
                                   <td>
-                                    <button class="btn btn-danger" id="cancel">予約取消</button>
+                                    <button class="btn btn-danger" id="cancel">预约取消</button>
                                     <div id="cancel_dialog">
-									<p>予約取消</p>
+									<p>预约取消</p>
 									</div>
                                   </td>
                                   <td>
                                     <!--  <button id="claim">クレーム</button> -->
-									<button class="btn btn-danger" id="claim-opener">クレーム</button>
-									<div id="claim-dialog" title="クレーム">
+									<button class="btn btn-danger" id="claim-opener">投诉</button>
+									<div id="claim-dialog" title="投诉">
 									    <form>
 									    <fieldset>
 									        <p>
 									            <input type="text" name="claim-dialog-form-comment"
 									             id="claim-dialog-form-comment" class="text ui-widget-content ui-corner-all"
-									             placeholder="メモ"  />
+									             placeholder="记录"  />
 									        </p>
 									    </fieldset>
 									    </form>
@@ -305,7 +305,7 @@ var logout = (function () {
                                   </td>
                                   <td>
                                   	<a href = "./calender.html">
-                   				  	<button class="btn btn-default" id="claim-opener">戻る</button></a>
+                   				  	<button class="btn btn-default" id="claim-opener">返回</button></a>
                                   </td>
                                 </tr>
                               </table>

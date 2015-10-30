@@ -424,13 +424,13 @@ $(function(){
         return React.createElement("tr", null, React.createElement("td", null, service.t_menu_name), 
         React.createElement("td", null, service.t_menu_time), 
         React.createElement("td", null, service.t_menu_price), 
-        React.createElement("td", null, React.createElement("a", {className: "reserve"}, "予約")));
+        React.createElement("td", null, React.createElement("a", {className: "reserve"}, "预约")));
       });
       return (
         React.createElement("div", null, 
           React.createElement("table", null, 
           	React.createElement("thead", null, 
-            React.createElement("tr", null, React.createElement("th", null, "服务名称"), React.createElement("th", null, "Time"), React.createElement("th", null, "Price"), React.createElement("th", null, "予約"))
+            React.createElement("tr", null, React.createElement("th", null, "服务名称"), React.createElement("th", null, "时间"), React.createElement("th", null, "价格"), React.createElement("th", null, "预约"))
             ), 
             React.createElement("tbody", null, 
             service, 
@@ -464,7 +464,7 @@ $(function(){
 	        React.createElement("div", null, 
 	          React.createElement("table", null, 
 	          	React.createElement("thead", null, 
-	            React.createElement("tr", null, React.createElement("th", null, "服务名称"), React.createElement("th", null, "Start"), React.createElement("th", null, "Time"), React.createElement("th", null, "Stylist"), React.createElement("th", null, "Seat"), React.createElement("th", null, "削除"))
+	            React.createElement("tr", null, React.createElement("th", null, "服务名称"), React.createElement("th", null, "开始时间"), React.createElement("th", null, "时间"), React.createElement("th", null, "专人"), React.createElement("th", null, "席位"), React.createElement("th", null, "取消"))
 	            ), 
 	            React.createElement("tbody", null, 
 	            service
@@ -597,9 +597,9 @@ $(function(){
   function getGenderStr(genderId){
 	  var gender = "";
     	if(genderId==0){
-    		gender = "男性";
+    		gender = "男士";
     	}else if(genderId==1){
-    		gender = "女性";
+    		gender = "女士";
     	}
     	return gender;
   }
@@ -1158,7 +1158,7 @@ $(function(){
 	        hide: 'explode',
 	        modal: true,
 	        buttons: {
-	            '登録': function() {
+	            '登记': function() {
 	                if ( comment . val() ) {
 	               	 if(reserveId>0){
 	                	setClaimFunc(comment.val());
@@ -1249,7 +1249,7 @@ $(function(){
 	   * http://jquery.keicode.com/ui/dialog.php
 	   */
 	  autoOpen: false,
-	  title: '予約取消',
+	  title: '预约取消',
 	  closeOnEscape: false,
 	  modal: true,
 	  buttons: {

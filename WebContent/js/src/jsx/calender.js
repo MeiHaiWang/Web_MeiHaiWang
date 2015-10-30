@@ -116,11 +116,12 @@ $(function(){
 			  //当日に予約がなかったら.
 			console.log("reservation.html?time="+oneDay+"&stylistId=1");
 			if(checkAfterDate(oneDay)){
-				alert("No reservations. Go to reservation page.");
+				alert("予約がありません.");
 		        //location.href = "reservation.html?time="+oneDay+"&stylistId=1";
 				design_gantt(oneDay);
 			}else{
-				alert("No reservations. The day is before than today.");
+				alert("予約がありません.　本日より以前の日にちです.");
+				design_gantt(oneDay);
 			}
 		  }else{
 			  design_gantt(oneDay);
@@ -137,12 +138,8 @@ $(function(){
 	  var dt1=Number(oneDate.substring(8,10));
 	  var dt2=Number(nowDate.substring(8,10));
 	  //console.log(mt1+","+mt2+","+dt1+","+dt2);
-	  if(mt1<mt2){
-		  result = false;
-	  }
-	  if(dt1<dt2){
-		  result = false;
-	  }
+	  if(mt1==mt2 && dt1 < dt2){ result = false; }
+	  if(mt1<mt2){  result = false;  }
 	  return result;
   }
   
@@ -184,7 +181,8 @@ $(function(){
     				//休憩の場合
     				//console.log(stylists[i].t_stylist_name+" rest time is "+reservationList[j].t_reservation_date+"("+reservationList[j].t_reservation_time+").");
 	    			var t_from = moment(reservationList[j].t_reservation_date);
-	    			var oneOpTime=Number(reservationList[j].t_reservation_time)/60;
+	    			//-1しておかないと、2時間分のスペースを埋めてしまう
+	    			var oneOpTime=Number((reservationList[j].t_reservation_time)-1)/60;
 	    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",oneOpTime);
 	        	    valueList[i].push(
 	        	    		{
@@ -217,7 +215,7 @@ $(function(){
     			}else{
 	    			//console.log(stylists[i].t_stylist_name+":"+reservationList[j].t_reservation_date);
 	    			var t_from = moment(reservationList[j].t_reservation_date);
-	    			var oneOpTime=Number(reservationList[j].t_reservation_time)/60;
+	    			var oneOpTime=Number((reservationList[j].t_reservation_time)-1)/60;
 	    			//console.log("施術時間:"+oneOpTime);
 	    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",oneOpTime);
 	    			//console.log(t_from.valueOf()+","+t_to.valueOf());
@@ -261,13 +259,13 @@ $(function(){
     //console.log(salon_open_time+","+salon_close_time);
     //souces[0]には、営業時間を入れる
     sources.push({
-		name:"営業時間",
+		name:"营业时间",
 		desc:"Opentime",
 		id:-1,
 		values: [{
 			from: moment(salon_open_time).valueOf(),
 			to: moment(salon_close_time).valueOf(),
-			label: "営業時間",
+			label: "营业时间",
 			customClass: "ganttGreen",
 			dataObj: "Opentime"
 		}]

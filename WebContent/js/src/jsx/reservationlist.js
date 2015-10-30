@@ -36,7 +36,7 @@ $(function(){
 	      return (
 	        <div>
 	            <table>
-	            <tr><th>No.</th><th>予約日時</th><th>顧客名</th><th>性別</th><th>担当者名</th><th>メニュー</th><th>座席</th><th>備考</th></tr>	
+	            <tr><th>No.</th><th>预约日时</th><th>顾客名</th><th>性別</th><th>专人名</th><th>服务名称</th><th>席位</th><th>记录</th></tr>	
 	            {reservation}
 	            </table>
 	        </div>

@@ -546,7 +546,7 @@
                         yearArr.push(
                                 '<div class="row header year" style="width: '
                                 + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
-                                + 'スケジュール'
+                                + '时间表'
                                 + '</div></div>');
                         
                         // Last month

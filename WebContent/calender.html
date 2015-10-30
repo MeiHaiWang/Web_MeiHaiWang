@@ -85,7 +85,7 @@
                     <span class="icon">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </span>
-                    予約カレンダー
+                    预约表
                 </a>
             </li>
         </ul>
@@ -140,7 +140,7 @@ var logout = (function () {
 <!-- ここからページ内容 -->
 <div class="content-wrap">
     <main id="content" class="content" role="main">
-        <h1 class="page-title">カレンダーページ</h1>
+        <h1 class="page-title">日历</h1>
         <div class="row">
             <div class="col-md-12">
                 <section class="widget bg-transparent">
@@ -154,17 +154,17 @@ var logout = (function () {
 
                               <table id = "check_list">
                                 <th colspan = 3>
-                                  Check List
+                                  确认表
                                 </th>
                                 <tr>
                                   <td id="check_list_tokei">
-                                    <div> 時計 </div>
+                                    <div> 钟表 </div>
                                   </td>
                                   <td>
-                                    <div> 本日予約数 </div>
+                                    <div> 今天的预约数 </div>
                                   </td>
                                   <td>
-                                    <div> 本日来店数 </div>
+                                    <div> 今天到店人数 </div>
                                   </td>
                                 </tr>
 
@@ -173,7 +173,7 @@ var logout = (function () {
                                     <!--
                                     <div id = "reserve_day"> 2015/01/01 </div>
                                     -->
-                                    <div id="RealtimeClockArea">※時計表示</div>
+                                    <div id="RealtimeClockArea">※</div>
                                   </td>
                                   <td>
                                     <div id = "reserve_number"> _ </div>
@@ -187,18 +187,18 @@ var logout = (function () {
                                     <!-- <div id = "customer_management"></div> -->
                                     <table id = "customer_management_table">
                                       <th>
-                                        顧客管理
+                                        顾客管理
                                       </th>
                                       <tr>
                                         <td>
                                           <div class="form-group">
-                                            <input id="form_user_search" type="text" class="form-inline" placeholder = "名前 or 電話番号">
+                                            <input id="form_user_search" type="text" class="form-inline" placeholder = "姓名或者电话号码">
 	                                          <!-- 
 	                                          <div id = "react_user_find"></div>
 	                                          -->
-	                                          <button class ="btn btn-warning" id = "search_button">検索</button>
-	                                          <button class = "btn btn-info" id = "reservation_list_button">本日予約一覧</button>
-	                                          <button class = "btn btn-success" id = "customer_list_button">顧客一覧</button>
+	                                          <button class ="btn btn-warning" id = "search_button">搜索</button>
+	                                          <button class = "btn btn-info" id = "reservation_list_button">今天的预约名单表</button>
+	                                          <button class = "btn btn-success" id = "customer_list_button">顾客一览表</button>
 	                                       </div>
                                           
                                         </td>
@@ -213,7 +213,7 @@ var logout = (function () {
                             <td id="calender_table_right">
                               <table id = "calender">
                                 <th>
-                                  Calender
+                                  日历
                                 </th>
                                 <tr>
                                   <td>
@@ -238,7 +238,7 @@ var logout = (function () {
                             <td colspan=2>
                               <table id = "staff_schedule">
                                 <th>
-                                  Staff Schedule
+                                  发型师时间表
                                 </th>
                                 <tr>
                                   <td>

@@ -424,13 +424,13 @@ $(function(){
         return <tr><td>{service.t_menu_name}</td>
         <td>{service.t_menu_time}</td>
         <td>{service.t_menu_price}</td>
-        <td><a className="reserve">予約</a></td></tr>;
+        <td><a className="reserve">预约</a></td></tr>;
       });
       return (
         <div>
           <table>
           	<thead>
-            <tr><th>服务名称</th><th>Time</th><th>Price</th><th>予約</th></tr>
+            <tr><th>服务名称</th><th>时间</th><th>价格</th><th>预约</th></tr>
             </thead>
             <tbody>
             {service}
@@ -464,7 +464,7 @@ $(function(){
 	        <div>
 	          <table>
 	          	<thead>
-	            <tr><th>服务名称</th><th>Start</th><th>Time</th><th>Stylist</th><th>Seat</th><th>削除</th></tr>
+	            <tr><th>服务名称</th><th>开始时间</th><th>时间</th><th>专人</th><th>席位</th><th>取消</th></tr>
 	            </thead>
 	            <tbody>
 	            {service}
@@ -597,9 +597,9 @@ $(function(){
   function getGenderStr(genderId){
 	  var gender = "";
     	if(genderId==0){
-    		gender = "男性";
+    		gender = "男士";
     	}else if(genderId==1){
-    		gender = "女性";
+    		gender = "女士";
     	}
     	return gender;
   }
@@ -1158,7 +1158,7 @@ $(function(){
 	        hide: 'explode',
 	        modal: true,
 	        buttons: {
-	            '登録': function() {
+	            '登记': function() {
 	                if ( comment . val() ) {
 	               	 if(reserveId>0){
 	                	setClaimFunc(comment.val());
@@ -1249,7 +1249,7 @@ $(function(){
 	   * http://jquery.keicode.com/ui/dialog.php
 	   */
 	  autoOpen: false,
-	  title: '予約取消',
+	  title: '预约取消',
 	  closeOnEscape: false,
 	  modal: true,
 	  buttons: {

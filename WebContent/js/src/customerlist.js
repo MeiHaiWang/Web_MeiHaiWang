@@ -48,7 +48,7 @@ $(function(){
 	  	    	 */
 	        React.createElement("div", null, 
         	  React.createElement("table", null, 
-	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", {style: style1.container}, "顧客名"), React.createElement("th", null, "携帯番号"), React.createElement("th", null, "年齢層"), React.createElement("th", null, "性別"), React.createElement("th", null, "担当者"), React.createElement("th", null, "備考"), React.createElement("th", null, "来店数"), React.createElement("th", null, "消費額"), React.createElement("th", null, "予約状況")), 	
+	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", {style: style1.container}, "顾客名"), React.createElement("th", null, "电话号码"), React.createElement("th", null, "年龄层"), React.createElement("th", null, "性別"), React.createElement("th", null, "专人"), React.createElement("th", null, "记录"), React.createElement("th", null, "到店数"), React.createElement("th", null, "消費額"), React.createElement("th", null, "预约状況")), 	
 	            customer, 
 	            React.createElement("tr", null)
 	          )
@@ -68,44 +68,28 @@ $(function(){
 	
 	  // セッションIDからサービス情報を取得する
 	  var session_info = getSessionInfo();
+	  /*
 	  //パラメータ
 	  var parameter_info = getParam();
 	  //パラメータ扱いやすいようにする関数
 		function getParam() {
 		    var url   = location.href;
-		    if(url.indexOf('?')>0){
-			    parameters    = url.split("?");
-			    params   = parameters[1].split("&");
-			    var paramsArray = [];
-			    for ( i = 0; i < params.length; i++ ) {
-			        neet = params[i].split("=");
-			        paramsArray.push(neet[0]);
-			        paramsArray[neet[0]] = neet[1];
-			    }
-			    return paramsArray;
+		    parameters    = url.split("?");
+		    params   = parameters[1].split("&");
+		    var paramsArray = [];
+		    for ( i = 0; i < params.length; i++ ) {
+		        neet = params[i].split("=");
+		        paramsArray.push(neet[0]);
+		        paramsArray[neet[0]] = neet[1];
 		    }
+		    return paramsArray;
 		}
-	  var target = null;
-	  if(parameter_info!=null){
-		  target = parameter_info["target"];
-	  }
-	  var searchFlag = true;
-	  if(target!=null){
-		  //パラメータでtargetが渡されたら顧客検索
-		  //検索してひっかかった顧客情報だけを表示する
-		  //targetは名前or電話番号
-		  console.log("target is "+ target);
-		  searchFlag = true;
-	  }else{
-		  //targetが指定されなければ顧客一覧を表示
-		  searchFlag = false;
-	  }
-
-	  //顧客情報一覧をサーブレットから取得
+		*/
+	  //var date = parameter_info["date"];
 	  var customer_list = getCustomerList({
 		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
 	  });
-	  //データをcListに格納し、性別情報を書き換え
+	  
 	  var cList = customer_list.user_lists;
 	  if(cList.length>0){
 		  (function(){
@@ -117,34 +101,10 @@ $(function(){
 				  }
 			  }
 		  })();
-		  //console.log("customerList number: "+cList.length);
-		  //顧客検索の場合は、顧客target情報を探す
-		  if(searchFlag){
-			  var tList = [];
-			  for(var i=0;i<cList.length;i++){
-				  if(cList[i].t_user_name == target){
-					  tList.push(cList[i]);
-				  }
-				  if(cList[i].t_user_phoneNumber == target){
-					  tList.push(cList[i]);
-					  break;
-				  }
-			  }
-			  if(tList.length>0){
-				  //コンポーネントにデータを反映
-				  component_customer_list.setState({customer_list: tList}); 
-			  }else{
-				  alert("No result.");
-			  }
-		  }else{
-			  //コンポーネントにデータを反映
-			  component_customer_list.setState({customer_list: cList}); 
-		  }
+		  console.log("customerList number: "+cList.length);
+		  component_customer_list.setState({customer_list: cList}); 
+//		  console.log(customer_list.user_lists.length);
+//		  component_customer_list.setState({customer_list: customer_list.user_lists}); 
 	  }	  
 
-	  //前回ボタンをクリック
-	  $('#previous').on('click', function() {
-	  });
-
-	  
 });
