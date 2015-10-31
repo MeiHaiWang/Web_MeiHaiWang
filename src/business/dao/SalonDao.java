@@ -1191,15 +1191,21 @@ public class SalonDao {
 						HairSalonInfo oneSalon = salonInfoList.get(i);
 						reviewIdList = oneSalon.getSalonReviewIdList()!= null ?
 								Arrays.asList(oneSalon.getSalonReviewIdList()) : new ArrayList<String>();
-						double reviewPoint = 0.0;
 						int reviewNumber = 0;
+						double reviewPoint = 0.0;
 						for(String reviewId : reviewIdList){
 							String review_sql=review_sql1+reviewId+review_sql2;
 							//debug
 							System.out.println(review_sql);
 							ResultSet rsReview = statement.executeQuery(review_sql);
 							while(rsReview.next()){
-								reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+								//reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+								/**TODO:
+								 *  reviewPointを5項目に拡張予定.
+								 *  5つに対して、レビューポイントを追加？
+								 */
+								//reviewPoint += rsReview.getString("t_review_evaluation_point");
+								//口コミ数
 								reviewNumber++;
 							}
 						}
