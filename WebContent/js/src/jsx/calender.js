@@ -219,14 +219,17 @@ $(function(){
 	    			//console.log("施術時間:"+oneOpTime);
 	    			var t_to = moment(reservationList[j].t_reservation_date).add("hours",oneOpTime);
 	    			//console.log(t_from.valueOf()+","+t_to.valueOf());
+	    			var barcolor = "ganttOrange";
+	    			if(reservationList[j].t_reservation_isFinished>0){barcolor = "ganttRed";}
 	        	    valueList[i].push(
 	        	    		{
 	        					from: "/Date("+t_from.valueOf()+")/",
 	        					to: "/Date("+t_to.valueOf()+")/",
 	        					label: reservationList[j].t_menu_name,
-	        					customClass: "ganttRed",
+	        					customClass: barcolor,
 	        					dataObj: reservationList[j].t_reservation_id
 	        				});
+	        	    //ganttBrown
     			}
     		}
     	}

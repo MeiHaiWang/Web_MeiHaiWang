@@ -1251,11 +1251,13 @@ $(function(){
   // 来店ボタン押下時
   $('#come').on('click', function() {
 	  finishReservation(1);
+      location.href="calender.html";
   });
 
   // 取り消しボタン押下時
   $('#cancel').on('click', function() {
 	  $('#cancel_dialog').dialog('open');
+      location.href="calender.html";
   });
   $('#cancel_dialog').dialog({
 	  /*
