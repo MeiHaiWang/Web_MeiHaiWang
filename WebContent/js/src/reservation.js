@@ -930,6 +930,7 @@ $(function(){
 	    var end = getEndTime(component_reservation_start.state.t_reservation_start, total_time);
 	    reservation_start_time = component_reservation_start.state.t_reservation_start;
 	    reservation_menu_start_time = end;
+	    //console.log("reservation_start_time:"+reservation_start_time+",reservation_menu_start_time:"+reservation_menu_start_time);
 	    component_reservation_end.setState({t_reservation_end: end});
     }
     component_service_list2.setState({"service_list2": reserve_menu_list});
@@ -941,11 +942,23 @@ $(function(){
     //console.log("d_id:"+id);
     for(var i=0; i<reserve_menu_list.length; i++){
         if(reserve_menu_list[i].t_menu_menuId == component_service_list2.state.service_list2[id].t_menu_menuId){
-        	console.log(reserve_menu_list[i].t_menu_name+","+component_service_list2.state.service_list2[id].t_menu_price);
+        	//console.log(reserve_menu_list[i].t_menu_name+","+component_service_list2.state.service_list2[id].t_menu_price);
     	    total_price = total_price-Number(component_service_list2.state.service_list2[id].t_menu_price);
     	    total_time = total_time-Number(component_service_list2.state.service_list2[id].t_menu_time);
         	reserve_menu_list.splice(i, 1);
         }
+    }
+    //表示時間を削除された分ひいて表示し直す
+    if(reserve_menu_list.length>0){
+    	reserve_menu_list[0].t_menu_start=reservation_start_time;
+		//console.log("reserve_menu_list[0]:"+reserve_menu_list[0].t_menu_start);
+	    for(var i=1; i<reserve_menu_list.length; i++){
+	    	reserve_menu_list[i].t_menu_start=getEndTime(reserve_menu_list[i-1].t_menu_start, reserve_menu_list[i-1].t_menu_time);
+	    	//console.log("reserve_menu_list[i]:"+reserve_menu_list[i].t_menu_start);
+	    }
+	    reservation_menu_start_time=getEndTime(reserve_menu_list[reserve_menu_list.length-1].t_menu_start,
+	    		reserve_menu_list[reserve_menu_list.length-1].t_menu_time);
+	    component_reservation_end.setState({t_reservation_end: reservation_menu_start_time});
     }
     component_service_list2.setState({"service_list2": reserve_menu_list});
   });

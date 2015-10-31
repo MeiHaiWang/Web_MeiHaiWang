@@ -1,6 +1,7 @@
 $(function(){
 	var ButtonToolbar = ReactBootstrap.ButtonToolbar;
 	var Button = ReactBootstrap.Button;
+	var Label = ReactBootstrap.Label;
 	var CustomerList = React.createClass({displayName: "CustomerList",
 	    getDefaultProps:function() {
 	        return {
@@ -34,10 +35,8 @@ $(function(){
 	        React.createElement("td", null, customer.salon_traffic), 
 	        React.createElement("td", null, customer.total_payment), 
 	        React.createElement("td", null, 
-	        React.createElement(ButtonToolbar, null, 
-	        React.createElement(Button, {className: "previous"}, "前回"), 
-	        React.createElement(Button, {className: "next"}, "次回")
-	        )
+	        React.createElement(Label, {bsStyle: "success"}, "前回：", customer.t_reservation_previous), 
+	        React.createElement(Label, {bsStyle: "danger"}, "次回：", customer.t_reservation_next)
 	        )
 	        );
 	      });
@@ -87,7 +86,7 @@ $(function(){
 		*/
 	  //var date = parameter_info["date"];
 	  var customer_list = getCustomerList({
-		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
+		 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
 	  });
 	  
 	  var cList = customer_list.user_lists;
@@ -95,9 +94,9 @@ $(function(){
 		  (function(){
 			  for(var i=0;i<cList.length;i++){
 				  if(cList[i].t_user_gender==0){
-					  cList[i].t_user_gender="男性";
+					  cList[i].t_user_gender="男士";
 				  }else if(cList[i].t_user_gender==1){
-					  cList[i].t_user_gender="女性";
+					  cList[i].t_user_gender="女士";
 				  }
 			  }
 		  })();

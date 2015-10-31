@@ -25,6 +25,8 @@ public class UserInfo {
 	private String LatestCutMemo;
 	private int SalonTraffic; //来店回数
 	private double TotalPayment;
+	private String previousDate="";
+	private String nextDate ="";
 	
 	public UserInfo(){
 		
@@ -150,6 +152,20 @@ public class UserInfo {
 	
 	public int getUserAge(){
 		return UserAge;
+	}
+
+	public void setReservationPreviousDate(String previousDate) {
+		this.previousDate = previousDate != null ? previousDate : "";
+	}
+	public String getReservationPreviousDate(){
+		return previousDate;
+	}
+
+	public void setReservationNextDate(String nextDate) {
+		this.nextDate = nextDate != null ? nextDate : "";
+	}
+	public String getReservationNextDate(){
+		return nextDate ;
 	}
 
 }

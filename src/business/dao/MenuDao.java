@@ -401,7 +401,7 @@ public class MenuDao {
 		
 		for(String menuId : menuIdList){
 			try {
-				if(menuId.indexOf("R")<0){
+				if(menuId.indexOf("R")<0 && !menuId.equals("")){
 					//debug
 					System.out.println(sql1+menuId);
 					ResultSet rs = statement.executeQuery(sql1 + menuId);

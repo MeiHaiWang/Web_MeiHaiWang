@@ -38,7 +38,9 @@ import common.util.DBConnection;
 	   t_stylist_name,
 	   t_reservation_memo,
 	   salon_traffic,
-	   total_payment
+	   total_payment,
+	   t_reservation_previous,
+   	   t_reservation_next
 	　},
 	  {}
 	]
@@ -103,10 +105,10 @@ public class GetCustomerListService {
 				for(int i=1; i<=reservationInfoList.size(); i++){
 					lastReservationInfo = reservationInfoList.get(reservationInfoList.size()-i);
 					//debug
-					System.out.println("lR1:"+lastReservationInfo.getReservationId());
+					//System.out.println("lR1:"+lastReservationInfo.getReservationId());
 					if(lastReservationInfo.getisFinished()==1){
 						//debug
-						System.out.println("lR2:"+lastReservationInfo.getReservationId());
+						//System.out.println("lR2:"+lastReservationInfo.getReservationId());
 						lastReservationStylistName = lastReservationInfo.getReservationStylistName();
 						lastReservationMemo = lastReservationInfo.getReservationMemo();
 						break;
@@ -119,6 +121,24 @@ public class GetCustomerListService {
 					menuIdList = Arrays.asList(ri.getReservationMenuId().split(","));
 					totalPayment += menuDao.getMenuCost(dbConnection, menuIdList);
 				}
+				
+				//前回来店日時、次回来店日時を取得
+				String previousDate ="";
+				String nextDate = "";
+				for(ReservationInfo ri: reservationInfoList){
+					System.out.println(ri.getisFinished()+","+ri.getReservationDate());
+					if(ri.getisFinished()>0){
+						previousDate = ri.getReservationDate().substring(0,10);
+						break;
+					}
+				}
+				for(ReservationInfo ri: reservationInfoList){
+					if(ri.getisFinished()==0){
+						nextDate = ri.getReservationDate().substring(0,10);
+						break;
+					}
+				}
+				
 				//UserInfoにデータを格納
 				UserInfo userInfo = new UserInfo();
 				userInfo = userDao.getUserInfo(dbConnection, userId);							
@@ -126,6 +146,8 @@ public class GetCustomerListService {
 				userInfo.setLatestCutMemo(lastReservationMemo);
 				userInfo.setSalonTraffic(salonTraffic);
 				userInfo.setTotalPayment(totalPayment);
+				userInfo.setReservationPreviousDate(previousDate);
+				userInfo.setReservationNextDate(nextDate);
 				userInfoList.add(userInfo);
 			}
 		}else{
@@ -180,6 +202,8 @@ public class GetCustomerListService {
 			jsonOneData.put("t_reservation_memo", userInfo.getLatestCutMemo());
 			jsonOneData.put("salon_traffic", userInfo.getSalonTraffic());
 			jsonOneData.put("total_payment", userInfo.getTotalPayment());
+			jsonOneData.put("t_reservation_previous", userInfo.getReservationPreviousDate());
+			jsonOneData.put("t_reservation_next", userInfo.getReservationNextDate());
 			jsonArray.add(jsonOneData);
 		}
 		jsonObject.put("user_lists", jsonArray);

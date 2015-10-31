@@ -1,6 +1,7 @@
 $(function(){
 	var ButtonToolbar = ReactBootstrap.ButtonToolbar;
 	var Button = ReactBootstrap.Button;
+	var Label = ReactBootstrap.Label;
 	var CustomerList = React.createClass({
 	    getDefaultProps() {
 	        return {
@@ -34,10 +35,8 @@ $(function(){
 	        <td>{customer.salon_traffic}</td>
 	        <td>{customer.total_payment}</td>
 	        <td>
-	        <ButtonToolbar>
-	        <Button className="previous">前回</Button>
-	        <Button className="next">次回</Button>
-	        </ButtonToolbar>
+	        <Label bsStyle="success">前回：{customer.t_reservation_previous}</Label>
+	        <Label bsStyle="danger">次回：{customer.t_reservation_next}</Label>
 	        </td>
 	        </tr>;
 	      });
@@ -87,7 +86,7 @@ $(function(){
 		*/
 	  //var date = parameter_info["date"];
 	  var customer_list = getCustomerList({
-		　 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
+		 t_reservation_salonId : session_info.t_hairSalonMaster_salonId
 	  });
 	  
 	  var cList = customer_list.user_lists;
@@ -95,9 +94,9 @@ $(function(){
 		  (function(){
 			  for(var i=0;i<cList.length;i++){
 				  if(cList[i].t_user_gender==0){
-					  cList[i].t_user_gender="男性";
+					  cList[i].t_user_gender="男士";
 				  }else if(cList[i].t_user_gender==1){
-					  cList[i].t_user_gender="女性";
+					  cList[i].t_user_gender="女士";
 				  }
 			  }
 		  })();
