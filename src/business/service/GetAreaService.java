@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import business.dao.AreaDao;
 import common.constant.Constant;
 import common.model.AreaInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetAreaService {
@@ -23,18 +24,19 @@ public class GetAreaService {
 		 */
         int responseStatus = HttpServletResponse.SC_OK;
 
+        /*
         //area-Id
         int areaId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
 		 // areaIdがパラメータ。なかったら-1を入れておく。
         System.out.println("area id:"+areaId);
-        /*
-        //area-Id
-        int areaId = request.getHeader("id")!= null
-        		?Integer.parseInt(request.getHeader("id")) : -1;
-		 // areaIdがパラメータ。なかったら-1を入れておく。
-        System.out.println("area id:"+areaId);
-         */
+        */
+	    String areaIdStr = request.getParameter("id")!= null
+	    		?request.getParameter("id") : null;
+	    int areaId = -1;
+	    if(areaIdStr!=null && CommonUtil.isNum(areaIdStr)){
+	    	areaId = Integer.parseInt(areaIdStr);
+	    }
         
         try{
 			DBConnection dbConnection = new DBConnection();

@@ -65,7 +65,7 @@ public class CouponDao {
 	 */
 	public String getCouponId(DBConnection dbConnection, Integer salonId) throws SQLException{
 		String sql= "SELECT `t_hairSalonMaster_couponId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` =" + salonId.toString();
-		String couponIds="";
+		String couponIds=null;
 		Statement statement = dbConnection.getStatement();
 		try {
 			ResultSet rs = statement.executeQuery(sql);

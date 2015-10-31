@@ -43,8 +43,16 @@ public class GetSearchSalonService {
 	if(areaIdList.isEmpty()||areaIdList.get(0)==""){
 		areaIdList.add("");
 	}
+	String[] searchConditionListStr = request.getParameterValues("condition") != null ?
+			request.getParameterValues("condition") : null;
+			/*
 	List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
 			Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+			*/
+	List<String> searchConditionIdList = new ArrayList<String>();
+	if(searchConditionListStr!=null){
+		searchConditionIdList.addAll(Arrays.asList(searchConditionListStr));
+	}
 	if(searchConditionIdList.isEmpty()||searchConditionIdList.get(0)==""){
 		searchConditionIdList.add("");
 	}

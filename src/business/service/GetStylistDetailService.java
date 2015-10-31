@@ -12,6 +12,7 @@ import business.dao.RecommendDao;
 import business.dao.StylistDao;
 import common.constant.Constant;
 import common.model.StylistInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetStylistDetailService {
@@ -23,8 +24,17 @@ public class GetStylistDetailService {
 
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+
+        /*
         int stylistId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
+        		*/
+	    String stylistIdStr = request.getParameter("id")!= null
+	    		?request.getParameter("id") : "-1";
+	    int stylistId = -1;
+	    if(stylistIdStr!=null && CommonUtil.isNum(stylistIdStr)){
+	    	stylistId = Integer.parseInt(stylistIdStr);
+	    }
         
 		try{
 			DBConnection dbConnection = new DBConnection();

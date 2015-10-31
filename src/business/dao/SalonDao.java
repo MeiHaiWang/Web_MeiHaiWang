@@ -140,7 +140,14 @@ public class SalonDao {
 			for(String reviewId : reviewIdList){
 				ResultSet rsReview = statement.executeQuery(sql2 +reviewId + sql3);
 				while(rsReview.next()){
-					reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+					List<String> reviewPointList = new ArrayList<String>();
+					reviewPointList = Arrays.asList(rsReview.getString("t_review_evaluation_point").split(","));
+					for(String rp : reviewPointList){
+						reviewPoint += Double.parseDouble(rp);
+					}
+					reviewPoint = reviewPoint/5; //５項目の評価の平均をとる
+					//reviewPoint += rsReview.getDouble("t_review_evaluation_point");
+					//口コミ数
 					reviewNumber++;
 				}
 			}
@@ -1190,7 +1197,7 @@ public class SalonDao {
 					for(int i=0;i<salonInfoList.size();i++){
 						HairSalonInfo oneSalon = salonInfoList.get(i);
 						reviewIdList = oneSalon.getSalonReviewIdList()!= null ?
-								Arrays.asList(oneSalon.getSalonReviewIdList()) : new ArrayList<String>();
+								Arrays.asList(oneSalon.getSalonReviewIdList().split(",")) : new ArrayList<String>();
 						int reviewNumber = 0;
 						double reviewPoint = 0.0;
 						for(String reviewId : reviewIdList){
@@ -1199,11 +1206,6 @@ public class SalonDao {
 							System.out.println(review_sql);
 							ResultSet rsReview = statement.executeQuery(review_sql);
 							while(rsReview.next()){
-								//reviewPoint += rsReview.getDouble("t_review_evaluation_point");
-								/**TODO:
-								 *  reviewPointを5項目に拡張予定.
-								 *  5つに対して、レビューポイントを追加？
-								 */
 								//reviewPoint += rsReview.getString("t_review_evaluation_point");
 								//口コミ数
 								reviewNumber++;

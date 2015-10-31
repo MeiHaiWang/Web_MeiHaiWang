@@ -22,6 +22,14 @@ public class CommonUtil {
     	return age;
 	}
 
-	
+	/* 数値かどうか判定する */
+	public static boolean isNum(String number) {
+	    try {
+	        Integer.parseInt(number);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	} 
 	
 }

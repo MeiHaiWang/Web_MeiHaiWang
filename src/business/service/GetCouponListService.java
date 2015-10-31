@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import business.dao.CouponDao;
 import common.constant.Constant;
 import common.model.CouponInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetCouponListService {
@@ -19,8 +20,17 @@ public class GetCouponListService {
 			HttpServletResponse response) {
 
 		int responseStatus = HttpServletResponse.SC_OK;
+		/*
 		int salonId = request.getParameter(Constant.ID) != null ?
 		Integer.parseInt(request.getParameter(Constant.ID)) : -1;
+		*/
+	    String salonIdStr = request.getParameter(Constant.ID)!= null
+	    		?request.getParameter(Constant.ID) : null;
+	    int salonId = -1;
+	    if(salonIdStr!=null && CommonUtil.isNum(salonIdStr)){
+	    	salonId = Integer.parseInt(salonIdStr);
+	    }
+
         
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -30,7 +40,9 @@ public class GetCouponListService {
 			if(conn!=null){
 				CouponDao couponDao = new CouponDao();
 				String couponIdList = couponDao.getCouponId(dbConnection, salonId);
-				infoList = couponDao.getCouponInfo(dbConnection, couponIdList,salonId);
+				if(couponIdList!=null){
+					infoList = couponDao.getCouponInfo(dbConnection, couponIdList,salonId);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

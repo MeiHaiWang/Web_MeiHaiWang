@@ -14,6 +14,7 @@ import business.dao.ConditionDao;
 import business.dao.MenuDao;
 import common.constant.Constant;
 import common.model.MenuInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class SetHairStyleConditionService {
@@ -24,8 +25,17 @@ public class SetHairStyleConditionService {
         int responseStatus = HttpServletResponse.SC_OK;
         HttpSession session = request.getSession(false);
 
+	    String hairStyleIdStr = request.getParameter("id")!= null
+	    		?request.getParameter("id") : null;
+	    int hairStyleId = -1;
+	    if(hairStyleIdStr!=null && CommonUtil.isNum(hairStyleIdStr)){
+	    	hairStyleId = Integer.parseInt(hairStyleIdStr);
+	    }
+
+        /*
 		int hairStyleId = request.getParameter("id") != null ?
 				Integer.parseInt(request.getParameter("id")) : null;
+				*/
 		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	

@@ -20,6 +20,7 @@ import common.model.BeautyNewsInfo;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.model.HairSalonInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetSalonDetailService {
@@ -27,10 +28,16 @@ public class GetSalonDetailService {
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-        int salonId = request.getParameter("id")!= null
-        		?Integer.parseInt(request.getParameter("id")) : -1;
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
+        
+	    String salonIdStr = request.getParameter("id")!= null
+	    		?request.getParameter("id") : "-1";
+	    int salonId = -1;
+	    if(salonIdStr!=null && CommonUtil.isNum(salonIdStr)){
+	    	salonId = Integer.parseInt(salonIdStr);
+	    }
+
         		
 		try{
 			DBConnection dbConnection = new DBConnection();

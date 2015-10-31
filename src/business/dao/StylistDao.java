@@ -20,6 +20,7 @@ import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.StylistInfo;
 import common.model.UserInfo;
+import common.util.CommonUtil;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
@@ -267,9 +268,9 @@ public class StylistDao {
 			    		searchCondFlag = true;
 			    	}else{
 			    		searchCondFlag = false;
+			    		break;
 			    	}
 			    }
-			    //if(searchConditionIdList.get(0).equals("")) searchCondFlag = true;
 			    
 			    for(String id :areaIdList ){
 			    	if(areaList.contains(id)){
@@ -279,7 +280,6 @@ public class StylistDao {
 			    		break;
 			    	}
 			    }
-			    //if(areaIdList.get(0).equals("")) areaFlag = true;
 			    
 			    if(salonId == stylistSalonId){
 			    	//debug
@@ -974,8 +974,15 @@ public class StylistDao {
 		 * 
 		*/
 		
+		if(!CommonUtil.isNum(stylistId)){
+			return result;
+		}
+		
 		String tags="";
 		for(String tag:tagList){
+			if(!CommonUtil.isNum(tag)){
+				return result;
+			}
 			tags += tag+",";
 		}
 		tags = tags.substring(0,tags.length()-1);

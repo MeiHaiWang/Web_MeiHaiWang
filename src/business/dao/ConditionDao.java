@@ -138,7 +138,7 @@ public class ConditionDao {
 		 * 
 		 */
 		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET `t_hairStyle_searchConditionId` = '"
-				+ searchConditionIdList + "' WHERE `t_hairstyle`.`t_hairStyle_id` = "+hairStyleId+";";
+				+ searchConditionIdList + "' WHERE `t_hairStyle`.`t_hairStyle_id` = "+hairStyleId+";";
 
 		//debug
 		System.out.println(sql);

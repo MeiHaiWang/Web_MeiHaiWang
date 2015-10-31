@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetSalonMapService {
@@ -18,9 +19,12 @@ public class GetSalonMapService {
 		int userId = request.getHeader(Constant.HEADER_USERID) != null ?
 				Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
 		
-        int salonId = request.getParameter("id")!= null
-        		?Integer.parseInt(request.getParameter("id")) : -1;
-        
+        String salonIdStr = request.getParameter("id")!= null
+        		?request.getParameter("id") : "-1";
+        int salonId = -1;
+        if(salonIdStr!=null && CommonUtil.isNum(salonIdStr)){
+        	salonId = Integer.parseInt(salonIdStr);
+        }
         		
         int responseStatus = HttpServletResponse.SC_OK;
 		try{
@@ -35,6 +39,7 @@ public class GetSalonMapService {
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 				throw new Exception("DabaBase Connect Error");
 			}
+			
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 			JSONObject jsonOneData = new JSONObject();

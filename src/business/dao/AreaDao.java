@@ -23,8 +23,10 @@ public class AreaDao {
 	 */
 	public List<AreaInfo> getAreaInfo(DBConnection dbConnection, int areaId) throws SQLException{
 		String sql_1 = "SELECT `t_area_areaId`, `t_area_areaName`, `t_area_isDetailFlag` "
-				+ "FROM `t_masterArea` WHERE t_area_level=0";
+				+ "FROM `t_masterArea` WHERE t_area_parentAreaId=0";
 		/*
+		String sql_1 = "SELECT `t_area_areaId`, `t_area_areaName`, `t_area_isDetailFlag` "
+				+ "FROM `t_masterArea` WHERE t_area_level=0";
 		String sql_2 = "SELECT `t_area_areaId`, `t_area_areaName`, `t_area_isDetailFlag` "
 				+ "FROM `t_masterArea` WHERE t_area_areaId="+AreaId;
 				*/

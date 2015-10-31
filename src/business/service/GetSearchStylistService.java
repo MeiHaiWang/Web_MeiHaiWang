@@ -16,6 +16,7 @@ import business.dao.StylistDao;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.model.StylistInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetSearchStylistService {
@@ -43,8 +44,16 @@ public class GetSearchStylistService {
 			Integer.valueOf(request.getParameter("onePageNum").toString()) : Constant.ONE_PAGE_NUM;
 	*/
 	
+    String salonIdStr = request.getParameter("shopId")!= null
+    		?request.getParameter("shopId") : "-1";
+    int salonId = -1;
+    if(salonIdStr!=null && CommonUtil.isNum(salonIdStr)){
+    	salonId = Integer.parseInt(salonIdStr);
+    }
+    /*
 	int salonId = request.getParameter("shopId") != null ?
 			Integer.valueOf(request.getParameter("shopId").toString()) : -1;
+			*/
 
 			/*
 	//test用パラメータ
