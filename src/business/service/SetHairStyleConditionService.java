@@ -36,12 +36,12 @@ public class SetHairStyleConditionService {
 		int hairStyleId = request.getParameter("id") != null ?
 				Integer.parseInt(request.getParameter("id")) : null;
 				*/
-		/*
-		List<String> searchConditionIdList = request.getParameter("condition") != null ?
-				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-		*/
+		List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
+				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+	    /*
 		String searchConditionIdList = request.getParameter("condition") != null ?
 				request.getParameter("condition").toString() : null;
+				*/
 				
 		try{
 			DBConnection dbConnection = new DBConnection();

@@ -12,6 +12,7 @@ import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
 import common.model.ConditionTypeInfo;
+import common.util.CommonUtil;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
@@ -132,24 +133,56 @@ public class ConditionDao {
 	}
 
 	public int setHairStyleCondition(DBConnection dbConnection,
-			int hairStyleId, String searchConditionIdList) {
+			int hairStyleId, List<String> searchConditionIdList) {
 
 		/**
-		 * 
+		 * ヘアスタイルの検索条件を追加するAPI
+		 * 現在の検索条件を取得し、異なるIDだけを追加する
 		 */
-		String sql = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET `t_hairStyle_searchConditionId` = '"
-				+ searchConditionIdList + "' WHERE `t_hairStyle`.`t_hairStyle_id` = "+hairStyleId+";";
-
-		//debug
-		System.out.println(sql);
+		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET `t_hairStyle_searchConditionId` = '";
+		String sql2 = "' WHERE `t_hairStyle`.`t_hairStyle_id` = "+hairStyleId+";";
+		String searchsql = "SELECT `t_hairStyle_searchConditionId` FROM `t_hairStyle` WHERE `t_hairStyle_id` = "+hairStyleId;
+		int result_int = -1;
 
 		Statement statement = dbConnection.getStatement();
-		int result_int = -1;
 		try {
+			String condIdStr = null;
+			List<String> condIdList = new ArrayList<String>();
+			ResultSet rs = statement.executeQuery(searchsql);
+			// debug
+			System.out.println(searchsql);
+			while (rs.next()) {
+				condIdStr = rs.getString("t_hairStyle_searchConditionId");
+			}
+			if(condIdStr!=null){
+				condIdList = Arrays.asList(condIdStr.split(","));
+			}
+			
+			String searchConditionIdListStr = "";
+			if(searchConditionIdList.size()>0){
+				for(String id : searchConditionIdList){
+					if(!condIdList.contains(id) && CommonUtil.isNum(id)){
+						searchConditionIdListStr += id + ",";
+					}
+				}
+				if(searchConditionIdListStr.length()>0){
+					searchConditionIdListStr = searchConditionIdListStr.substring(0,searchConditionIdListStr.length()-1);
+				}
+			}
+			
+			if(condIdStr!=null && searchConditionIdListStr.length()>0){
+				searchConditionIdListStr = condIdStr + ","+ searchConditionIdListStr;
+			}else{
+				searchConditionIdListStr = condIdStr;
+			}
+			String sql = sql1 + searchConditionIdListStr + sql2;
+			//debug
+			System.out.println(sql);
 			result_int = statement.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
+
 		return result_int;
 	}
 
