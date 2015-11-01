@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class SetStylistConditionService {
@@ -24,7 +25,7 @@ public class SetStylistConditionService {
 		String stylistIdstr = request.getParameter("id") != null ?
 				request.getParameter("id") : null;
 		int stylistId = -1;
-		if(stylistIdstr!=null){
+		if(stylistIdstr!=null && CommonUtil.isNum(stylistIdstr)){
 			stylistId = Integer.parseInt(stylistIdstr);
 		}
 		/*

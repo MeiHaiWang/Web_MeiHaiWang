@@ -167,6 +167,8 @@ public class ConditionDao {
 				}
 				if(searchConditionIdListStr.length()>0){
 					searchConditionIdListStr = searchConditionIdListStr.substring(0,searchConditionIdListStr.length()-1);
+				}else{
+					//return result_int;
 				}
 			}
 			
@@ -224,7 +226,7 @@ public class ConditionDao {
 			List<String> existIdList = Arrays.asList(conditionlist.split(","));
 			List<String> addIdList = Arrays.asList(searchConditionIdList.split(","));
 			for(String a: addIdList){
-				if(!existIdList.contains(a)){
+				if(!existIdList.contains(a) && CommonUtil.isNum(a)){
 					addlist+=a+",";
 				}
 			}

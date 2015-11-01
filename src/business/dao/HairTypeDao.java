@@ -176,6 +176,7 @@ public class HairTypeDao {
 				    		searchCondFlag = true;
 				    	}else{
 				    		searchCondFlag = false;
+				    		break;
 				    	}
 				    }
 				    //debug
@@ -341,6 +342,7 @@ public class HairTypeDao {
 				    		searchCondFlag = true;
 				    	}else{
 				    		searchCondFlag = false;
+				    		break;
 				    	}
 				    }
 				    if(searchCondFlag)  retHairStyleIdList.add(hairStyleId);

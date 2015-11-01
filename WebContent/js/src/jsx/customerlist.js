@@ -47,7 +47,7 @@ $(function(){
 	  	    	 */
 	        <div>
         	  <table>
-	            <tr><th>No.</th><th style={style1.container}>顾客名</th><th>电话号码</th><th>年龄层</th><th>性別</th><th>专人</th><th>记录</th><th>到店数</th><th>消費額</th><th>预约状況</th></tr>	
+	            <tr><th>No.</th><th style={style1.container}>顾客名</th><th>电话号码</th><th>年龄层</th><th>性別</th><th>专人</th><th>记录</th><th>到店数</th><th>消费额</th><th>预约情况</th></tr>	
 	            {customer}
 	            <tr></tr>
 	          </table>

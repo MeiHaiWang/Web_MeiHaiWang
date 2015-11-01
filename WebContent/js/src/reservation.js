@@ -630,7 +630,7 @@ $(function(){
 	  //categoryに休憩・休暇を追加
 	  category.push({
           t_menuCategory_categoryId:"R",
-          t_menuCategory_name:"休憩"
+          t_menuCategory_name:"休息"
         });
 	  //メニューリストを取得
 	  var menu_list = getMenuInfo({t_hairSalonMaster_salonId : session_info.t_hairSalonMaster_salonId});
@@ -638,12 +638,12 @@ $(function(){
 	  //メニューリストに休憩・休暇を追加
 	  menu_list.menu.push({
           t_menu_menuId:"R1",
-          t_menu_name:"休憩",
+          t_menu_name:"休息",
           t_menu_time: "60"
         });
 	  menu_list.menu.push({
           t_menu_menuId:"R2",
-          t_menu_name:"休暇",
+          t_menu_name:"休假",
           t_menu_time:"ALLDAY"  
         });
 	  var menus = new Array();
@@ -990,7 +990,7 @@ $(function(){
 	  //予約メニューなしでは登録できない
 	  if(ms.length<=0){
 		  console.log("予約メニューが選択されていません.");
-		  alert("予約メニューが選択されていません.");
+		  alert("菜单没有选择");
 		  return;
 	  }
 	  //休憩以外でユーザ情報が入力されていないと登録できない
@@ -1000,7 +1000,7 @@ $(function(){
 		  if(component_reservation_user_name.state.t_user_name==""
 			  || component_reservation_user_tel.state.t_user_tel==""){
 			  console.log("ユーザ情報の入力が足りません.");
-			  alert("ユーザ情報の入力が足りません.");
+			  alert("预约信息不够");
 			  return;
 		  }
 	  }
@@ -1066,7 +1066,7 @@ $(function(){
 			  var result = checkConflict(oneSt, oneEt, cSt, cEt);
 			  if(result){
 				  console.log("予約時間が競合しています. : 競合予約時刻（"+oneSt+"〜"+oneEt+")");
-				  alert("予約時間が競合しています. : 競合予約時刻（"+oneSt+"〜"+oneEt+")");
+				  alert("预约重复 : 重复预约时间（"+oneSt+"〜"+oneEt+")");
 				  return;
 			  }else{
 				  //console.log("競合していません.");
@@ -1176,13 +1176,13 @@ $(function(){
 	               	 if(reserveId>0){
 	                	setClaimFunc(comment.val());
 	               	 }else{
-	               		 alert('予約情報が取得できません.');
+	               		 alert('无法查到预约信息');
 	               	 }
 	                	$( this ).dialog( 'close' );
 	                }
 	                $( this ) . dialog( 'close' );
 	            },
-	            'キャンセル': function() {
+	            '取消': function() {
 	                $( this ) . dialog( 'close' );
 	            },
 	        }
@@ -1225,7 +1225,7 @@ $(function(){
   //予約終了関数呼び出し
   function finishReservation(flag){
 	  if(reserveId < 0){
-		  alert('予約情報が把握できません.');
+		  alert('无法查到预约信息');
 		  return;
 	  }
 	  
@@ -1241,7 +1241,8 @@ $(function(){
 	    var result = setReservationFinish(data);
 	    if (result.result == "true") {
 	      alert('Regist Success');
-	      window.location.reload();
+	      //window.location.reload();
+	      location.href="calender.html";
 	    }
 	    else {
 	      alert('Regist Failed');
@@ -1257,7 +1258,6 @@ $(function(){
   // 取り消しボタン押下時
   $('#cancel').on('click', function() {
 	  $('#cancel_dialog').dialog('open');
-      location.href="calender.html";
   });
   $('#cancel_dialog').dialog({
 	  /*
@@ -1268,11 +1268,11 @@ $(function(){
 	  closeOnEscape: false,
 	  modal: true,
 	  buttons: {
-	    "連絡あり": function(){
+	    "有联系": function(){
 	    	finishReservation(2);
 	      $(this).dialog('close');
 	    },
-	  "連絡なし": function(){
+	  "没有联系": function(){
 		  finishReservation(3);
 	      $(this).dialog('close');
 	    }

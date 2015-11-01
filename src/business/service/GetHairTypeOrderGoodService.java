@@ -18,6 +18,7 @@ import common.model.AreaInfo;
 import common.model.HairStyleInfo;
 import common.model.HairTypeInfo;
 import common.model.StylistInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
 public class GetHairTypeOrderGoodService {
@@ -28,8 +29,13 @@ public class GetHairTypeOrderGoodService {
 		HttpSession session = request.getSession();
 
 		//パラメータ取得
-        int stylistId = request.getParameter("stylistID")!= null
-           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
+	    String stylistIdStr = request.getParameter("stylistID")!= null
+	    		?request.getParameter("stylistID") : null;
+	    int stylistId = -1;
+	    if(stylistIdStr!=null && CommonUtil.isNum(stylistIdStr)){
+	    	stylistId = Integer.parseInt(stylistIdStr);
+	    }
+
    		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	

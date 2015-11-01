@@ -36,7 +36,7 @@ $(function(){
 	      return (
 	        React.createElement("div", null, 
 	            React.createElement("table", null, 
-	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "预约日时"), React.createElement("th", null, "顾客名"), React.createElement("th", null, "性別"), React.createElement("th", null, "专人名"), React.createElement("th", null, "服务名称"), React.createElement("th", null, "席位"), React.createElement("th", null, "记录")), 	
+	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", null, "预约时间"), React.createElement("th", null, "顾客姓名"), React.createElement("th", null, "性別"), React.createElement("th", null, "发型师姓名"), React.createElement("th", null, "服务名称"), React.createElement("th", null, "席位"), React.createElement("th", null, "记录")), 	
 	            reservation
 	            )
 	        )

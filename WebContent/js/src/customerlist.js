@@ -47,7 +47,7 @@ $(function(){
 	  	    	 */
 	        React.createElement("div", null, 
         	  React.createElement("table", null, 
-	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", {style: style1.container}, "顾客名"), React.createElement("th", null, "电话号码"), React.createElement("th", null, "年龄层"), React.createElement("th", null, "性別"), React.createElement("th", null, "专人"), React.createElement("th", null, "记录"), React.createElement("th", null, "到店数"), React.createElement("th", null, "消費額"), React.createElement("th", null, "预约状況")), 	
+	            React.createElement("tr", null, React.createElement("th", null, "No."), React.createElement("th", {style: style1.container}, "顾客名"), React.createElement("th", null, "电话号码"), React.createElement("th", null, "年龄层"), React.createElement("th", null, "性別"), React.createElement("th", null, "专人"), React.createElement("th", null, "记录"), React.createElement("th", null, "到店数"), React.createElement("th", null, "消费额"), React.createElement("th", null, "预约情况")), 	
 	            customer, 
 	            React.createElement("tr", null)
 	          )

@@ -26,7 +26,7 @@ public class GetHairTypeCategoryService {
 		
         int responseStatus = HttpServletResponse.SC_OK;
         String gender = request.getParameter("gender")!= null
-        		?request.getParameter("gender") : "";
+        		?request.getParameter("gender") : null;
 		 //gender=0 　性別フラグ　0=男性、1=女性
         /*
 		try{
@@ -86,10 +86,12 @@ public class GetHairTypeCategoryService {
 						conditionType = gender;
 					}
 					*/
-					if(Integer.parseInt(gender)==0){
-						conditionType=ConfigUtil.getConfig("conditiontype_men");//"男性用ヘアスタイル検索条件";
-					}else{
-						conditionType=ConfigUtil.getConfig("conditiontype_women");//"女性用ヘアスタイル検索条件";
+					if(!gender.equals("")){
+						if(Integer.parseInt(gender)==0){
+							conditionType=ConfigUtil.getConfig("conditiontype_men");//"男性用ヘアスタイル検索条件";
+						}else{
+							conditionType=ConfigUtil.getConfig("conditiontype_women");//"女性用ヘアスタイル検索条件";
+						}
 					}
 					//debug
 					System.out.println("conditionType:"+conditionType);

@@ -116,11 +116,11 @@ $(function(){
 			  //当日に予約がなかったら.
 			console.log("reservation.html?time="+oneDay+"&stylistId=1");
 			if(checkAfterDate(oneDay)){
-				alert("予約がありません.");
+				alert("没有预约");
 		        //location.href = "reservation.html?time="+oneDay+"&stylistId=1";
 				design_gantt(oneDay);
 			}else{
-				alert("予約がありません.　本日より以前の日にちです.");
+				alert("没有预约　(以前的日期)");
 				design_gantt(oneDay);
 			}
 		  }else{
