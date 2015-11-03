@@ -92,7 +92,7 @@ public class SalonDao extends BaseDao{
 		return result;
 	}
 
-	public SalonInfo getSalonObject(DBConnection dbConnection, int id) throws SQLException{
+	public HairSalonInfo getSalonObject(DBConnection dbConnection, int id) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
 		sql.append(Constant.SPACE);
@@ -111,41 +111,43 @@ public class SalonDao extends BaseDao{
 		sql.append(id);
 		
 		Statement statement = dbConnection.getStatement();
-		SalonInfo stylistInfo = null;
+		HairSalonInfo salonInfo = null;
 
 		try {			
 			ResultSet rs = statement.executeQuery(sql.toString());
 			logger.debug(sql.toString());
 			
 			while(rs.next()){
-				stylistInfo = new SalonInfo();
-				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setName(rs.getString("t_stylist_name"));
-				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
-				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
-				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
-				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
-				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
-				stylistInfo.setMail(rs.getString("t_stylist_mail"));
-				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
-				stylistInfo.setPosition(rs.getString("t_stylist_position"));
-				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
-				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
-				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
-				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
-				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
+				String t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+				List<String> reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
+						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+				salonInfo.setWordOfMonth(reviewIdList.size());
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfo;
+		return salonInfo;
 	}
 	
-	public SalonInfo getSalonObjectByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+	public HairSalonInfo getSalonObjectByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
 		sql.append(Constant.SPACE);
@@ -167,39 +169,42 @@ public class SalonDao extends BaseDao{
 		
 		Statement statement = dbConnection.getStatement();
 		ResultSet rs = null;
-		SalonInfo stylistInfo = null;
+		HairSalonInfo salonInfo = null;
 		try {			
 			rs = statement.executeQuery(sql.toString());
 			logger.debug(sql.toString());
 			
 			while(rs.next()){
-				stylistInfo = new SalonInfo();
-				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setName(rs.getString("t_stylist_name"));
-				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
-				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
-				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
-				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
-				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
-				stylistInfo.setMail(rs.getString("t_stylist_mail"));
-				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
-				stylistInfo.setPosition(rs.getString("t_stylist_position"));
-				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
-				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
-				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
-				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
-				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
+				String t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+				List<String> reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
+						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+				salonInfo.setWordOfMonth(reviewIdList.size());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfo;
+		return salonInfo;
 	}
 	
-	public List<SalonInfo> getSalonObjectListByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+	public List<HairSalonInfo> getSalonObjectListByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
 		sql.append(Constant.SPACE);
@@ -221,41 +226,43 @@ public class SalonDao extends BaseDao{
 		
 		Statement statement = dbConnection.getStatement();
 		ResultSet rs = null;
-		List<SalonInfo> stylistInfoList = new ArrayList<SalonInfo>();
+		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		try {			
 			rs = statement.executeQuery(sql.toString());
 			logger.debug(sql.toString());
 			
 			while(rs.next()){
-				SalonInfo stylistInfo = new SalonInfo();
-				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setName(rs.getString("t_stylist_name"));
-				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
-				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
-				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
-				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
-				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
-				stylistInfo.setMail(rs.getString("t_stylist_mail"));
-				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
-				stylistInfo.setPosition(rs.getString("t_stylist_position"));
-				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
-				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
-				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
-				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
-				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
-				stylistInfoList.add(stylistInfo);
+				HairSalonInfo salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
+				String t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+				List<String> reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
+						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+				salonInfo.setWordOfMonth(reviewIdList.size());
+				salonInfoList.add(salonInfo);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfoList;
+		return salonInfoList;
 	}
 	
-	public SalonInfo getSalonObjectByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+	public HairSalonInfo getSalonObjectByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
 		sql.append(Constant.SPACE);
@@ -298,39 +305,42 @@ public class SalonDao extends BaseDao{
 
 		Statement statement = dbConnection.getStatement();
 		ResultSet rs = null;
-		SalonInfo stylistInfo = null;
+		HairSalonInfo salonInfo = null;
 		try {			
 			rs = statement.executeQuery(sql.toString());
 			logger.debug(sql.toString());
 			
 			while(rs.next()){
-				stylistInfo = new SalonInfo();
-				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setName(rs.getString("t_stylist_name"));
-				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
-				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
-				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
-				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
-				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
-				stylistInfo.setMail(rs.getString("t_stylist_mail"));
-				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
-				stylistInfo.setPosition(rs.getString("t_stylist_position"));
-				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
-				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
-				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
-				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
-				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+				salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
+				String t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+				List<String> reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
+						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+				salonInfo.setWordOfMonth(reviewIdList.size());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfo;
+		return salonInfo;
 	}
 	
-	public List<SalonInfo> getSalonObjectListByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+	public List<HairSalonInfo> getSalonObjectListByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
 		sql.append(Constant.SPACE);
@@ -373,40 +383,44 @@ public class SalonDao extends BaseDao{
 
 		Statement statement = dbConnection.getStatement();
 		ResultSet rs = null;
-		List<SalonInfo> stylistInfoList = new ArrayList<SalonInfo>();
+		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		try {			
 			rs = statement.executeQuery(sql.toString());
 			logger.debug(sql.toString());
 			
 			while(rs.next()){
-				SalonInfo stylistInfo = new StylistInfo();
-				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
-				stylistInfo.setName(rs.getString("t_stylist_name"));
-				stylistInfo.setStylistGender(rs.getInt("t_stylist_sex"));
-				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
-				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
-				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
-				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
-				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
-				stylistInfo.setMail(rs.getString("t_stylist_mail"));
-				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
-				stylistInfo.setPosition(rs.getString("t_stylist_position"));
-				stylistInfo.setStylistYears(rs.getInt("t_stylist_experienceYear"));
-				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
-				stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
-				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
-				stylistInfo.setStylistSearchConditionId(rs.getString("t_stylist_searchConditionId"));
-				stylistInfoList.add(stylistInfo);
+				HairSalonInfo salonInfo = new HairSalonInfo();
+				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
+				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
+				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
+				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
+				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
+				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
+				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
+				salonInfo.setSalonCreditAvailable(rs.getInt("t_hairSalonMaster_creditAvailable"));
+				salonInfo.setSalonCarParkAvailable(rs.getInt("t_hairSalonMaster_carParkAvailable"));
+				String t_area_areaId = rs.getString("t_hairSalonMaster_areaId");
+				salonInfo.setSalonAreaId(t_area_areaId);
+				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
+				salonInfo.setSalonSearchConditionId(rs.getString("t_hairSalonMaster_searchConditionId"));
+				int japaneseAvailable = 0;
+				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = 1;
+				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
+				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
+				salonInfoList.add(salonInfo);
+				List<String> reviewIdList = rs.getString("t_hairSalonMaster_reviewId") != null ?
+						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
+				salonInfo.setWordOfMonth(reviewIdList.size());
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return stylistInfoList;
+		return salonInfoList;
 	}
 	
+	////////////
 	
 	
 	public boolean registSalonOnDisable(HairSalonInfo salonInfo,DBConnection dbConnection){
