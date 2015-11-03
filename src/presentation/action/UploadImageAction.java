@@ -46,8 +46,8 @@ uploadImage
  *
  */
 
-@WebServlet(name="UploadImageServlet",urlPatterns={"/api/:version/uploadImage"})
-@MultipartConfig(location="/tmp/files", maxFileSize=1000000, maxRequestSize=1000000, fileSizeThreshold=1000000)
+//@WebServlet(name="UploadImageServlet",urlPatterns={"/api/:version/uploadImage"})
+//@MultipartConfig(location="/tmp/files", maxFileSize=1000000, maxRequestSize=1000000, fileSizeThreshold=1000000)
 public class UploadImageAction extends HttpServlet {
 	
 	/**
@@ -116,7 +116,7 @@ public class UploadImageAction extends HttpServlet {
         ServletContext servletContext = this.getServletConfig().getServletContext();
 		//service excute
 		UploadImageService service = new UploadImageService();
-		service.excuteService(request, response, servletContext);
+		service.excuteService(request, response);
 
 	}	
 }

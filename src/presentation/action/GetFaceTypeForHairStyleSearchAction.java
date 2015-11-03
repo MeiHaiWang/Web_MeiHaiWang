@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetConditionForStylistSearchService;
 import business.service.GetFaceTypeForHairStyleSearchService;
 
-@WebServlet(name="GetFaceTypeForHairStyleSearch",urlPatterns={"/api/:version/hair_search/face_shape"})
+///s@WebServlet(name="GetFaceTypeForHairStyleSearch",urlPatterns={"/api/:version/hair_search/face_shape"})
 public class GetFaceTypeForHairStyleSearchAction extends HttpServlet{
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetFaceTypeForHairStyleSearchAction extends HttpServlet{
 		
 		//service excute
 		GetFaceTypeForHairStyleSearchService service = new GetFaceTypeForHairStyleSearchService();
-		service.excuteService(request, response);
+		//service.excuteService(request, response);
 	    
 	}	
 	

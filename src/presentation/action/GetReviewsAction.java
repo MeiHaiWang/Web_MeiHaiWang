@@ -14,7 +14,7 @@ import business.service.GetAreaService;
 import business.service.GetReviewsService;
 
 
-@WebServlet(name="GetReviewsServlet",urlPatterns={"/api/:version/reviews"})
+///@WebServlet(name="GetReviewsServlet",urlPatterns={"/api/:version/reviews"})
 public class GetReviewsAction extends HttpServlet{
 
 	/**

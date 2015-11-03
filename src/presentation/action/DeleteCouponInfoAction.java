@@ -13,7 +13,7 @@ import business.service.DeleteCouponInfoService;
 import business.service.DeleteMenuInfoService;
 
 
-@WebServlet(name="DeleteCouponInfoServlet",urlPatterns={"/api/:version/deleteCouponInfo"})
+//@WebServlet(name="DeleteCouponInfoServlet",urlPatterns={"/api/:version/deleteCouponInfo"})
 public class DeleteCouponInfoAction extends HttpServlet {
 
 	/**

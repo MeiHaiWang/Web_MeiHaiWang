@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import business.service.GetStylistDetailService;
 
-@WebServlet(name="GetStylistDetailServlet",urlPatterns={"/api/:version/stylist_detail"})
+///@WebServlet(name="GetStylistDetailServlet",urlPatterns={"/api/:version/stylist_detail"})
 public class GetStylistDetailAction  extends HttpServlet {
 
 	/**

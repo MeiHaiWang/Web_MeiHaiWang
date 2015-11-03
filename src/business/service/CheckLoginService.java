@@ -30,7 +30,7 @@ import common.util.EncryptUtil;
 	出力：{ result:ログイン成否 } 
  */
 
-public class CheckLoginService {
+public class CheckLoginService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

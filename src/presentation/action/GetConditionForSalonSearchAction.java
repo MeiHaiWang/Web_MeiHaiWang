@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetConditionForSalonSearchService;
 import business.service.GetHairStyleDetailService;
 
-@WebServlet(name="GetConditionForSalonSearch",urlPatterns={"/api/:version/salon_search/conditions"})
+//@WebServlet(name="GetConditionForSalonSearch",urlPatterns={"/api/:version/salon_search/conditions"})
 public class GetConditionForSalonSearchAction extends HttpServlet{
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetConditionForSalonSearchAction extends HttpServlet{
 		
 		//service excute
 		GetConditionForSalonSearchService service = new GetConditionForSalonSearchService();
-		service.excuteService(request, response);
+		//service.excuteService(request, response);
 	    
 
 	}	

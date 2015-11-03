@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetCouponInfoService;
 import business.service.SetMenuInfoService;
 
-@WebServlet(name="SetCouponInfoServlet",urlPatterns={"/api/:version/setCouponInfo"})
+//@WebServlet(name="SetCouponInfoServlet",urlPatterns={"/api/:version/setCouponInfo"})
 public class SetCouponInfoAction extends HttpServlet {
 
 	/**

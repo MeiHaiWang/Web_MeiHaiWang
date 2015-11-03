@@ -25,7 +25,7 @@ import common.util.DBConnection;
     UPDATE `MEIHAIWAN_TEST`.`t_hairSalonMaster` SET `t_hairSalonMaster_mapUrl` = 'mapUrl', `t_hairSalonMaster_mapImagePath` = 'image' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 7;
  */
 
-public class SetMapInfoService {
+public class SetMapInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

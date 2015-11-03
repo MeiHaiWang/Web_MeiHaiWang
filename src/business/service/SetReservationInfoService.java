@@ -36,7 +36,7 @@ import common.util.DBConnection;
 
  */
 
-public class SetReservationInfoService {
+public class SetReservationInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

@@ -15,7 +15,7 @@ import common.model.StylistInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetStylistDetailService {
+public class GetStylistDetailService implements IServiceExcuter {
 
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -43,7 +43,8 @@ public class GetStylistDetailService {
 			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 			if(conn!=null){
 				StylistDao stylistDao = new StylistDao();
-				stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+				stylistInfo = stylistDao.getStylistObject(dbConnection, stylistId);
 				stylistInfoList.add(stylistInfo);
 				RecommendDao recomendDao = new RecommendDao();
 				//ユーザがお気に入りしているかどうかを設定する
@@ -57,9 +58,9 @@ public class GetStylistDetailService {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("id", stylistInfoList.get(0).getStylistId());
+			jsonOneData.put("id", stylistInfoList.get(0).getObjectId());
 			jsonOneData.put("shopID", stylistInfoList.get(0).getSalonId());
-			jsonOneData.put("name", stylistInfoList.get(0).getStylistName());
+			jsonOneData.put("name", stylistInfoList.get(0).getName());
 			jsonOneData.put("gender", stylistInfoList.get(0).getStylistGender());
 	    	int i = 0;
 	    	for(String str : stylistInfoList.get(0).getStylistImagePath()){

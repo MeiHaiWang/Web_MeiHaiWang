@@ -18,11 +18,13 @@ import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common.constant.TableConstant;
 import common.model.StylistInfo;
 import common.model.UserInfo;
+import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class SetStaffCodnitionService {
+public class SetStaffConditionService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -57,13 +59,27 @@ public class SetStaffCodnitionService {
 			
 			JSONObject jsonObject = new JSONObject();
 			StylistDao stylistDao = new StylistDao();
+			String tags="";
+			for(String tag:tagList){
+				if(!CommonUtil.isNum(tag)){
+					continue;
+				}
+				tags += tag+",";
+			}
+			tags = tags.substring(0,tags.length()-1);
 			if(stylistId!=null && !tagList.isEmpty()){
 				if(conn!=null){
+					StylistInfo info = new StylistInfo();
+					info.setObjectId(Integer.parseInt(stylistId));
+					int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_CONDITIONID, tags, info);
+					if(result_int > 0) result = true;
+						/*
 						result  = stylistDao.setStylistCondition(
 								dbConnection,
 								stylistId,
 								tagList
 								);
+						*/
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

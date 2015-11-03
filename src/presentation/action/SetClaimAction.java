@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetClaimService;
 import business.service.SetCouponInfoService;
 
-@WebServlet(name="SetClaimServlet",urlPatterns={"/api/:version/setClaim"})
+//@WebServlet(name="SetClaimServlet",urlPatterns={"/api/:version/setClaim"})
 public class SetClaimAction extends HttpServlet {
 
 	/**

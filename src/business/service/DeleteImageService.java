@@ -14,7 +14,7 @@ import common.constant.Constant;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class DeleteImageService {
+public class DeleteImageService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

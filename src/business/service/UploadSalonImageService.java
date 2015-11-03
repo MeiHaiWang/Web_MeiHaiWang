@@ -39,11 +39,10 @@ import common.util.DBConnection;
 import common.util.PropertiesManager;
 import common.util.ResizeImage;
 
-public class UploadSalonImageService {
+public class UploadSalonImageService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
-			HttpServletResponse response,
-			ServletContext servletContext){
+			HttpServletResponse response){
 		
 		/**
 		 * Declaration values

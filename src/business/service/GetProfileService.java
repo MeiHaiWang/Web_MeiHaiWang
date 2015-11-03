@@ -19,7 +19,7 @@ import common.model.ReservationInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class GetProfileService {
+public class GetProfileService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -37,7 +37,7 @@ public class GetProfileService {
 			
 			if(conn!=null){
 				UserDao userDao = new UserDao();
-				userInfo = userDao.getUserProfileInfo(dbConnection, userId);
+				userInfo = userDao.getUserObject(dbConnection, userId);
 
 				dbConnection.close();
 			}else{
@@ -59,7 +59,7 @@ public class GetProfileService {
 			JSONArray myPageArray = new JSONArray();
 	    	JSONObject jsonOneData = new JSONObject();
 	    	jsonObject.put("isstylist", userInfo.getUserIsStylist());
-	    	jsonObject.put("name", userInfo.getUserName());
+	    	jsonObject.put("name", userInfo.getName());
 	    	jsonObject.put("image", userInfo.getUserImagePath());
 	    	Date oneDate = userInfo.getUserBirth();
 	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日");

@@ -1,6 +1,10 @@
 package business.dao;
 
 import java.sql.ResultSet;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -18,23 +22,393 @@ import java.util.Map.Entry;
 import net.sf.json.JSONObject;
 
 import com.mysql.fabric.xmlrpc.base.Array;
-import com.sun.media.jfxmedia.logging.Logger;
 
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
 import common.model.HairSalonInfo;
+import common.model.IBaseInfo;
 import common.model.StylistInfo;
 import common.model.UserInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
-public class SalonDao {
-	
+public class SalonDao extends BaseDao{
+	private static Logger logger = LogManager.getLogger();
+
 	public SalonDao(){
-		
 	}
+	
+	public int getSalonIntData(DBConnection dbConnection ,String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
+		return getIntValue(dbConnection, Constant.TABLE_SALON, targetColumnName, sourceColumnName, sourceColumnValue );
+	}
+	public String getSalonStringData(DBConnection dbConnection , String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
+		return getStringValue(dbConnection, Constant.TABLE_SALON, targetColumnName, sourceColumnName, sourceColumnValue);
+	}
+	public int getSalonIntData(DBConnection dbConnection, String columnName, IBaseInfo info) throws SQLException{
+		return getIntValue(dbConnection, Constant.TABLE_SALON, columnName, TableConstant.COLUMN_SALON_ID, info);
+	}
+	public int setSalonIntData(DBConnection dbConnection , String columnName, int targetColumValue, IBaseInfo info) throws SQLException{
+		return setIntValue(dbConnection, Constant.TABLE_SALON, columnName,  targetColumValue, TableConstant.COLUMN_SALON_ID, info);
+	}
+	public String getSalonStringData(DBConnection dbConnection , String columnName,  IBaseInfo info) throws SQLException{
+		return getStringValue(dbConnection, Constant.TABLE_SALON, columnName, TableConstant.COLUMN_SALON_ID, info);
+	}
+	public int setSalonStringData(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		return setStringValue(dbConnection, Constant.TABLE_SALON, targetColumnName, value, TableConstant.COLUMN_SALON_ID, info);
+	}
+	public int appendId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		int result = -1;
+		String data = getSalonStringData(dbConnection, targetColumnName, info);
+		if(data!=null){
+			data = data + ", "+ value;
+			result = setSalonStringData(dbConnection, targetColumnName, data, info);
+		}else{
+			result = setSalonStringData(dbConnection, targetColumnName, value, info);
+		}
+		return result;
+	}
+	public int removeId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		int result = -1;
+		String idlist = getSalonStringData(dbConnection, targetColumnName, info);
+		if(idlist!=null){
+			List<String> idList = Arrays.asList(idlist.split(","));
+			String retIdlist = "";
+			int index=0;
+			for(String id: idList){
+				if(id.equals(value)) continue;
+				if(index==0){
+					retIdlist += id;
+					index++;
+				}else{
+					retIdlist += ","+id;
+					index++;
+				}
+			}
+			result = setSalonStringData(dbConnection, targetColumnName, retIdlist, info);
+		}
+		return result;
+	}
+
+	public SalonInfo getSalonObject(DBConnection dbConnection, int id) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_SALON);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(TableConstant.COLUMN_SALON_ID);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(id);
+		
+		Statement statement = dbConnection.getStatement();
+		SalonInfo stylistInfo = null;
+
+		try {			
+			ResultSet rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				stylistInfo = new SalonInfo();
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
+				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
+				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+				stylistInfo.setMail(rs.getString("t_stylist_mail"));
+				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+				stylistInfo.setPosition(rs.getString("t_stylist_position"));
+				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfo;
+	}
+	
+	public SalonInfo getSalonObjectByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_SALON);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(culumnName);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.SINGLEQ);
+		sql.append(value);
+		sql.append(Constant.SINGLEQ);
+		
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		SalonInfo stylistInfo = null;
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				stylistInfo = new SalonInfo();
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
+				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
+				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+				stylistInfo.setMail(rs.getString("t_stylist_mail"));
+				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+				stylistInfo.setPosition(rs.getString("t_stylist_position"));
+				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfo;
+	}
+	
+	public List<SalonInfo> getSalonObjectListByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_SALON);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(culumnName);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.SINGLEQ);
+		sql.append(value);
+		sql.append(Constant.SINGLEQ);
+		
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		List<SalonInfo> stylistInfoList = new ArrayList<SalonInfo>();
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				SalonInfo stylistInfo = new SalonInfo();
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
+				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
+				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+				stylistInfo.setMail(rs.getString("t_stylist_mail"));
+				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+				stylistInfo.setPosition(rs.getString("t_stylist_position"));
+				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+				stylistInfoList.add(stylistInfo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfoList;
+	}
+	
+	public SalonInfo getSalonObjectByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_SALON);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		int index = 0;
+		for(Map.Entry<String, String> entry : sourceData.entrySet()) {
+			//System.out.println(entry.getKey() + " => " + entry.getValue());
+			if(index==0){
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				sql.append(Constant.SPACE);
+				sql.append(Constant.AND);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		SalonInfo stylistInfo = null;
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				stylistInfo = new SalonInfo();
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
+				stylistInfo.setSalonGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setSalonImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
+				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+				stylistInfo.setMail(rs.getString("t_stylist_mail"));
+				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+				stylistInfo.setPosition(rs.getString("t_stylist_position"));
+				stylistInfo.setSalonYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+				stylistInfo.setSalonMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+				stylistInfo.setSalonSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfo;
+	}
+	
+	public List<SalonInfo> getSalonObjectListByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_SALON);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		int index = 0;
+		for(Map.Entry<String, String> entry : sourceData.entrySet()) {
+			//System.out.println(entry.getKey() + " => " + entry.getValue());
+			if(index==0){
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				sql.append(Constant.SPACE);
+				sql.append(Constant.AND);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		List<SalonInfo> stylistInfoList = new ArrayList<SalonInfo>();
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				SalonInfo stylistInfo = new StylistInfo();
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
+				stylistInfo.setStylistGender(rs.getInt("t_stylist_sex"));
+				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
+				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
+				stylistInfo.setIsNetReservation(rs.getInt("t_stylist_isNetReservation"));
+				stylistInfo.setUserId(rs.getInt("t_stylist_userId"));
+				stylistInfo.setPhoneNumber(rs.getString("t_stylist_phoneNumber"));
+				stylistInfo.setMail(rs.getString("t_stylist_mail"));
+				stylistInfo.setBirth(rs.getDate("t_stylist_birth"));
+				stylistInfo.setPosition(rs.getString("t_stylist_position"));
+				stylistInfo.setStylistYears(rs.getInt("t_stylist_experienceYear"));
+				stylistInfo.setSpecialMenu(rs.getString("t_stylist_SpecialMenu"));
+				stylistInfo.setStylistMessage(rs.getString("t_stylist_message"));
+				stylistInfo.setMenuId(rs.getString("t_stylist_menuId"));
+				stylistInfo.setStylistSearchConditionId(rs.getString("t_stylist_searchConditionId"));
+				stylistInfoList.add(stylistInfo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return stylistInfoList;
+	}
+	
+	
+	
 	public boolean registSalonOnDisable(HairSalonInfo salonInfo,DBConnection dbConnection){
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` ("
 				+ "`t_hairSalonMaster_contactUserName`, `t_hairSalonMaster_name`, `t_hairSalonMaster_areaId`, `t_hairSalonMaster_address`, "

@@ -16,7 +16,7 @@ import business.service.DeleteStaffMenuService;
  * DELETE FROM `MEIHAIWAN_TEST`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = 13
  */
 
-@WebServlet(name="DeleteStaffInfoServlet",urlPatterns={"/api/:version/deleteStaffInfo"})
+//@WebServlet(name="DeleteStaffInfoServlet",urlPatterns={"/api/:version/deleteStaffInfo"})
 public class DeleteStaffInfoAction extends HttpServlet {
 
 	/**

@@ -2,7 +2,7 @@ package common.model;
 
 import java.util.Date;
 
-public class CommentInfo {
+public class CommentInfo extends BaseInfo implements IBaseInfo{
 	private int CommentId = Integer.MIN_VALUE;
 	private int CommentUserId = Integer.MIN_VALUE;
 	private String CommentMessage="";

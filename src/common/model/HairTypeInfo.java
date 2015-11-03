@@ -6,7 +6,7 @@ package common.model;
  * ID, name, sex, image
  */
 
-public class HairTypeInfo {
+public class HairTypeInfo extends BaseInfo implements IBaseInfo{
 	private int hairTypeId = Integer.MIN_VALUE;
 	private String hairTypeName ="";
 	private String hairTypeImagePath="";

@@ -17,7 +17,7 @@ import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
 
 public class GetMenuForHairStyleSearchService {
-	@SuppressWarnings({ "unchecked", "unused" })
+	//@SuppressWarnings({ "unchecked", "unused" })
 	
 	/**
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
@@ -27,7 +27,7 @@ public class GetMenuForHairStyleSearchService {
 	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
 
 	 */
-	
+	/*
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -87,5 +87,6 @@ public class GetMenuForHairStyleSearchService {
 		response.setStatus(responseStatus);
 		return response;
 	}
+	*/
 
 }

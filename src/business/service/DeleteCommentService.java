@@ -16,7 +16,7 @@ import business.dao.SalonDao;
 import common.constant.Constant;
 import common.util.DBConnection;
 
-public class DeleteCommentService {
+public class DeleteCommentService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

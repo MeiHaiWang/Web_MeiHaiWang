@@ -82,6 +82,8 @@ public class SMScertificationAction extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+
+		/*
 		String keyStr = "azu93fzzei93084jnnekamel2asdfghj";
 		final byte[] key = keyStr.getBytes("UTF-8");
 		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
@@ -93,7 +95,10 @@ public class SMScertificationAction extends HttpServlet {
 		byte[] epwIv = Base64.decode(request.getParameter("epwIv"));
 		System.out.println(request.getParameter("etelIv"));
 		System.out.println(request.getParameter("epwIv"));
+		*/
+		
 		try {
+			/*
 			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
 			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
 			System.out.println(telIv);
@@ -102,9 +107,12 @@ public class SMScertificationAction extends HttpServlet {
 			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes("UTF-8"), epw));
 			//MEMO 暫定で登録する
 			//TODO SMS認証サービスを使用してワンタイムキーを返却する
+			 * 
+			 */
 			SMScertificationService service = new SMScertificationService();
-			service.excuteService(request, response, tel, pw);
-			
+			service.excuteService(request, response);
+//			service.excuteService(request, response, tel, pw);
+/*			
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 			writeResponseError(response,e);
@@ -122,7 +130,7 @@ public class SMScertificationAction extends HttpServlet {
 			writeResponseError(response,e);
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
-			writeResponseError(response,e);
+			writeResponseError(response,e);*/
 		} catch (Exception e){
 			e.printStackTrace();
 			writeResponseError(response,e);

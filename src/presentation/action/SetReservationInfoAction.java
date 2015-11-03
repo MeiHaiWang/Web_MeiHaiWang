@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetMenuInfoService;
 import business.service.SetReservationInfoService;
 
-@WebServlet(name="SetReservationInfoServlet",urlPatterns={"/api/:version/setReservationInfo"})
+//@WebServlet(name="SetReservationInfoServlet",urlPatterns={"/api/:version/setReservationInfo"})
 public class SetReservationInfoAction extends HttpServlet {
 
 	/**

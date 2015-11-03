@@ -45,7 +45,7 @@ import common.util.DBConnection;
 
  */
 
-public class SetSalonInfoService {
+public class SetSalonInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

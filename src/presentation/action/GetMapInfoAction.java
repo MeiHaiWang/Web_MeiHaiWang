@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetMapInfoService;
 import business.service.GetMenuInfoService;
 
-@WebServlet(name="GetMapInfoServlet",urlPatterns={"/api/:version/getMapInfo"})
+//@WebServlet(name="GetMapInfoServlet",urlPatterns={"/api/:version/getMapInfo"})
 public class GetMapInfoAction extends HttpServlet {
 
 	/**

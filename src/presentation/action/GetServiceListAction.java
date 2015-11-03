@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetServiceListService;
 
-@WebServlet(name="GetServiceListServlet",urlPatterns={"/api/:version/getServiceList"})
+///z@WebServlet(name="GetServiceListServlet",urlPatterns={"/api/:version/getServiceList"})
 public class GetServiceListAction extends HttpServlet{
 
 	/**

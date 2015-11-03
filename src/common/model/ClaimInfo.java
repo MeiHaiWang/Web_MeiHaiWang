@@ -2,7 +2,7 @@ package common.model;
 
 import java.util.Date;
 
-public class ClaimInfo {
+public class ClaimInfo extends BaseInfo implements IBaseInfo{
 	/**
 	 *    t_claim_reservationId,
 		   t_claim_userId,

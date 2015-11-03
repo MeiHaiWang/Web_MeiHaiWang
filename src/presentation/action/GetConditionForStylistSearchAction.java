@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetConditionForSalonSearchService;
 import business.service.GetConditionForStylistSearchService;
 
-@WebServlet(name="GetConditionForStylistSearch",urlPatterns={"/api/:version/stylist_search/conditions"})
+///@WebServlet(name="GetConditionForStylistSearch",urlPatterns={"/api/:version/stylist_search/conditions"})
 public class GetConditionForStylistSearchAction extends HttpServlet{
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetConditionForStylistSearchAction extends HttpServlet{
 		
 		//service excute
 		GetConditionForStylistSearchService service = new GetConditionForStylistSearchService();
-		service.excuteService(request, response);
+		//service.excuteService(request, response);
 	    
 	}	
 	

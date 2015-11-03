@@ -2,7 +2,7 @@ package common.model;
 
 import java.util.Date;
 
-public class ReviewInfo {
+public class ReviewInfo extends BaseInfo implements IBaseInfo{
 	private int ReviewId = Integer.MIN_VALUE;
 	private int ReviewUserId = Integer.MIN_VALUE;
 	private String ReviewText ="";

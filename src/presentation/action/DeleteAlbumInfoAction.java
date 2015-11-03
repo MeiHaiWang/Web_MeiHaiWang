@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.DeleteAlbumInfoService;
 import business.service.SetAlbumInfoService;
 
-@WebServlet(name="DeleteAlbumInfoServlet",urlPatterns={"/api/:version/deleteAlbumInfo"})
+//@WebServlet(name="DeleteAlbumInfoServlet",urlPatterns={"/api/:version/deleteAlbumInfo"})
 public class DeleteAlbumInfoAction extends HttpServlet {
 
 	/**

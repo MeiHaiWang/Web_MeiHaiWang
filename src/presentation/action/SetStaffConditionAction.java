@@ -9,17 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.SetStaffCodnitionService;
+import business.service.SetStaffConditionService;
 
-@WebServlet(name="SetStaffConditionServlet",urlPatterns={"/api/:version/stylist_tag"})
-public class SetStaffCodnitionAction extends HttpServlet {
+//@WebServlet(name="SetStaffConditionServlet",urlPatterns={"/api/:version/stylist_tag"})
+public class SetStaffConditionAction extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public SetStaffCodnitionAction(){
+	public SetStaffConditionAction(){
 		super();
 	}
 	
@@ -52,7 +52,7 @@ public class SetStaffCodnitionAction extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		SetStaffCodnitionService service = new SetStaffCodnitionService();
+		SetStaffConditionService service = new SetStaffConditionService();
 		service.excuteService(request, response);
 	}
 
@@ -84,7 +84,7 @@ public class SetStaffCodnitionAction extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		SetStaffCodnitionService service = new SetStaffCodnitionService();
+		SetStaffConditionService service = new SetStaffConditionService();
 		service.excuteService(request, response);
 	}	
 }

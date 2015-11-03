@@ -16,7 +16,7 @@ import common.constant.Constant;
 import common.model.MenuInfo;
 import common.util.DBConnection;
 
-public class GetMenuInfoService {
+public class GetMenuInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 		
 	public HttpServletResponse excuteService(HttpServletRequest request,

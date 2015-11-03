@@ -26,7 +26,7 @@ import common.util.DBConnection;
  * salonCondを複数にした場合を未検討
  * 
  */
-public class GetSearchSalonService {
+public class GetSearchSalonService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){

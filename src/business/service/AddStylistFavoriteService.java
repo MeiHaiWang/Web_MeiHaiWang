@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.dao.UserDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
+import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class AddStylistFavoriteService {
+public class AddStylistFavoriteService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -19,8 +21,8 @@ public class AddStylistFavoriteService {
         // userIdがパラメータ。なかったら-1を入れておく。
         int userId = request.getHeader(Constant.HEADER_USERID)!= null 
         		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-        int stylistId = request.getParameter("id")!= null
-        		?Integer.parseInt(request.getParameter("id")) : -1;
+        String stylistId = request.getParameter("id")!= null
+        		?request.getParameter("id") : null;
         
         /*debug
         Enumeration headernames = request.getHeaderNames();
@@ -37,10 +39,13 @@ public class AddStylistFavoriteService {
 			java.sql.Connection conn = dbConnection.connectDB();
 			//List<UserInfo> infoList = new ArrayList<UserInfo>();
 			int status = -1;
-			if(conn!=null){
+			if(conn!=null && stylistId!=null){
 				UserDao userDao = new UserDao();
 				//infoList = userDao.getuserInfo(dbConnection, userId);
-				status = userDao.addFavoriteStylist(dbConnection, userId, stylistId);
+				//status = userDao.addFavoriteStylist(dbConnection, userId, stylistId);
+				UserInfo info = new UserInfo();
+				info.setObjectId(userId);
+				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_STYLIST, stylistId, info);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

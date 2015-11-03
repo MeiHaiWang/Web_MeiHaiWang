@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetStylistFavoriteService;
 
-@WebServlet(name="GetStylistFavoriteServlet",urlPatterns={"/api/:version/stylist_Favorite"})
+///@WebServlet(name="GetStylistFavoriteServlet",urlPatterns={"/api/:version/stylist_Favorite"})
 public class GetStylistFavoriteAction extends HttpServlet{
 	/**
 	 *

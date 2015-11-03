@@ -13,7 +13,7 @@ import business.service.DeleteStaffMenuService;
 import business.service.SetStaffMenuService;
 
 
-@WebServlet(name="DeleteStaffMenuServlet",urlPatterns={"/api/:version/deleteStaffMenu"})
+//@WebServlet(name="DeleteStaffMenuServlet",urlPatterns={"/api/:version/deleteStaffMenu"})
 public class DeleteStaffMenuAction extends HttpServlet {
 
 	/**

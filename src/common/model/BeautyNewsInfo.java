@@ -3,7 +3,7 @@ package common.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeautyNewsInfo {
+public class BeautyNewsInfo extends BaseInfo implements IBaseInfo {
 
 	private int beautyNewsId = Integer.MIN_VALUE;
 	private String beautyNewsName = "";

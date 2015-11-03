@@ -1,6 +1,6 @@
 package common.model;
 
-public class CouponKindInfo {
+public class CouponKindInfo extends BaseInfo implements IBaseInfo{
 	private int couponKindId = -1;
 	private String couponKindName = "";
 		

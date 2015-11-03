@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetReservationListService;
 
-@WebServlet(name="GetReservationListServlet",urlPatterns={"/api/:version/getReservationList"})
+///@WebServlet(name="GetReservationListServlet",urlPatterns={"/api/:version/getReservationList"})
 public class GetReservationListAcion extends HttpServlet{
 
 	/**

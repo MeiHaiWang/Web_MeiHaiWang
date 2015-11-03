@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetAreaService;
 import business.service.GetStylistListService;
 
-@WebServlet(name="GetStylistListServlet",urlPatterns={"/api/:version/getStylistList"})
+///@WebServlet(name="GetStylistListServlet",urlPatterns={"/api/:version/getStylistList"})
 public class GetStylistListAction extends HttpServlet{
 
 	/**

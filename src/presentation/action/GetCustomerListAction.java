@@ -33,7 +33,7 @@ import business.service.SetReservationInfoService;
 	]
  */
 
-@WebServlet(name="GetCustomerListServlet",urlPatterns={"/api/:version/getCustomerList"})
+///@WebServlet(name="GetCustomerListServlet",urlPatterns={"/api/:version/getCustomerList"})
 public class GetCustomerListAction extends HttpServlet {
 
 	/**

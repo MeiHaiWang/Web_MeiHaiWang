@@ -1,6 +1,6 @@
 package common.model;
 
-public class CouponInfo {
+public class CouponInfo extends BaseInfo implements IBaseInfo{
 
 	private int couponId = Integer.MIN_VALUE;
 	private int salonId = Integer.MIN_VALUE;

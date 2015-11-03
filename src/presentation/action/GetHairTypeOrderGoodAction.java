@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetHairTypeOrderGoodService;
+import business.service.GetHairStyleOrderGoodService;
 
-@WebServlet(name="GetHairTypeOrderGoodServlet",urlPatterns={"/api/:version/catalog/list/good"})
+///@WebServlet(name="GetHairTypeOrderGoodServlet",urlPatterns={"/api/:version/catalog/list/good"})
 public class GetHairTypeOrderGoodAction extends HttpServlet{
 
 	/**
@@ -71,7 +71,7 @@ public class GetHairTypeOrderGoodAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetHairTypeOrderGoodService service = new GetHairTypeOrderGoodService();
+		GetHairStyleOrderGoodService service = new GetHairStyleOrderGoodService();
 		service.excuteService(request, response);
 	    
 	}	

@@ -20,7 +20,7 @@ import common.model.HairStyleInfo;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class GetHairStyleDetailService {
+public class GetHairStyleDetailService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -38,7 +38,8 @@ public class GetHairStyleDetailService {
 				HairStyleDao hairStyleDao = new HairStyleDao();
 				hInfo = hairStyleDao.getHairStyleDetailInfo(dbConnection, cataloglistId);
 				StylistDao stylistDao = new StylistDao();
-				stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, hInfo.getStylistId());
+				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, hInfo.getStylistId());
+				stylistInfo = stylistDao.getStylistObject(dbConnection, hInfo.getStylistId());
 				AreaDao areaDao = new AreaDao();
 				List<String> areaNameList = areaDao.getAreaName(dbConnection, hInfo.getHairStyleAreaId());
 				String areaName = "";
@@ -80,7 +81,7 @@ public class GetHairStyleDetailService {
 	    	}else{
 	    		jsonOneData.put("isgood", 0);
 	    	}		    	
-	    	jsonOneData.put("stylistName", stylistInfo.getStylistName());
+	    	jsonOneData.put("stylistName", stylistInfo.getName());
 	    	jsonOneData.put("message", hInfo.getHairStyleMessage());
 	    	jsonOneData.put("area", hInfo.getHairStyleAreaName());
 	    	jsonOneData.put("good_count", hInfo.getHairStyleGoodNumber());

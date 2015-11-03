@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
@@ -28,7 +29,7 @@ import common.util.DBConnection;
     出力：{ result:レコード更新成否 }
  */
 
-public class SetStaffMenuService {
+public class SetStaffMenuService implements IServiceExcuter {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -40,11 +41,6 @@ public class SetStaffMenuService {
 				request.getParameter("t_stylist_Id").toString() : null;
 		String t_menu_t_menu_id = request.getParameter("t_menu_t_menu_id") != null ?
 				request.getParameter("t_menu_t_menu_id").toString() : null;
-
-		//debug
-		System.out.println("update menuId:"+t_menu_t_menu_id+"...:"+t_menu_t_menu_id.charAt(0));
-		if(t_menu_t_menu_id.charAt(0)==',')
-			t_menu_t_menu_id = t_menu_t_menu_id.substring(1);
 				
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -53,13 +49,22 @@ public class SetStaffMenuService {
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
 			
-			if(conn!=null){
+			if(conn!=null && t_stylist_Id!=null && t_menu_t_menu_id!=null){
+				if(t_menu_t_menu_id.charAt(0)==',')
+					t_menu_t_menu_id = t_menu_t_menu_id.substring(1);
+
 				StylistDao stylistDao = new StylistDao();
+				StylistInfo stylistInfo = new StylistInfo();
+				stylistInfo.setObjectId(Integer.parseInt(t_stylist_Id));
+				int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_MENUID, t_menu_t_menu_id, stylistInfo);
+				if(result_int>0) result = true;
+				/*
 				result = stylistDao.setStylistMenuForMaster(
 						dbConnection,
 						t_stylist_Id,
 						t_menu_t_menu_id
 						);
+						*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

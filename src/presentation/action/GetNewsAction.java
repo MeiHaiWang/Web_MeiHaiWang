@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetNewsService;
 
-@WebServlet(name="GetNewsServlet",urlPatterns={"/api/:version/news"})
+///@WebServlet(name="GetNewsServlet",urlPatterns={"/api/:version/news"})
 public class GetNewsAction extends HttpServlet{
 
 

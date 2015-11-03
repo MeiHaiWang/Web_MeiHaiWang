@@ -39,11 +39,10 @@ import common.util.DBConnection;
 import common.util.PropertiesManager;
 import common.util.ResizeImage;
 
-public class UploadImageService {
+public class UploadImageService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
-			HttpServletResponse response,
-			ServletContext servletContext){
+			HttpServletResponse response){
 		
 		/**
 		 * Declaration values
@@ -397,7 +396,6 @@ public class UploadImageService {
 	    // 完了したハッシュ計算値を返却
 	    return buffer.toString();
     }
-
 	
 }
 

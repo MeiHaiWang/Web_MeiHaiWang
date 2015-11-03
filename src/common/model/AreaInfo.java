@@ -1,6 +1,6 @@
 package common.model;
 
-public class AreaInfo {
+public class AreaInfo extends BaseInfo implements IBaseInfo{
 	private int AreaId = Integer.MIN_VALUE;
 	private String AreaName ="";
 	private int AreaLevel = Integer.MIN_VALUE;

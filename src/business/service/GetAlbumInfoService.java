@@ -20,7 +20,7 @@ import common.model.ConditionTitleInfo;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
-public class GetAlbumInfoService {
+public class GetAlbumInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,

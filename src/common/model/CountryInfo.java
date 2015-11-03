@@ -1,6 +1,6 @@
 package common.model;
 
-public class CountryInfo {
+public class CountryInfo extends BaseInfo implements IBaseInfo{
 	private int CountryId = Integer.MIN_VALUE;
 	private String CountryName ="";
 	

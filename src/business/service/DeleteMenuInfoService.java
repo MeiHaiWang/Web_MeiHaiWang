@@ -11,7 +11,7 @@ import business.dao.MenuDao;
 import common.constant.Constant;
 import common.util.DBConnection;
 
-public class DeleteMenuInfoService {
+public class DeleteMenuInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

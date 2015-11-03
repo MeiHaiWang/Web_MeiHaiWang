@@ -15,7 +15,7 @@ import business.dao.SalonDao;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
-public class GetMapInfoService {
+public class GetMapInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,

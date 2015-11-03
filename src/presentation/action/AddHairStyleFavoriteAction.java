@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.AddHairStyleFavoriteService;
 import business.service.AddSalonFavoriteService;
 
-@WebServlet(name="AddHairStyleFavoriteServlet",urlPatterns={"/api/:version/hire/good"})
+//@WebServlet(name="AddHairStyleFavoriteServlet",urlPatterns={"/api/:version/hire/good"})
 public class AddHairStyleFavoriteAction extends HttpServlet{
 	/**
 	 *

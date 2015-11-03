@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetConditionForSalonSearchService;
 import business.service.GetLikeForStylistSearchService;
 
-@WebServlet(name="GetLikeForStylistSearch",urlPatterns={"/api/:version/stylist_search/liking"})
+///@WebServlet(name="GetLikeForStylistSearch",urlPatterns={"/api/:version/stylist_search/liking"})
 public class GetLikeForStylistSearchAction extends HttpServlet{
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetLikeForStylistSearchAction extends HttpServlet{
 		
 		//service excute
 		GetLikeForStylistSearchService service = new GetLikeForStylistSearchService();
-		service.excuteService(request, response);
+		//service.excuteService(request, response);
 	    
 	}	
 }	

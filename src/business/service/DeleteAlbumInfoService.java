@@ -11,7 +11,7 @@ import business.dao.HairStyleDao;
 import common.constant.Constant;
 import common.util.DBConnection;
 
-public class DeleteAlbumInfoService {
+public class DeleteAlbumInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

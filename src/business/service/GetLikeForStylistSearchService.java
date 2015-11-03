@@ -17,7 +17,7 @@ import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
 
 public class GetLikeForStylistSearchService {
-	@SuppressWarnings({ "unchecked", "unused" })
+	//@SuppressWarnings({ "unchecked", "unused" })
 	
 	/**
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
@@ -27,7 +27,7 @@ public class GetLikeForStylistSearchService {
 	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
 
 	 */
-	
+	/*
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -87,5 +87,6 @@ public class GetLikeForStylistSearchService {
 		response.setStatus(responseStatus);
 		return response;
 	}
+	*/
 
 }

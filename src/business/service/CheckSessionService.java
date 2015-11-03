@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import presentation.action.HttpRequestEntrance;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
@@ -35,10 +39,13 @@ import common.util.DBConnection;
     }
  */
 
-public class CheckSessionService {
+public class CheckSessionService implements IServiceExcuter{
+    private static Logger logger = LogManager.getLogger();
+
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
+		logger.info("{}: Start",HttpRequestEntrance.class.getName());
 		
 		/**
 		 * Declaration values

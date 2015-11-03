@@ -16,7 +16,7 @@ import common.constant.Constant;
 import common.model.ReservationInfo;
 import common.util.DBConnection;
 
-public class GetReservationInfoService {
+public class GetReservationInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){

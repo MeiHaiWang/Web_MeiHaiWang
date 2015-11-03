@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import business.service.GetSalonMapService;
 
-@WebServlet(name="GetSalonMapServlet",urlPatterns={"/api/:version/shopMap"})
+///@WebServlet(name="GetSalonMapServlet",urlPatterns={"/api/:version/shopMap"})
 public class GetSalonMapAction extends HttpServlet {
 
 	/**

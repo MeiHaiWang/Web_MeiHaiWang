@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetSearchSalonService;
 import business.service.GetStylistHistoryService;
 
-@WebServlet(name="GetSearchSalonServlet",urlPatterns={"/api/:version/shop_list"})
+///@WebServlet(name="GetSearchSalonServlet",urlPatterns={"/api/:version/shop_list"})
 public class GetSearchSalonAction extends HttpServlet {
 
 	/**

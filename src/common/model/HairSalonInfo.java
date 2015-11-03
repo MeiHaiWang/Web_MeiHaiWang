@@ -6,7 +6,7 @@ import java.util.List;
 
 import common.util.ListUtilities;
 
-public class HairSalonInfo {
+public class HairSalonInfo extends BaseInfo implements IBaseInfo{
 
 	private int hairSalonId = Integer.MIN_VALUE;
 	private String hairSalonName ="";

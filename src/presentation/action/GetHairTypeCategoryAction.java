@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetHairStyleDetailService;
 import business.service.GetHairTypeCategoryService;
 
-@WebServlet(name="GetHairTypeCategoryServlet",urlPatterns={"/api/:version/catalog/categoly"})
+//@WebServlet(name="GetHairTypeCategoryServlet",urlPatterns={"/api/:version/catalog/categoly"})
 public class GetHairTypeCategoryAction extends HttpServlet{
 	/**
 	 *

@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Hiroki Ebina
  *
  */
+
 public interface IBaseController {
 	//TODO コントローラとして必要なインターフェースはここに追加して下さい by ebina
-	void excute(HttpServletRequest request, HttpServletResponse response) throws Exception;
+//	void excute(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.StylistInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -40,23 +44,16 @@ import common.util.DBConnection;
  *
  */
 
-public class SetStaffInfoService {
+public class SetStaffInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
+	private static Logger logger = LogManager.getLogger();
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-        /*
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		 // userIdがパラメータ。なかったら-1を入れておく。
-        //TODO テスト用
-        //userId = 1;
-         * 
-         */
-        		
   		HttpSession session = request.getSession(false);
-		String salonId_str = "";
+
+  		String salonId_str = "";
 		int salonId = -1;
 		if (session != null){
 			salonId_str = (String)session.getAttribute("t_hairSalonMaster_salonId");
@@ -102,9 +99,11 @@ public class SetStaffInfoService {
 		String t_stylist_restTime = request.getParameter("t_stylist_restTime") != null ?
 				request.getParameter("t_stylist_restTime").toString() : null;
 
-		//stylistInfo を渡したほうがきれいかも.
+		/**
+		 * stylistInfo にパラメータ情報を格納.
+		 */
 		StylistInfo stylistInfo = new StylistInfo();
-		stylistInfo.setStylistName(t_stylist_name);
+		stylistInfo.setName(t_stylist_name);
 		//stylistInfo.setStylistGender(Integer.parseInt(t_stylist_sex));
 		int sex = -1;
 		if(t_stylist_sex != ""){
@@ -144,16 +143,30 @@ public class SetStaffInfoService {
 		stylistInfo.setStylistRestDay(t_stylist_restDay);
 		stylistInfo.setStylistRestDay(t_stylist_restTime);
 		
+		/**
+		 * DB更新
+		 * スタイリスト情報の更新
+		 * ユーザ情報が登録されていれば, ユーザ情報とスタイリスト情報とを紐付け
+		 * ユーザ情報が登録されていなければ, ユーザ情報も同時に登録
+		 */
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 
+			//成功確認と返り値
 			boolean result = false;
-			int userId = -1; //registered UserId
 			int stylistId = -1;
+
+			/**
+			 * ユーザ情報が登録されていればuserIDが格納される変数
+			 */
+			int userId = -1; //registered UserId
+			
+			/**
+			 * スタイリスト情報の登録か編集かを調べるために、stylistIdをチェック
+			 */
 			if(t_stylist_Id != null){
 				//debug
-				//スタイリスト情報の登録か編集かを調べるために、stylistIdをチェック
 				System.out.println("stylistId:"+t_stylist_Id);
 				if(t_stylist_Id.length()!=0){
 					//スタイリストの編集
@@ -164,72 +177,104 @@ public class SetStaffInfoService {
 				}
 			}
 			
+			//返却用JSONオブジェクト
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null){
 				StylistDao stylistDao = new StylistDao();
 				UserDao userDao = new UserDao();
 				UserInfo userInfo = new UserInfo();
+				
+				/**
+				 * スタイリスト情報をUPDATEする場合には、既登録情報を取得
+				 * ユーザ情報をUPDATEする場合には、既登録情報を取得
+				 */
 				StylistInfo stylistPreviousInfo = new StylistInfo();
 				if(stylistId!=-1){
 					//スタイリストもユーザもすでに登録済み
 					//スタイリスト情報のUpdate+ユーザ情報のUpdate
-					stylistPreviousInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+					//stylistPreviousInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+					stylistPreviousInfo = stylistDao.getStylistObject(dbConnection, stylistId);
 					if(stylistPreviousInfo != null) userId = stylistPreviousInfo.getUserId();
 				}else{
-					//スタイリストの新規登録
+					//スタイリストの新規登録 & ユーザUPDATE?
 					if(t_stylist_phoneNumber!=""){
 						//電話番号からユーザ情報を取得->ユーザ情報は登録済みなのでUpdate
-						userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+						//userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
+						userInfo = userDao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_stylist_phoneNumber);
 						if(userInfo!=null){
-							userId = userInfo.getUserId();
+							userId = userInfo.getObjectId();
 						}
 					}else{
 						//ユーザ情報も新規登録
 					}
 				}
+				
+				/**
+				 *  まずユーザ情報をDBに更新
+				 */
 				if(userId != -1){
 					//スタイリスト+ユーザが既に登録されている場合Update
 					//debug
 					System.out.println("スタイリストがすでにユーザ登録済み"+",userId:"+userId);
 					//ユーザ情報をアップデート
-					userInfo.setUserId(userId);
+					userInfo.setObjectId(userId);
 					userInfo.setUserMail(stylistInfo.getMail());
 					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
 					userInfo.setUserIsStylist(1);
-					userInfo.setUserName(stylistInfo.getStylistName());
+					userInfo.setName(stylistInfo.getName());
 					userInfo.setUserSex(stylistInfo.getStylistGender());
 					userInfo.setUserBirth(stylistInfo.getBirth());
 					userInfo.setUserImagePath(stylistInfo.getImagePath());
-					userId = userDao.setUserAcount(dbConnection, userInfo);
+					//userId = userDao.setUserAcount(dbConnection, userInfo);
+					userId = userDao.setUserInfoUpdate(dbConnection, userInfo);
 				}else{
 					//ユーザ情報が登録されていない場合
 					userInfo = new UserInfo();
 					userInfo.setUserMail(stylistInfo.getMail());
 					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
 					userInfo.setUserIsStylist(1);
-					userInfo.setUserName(stylistInfo.getStylistName());
+					userInfo.setName(stylistInfo.getName());
 					userInfo.setUserSex(stylistInfo.getStylistGender());
 					userInfo.setUserBirth(stylistInfo.getBirth());
 					userInfo.setUserImagePath(stylistInfo.getImagePath());
 					userInfo.setUserPass("0000"); //TODO 初期パスワード
-					userId = userDao.setUserAcount(dbConnection, userInfo);
+					userId = userDao.setUserInfoInsert(dbConnection, userInfo);
 					//debug
-					System.out.println("スタイリストを新規にユーザ登録:userId="+userId);
+					logger.info("スタイリストを新規にユーザ登録:userId={}"+userId);
 				}
 				if(userId>-1){
 					SalonDao salonDao = new SalonDao();
 					String salonAreaId = salonDao.getSalonAreaId(dbConnection,salonId);
+					stylistInfo.setStylistAreaId(salonAreaId);
 					//debug
-					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getStylistName());
-					stylistId = stylistDao.setStylistInfoForMaster(
-							dbConnection,
-							salonId,
-							stylistInfo,
-							stylistId,
-							userId,
-							salonAreaId
-							);
+					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getName());
+					/**
+					 * stylistIdが0より小さい場合は新規スタイリスト登録
+					 * stylistIdが0より大きい場合はスタイリスト情報修正
+					 */
+					if(stylistId>0){
+						stylistId = stylistDao.setStylistInfoInsert(
+								dbConnection,
+								stylistInfo
+								);
+					}else{
+						stylistId = stylistDao.setStylistInfoUpdate(
+								dbConnection,
+								stylistInfo
+								);
+					}
+					/**
+					 * stylistIdをsalonテーブルに追加
+					 */
+					salonDao.setSalonInfo(dbConnection, salonId, salonInfo);
+					
+					/**
+					 * userIdをスタイリストテーブルに追加
+					 */
+					stylistInfo.setObjectId(stylistId);
+					stylistDao.setStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_USERID, userId, stylistInfo);
+					
 				}else{
 					//userId is null.
 					response = faultError(response, "Fault in Set-User-Registration."

@@ -22,7 +22,7 @@ import common.model.ConditionTitleInfo;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class GetStaffInfoService {
+public class GetStaffInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -60,7 +60,10 @@ public class GetStaffInfoService {
 				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
 				if(stylistIdList.size()>0){
 					StylistDao stylistDao = new StylistDao();
-					stylistInfoList = stylistDao.getStylistInfoForMaster(dbConnection, stylistIdList);	
+					for(int id : stylistIdList){
+						stylistInfoList.add(stylistDao.getStylistObject(dbConnection, id));
+					}
+					//stylistInfoList = stylistDao.getStylistInfoForMaster(dbConnection, stylistIdList);	
 				}
 				dbConnection.close();
 			}else{
@@ -99,8 +102,8 @@ public class GetStaffInfoService {
 		    JSONArray stylistArray = new JSONArray();
 		    for(StylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("t_stylist_Id", info.getStylistId());
-		    	jsonOneData.put("t_stylist_name", info.getStylistName());
+		    	jsonOneData.put("t_stylist_Id", info.getObjectId());
+		    	jsonOneData.put("t_stylist_name", info.getName());
 		    	jsonOneData.put("t_stylist_sex", info.getStylistGender());
 		    	jsonOneData.put("t_stylist_phoneNumber", info.getPhoneNumber());
 		    	jsonOneData.put("t_stylist_mail", info.getMail());

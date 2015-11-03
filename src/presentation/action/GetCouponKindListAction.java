@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetCouponKindListService;
 import business.service.GetCouponListService;
 
-@WebServlet(name="GetCouponKindListServlet",urlPatterns={"/api/:version/getCouponKindList"})
+///@WebServlet(name="GetCouponKindListServlet",urlPatterns={"/api/:version/getCouponKindList"})
 public class GetCouponKindListAction extends HttpServlet{
 	/**
 	 *

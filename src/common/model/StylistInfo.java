@@ -6,9 +6,9 @@ import java.util.List;
 
 import common.util.ListUtilities;
 
-public class StylistInfo {
-	private int stylistId = Integer.MIN_VALUE;
-	private String stylistName ="";
+public class StylistInfo extends BaseInfo implements IBaseInfo{
+	//private int stylistId = Integer.MIN_VALUE;
+	//private String stylistName ="";
 	private String stylistImagePath="";
 	private int salonId = Integer.MIN_VALUE;
 	private int isgood = 0;
@@ -30,11 +30,13 @@ public class StylistInfo {
 	private String restDay;
 	private String restTime;
 	private int userId = -1;
+	private String detailText="";
+	private String areaId ="";
 	
 	public StylistInfo(){
 		
 	}
-	
+	/*
 	public void setStylistId(int stylistId){
 		this.stylistId = stylistId;
 	}
@@ -42,6 +44,7 @@ public class StylistInfo {
 	public int getStylistId(){
 		return stylistId;
 	}
+	*/
 	
 	public void setStylistGender(int stylistGender){
 		this.stylistGender = stylistGender;
@@ -50,7 +53,7 @@ public class StylistInfo {
 	public int getStylistGender(){
 		return stylistGender;
 	}
-	
+	/*
 	public void setStylistName(String stylistName){
 		this.stylistName = stylistName != null ? stylistName : "";
 	}
@@ -58,6 +61,7 @@ public class StylistInfo {
 	public String getStylistName(){
 		return stylistName;
 	}
+	*/
 	
 	public void setStylistImagePath(String stylistImagePath){
 		this.stylistImagePath = stylistImagePath != null ? stylistImagePath : "";
@@ -196,6 +200,20 @@ public class StylistInfo {
 	}
 	public int getUserId() {
 		return userId;
+	}
+
+	public String getStylistDetailText() {
+		return detailText;
+	}
+	public void setStylistDetailText(String detailText){
+		this.detailText = detailText != null ? detailText : "";
+	}
+
+	public String getStylistAreaId() {
+		return areaId ;
+	}
+	public void setStylistAreaId(String salonAreaId) {
+		this.areaId = salonAreaId != null ? salonAreaId : "";
 	}
 
 }

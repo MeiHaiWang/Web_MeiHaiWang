@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetAreaService;
 import business.service.GetNewsService;
 
-@WebServlet(name="GetAreaServlet",urlPatterns={"/api/:version/area"})
+//@WebServlet(name="GetAreaServlet",urlPatterns={"/api/:version/area"})
 public class GetAreaAction extends HttpServlet{
 
 	/**

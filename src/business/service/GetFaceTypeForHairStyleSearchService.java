@@ -17,7 +17,7 @@ import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
 
 public class GetFaceTypeForHairStyleSearchService {
-	@SuppressWarnings({ "unchecked", "unused" })
+	//@SuppressWarnings({ "unchecked", "unused" })
 	
 	/**
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
@@ -28,7 +28,9 @@ public class GetFaceTypeForHairStyleSearchService {
 
 	 */
 	
+	/*
 	public HttpServletResponse excuteService(HttpServletRequest request,
+	 
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
@@ -87,5 +89,6 @@ public class GetFaceTypeForHairStyleSearchService {
 		response.setStatus(responseStatus);
 		return response;
 	}
+	*/
 
 }

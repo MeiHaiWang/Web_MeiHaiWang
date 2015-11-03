@@ -8,10 +8,14 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
+import business.dao.UserDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
+import common.model.StylistInfo;
+import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class DeleteStaffInfoService {
+public class DeleteStaffInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -58,13 +62,33 @@ public class DeleteStaffInfoService {
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
 			
-			if(conn!=null){
+			/**
+			 * TODO
+			 * ¥ 物理削除（テーブルから直接データを消す）にするか
+			 *   論理削除（disableFlag）にするか
+			 * ¥ stylistをdisableにしたらuserもdisableでいいか
+			 */
+			if(conn!=null && t_stylist_Id!=null){
 				StylistDao stylistDao = new StylistDao();
+				UserDao userDao = new UserDao();
+				StylistInfo info = new StylistInfo();
+				info.setObjectId(Integer.parseInt(t_stylist_Id));
+				int userId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_USERID, info);
+				UserInfo userInfo = new UserInfo(); 
+				userInfo.setObjectId(userId);
+				int result_int = userDao.setUserIntData(dbConnection, TableConstant.COLUMN_USER_DISABLE_FLAG, Constant.FLAG_ON, userInfo);
+				if(result_int>0) result_int = stylistDao.setStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_DISABLE_FLAG, Constant.FLAG_ON, info);
+				if(result_int>0) result_int = salonDao.removeId(dbConnection, "t_hairSalonMaster_stylistId", stylistId, salonId);
+				if(result_int>0) result_int = hairStyleDao.setHairStyleIntData(dbConnection, TableConstant.COLUMN_HAIRSTYLE_DISABLE_FLAG, Constant.FLAG_ON, hairStyleInfo);
+				if(result_int>0) result = true;
+				//result = stylistDao.DeleteStylistObject(dbConnection, t_stylist_Id);
+				/*
 				result = stylistDao.DeleteStylistInfoForMaster(
 						dbConnection,
 						t_stylist_Id,
 						salonId
 						);
+						*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

@@ -1,6 +1,9 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,44 +12,82 @@ import javax.servlet.http.HttpSession;
 import business.dao.UserDao;
 import net.sf.json.JSONObject;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.UserInfo;
 import common.util.DBConnection;
 import common.util.EncryptUtil;
 
-public class UserLoginService {
+import org.bouncycastle.util.encoders.Base64;
+
+
+public class UserLoginService implements IServiceExcuter {
 	public HttpServletResponse excuteService(HttpServletRequest request,
-			HttpServletResponse response,String tel,String pw,String userHash){
+			HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
-        String retHash="";
+        		
+		//変数定義
+        String cause="noError";
+		String retHash="";
         int updated=-1;
         int autoLogin = 0;
-        String cause="noError";
-    	//レスポンスに設定するJSON Object
-		JSONObject jsonObject = new JSONObject();
-		JSONObject jsonOneData = new JSONObject();
-		
+
         try{
+			//キー定義
+        	byte[] key = Constant.KEY.getBytes("UTF-8");
+        	byte[] ivIv = Constant.IV_IV.getBytes("UTF-8");
+
+            //パラメータ処理(tel番とpwを復号)
+    		byte[] eTel = Base64.decode(request.getParameter("etel"));
+    		byte[] etelIv = Base64.decode(request.getParameter("etelIv"));
+    		byte[] epw = Base64.decode(request.getParameter("epw"));
+    		byte[] epwIv = Base64.decode(request.getParameter("epwIv"));
+
+			String telIv = new String(EncryptUtil.decrypt(key, ivIv, etelIv));
+			String pwIv = new String(EncryptUtil.decrypt(key, ivIv, epwIv));
+			String tel = new String(EncryptUtil.decrypt(key, telIv.getBytes("UTF-8"), eTel));
+			String pw = new String(EncryptUtil.decrypt(key, pwIv.getBytes("UTF-8"), epw));
+
+			//TODO: SNS連携
+    		int snsLinkFlag = request.getParameter("snsLink") != null ?
+    				Integer.parseInt(request.getParameter("snsLink").toString()) : 0;
+    				
+			//ユーザハッシュ（自動ログイン）
+    		String userHash = request.getParameter("userHash") != null ?
+    				request.getParameter("userHash").toString() : null;
+			if(userHash == "NULL" ) userHash = null;
+	
+	    	//レスポンスに設定するJSON Object
+			JSONObject jsonObject = new JSONObject();
+			JSONObject jsonOneData = new JSONObject();
+		
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			UserDao userDao = new UserDao();
 			UserInfo info = null;
+			
 			if(conn!=null){
 				//自動ログイン
 				if(userHash != null){
-					info = userDao.getUserInfoByHash(dbConnection, userHash);
+					//info = userDao.getUserInfoByHash(dbConnection, userHash);
+					info = userDao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_HASH, userHash);
 					//自動ログイン成功
 					if(info != null){
 						autoLogin = 1;
 					}
 				}
 				else{
-					info = userDao.getUserInfoByLoginInfo(dbConnection, pw, tel);
+					Map<String, String> source = new HashMap<String, String>();
+					source.put(TableConstant.COLUMN_USER_TEL, tel);
+					source.put(TableConstant.COLUMN_USER_PASSWORD, tel);
+					//info = userDao.getUserInfoByLoginInfo(dbConnection, pw, tel);
+					info = userDao.getUserObjectByColumnMap(dbConnection, source);
 					//ログイン成功 Hash値を再計算してユーザテーブルに格納する
 					if(info != null){
 						retHash = EncryptUtil.getHashValue(pw + tel);
-						updated = userDao.updateUserHash(dbConnection, info.getUserId(),retHash);
+						//updated = userDao.updateUserHash(dbConnection, info.getObjectId(),retHash);
+						updated = userDao.setUserStringData(dbConnection, TableConstant.COLUMN_USER_HASH, retHash, info);
 					}
 				}
 				dbConnection.close();
@@ -65,20 +106,20 @@ public class UserLoginService {
 				jsonObject.put("autoLoginSuccess", 1);
 				jsonObject.put("cause", cause);
 			}
-		    
+        
+        	PrintWriter out = response.getWriter();
+		    out.print(jsonObject);
+		    out.flush();
+
+        }catch(UnsupportedEncodingException e){
+			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+			cause =  e.getStackTrace().toString();
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 			cause =  e.getStackTrace().toString();
 		}
-        
-        try{
-        	PrintWriter out = response.getWriter();
-		    out.print(jsonObject);
-		    out.flush();
-        }catch(Exception e){
-        	e.printStackTrace();
-        }
 	    
 		response.setStatus(responseStatus);
 		return response;

@@ -15,7 +15,7 @@ import common.constant.Constant;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
 
-public class GetHairStyleHistoryService {
+public class GetHairStyleHistoryService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

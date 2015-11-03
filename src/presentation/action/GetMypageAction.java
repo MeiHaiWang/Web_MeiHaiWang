@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetMypageService;
 import business.service.GetNewsService;
 
-@WebServlet(name="GetMypageServlet",urlPatterns={"/api/:version/mypage"})
+//@WebServlet(name="GetMypageServlet",urlPatterns={"/api/:version/mypage"})
 public class GetMypageAction extends HttpServlet{
 	/**
 	 *

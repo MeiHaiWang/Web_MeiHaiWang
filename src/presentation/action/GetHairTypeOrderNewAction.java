@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetHairTypeOrderNewService;
+import business.service.GetHairStyleOrderNewService;
 
 /**
  * 
@@ -21,7 +21,7 @@ import business.service.GetHairTypeOrderNewService;
 	Param: categoryID=0 or stylistID=0
  */
 
-@WebServlet(name="GetHairTypeOrderNewActionServlet",urlPatterns={"/api/:version/catalog/list/new"})
+///@WebServlet(name="GetHairTypeOrderNewActionServlet",urlPatterns={"/api/:version/catalog/list/new"})
 public class GetHairTypeOrderNewAction extends HttpServlet{
 
 	/**
@@ -83,7 +83,7 @@ public class GetHairTypeOrderNewAction extends HttpServlet{
 		response.setCharacterEncoding("UTF-8");
 		
 		//service excute
-		GetHairTypeOrderNewService service = new GetHairTypeOrderNewService();
+		GetHairStyleOrderNewService service = new GetHairStyleOrderNewService();
 		service.excuteService(request, response);
 	    
 	}	

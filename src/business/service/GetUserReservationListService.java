@@ -34,7 +34,7 @@ import common.util.DBConnection;
 	  }
 	]
 	 */
-public class GetUserReservationListService {
+public class GetUserReservationListService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){

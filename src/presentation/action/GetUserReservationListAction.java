@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import business.service.GetReservationListService;
 import business.service.GetUserReservationListService;
 
-@WebServlet(name="GetUserReservationListServlet",urlPatterns={"/api/:version/getUserReservationList"})
+///@WebServlet(name="GetUserReservationListServlet",urlPatterns={"/api/:version/getUserReservationList"})
 public class GetUserReservationListAction extends HttpServlet{
 
 	/**

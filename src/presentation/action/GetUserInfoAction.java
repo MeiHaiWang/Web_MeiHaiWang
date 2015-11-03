@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetUserInfoService;
 import business.service.GetUserReservationListService;
 
-@WebServlet(name="GetUserInfoServlet",urlPatterns={"/api/:version/getUserInfo"})
+///@WebServlet(name="GetUserInfoServlet",urlPatterns={"/api/:version/getUserInfo"})
 public class GetUserInfoAction extends HttpServlet{
 
 	/**

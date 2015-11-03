@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
+import common.model.StylistInfo;
 import common.util.DBConnection;
 
 /**
@@ -18,16 +20,12 @@ import common.util.DBConnection;
  *UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_menuId` = '' WHERE `t_stylist`.`t_stylist_Id` = 13;
  */
 
-public class DeleteStaffMenuService {
+public class DeleteStaffMenuService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
         int responseStatus = HttpServletResponse.SC_OK;
-        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
-        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-		 // userIdがパラメータ。なかったら-1を入れておく。
-        
   		HttpSession session = request.getSession(false);
 		
 		String t_stylist_Id = request.getParameter("t_stylist_Id") != null ?
@@ -40,12 +38,18 @@ public class DeleteStaffMenuService {
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
 			
-			if(conn!=null){
+			if(conn!=null && t_stylist_Id!=null){
 				StylistDao stylistDao = new StylistDao();
+				StylistInfo stylistInfo = new StylistInfo();
+				stylistInfo.setObjectId(Integer.parseInt(t_stylist_Id));
+				int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_MENUID, Constant.EMPTY, stylistInfo);
+				if(result_int>0) result = true;
+				/*
 				result = stylistDao.DeleteStylistMenuForMaster(
 						dbConnection,
 						t_stylist_Id
 						);
+						*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

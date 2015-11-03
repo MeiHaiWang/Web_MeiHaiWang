@@ -15,7 +15,7 @@ import common.model.CouponInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetCouponListService {
+public class GetCouponListService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response) {
 

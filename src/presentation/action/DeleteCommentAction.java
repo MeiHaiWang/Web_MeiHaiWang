@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.DeleteCommentService;
 import business.service.DeleteReviewService;
 
-@WebServlet(name="DeleteCommentServlet",urlPatterns={"/api/:version/deleteComment"})
+//@WebServlet(name="DeleteCommentServlet",urlPatterns={"/api/:version/deleteComment"})
 public class DeleteCommentAction extends HttpServlet {
 
 	/**

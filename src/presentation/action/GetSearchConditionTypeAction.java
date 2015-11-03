@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetSearchConditionListService;
 import business.service.GetSearchConditionTypeService;
 
-@WebServlet(name="GetSearchConditionType",urlPatterns={"/api/:version/getSearchConditionType"})
+///@WebServlet(name="GetSearchConditionType",urlPatterns={"/api/:version/getSearchConditionType"})
 public class GetSearchConditionTypeAction extends HttpServlet{
 
 	/**

@@ -30,7 +30,7 @@ import business.service.CheckSessionService;
     }
  */
 
-@WebServlet(name="CheckSession",urlPatterns={"/api/:version/checkSession"})
+//@WebServlet(name="CheckSession",urlPatterns={"/api/:version/checkSession"})
 public class CheckSessionAction extends HttpServlet{
 	/**
 	 *

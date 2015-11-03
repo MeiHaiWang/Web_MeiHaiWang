@@ -17,7 +17,7 @@ import common.model.ConditionTitleInfo;
 import common.model.ConditionTypeInfo;
 import common.util.DBConnection;
 
-public class GetSearchConditionTypeService {
+public class GetSearchConditionTypeService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

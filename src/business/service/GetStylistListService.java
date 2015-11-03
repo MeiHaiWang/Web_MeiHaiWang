@@ -37,7 +37,7 @@ import common.util.DBConnection;
  *
  */
 
-public class GetStylistListService {
+public class GetStylistListService implements IServiceExcuter {
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -79,7 +79,10 @@ public class GetStylistListService {
 				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
 
 				//stylistInfoList for stylistIdList in stylistTable
-				stylistInfoList = stylistDao.getStylistListInfo(dbConnection, stylistIdList);	
+				for(int id : stylistIdList){
+					stylistInfoList.add(stylistDao.getStylistObject(dbConnection, id));
+				}
+				//stylistInfoList = stylistDao.getStylistListInfo(dbConnection, stylistIdList);	
 
 				dbConnection.close();
 
@@ -108,8 +111,8 @@ public class GetStylistListService {
 		    for(StylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	//jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
-		    	jsonOneData.put("t_stylist_Id", info.getStylistId());
-		    	jsonOneData.put("t_stylist_name", info.getStylistName());
+		    	jsonOneData.put("t_stylist_Id", info.getObjectId());
+		    	jsonOneData.put("t_stylist_name", info.getName());
 			    stylistArray.add(jsonOneData);
 		    }
 		    jsonObject.put("stylist",stylistArray);	

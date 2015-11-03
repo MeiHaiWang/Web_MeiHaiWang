@@ -20,7 +20,7 @@ import common.model.HairTypeInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class GetHairTypeCategoryService {
+public class GetHairTypeCategoryService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetLikeForStylistSearchService;
 import business.service.GetMenuForHairStyleSearchService;
 
-@WebServlet(name="GetMenuForHairStyleSearch",urlPatterns={"/api/:version/hair_search/menu"})
+///@WebServlet(name="GetMenuForHairStyleSearch",urlPatterns={"/api/:version/hair_search/menu"})
 public class GetMenuForHairStyleSearchAction extends HttpServlet{
 	/**
 	 *
@@ -72,7 +72,7 @@ public class GetMenuForHairStyleSearchAction extends HttpServlet{
 		
 		//service excute
 		GetMenuForHairStyleSearchService service = new GetMenuForHairStyleSearchService();
-		service.excuteService(request, response);
+		//service.excuteService(request, response);
 	    
 	}	
 }	

@@ -4,35 +4,796 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.mysql.jdbc.PreparedStatement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import common.constant.Constant;
-import common.model.HairSalonInfo;
-import common.model.ReviewInfo;
+import common.constant.TableConstant;
+import common.model.IBaseInfo;
 import common.model.UserInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class UserDao {
+public class UserDao extends BaseDao{
+	private static Logger logger = LogManager.getLogger();
+
+	public int getUserIntData(DBConnection dbConnection ,String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
+		return getIntValue(dbConnection, Constant.TABLE_USER, targetColumnName, sourceColumnName, sourceColumnValue );
+	}
+	public String getUserStringData(DBConnection dbConnection , String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
+		return getStringValue(dbConnection, Constant.TABLE_USER, targetColumnName, sourceColumnName, sourceColumnValue);
+	}
+	public int getUserIntData(DBConnection dbConnection, String columnName, IBaseInfo info) throws SQLException{
+		return getIntValue(dbConnection, Constant.TABLE_USER, columnName, TableConstant.COLUMN_USER_ID, info);
+	}
+	public int setUserIntData(DBConnection dbConnection , String columnName, int targetColumValue, IBaseInfo info) throws SQLException{
+		return setIntValue(dbConnection, Constant.TABLE_USER, columnName,  targetColumValue, TableConstant.COLUMN_USER_ID, info);
+	}
+	public String getUserStringData(DBConnection dbConnection , String columnName,  IBaseInfo info) throws SQLException{
+		return getStringValue(dbConnection, Constant.TABLE_USER, columnName, TableConstant.COLUMN_USER_ID, info);
+	}
+	public int setUserStringData(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		return setStringValue(dbConnection, Constant.TABLE_USER, targetColumnName, value, TableConstant.COLUMN_USER_ID, info);
+	}
+	public int appendId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		int result = -1;
+		String idlist = getUserStringData(dbConnection, targetColumnName, info);
+		if(idlist!=null){
+			idlist = idlist + ","+ value;
+			result = setUserStringData(dbConnection, targetColumnName, idlist, info);
+		}else{
+			result = setUserStringData(dbConnection, targetColumnName, value, info);
+		}
+		return result;
+	}
+	public int removeId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+		int result = -1;
+		String idlist = getUserStringData(dbConnection, targetColumnName, info);
+		if(idlist!=null){
+			List<String> idList = Arrays.asList(idlist.split(","));
+			String retIdlist = "";
+			int index=0;
+			for(String id: idList){
+				if(id.equals(value)) continue;
+				if(index==0){
+					retIdlist += id;
+					index++;
+				}else{
+					retIdlist += ","+id;
+					index++;
+				}
+			}
+			result = setUserStringData(dbConnection, targetColumnName, retIdlist, info);
+		}
+		return result;
+	}
+
+	public UserInfo getUserObject(DBConnection dbConnection, int id) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_USER);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(TableConstant.COLUMN_USER_ID);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(id);
+		
+		Statement statement = dbConnection.getStatement();
+		UserInfo userInfo = null;
+
+		try {			
+			ResultSet rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setObjectId(rs.getInt("t_user_id"));
+				userInfo.setName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+				userInfo.setUserPoint(rs.getInt("t_user_point"));
+				userInfo.setUserImagePath(rs.getString("t_user_imagePath"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;
+	}
 	
-	public List<UserInfo> getReviewerUserInfo(DBConnection dbConnection, List<ReviewInfo> reviewInfoList) throws SQLException{
+	public UserInfo getUserObjectByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_USER);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(culumnName);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.SINGLEQ);
+		sql.append(value);
+		sql.append(Constant.SINGLEQ);
+		
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		UserInfo userInfo = null;
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setObjectId(rs.getInt("t_user_id"));
+				userInfo.setName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;
+	}
+	public List<UserInfo> getUserObjectListByColumn(DBConnection dbConnection, String culumnName , String value) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_USER);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(culumnName);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.EQUAL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.SINGLEQ);
+		sql.append(value);
+		sql.append(Constant.SINGLEQ);
+		
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				UserInfo userInfo = new UserInfo();
+				userInfo.setObjectId(rs.getInt("t_user_id"));
+				userInfo.setName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+				userInfoList.add(userInfo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfoList;
+	}
 	
-		List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
+	public UserInfo getUserObjectByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_USER);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		int index = 0;
+		for(Map.Entry<String, String> entry : sourceData.entrySet()) {
+			//System.out.println(entry.getKey() + " => " + entry.getValue());
+			if(index==0){
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				sql.append(Constant.SPACE);
+				sql.append(Constant.AND);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		UserInfo userInfo = null;
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				userInfo = new UserInfo();
+				userInfo.setObjectId(rs.getInt("t_user_id"));
+				userInfo.setName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfo;
+	}
+	
+	public List<UserInfo> getUserObjectListByColumnMap(DBConnection dbConnection, Map<String, String> sourceData) throws SQLException{
+		StringBuilder sql = new StringBuilder();
+		sql.append(Constant.SELECTALL);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.TABLE_USER);
+		sql.append(Constant.BACKQ);
+		sql.append(Constant.SPACE);
+		sql.append(Constant.WHERE);
+		sql.append(Constant.SPACE);
+		int index = 0;
+		for(Map.Entry<String, String> entry : sourceData.entrySet()) {
+			//System.out.println(entry.getKey() + " => " + entry.getValue());
+			if(index==0){
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				sql.append(Constant.SPACE);
+				sql.append(Constant.AND);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.BACKQ);
+				sql.append(entry.getKey());
+				sql.append(Constant.BACKQ);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.EQUAL);
+				sql.append(Constant.SPACE);
+				sql.append(Constant.SINGLEQ);
+				sql.append(entry.getValue());
+				sql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+
+		Statement statement = dbConnection.getStatement();
+		ResultSet rs = null;
+		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+		try {			
+			rs = statement.executeQuery(sql.toString());
+			logger.debug(sql.toString());
+			
+			while(rs.next()){
+				UserInfo userInfo = new UserInfo();
+				userInfo.setObjectId(rs.getInt("t_user_id"));
+				userInfo.setName(rs.getString("t_user_name"));
+				userInfo.setUserSex(rs.getInt("t_user_sex"));
+				userInfo.setUserPhoneNumber(rs.getString("t_user_tel"));
+				userInfo.setUserBirth(rs.getDate("t_user_birth"));
+				userInfoList.add(userInfo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return userInfoList;
+	}
+	
+	public int setUserInfoInsert(DBConnection dbConnection, UserInfo userInfo){
+
+		//DBステートメント
+		Statement statement = dbConnection.getStatement();
+		//返り値id
+		int retId = -1;
+
+		//Insertする情報をMapで整理
+		Map<String, String> source = new HashMap<String, String>();
+		source.put(TableConstant.COLUMN_USER_TEL, userInfo.getUserPhoneNumber());
+		source.put(TableConstant.COLUMN_USER_MAIL, userInfo.getUserMail());
+		source.put(TableConstant.COLUMN_USER_PASSWORD, userInfo.getUserPass());
+		source.put(TableConstant.COLUMN_USER_HASH, "");
+		source.put(TableConstant.COLUMN_USER_IMAGE, userInfo.getUserImagePath());
+		source.put(TableConstant.COLUMN_USER_SEX, Integer.toString(userInfo.getUserSex()));
+		source.put(TableConstant.COLUMN_USER_BIRTH, ""); /*birth*/
+		source.put(TableConstant.COLUMN_USER_NAME, userInfo.getName());
+		source.put(TableConstant.COLUMN_USER_FAVORITE_SALON, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_SALON, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_HAIRSTYLE, "");
+		source.put(TableConstant.COLUMN_USER_POINT, "0");
+		source.put(TableConstant.COLUMN_USER_HISTORY_SALON, "0");
+		source.put(TableConstant.COLUMN_USER_MASTER_SALON, "0");
+
+		//DATETIME -> string 処理
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(userInfo.getUserBirth());
+		source.replace(TableConstant.COLUMN_USER_BIRTH, birth);
+		
+		//Insert SQL 
+		StringBuilder insertSql = new StringBuilder();
+		insertSql.append(Constant.INSERT);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(ConfigUtil.getConfig("dbname"));
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.DOT);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.TABLE_USER);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.BRACKET_1);
+		int index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.VALUES);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BRACKET_1);
+		index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SEMICOLON);
+
+		//sql成功確認
+		int result_int = -1;
+
+		try {
+			//debug
+			logger.info("{}",insertSql.toString());
+			result_int = statement.executeUpdate(insertSql.toString(), Statement.RETURN_GENERATED_KEYS);
+			if(result_int > 0){
+				//更新したidをget
+				ResultSet rs = statement.getGeneratedKeys();
+		        if (rs.next()){
+		        	retId = rs.getInt(1);
+	        	}
+		        rs.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return retId;
+	}
+	
+	public int setUserInfoUpdate(DBConnection dbConnection, UserInfo userInfo){
+
+		//DBステートメント
+		Statement statement = dbConnection.getStatement();
+		//返り値id
+		int retId = -1;
+
+		//Insertする情報をMapで整理
+		Map<String, String> source = new HashMap<String, String>();
+		source.put(TableConstant.COLUMN_USER_TEL, userInfo.getUserPhoneNumber());
+		source.put(TableConstant.COLUMN_USER_MAIL, userInfo.getUserMail());
+		source.put(TableConstant.COLUMN_USER_PASSWORD, userInfo.getUserPass());
+		source.put(TableConstant.COLUMN_USER_HASH, "");
+		source.put(TableConstant.COLUMN_USER_IMAGE, userInfo.getUserImagePath());
+		source.put(TableConstant.COLUMN_USER_SEX, Integer.toString(userInfo.getUserSex()));
+		source.put(TableConstant.COLUMN_USER_BIRTH, ""); /*birth*/
+		source.put(TableConstant.COLUMN_USER_NAME, userInfo.getName());
+		source.put(TableConstant.COLUMN_USER_FAVORITE_SALON, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_SALON, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_HAIRSTYLE, "");
+		source.put(TableConstant.COLUMN_USER_POINT, "0");
+		source.put(TableConstant.COLUMN_USER_HISTORY_SALON, "0");
+		source.put(TableConstant.COLUMN_USER_MASTER_SALON, "0");
+		
+		//DATETIME -> string 処理
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(userInfo.getUserBirth());
+		source.replace(TableConstant.COLUMN_USER_BIRTH, birth);
+
+		//Update SQL 
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append(Constant.UPDATE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(ConfigUtil.getConfig("dbname"));
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_USER);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.SET);
+		updateSql.append(Constant.SPACE);
+		
+		int index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()){
+			if(index==0){ 
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}else{
+				updateSql.append(Constant.COMMA);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}
+		}
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.WHERE);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_USER);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(TableConstant.COLUMN_USER_ID);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.EQUAL);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(userInfo.getObjectId());
+		updateSql.append(Constant.SEMICOLON);
+		
+		//sql成功確認
+		int result_int = -1;
+
+		try {
+			//debug
+			logger.info("{}",updateSql.toString());
+			result_int = statement.executeUpdate(updateSql.toString(), Statement.RETURN_GENERATED_KEYS);
+			if(result_int > 0){
+				//更新したidをget
+				ResultSet rs = statement.getGeneratedKeys();
+		        if (rs.next()){
+		        	retId = rs.getInt(1);
+	        	}
+		        rs.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return retId;
+	}
+	
+	
+	
+	//public int setUserAcount(DBConnection dbConnection, UserInfo userInfo){
+		
 		/*
-		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , `"
-				+ "t_review_text`, `t_user_name`, `t_user_sex`, `t_user_birth` FROM t_review "
-				+ "JOIN t_user ON t_review_userId = t_user_Id WHERE t_review_id=";		
+		 * user登録を自動で行う userIdを返す
+		 * 
+		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
+		 * UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_mail` = '111aaa', `t_user_passward` = '0000aaa' WHERE `t_user`.`t_user_Id` = 24;
+		 * 
+		 */
+		/*
+		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
+				+ "`t_user_disableFlag`, `t_user_tel`, "
+				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
+				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
+				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
+				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
+		String sql2 = "', '";
+		String sql3 = "";
+		String sql4 = "0";
+		String sql_end = "');";
+		*/
+		/*
+		//TODO 初期パスワードはとりあえず0000
+		String u_sql = u_sql1
+				+ sql4 + sql2
+				+ userInfo.getUserPhoneNumber() + sql2
+				+ userInfo.getUserMail() + sql2
+				+ userInfo.getUserPass() + sql2
+				+ sql3 + sql2 //cookie
+				+ userInfo.getUserImagePath()  + sql2
+				+ userInfo.getUserSex()  + sql2
+				+ birth + sql2
+				+ userInfo.getName() + sql2
+				+ sql3 + sql2 //favoriteSalon
+				+ sql3 + sql2 //favoriteStylist
+				+ sql3 + sql2 //latestviewsalon
+				+ sql3 + sql2 //latestviewstylist
+				+ sql3 + sql2 //favoritehairstyle
+				+ sql3 + sql2 //latestviewhairstyle
+				+ sql4 + sql2 //point
+				+ sql4 + sql2 //historysalon
+				+ sql4 //salonId
+				+ sql_end;
+		 */
+		/*
+		//update
+		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET "
+				+ "`t_user_name` = '" + userInfo.getUserName() + "', "
+				+ "`t_user_sex` = '" + userInfo.getUserSex() + "', "
+				+ "`t_user_imagePath` = '" + userInfo.getUserImagePath() + "', "
+				+ "`t_user_tel` = '" + userInfo.getUserPhoneNumber() + "', "
+				+ "`t_user_mail` = '" +  userInfo.getUserMail()  + "', "
+				+ "`t_user_birth` = '" +  birth  + "'"
+				+ " WHERE `t_user`.`t_user_Id` = " + userInfo.getUserId();
 				*/
+
+		//tel -> uidを取得
+		//String uid_sql = "SELECT `t_user_id` FROM `t_user` WHERE `t_user_tel` = "; 
+		/*
+		try {			
+			//debug
+			System.out.println(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
+			ResultSet rs = statement.executeQuery(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
+			while(rs.next()){
+				u_Id = rs.getInt("t_user_Id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+			
+		*/
+		/*
+		//DBステートメント
+		Statement statement = dbConnection.getStatement();
+		//返り値id
+		int retId = -1;
+
+		//Insertする情報をMapで整理
+		Map<String, String> source = new HashMap<String, String>();
+		source.put(TableConstant.COLUMN_USER_TEL, userInfo.getUserPhoneNumber());
+		source.put(TableConstant.COLUMN_USER_MAIL, userInfo.getUserMail());
+		source.put(TableConstant.COLUMN_USER_PASSWORD, userInfo.getUserPass());
+		source.put(TableConstant.COLUMN_USER_HASH, "");
+		source.put(TableConstant.COLUMN_USER_IMAGE, userInfo.getUserImagePath());
+		source.put(TableConstant.COLUMN_USER_SEX, Integer.toString(userInfo.getUserSex()));
+		source.put(TableConstant.COLUMN_USER_BIRTH, ""); 
+		source.put(TableConstant.COLUMN_USER_NAME, userInfo.getName());
+		source.put(TableConstant.COLUMN_USER_FAVORITE_SALON, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_SALON, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_STYLIST, "");
+		source.put(TableConstant.COLUMN_USER_LATEST_HAIRSTYLE, "");
+		source.put(TableConstant.COLUMN_USER_POINT, "0");
+		source.put(TableConstant.COLUMN_USER_HISTORY_SALON, "0");
+		source.put(TableConstant.COLUMN_USER_MASTER_SALON, "0");
+
+		//DATETIME -> string 処理
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(userInfo.getUserBirth());
+		source.replace(TableConstant.COLUMN_USER_BIRTH, birth);
+		
+		//Insert SQL 
+		StringBuilder insertSql = new StringBuilder();
+		insertSql.append(Constant.INSERT);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(ConfigUtil.getConfig("dbname"));
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.DOT);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.TABLE_USER);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.BRACKET_1);
+		int index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.VALUES);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BRACKET_1);
+		index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SEMICOLON);
+
+		//Update SQL 
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append(Constant.UPDATE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(ConfigUtil.getConfig("dbname"));
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_USER);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.SET);
+		updateSql.append(Constant.SPACE);
+		index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()){
+			if(index==0){ 
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}else{
+				updateSql.append(Constant.COMMA);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}
+		}
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.WHERE);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_USER);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(TableConstant.COLUMN_USER_ID);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.EQUAL);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(userInfo.getObjectId());
+		updateSql.append(Constant.SEMICOLON);
+		
+		//sql成功確認
+		int result_int = -1;
+
+		try {
+			if(userInfo.getObjectId()<0){
+				//新規登録
+				//debug
+				System.out.println(insertSql.toString());
+				result_int = statement.executeUpdate(insertSql.toString());
+				if(result_int < 0) return -1;
+			}else{
+				//登録変更
+				//debug
+				System.out.println(updateSql.toString());
+				result_int = statement.executeUpdate(updateSql.toString());
+				if(result_int < 0) return -1;
+			}
+			
+			//UserIdを取得して返却
+			if(result_int > 0){
+				retId = getUserIntData(dbConnection, TableConstant.COLUMN_USER_ID, TableConstant.COLUMN_USER_TEL, userInfo.getUserPhoneNumber()); 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return retId;
+	}
+	*/
+
+	/*
+	public List<UserInfo> getReviewerUserInfo(DBConnection dbConnection, List<ReviewInfo> reviewInfoList) throws SQLException{
+		List<UserInfo> UserInfoList = new ArrayList<UserInfo>();
 		String sql = "SELECT `t_user_name`, `t_user_sex`, `t_user_birth` FROM t_user WHERE t_user_id=";
 		Statement statement = dbConnection.getStatement();
 		
@@ -125,7 +886,7 @@ public class UserDao {
 		}
 		return userInfo;
 	}
-	
+
 	public boolean getUserIsStylistInfo(DBConnection dbConnection, int userId) throws SQLException {
 		//UserInfo userInfo = new UserInfo();
 		boolean isStylist = false;
@@ -143,7 +904,7 @@ public class UserDao {
 		}
 		return isStylist;
 	}
-
+	
 	public int addFavoriteSalon(DBConnection dbConnection, int userId, int salonId) throws SQLException {
 		int result = -1;
 		String sql_before = "SELECT `t_user_favoriteSalonId` FROM `t_user` WHERE t_user_id = ";
@@ -287,7 +1048,8 @@ public class UserDao {
 		}
 		return userInfo;		
 	}
-	
+
+
 	public UserInfo getUserInfoByHash(DBConnection dbConnection, String hash) throws SQLException { 
 		UserInfo userInfo = null;
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_cookie` = '" + hash + "'";	
@@ -352,7 +1114,6 @@ public class UserDao {
 		return retSalonId;
 	}
 	
-
 	public int getMsterSalonId(DBConnection dbConnection, int userId){
 		int retSalonId = -1;
 		String sql = "SELECT `t_user_MasterSalonId` FROM `t_user` WHERE `t_user_Id` = " + userId;
@@ -378,132 +1139,11 @@ public class UserDao {
 		
 		return retSalonId;
 	}
-
-	
-	public int setUserAcount(DBConnection dbConnection, UserInfo userInfo){
-		
-		/*
-		 * user登録を自動で行う userIdを返す
-		 * 
-		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
-		 * UPDATE `MEIHAIWAN_TEST`.`t_user` SET `t_user_mail` = '111aaa', `t_user_passward` = '0000aaa' WHERE `t_user`.`t_user_Id` = 24;
-		 * 
-		 */
-		
-		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
-		//String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
-		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
-				+ "`t_user_disableFlag`, `t_user_tel`, "
-				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
-				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
-				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
-				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
-		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET ";
-		//String u_sql_update_after = "' WHERE `t_user`.`t_user_Id` =";
-		String sql2 = "', '";
-		String sql3 = "";
-		String sql4 = "0";
-		String sql_end = "');";
-
-		Statement statement = dbConnection.getStatement();
-		int u_Id = -1;
-
-		/*
-		for(int i=1; i<Integer.MAX_VALUE; i++){
-			try {
-				ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
-				if(!rs2.next()){
-					u_Id = i;
-					break;
-				}
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
 		*/
 
-		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String birth = format.format(userInfo.getUserBirth());
+
 	
-		//TODO 初期パスワードはとりあえず0000
-		String u_sql = u_sql1
-				+ sql4 + sql2
-				+ userInfo.getUserPhoneNumber() + sql2
-				+ userInfo.getUserMail() + sql2
-				+ userInfo.getUserPass() + sql2
-				+ sql3 + sql2 //cookie
-				+ userInfo.getUserImagePath()  + sql2
-				+ userInfo.getUserSex()  + sql2
-				+ birth + sql2
-				+ userInfo.getUserName() + sql2
-				+ sql3 + sql2 //favoriteSalon
-				+ sql3 + sql2 //favoriteStylist
-				+ sql3 + sql2 //latestviewsalon
-				+ sql3 + sql2 //latestviewstylist
-				+ sql3 + sql2 //favoritehairstyle
-				+ sql3 + sql2 //latestviewhairstyle
-				+ sql4 + sql2 //point
-				+ sql4 + sql2 //historysalon
-				+ sql4 //salonId
-				+ sql_end;
-
-		//update
-		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_user` SET "
-				+ "`t_user_name` = '" + userInfo.getUserName() + "', "
-				+ "`t_user_sex` = '" + userInfo.getUserSex() + "', "
-				+ "`t_user_imagePath` = '" + userInfo.getUserImagePath() + "', "
-				+ "`t_user_tel` = '" + userInfo.getUserPhoneNumber() + "', "
-				+ "`t_user_mail` = '" +  userInfo.getUserMail()  + "', "
-				+ "`t_user_birth` = '" +  birth  + "'"
-				+ " WHERE `t_user`.`t_user_Id` = " + userInfo.getUserId();
-
-		//tel -> uidを取得
-		String uid_sql = "SELECT `t_user_id` FROM `t_user` WHERE `t_user_tel` = "; 
-
-		int result_int = -1;
-		
-		if(userInfo.getUserId()<0){
-			//新規登録
-			try {
-				//debug
-				System.out.println(u_sql);
-				result_int = statement.executeUpdate(u_sql);
-				if(result_int < 0) return -1;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else{
-			//登録変更
-			try {
-				//debug
-				System.out.println(sql_update);
-				result_int = statement.executeUpdate(sql_update);
-				if(result_int < 0) return -1;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		//UserIdを取得して返却
-		if(result_int > 0){
-			try {			
-				//debug
-				System.out.println(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
-				ResultSet rs = statement.executeQuery(uid_sql+"'"+userInfo.getUserPhoneNumber()+"'");
-				while(rs.next()){
-					u_Id = rs.getInt("t_user_Id");
-				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}		
-		}
-		
-		return u_Id;
-	}
-
+	/*
 	public UserInfo getUserInfoByTel(DBConnection dbConnection, String tel) throws SQLException { 
 		UserInfo userInfo = null;
 		String sql = "SELECT `t_user_Id` FROM `t_user` WHERE `t_user_tel` = '" + tel +"'";		
@@ -523,27 +1163,16 @@ public class UserDao {
 		}
 		return userInfo;		
 	}
-
+	*/
+	/*
 	public int setRegistUserInfo(DBConnection dbConnection, int salonId,
 			UserInfo userInfo) {
-		/*
-		 * user登録を自動で行う userIdを返す
-		 * 
-		 * INSERT INTO `MEIHAIWAN_TEST`.`t_user` (`t_user_Id`, `t_user_disableFlag`, `t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, `t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, `t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, `t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('1', '0', 'mail', '0000', NULL, NULL, '0', NULL, 'name', NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1');
-		 * UPDATE `MEIHAIWAN_TEST`.`t_stylist` SET `t_stylist_userId` = '1' WHERE `t_stylist`.`t_stylist_Id` = 1;
-		 * 
-		 */
-		
-		//String sql = "INSERT INTO t_user(t_user_tel,t_user_passward) values(";
-		//String u_sql_before = "SELECT * FROM `t_user` WHERE `t_user_Id` = "; // userId 
 		String u_sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_user` ("
 				+ "`t_user_disableFlag`, `t_user_tel`, "
 				+ "`t_user_mail`, `t_user_passward`, `t_user_cookie`, `t_user_imagePath`, `t_user_sex`, `t_user_birth`, "
 				+ "`t_user_name`, `t_user_favoriteSalonId`, `t_user_favoriteStylistId`, `t_user_latestViewSalonId`, "
 				+ "`t_user_latestViewStylistId`, `t_user_favoriteHairStyleId`, `t_user_latestViewHairStyleId`, `t_user_point`, "
 				+ "`t_user_historySalonId`, `t_user_MasterSalonId`) VALUES ('";
-		//String u_sql_update_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` SET `t_stylist_userId` = '";
-		//String u_sql_update_after = "' WHERE `t_stylist`.`t_stylist_Id` =";
 		String sql2 = "', '";
 		String sql3 = "";
 		String sql4 = "0";
@@ -553,31 +1182,15 @@ public class UserDao {
 		Statement statement = dbConnection.getStatement();
 		int u_Id = -1;
 
-		/*
-		for(int i=1; i<Integer.MAX_VALUE; i++){
-			try {
-				ResultSet rs2 = statement.executeQuery(u_sql_before+Integer.toString(i));
-				if(!rs2.next()){
-					u_Id = i;
-					break;
-				}
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
-		*/
-
 		int age = userInfo.getUserAge();
-	      Calendar now = Calendar.getInstance(); 
-	      int y = now.get(now.YEAR);          //年を取得	
-	      int year_age = y-age;
-	      //SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	      //String birth = sdf1.format(Integer.toString(year_age)+"-01-01 00:00:00");
-	      String birth = Integer.toString(year_age)+"-01-01 00:00:00";
-	      //debug
-	      System.out.println(birth);
-	      
-	      //TODO 初期パスワードはとりあえず0000
+      Calendar now = Calendar.getInstance(); 
+      int y = now.get(now.YEAR);          //年を取得	
+      int year_age = y-age;
+      String birth = Integer.toString(year_age)+"-01-01 00:00:00";
+      //debug
+      System.out.println(birth);
+      
+      //TODO 初期パスワードはとりあえず0000
 		String u_sql = u_sql1
 				+ sql4 + sql2
 				+ userInfo.getUserPhoneNumber() + sql2
@@ -587,7 +1200,7 @@ public class UserDao {
 				+ sql3  + sql2
 				+ userInfo.getUserSex()  + sql2
 				+ birth + sql2
-				+ userInfo.getUserName() + sql2
+				+ userInfo.getName() + sql2
 				+ sql3 + sql2 //favoriteSalon
 				+ sql3 + sql2 //favoriteStylist
 				+ sql3 + sql2 //latestviewsalon
@@ -610,7 +1223,7 @@ public class UserDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	
 		if(result_int > 0){
 			try {			
 				//debug
@@ -629,7 +1242,7 @@ public class UserDao {
 		// System.out.println("uid:"+u_Id);
 		return u_Id;
 	}
-
+	*/
 
 	/*
 	public UserInfo getUserInfoByName(DBConnection dbConnection, String t_user_name) {

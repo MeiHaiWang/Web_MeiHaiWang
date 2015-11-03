@@ -1,6 +1,6 @@
 package common.model;
 
-public class MenuInfo {
+public class MenuInfo extends BaseInfo implements IBaseInfo{
 	private int MenuId = Integer.MIN_VALUE;
 	private String MenuName ="";
 	private int MenuPrice = 0;

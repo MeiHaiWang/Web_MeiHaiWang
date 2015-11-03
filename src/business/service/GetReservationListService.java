@@ -45,7 +45,7 @@ reservation_lists:[
 ]
  */
 
-public class GetReservationListService {
+public class GetReservationListService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){

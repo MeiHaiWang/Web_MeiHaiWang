@@ -1,6 +1,6 @@
 package common.model;
 
-public class ConditionTypeInfo {
+public class ConditionTypeInfo extends BaseInfo implements IBaseInfo{
 	private int conditionTypeId = Integer.MIN_VALUE;
 	private String conditionTypeName ="";
 

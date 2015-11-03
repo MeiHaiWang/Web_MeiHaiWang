@@ -39,7 +39,7 @@ import common.util.DBConnection;
     
  */
 
-public class GetCouponKindListService {
+public class GetCouponKindListService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response) {
 

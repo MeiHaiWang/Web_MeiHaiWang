@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetProfileService;
 
-@WebServlet(name="GetProfileServlet",urlPatterns={"/api/:version/profile"})
+///@WebServlet(name="GetProfileServlet",urlPatterns={"/api/:version/profile"})
 public class GetProfileAction extends HttpServlet{
 	/**
 	 *

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetReservationFinishService;
 import business.service.SetReservationInfoService;
 
-@WebServlet(name="SetReservationFinishServlet",urlPatterns={"/api/:version/setReservationFinish"})
+//@WebServlet(name="SetReservationFinishServlet",urlPatterns={"/api/:version/setReservationFinish"})
 public class SetReservationFinishAction extends HttpServlet {
 
 	/**

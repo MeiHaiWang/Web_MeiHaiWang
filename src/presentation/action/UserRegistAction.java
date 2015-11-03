@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.UserRegistService;
 import common.util.EncryptUtil;
 
-@WebServlet(name="UserRegistServletNotUse",urlPatterns={"/api/:version/regist"})
+//@WebServlet(name="UserRegistServletNotUse",urlPatterns={"/api/:version/regist"})
 public class UserRegistAction extends HttpServlet {
 
 	/**
@@ -84,8 +84,8 @@ public class UserRegistAction extends HttpServlet {
 		try {
 			byte[] oneTimeKey = EncryptUtil.decrypt(key, eOneTimeKeyIv, eOneTimeKey);
 			UserRegistService userService = new UserRegistService();
-			userService.excuteService(request, response, oneTimeKey.toString());
-			
+			//userService.excuteService(request, response, oneTimeKey.toString());
+			userService.excuteService(request, response);
 		} catch (InvalidKeyException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

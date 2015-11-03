@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.DeleteReviewService;
 
-@WebServlet(name="DeleteReviewServlet",urlPatterns={"/api/:version/deleteReview"})
+//@WebServlet(name="DeleteReviewServlet",urlPatterns={"/api/:version/deleteReview"})
 public class DeleteReviewAction extends HttpServlet {
 
 	/**

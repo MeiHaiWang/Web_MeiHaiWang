@@ -2,7 +2,7 @@ package common.model;
 
 import java.util.Date;
 
-public class ReservationInfo {
+public class ReservationInfo extends BaseInfo implements IBaseInfo {
 	/*
 	 * 　 userId,
 		　 salonId,

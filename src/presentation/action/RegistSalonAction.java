@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetAreaService;
 import business.service.RegistSalonService;
 
-@WebServlet(name="RegistSalonServlet",urlPatterns={"/api/:version/registSalon"})
+//@WebServlet(name="RegistSalonServlet",urlPatterns={"/api/:version/registSalon"})
 public class RegistSalonAction extends HttpServlet {
 
 	/**

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.CheckLoginService;
 import business.service.LogoutSessionService;
 
-@WebServlet(name="LogoutSession",urlPatterns={"/api/:version/logOutSession"})
+//@WebServlet(name="LogoutSession",urlPatterns={"/api/:version/logOutSession"})
 public class LogoutSessionAction extends HttpServlet{
 	/**
 	 *

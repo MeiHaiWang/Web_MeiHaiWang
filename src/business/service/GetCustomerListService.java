@@ -46,7 +46,7 @@ import common.util.DBConnection;
 	]
  */
 
-public class GetCustomerListService {
+public class GetCustomerListService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){
@@ -141,7 +141,7 @@ public class GetCustomerListService {
 				
 				//UserInfoにデータを格納
 				UserInfo userInfo = new UserInfo();
-				userInfo = userDao.getUserInfo(dbConnection, userId);							
+				userInfo = userDao.getUserObject(dbConnection, userId);							
 				userInfo.setLatestCutStylist(lastReservationStylistName);
 				userInfo.setLatestCutMemo(lastReservationMemo);
 				userInfo.setSalonTraffic(salonTraffic);
@@ -180,7 +180,7 @@ public class GetCustomerListService {
 		JSONArray jsonArray = new JSONArray();
 		for(UserInfo userInfo : userInfoList){
 			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("t_user_name", userInfo.getUserName());
+			jsonOneData.put("t_user_name", userInfo.getName());
 			jsonOneData.put("t_user_phoneNumber", userInfo.getUserPhoneNumber());
 	    	/* 年齢を求める*/
 	    	Date userBirth = userInfo.getUserBirth();

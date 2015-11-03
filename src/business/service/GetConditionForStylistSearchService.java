@@ -17,7 +17,6 @@ import common.model.ConditionTitleInfo;
 import common.util.DBConnection;
 
 public class GetConditionForStylistSearchService {
-	@SuppressWarnings({ "unchecked", "unused" })
 	
 	/**
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
@@ -27,6 +26,7 @@ public class GetConditionForStylistSearchService {
 	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
 
 	 */
+	/*
 	static int CONDITION_TYPE = 2;
 	
 	public HttpServletResponse excuteService(HttpServletRequest request,
@@ -88,5 +88,6 @@ public class GetConditionForStylistSearchService {
 		response.setStatus(responseStatus);
 		return response;
 	}
+	*/
 
 }

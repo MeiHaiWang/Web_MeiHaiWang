@@ -2,7 +2,7 @@ package common.model;
 
 import java.util.Date;
 
-public class EvaluationInfo {
+public class EvaluationInfo extends BaseInfo implements IBaseInfo{
 	private int evaluationId = Integer.MIN_VALUE;
 	private String evaluationName ="";
 	private int evaluationPoint = Integer.MIN_VALUE;

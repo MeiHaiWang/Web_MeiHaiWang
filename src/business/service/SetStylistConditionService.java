@@ -14,7 +14,7 @@ import business.dao.ConditionDao;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class SetStylistConditionService {
+public class SetStylistConditionService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

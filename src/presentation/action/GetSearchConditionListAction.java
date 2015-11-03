@@ -14,7 +14,7 @@ import business.service.GetSearchConditionListService;
 import business.service.GetSalonInfoService;
 import business.service.GetServiceCategoryListService;
 
-@WebServlet(name="GetSearchConditionList",urlPatterns={"/api/:version/getSearchConditionList"})
+///@WebServlet(name="GetSearchConditionList",urlPatterns={"/api/:version/getSearchConditionList"})
 public class GetSearchConditionListAction extends HttpServlet{
 
 	/**

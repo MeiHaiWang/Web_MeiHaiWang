@@ -19,7 +19,7 @@ import common.model.StylistInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetSearchStylistService {
+public class GetSearchStylistService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 	
@@ -86,9 +86,9 @@ public class GetSearchStylistService {
 		JSONArray stylistArray = new JSONArray();
 		for(StylistInfo stylistInfo : stylistInfoList){
 			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("id", stylistInfo.getStylistId());
+			jsonOneData.put("id", stylistInfo.getObjectId());
 			jsonOneData.put("shopID", stylistInfo.getSalonId());
-			jsonOneData.put("name", stylistInfo.getStylistName());
+			jsonOneData.put("name", stylistInfo.getName());
 			jsonOneData.put("gender", stylistInfo.getStylistGender());
 	    	int i = 0;
 	    	for(String str : stylistInfo.getStylistImagePath()){

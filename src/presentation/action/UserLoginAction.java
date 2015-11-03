@@ -24,7 +24,7 @@ import org.bouncycastle.util.encoders.Base64;
 import business.service.UserLoginService;
 import common.util.EncryptUtil;
 
-@WebServlet(name="UserLoginServlet",urlPatterns={"/api/:version/login"})
+//@WebServlet(name="UserLoginServlet",urlPatterns={"/api/:version/login"})
 public class UserLoginAction extends HttpServlet {
 	
 	/**
@@ -82,6 +82,11 @@ public class UserLoginAction extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
+		//service側で処理するように
+		UserLoginService service = new UserLoginService();
+		service.excuteService(request, response);
+		
+		/*
 		final byte[] key = "azu93fzzei93084jnnekamel2asdfghj".getBytes("UTF-8");
 		//etelIv,epwIvを暗号化するときに使用したIvを取得(秘密鍵前半の16バイト)
 		final byte[] ivIv = "azu93fzzei93084j".getBytes("UTF-8");
@@ -129,9 +134,11 @@ public class UserLoginAction extends HttpServlet {
 			e.printStackTrace();
 			writeResponseError(response,e);
 		}
+	*/
 
 	}		
 	
+	/*
 	private void writeResponseError(HttpServletResponse response,Exception e){
 		boolean result = false;
 		JSONObject jsonObject = new JSONObject();
@@ -147,4 +154,5 @@ public class UserLoginAction extends HttpServlet {
 			e1.printStackTrace();
 		}
 	}
+	*/
 }

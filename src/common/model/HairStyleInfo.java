@@ -5,7 +5,7 @@ import java.util.List;
 
 import common.util.ListUtilities;
 
-public class HairStyleInfo {
+public class HairStyleInfo extends BaseInfo implements IBaseInfo{
 	private int hairStyleId = Integer.MIN_VALUE;
 	private String hairStyleName ="";
 	private String hairStyleImagePath="";

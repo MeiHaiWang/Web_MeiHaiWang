@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetHairStyleDetailService;
-import business.service.GetHairTypeOrderGoodService;
+import business.service.GetHairStyleOrderGoodService;
 
-@WebServlet(name="GetHairTypeOrderNewServlet",urlPatterns={"/api/:version/catalog/detail"})
+///@WebServlet(name="GetHairTypeOrderNewServlet",urlPatterns={"/api/:version/catalog/detail"})
 public class GetHairStyleDetailAction extends HttpServlet{
 	/**
 	 *

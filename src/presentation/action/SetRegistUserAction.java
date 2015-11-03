@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetMenuInfoService;
 import business.service.SetRegistUserService;
 
-@WebServlet(name="SetRegistUserServlet",urlPatterns={"/api/:version/setRegistUser"})
+//@WebServlet(name="SetRegistUserServlet",urlPatterns={"/api/:version/setRegistUser"})
 public class SetRegistUserAction extends HttpServlet {
 
 	/**

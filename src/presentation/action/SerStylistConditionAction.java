@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.SetStylistConditionService;
 
-@WebServlet(name="SetStylistCondition",urlPatterns={"/api/:version/stylist/setCondition"})
+//@WebServlet(name="SetStylistCondition",urlPatterns={"/api/:version/stylist/setCondition"})
 public class SerStylistConditionAction extends HttpServlet {
 
 	/**

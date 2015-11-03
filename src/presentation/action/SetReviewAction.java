@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetHairStyleService;
 import business.service.SetReviewService;
 
-@WebServlet(name="SetReviewServlet",urlPatterns={"/api/:version/reviewRegist"})
+//@WebServlet(name="SetReviewServlet",urlPatterns={"/api/:version/reviewRegist"})
 public class SetReviewAction extends HttpServlet {
 
 	/**

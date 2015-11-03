@@ -15,10 +15,11 @@ import business.dao.UserDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class GetUserInfoService {
+public class GetUserInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 				HttpServletResponse response){
@@ -58,9 +59,10 @@ public class GetUserInfoService {
 		UserInfo userInfo = new UserInfo();
 		UserDao dao = new UserDao();
 		if(conn!=null){
-			userInfo = dao.getUserInfoByTel(dbConnection, t_user_tel);
-			if(userInfo!=null && userInfo.getUserId()>0){
-				userInfo = dao.getUserInfo(dbConnection, userInfo.getUserId());
+			//userInfo = dao.getUserInfoByTel(dbConnection, t_user_tel);
+			userInfo = dao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_user_tel);
+			if(userInfo!=null && userInfo.getObjectId()>0){
+				userInfo = dao.getUserObject(dbConnection, userInfo.getObjectId());
 			}
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -83,8 +85,8 @@ public class GetUserInfoService {
 		if(userInfo!=null){
 			// 返却用サロンデータ（jsonデータの作成）
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("t_user_id", userInfo.getUserId());
-			jsonObject.put("t_user_name", userInfo.getUserName());
+			jsonObject.put("t_user_id", userInfo.getObjectId());
+			jsonObject.put("t_user_name", userInfo.getName());
 			jsonObject.put("t_user_tel", userInfo.getUserPhoneNumber());
 	    	/* 年齢を求める*/
 	    	Date userBirth = userInfo.getUserBirth();

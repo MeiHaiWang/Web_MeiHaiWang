@@ -76,8 +76,8 @@ public class RecommendDao {
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
 				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setStylistId(rs.getInt("t_stylist_Id"));
-				stylistInfo.setStylistName(rs.getString("t_stylist_name"));
+				stylistInfo.setObjectId(rs.getInt("t_stylist_Id"));
+				stylistInfo.setName(rs.getString("t_stylist_name"));
 				stylistInfo.setStylistImagePath(rs.getString("t_stylist_imagePath"));
 				stylistInfo.setSalonId(rs.getInt("t_stylist_salonId"));
 				stylistInfo.setFavoriteNumber(rs.getInt("t_stylist_favoriteNumber"));
@@ -232,7 +232,7 @@ public class RecommendDao {
 					Arrays.asList(favoriteStylistIdArray) : new ArrayList<String>() ;
 			
 			for(StylistInfo stylistInfo : infoList){
-				if(favoriteHairIdList.contains(String.valueOf(stylistInfo.getStylistId()))){
+				if(favoriteHairIdList.contains(String.valueOf(stylistInfo.getObjectId()))){
 					stylistInfo.setIsGood(Constant.FLAG_ON);
 				}
 				else{

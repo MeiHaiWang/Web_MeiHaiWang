@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.SetHairStyleService;
 
-@WebServlet(name="SetHairStyleServlet",urlPatterns={"/api/:version/stylist_style_up"})
+//@WebServlet(name="SetHairStyleServlet",urlPatterns={"/api/:version/stylist_style_up"})
 public class SetHairStyleAction extends HttpServlet {
 
 	/**

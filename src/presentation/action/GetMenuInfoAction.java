@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.DeleteStaffInfoService;
 import business.service.GetMenuInfoService;
 
-@WebServlet(name="GetMenuInfoServlet",urlPatterns={"/api/:version/getMenuInfo"})
+///@WebServlet(name="GetMenuInfoServlet",urlPatterns={"/api/:version/getMenuInfo"})
 public class GetMenuInfoAction extends HttpServlet {
 
 	/**

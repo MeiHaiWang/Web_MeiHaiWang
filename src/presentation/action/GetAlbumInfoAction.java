@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetAlbumInfoService;
 import business.service.GetMenuInfoService;
 
-@WebServlet(name="GetAlbumInfoServlet",urlPatterns={"/api/:version/getAlbumInfo"})
+//@WebServlet(name="GetAlbumInfoServlet",urlPatterns={"/api/:version/getAlbumInfo"})
 public class GetAlbumInfoAction extends HttpServlet {
 
 	/**

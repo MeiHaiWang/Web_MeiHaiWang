@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetReviewCommentService;
 import business.service.GetReviewsService;
 
-@WebServlet(name="GetReviewCommentServlet",urlPatterns={"/api/:version/reviewRe"})
+///@WebServlet(name="GetReviewCommentServlet",urlPatterns={"/api/:version/reviewRe"})
 public class GetReviewCommentAction extends HttpServlet{
 
 	/**

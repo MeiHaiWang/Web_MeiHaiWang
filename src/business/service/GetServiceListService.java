@@ -41,7 +41,7 @@ import common.util.DBConnection;
     
  */
 
-public class GetServiceListService {
+public class GetServiceListService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

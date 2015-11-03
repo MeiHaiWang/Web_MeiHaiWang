@@ -36,7 +36,7 @@ import common.util.DBConnection;
  *
  */
 
-public class GetHairTypeListService {
+public class GetHairTypeListService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

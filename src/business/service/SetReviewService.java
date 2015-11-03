@@ -17,13 +17,14 @@ import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.CommentInfo;
 import common.model.ReviewInfo;
 import common.model.StylistInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class SetReviewService {
+public class SetReviewService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -80,7 +81,8 @@ public class SetReviewService {
 			if(conn!=null){
 				StylistInfo stylistInfo = new StylistInfo();
 				StylistDao stylistDao = new StylistDao();
-				stylistInfo = stylistDao.getStylistInfoByUserId(dbConnection,userId);
+				//stylistInfo = stylistDao.getStylistInfoByUserId(dbConnection,userId);
+				stylistInfo = stylistDao.getStylistObjectByColumn(dbConnection, TableConstant.COLUMN_STYLIST_USERID, Integer.toString(userId));
 				ReviewDao reviewDao = new ReviewDao();
 				if(commentInfo.getCommentReviewId()<0){
 					//ユーザーレビュー
@@ -93,7 +95,7 @@ public class SetReviewService {
 					}
 				}else{
 					//スタイリストのレビューに対するcomment
-					commentInfo.setCommentUserName(stylistInfo.getStylistName());
+					commentInfo.setCommentUserName(stylistInfo.getName());
 					CommentDao commentDao = new CommentDao();
 					int commentId = commentDao.setComment(dbConnection, commentInfo);					
 					if(commentId>0){

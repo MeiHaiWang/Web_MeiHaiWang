@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +13,14 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
+import business.dao.UserDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.StylistInfo;
+import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class GetStylistHistoryService {
+public class GetStylistHistoryService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -26,7 +30,7 @@ public class GetStylistHistoryService {
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<Integer> stylistIdList  = new ArrayList<Integer>();
+			List<String> stylistIdList  = new ArrayList<String>();
 			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
 
 			int userId = request.getHeader(Constant.HEADER_USERID)!= null 
@@ -34,8 +38,16 @@ public class GetStylistHistoryService {
 			
 			if(conn!=null){
 				StylistDao dao = new StylistDao();
-				stylistIdList  = dao.getStylistHistoryIdList(dbConnection, userId);
-				stylistInfoList = dao.getStylistHistoryInfo(dbConnection, stylistIdList);
+				UserDao userDao = new UserDao();
+				UserInfo userInfo = new UserInfo();
+				userInfo.setObjectId(userId);
+				String stylistIdListStr = userDao.getUserStringData(dbConnection, TableConstant.COLUMN_USER_LATEST_STYLIST, userInfo);
+				if(stylistIdListStr != null) stylistIdList = Arrays.asList(stylistIdListStr.split(","));
+				//stylistIdList  = dao.getStylistHistoryIdList(dbConnection, userId);
+				//stylistInfoList = dao.getStylistHistoryInfo(dbConnection, stylistIdList);
+				for(String id : stylistIdList){
+					stylistInfoList.add(dao.getStylistObject(dbConnection, Integer.parseInt(id)));
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -62,9 +74,9 @@ public class GetStylistHistoryService {
 		    JSONArray stylistArray = new JSONArray();
 		    for(StylistInfo stylistInfo : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", stylistInfo.getStylistId());
+		    	jsonOneData.put("id", stylistInfo.getObjectId());
 		    	jsonOneData.put("shopID", stylistInfo.getSalonId());
-		    	jsonOneData.put("name", stylistInfo.getStylistName());
+		    	jsonOneData.put("name", stylistInfo.getName());
 		    	jsonOneData.put("gender", stylistInfo.getStylistGender());
 		    	//jsonOneData.put("image", stylistInfo.getStylistImagePath());
 		    	int i = 0;

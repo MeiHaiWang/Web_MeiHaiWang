@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.GetSalonMapService;
 import business.service.SetSalonInfoService;
 
-@WebServlet(name="SetSalonInfoServlet",urlPatterns={"/api/:version/setSalonInfo"})
+//@WebServlet(name="SetSalonInfoServlet",urlPatterns={"/api/:version/setSalonInfo"})
 public class SetSalonInfoAction extends HttpServlet {
 
 	/**

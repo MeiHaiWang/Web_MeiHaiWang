@@ -16,7 +16,7 @@ import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.util.DBConnection;
 
-public class GetNewsService {
+public class GetNewsService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

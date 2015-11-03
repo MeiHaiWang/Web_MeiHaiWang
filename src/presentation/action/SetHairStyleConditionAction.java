@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.SetHairStyleConditionService;
 import business.service.SetMenuInfoService;
 
-@WebServlet(name="SetHairStyleCondition",urlPatterns={"/api/:version/hair/setCondition"})
+//@WebServlet(name="SetHairStyleCondition",urlPatterns={"/api/:version/hair/setCondition"})
 public class SetHairStyleConditionAction extends HttpServlet {
 
 	/**

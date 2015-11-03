@@ -11,7 +11,7 @@ import business.dao.CouponDao;
 import common.constant.Constant;
 import common.util.DBConnection;
 
-public class DeleteCouponInfoService {
+public class DeleteCouponInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

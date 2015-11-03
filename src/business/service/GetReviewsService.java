@@ -34,7 +34,7 @@ import common.util.DBConnection;
  *
  */
 
-public class GetReviewsService {
+public class GetReviewsService implements IServiceExcuter {
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		

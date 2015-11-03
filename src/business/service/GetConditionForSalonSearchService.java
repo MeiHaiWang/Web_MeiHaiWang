@@ -22,7 +22,6 @@ import common.model.StylistInfo;
 import common.util.DBConnection;
 
 public class GetConditionForSalonSearchService {
-	@SuppressWarnings({ "unchecked", "unused" })
 
 	/**
 	public static final String TITLE_FOR_SALON_CONDITION = "サロン条件検索";
@@ -32,7 +31,7 @@ public class GetConditionForSalonSearchService {
 	public static final String TITLE_FOR_HAIRSTYLE_FACE = "ヘアスタイル検索顔型";
 
 	 */
-	
+/*	
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
@@ -46,10 +45,6 @@ public class GetConditionForSalonSearchService {
 			List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
 			java.sql.Connection conn = dbConnection.connectDB();
 
-			/*
-			ConditionInfo conditionInfo = new ConditionInfo();
-			ConditionTitleInfo conditionTitleInfo = new ConditionTitleInfo();
-			*/
 			if(conn!=null){
 				ConditionDao conditionDao = new ConditionDao();
 				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_SALON_CONDITION);
@@ -94,5 +89,5 @@ public class GetConditionForSalonSearchService {
 		response.setStatus(responseStatus);
 		return response;
 	}
-
+*/
 }

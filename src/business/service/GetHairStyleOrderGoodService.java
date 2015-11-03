@@ -14,36 +14,21 @@ import net.sf.json.JSONObject;
 import business.dao.AreaDao;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
-import common.constant.Constant;
+import common.model.AreaInfo;
 import common.model.HairStyleInfo;
-import common.model.StylistInfo;
 import common.model.HairTypeInfo;
+import common.model.StylistInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetHairTypeOrderNewService {
+public class GetHairStyleOrderGoodService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		
 		HttpSession session = request.getSession();
 
-		/**
-			 * categoryID=0
-			ヘアカタログID
-			stylistID=0
-			スタイリストID
-			menu=0&menu=1&menu=2
-			メニュー
-			face=0&face=1
-			顔型
-			page=0
-		 */
 		//パラメータ取得
-		/*
-        int stylistId = request.getParameter("stylistID")!= null
-           		?Integer.parseInt(request.getParameter("stylistID")) : -1;
-           		*/
 	    String stylistIdStr = request.getParameter("stylistID")!= null
 	    		?request.getParameter("stylistID") : null;
 	    int stylistId = -1;
@@ -51,19 +36,18 @@ public class GetHairTypeOrderNewService {
 	    	stylistId = Integer.parseInt(stylistIdStr);
 	    }
 
-        /*
+   		/*
 		List<String> searchConditionIdList = request.getParameter("condition") != null ?
 				Arrays.asList(request.getParameter("condition").split(",")) : new ArrayList<String>();	
-				*/
-   		List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
-   				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
-   		if(searchConditionIdList.isEmpty()){
-   			searchConditionIdList.add("-1");
-   		}
-
-		int page = request.getParameter("page")!= null
-           		?Integer.parseInt(request.getParameter("page")) : 0;
-
+		*/
+		List<String> searchConditionIdList = request.getParameterValues("condition") != null ?
+				Arrays.asList(request.getParameterValues("condition")) : new ArrayList<String>();	
+		if(searchConditionIdList.isEmpty()){
+			searchConditionIdList.add("-1");
+		}
+   		int page = request.getParameter("page")!= null
+   				?Integer.parseInt(request.getParameter("page")) : 0;
+        
         int responseStatus = HttpServletResponse.SC_OK;
 				
 		try{
@@ -76,8 +60,9 @@ public class GetHairTypeOrderNewService {
 			if(conn!=null){
 				HairTypeDao hairTypeDao = new HairTypeDao();
 				StylistDao stylistDao = new StylistDao();
-				stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-				HairStyleOrderNewList = hairTypeDao.getHairTypeOrderNewInfo(dbConnection, stylistId, page, jsonObject, searchConditionIdList);
+				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
+				stylistInfo = stylistDao.getStylistObject(dbConnection, stylistId);
+				HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, page, jsonObject, searchConditionIdList);
 				AreaDao areaDao = new AreaDao();
 				for(int i=0;i<HairStyleOrderNewList.size();i++){
 					HairStyleInfo hInfo = HairStyleOrderNewList.get(i);
@@ -92,7 +77,6 @@ public class GetHairTypeOrderNewService {
 				}
 				dbConnection.close();
 			}
-			
 
 			/**
 			 * {
@@ -154,7 +138,7 @@ public class GetHairTypeOrderNewService {
 		    		i++;
 		    		jsonOneData.put("image"+i, str);		    		
 		    	}
-		    	jsonOneData.put("stylistName", stylistInfo.getStylistName());
+		    	jsonOneData.put("stylistName", stylistInfo.getName());
 		    	jsonOneData.put("area", hairStyleInfo.getHairStyleAreaName());
 		    	jsonOneData.put("goodCount", hairStyleInfo.getHairStyleGoodNumber());
 		    	if(hairStyleInfo.getHairStyleGoodNumber()>0){
@@ -170,7 +154,6 @@ public class GetHairTypeOrderNewService {
 		    out.print(jsonObject);
 		    out.flush();
 		    
-		    
 		}catch(Exception e){
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
@@ -179,5 +162,5 @@ public class GetHairTypeOrderNewService {
 		response.setStatus(responseStatus);
 		return response;
 	}
-	
+
 }

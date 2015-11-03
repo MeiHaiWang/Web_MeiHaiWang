@@ -15,7 +15,7 @@ import common.model.UserInfo;
 import common.util.DBConnection;
 import common.util.EncryptUtil;
 
-public class LogoutSessionService {
+public class LogoutSessionService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

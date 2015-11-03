@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import business.service.CheckLoginService;
 import business.service.GetConditionForSalonSearchService;
 
-@WebServlet(name="CheckLogin",urlPatterns={"/api/:version/checkLogin"})
+//@WebServlet(name="CheckLogin",urlPatterns={"/api/:version/checkLogin"})
 public class CheckLoginAction extends HttpServlet{
 	/**
 	 *

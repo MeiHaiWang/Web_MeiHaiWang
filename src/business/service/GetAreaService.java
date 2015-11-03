@@ -15,7 +15,7 @@ import common.model.AreaInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetAreaService {
+public class GetAreaService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 

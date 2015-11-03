@@ -12,7 +12,7 @@ import common.constant.Constant;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class SetRegistUserService {
+public class SetRegistUserService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -50,7 +50,7 @@ public class SetRegistUserService {
 
 		//userInfo を渡したほうがきれいかも.
 		UserInfo userInfo = new UserInfo();
-		userInfo.setUserName(t_user_name);
+		userInfo.setName(t_user_name);
 		int age = 0;
 		if(t_user_age != null && t_user_age != ""){
 			age = Integer.parseInt(t_user_age);
@@ -73,11 +73,14 @@ public class SetRegistUserService {
 
 			if(conn!=null){
 				UserDao userDao = new UserDao();
+				/*
 				userId = userDao.setRegistUserInfo(
 						dbConnection,
 						salonId,
 						userInfo
 						);
+						*/
+				userId = userDao.setUserInfoInsert(dbConnection, userInfo);
 				if(userId > 0) result = true;
 				dbConnection.close();
 			}else{

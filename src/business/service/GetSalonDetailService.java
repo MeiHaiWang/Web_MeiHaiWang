@@ -23,7 +23,7 @@ import common.model.HairSalonInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class GetSalonDetailService {
+public class GetSalonDetailService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		

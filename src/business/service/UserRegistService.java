@@ -13,10 +13,10 @@ import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
 
-public class UserRegistService {
+public class UserRegistService implements IServiceExcuter{
 
 	public HttpServletResponse excuteService(HttpServletRequest request,
-			HttpServletResponse response,String oneTimeKey){
+			HttpServletResponse response){
 
 		HttpSession session = request.getSession();
         int responseStatus = HttpServletResponse.SC_OK;
@@ -36,6 +36,10 @@ public class UserRegistService {
 			}
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
+			
+			/**
+			 * ユーザ登録？
+			 */
 			
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);

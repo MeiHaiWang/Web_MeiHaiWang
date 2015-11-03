@@ -21,7 +21,7 @@ import common.model.ReviewInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
 
-public class GetReviewCommentService {
+public class GetReviewCommentService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
 		

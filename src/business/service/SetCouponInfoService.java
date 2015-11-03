@@ -36,7 +36,7 @@ import common.util.DBConnection;
       t_coupon_Id:登録したクーポンのID,
     }
  */
-public class SetCouponInfoService {
+public class SetCouponInfoService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

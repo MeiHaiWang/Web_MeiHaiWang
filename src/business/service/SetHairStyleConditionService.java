@@ -17,7 +17,7 @@ import common.model.MenuInfo;
 import common.util.CommonUtil;
 import common.util.DBConnection;
 
-public class SetHairStyleConditionService {
+public class SetHairStyleConditionService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){

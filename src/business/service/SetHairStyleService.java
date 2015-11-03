@@ -32,7 +32,9 @@ import business.dao.HairStyleDao;
 import business.dao.ImageDao;
 import business.dao.StylistDao;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.HairStyleInfo;
+import common.model.StylistInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
@@ -51,7 +53,7 @@ import common.util.DBConnection;
 	*Response
 	{result: true/false}
  */
-public class SetHairStyleService {
+public class SetHairStyleService implements IServiceExcuter{
 	@SuppressWarnings({ "unchecked", "unused" })
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response){
@@ -305,7 +307,10 @@ public class SetHairStyleService {
 	    				java.sql.Connection conn = dbConnection.connectDB();
 	    				if(conn!=null){
 	    	            	StylistDao stylistDao = new StylistDao();
-	    	            	salonId = stylistDao.getStylistSalonId(dbConnection, item.getString());
+	    	            	//salonId = stylistDao.getStylistSalonId(dbConnection, item.getString());
+	    	            	StylistInfo stylistInfo = new StylistInfo();
+	    	            	stylistInfo.setObjectId(Integer.parseInt(item.getString()));
+	    	            	salonId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_SALONID, stylistInfo);
 	    	            	//debug
 	    	            	//System.out.println("salonId :"+salonId);
 	        			}else{
@@ -412,7 +417,11 @@ public class SetHairStyleService {
 			if(conn!=null){
 				if(salonId>0 && result){
 					StylistDao stylistDao = new StylistDao();
-					hairStyleInfo.setHairStyleAreaId(stylistDao.getStylistAreaId(dbConnection,hairStyleInfo.getStylistId()));
+					//hairStyleInfo.setHairStyleAreaId(stylistDao.getStylistAreaId(dbConnection,hairStyleInfo.getStylistId()));
+					StylistInfo info = new StylistInfo();
+					info.setObjectId(hairStyleInfo.getStylistId());
+					int areaId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_AREAID, info);
+					if(areaId>0) hairStyleInfo.setHairStyleAreaId(Integer.toString(areaId));
 					HairStyleDao hairStyleDao = new HairStyleDao();
 					hairStyleId = hairStyleDao.setAlbumInfoForMaster(
 							dbConnection,

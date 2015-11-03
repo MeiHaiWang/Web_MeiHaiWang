@@ -2,6 +2,7 @@ package presentation.action;
 
 import java.io.IOException;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,8 @@ import business.service.GetSalonMapService;
 
 import java.util.Locale;
 import java.util.logging.Logger;
-@WebServlet(name="GetRecommendSalonServlet",urlPatterns={"/api/:version/osusume"})
+
+///@WebServlet(name="GetRecommendSalonServlet",urlPatterns={"/api/:version/osusume"})
 public class GetRecommendAction extends HttpServlet{
 
 	/**

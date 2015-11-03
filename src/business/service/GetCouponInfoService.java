@@ -47,7 +47,7 @@ import common.util.DBConnection;
     }
  */
 
-public class GetCouponInfoService {
+public class GetCouponInfoService implements IServiceExcuter{
 	public HttpServletResponse excuteService(HttpServletRequest request,
 			HttpServletResponse response) {
 

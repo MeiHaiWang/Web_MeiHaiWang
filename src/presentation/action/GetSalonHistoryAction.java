@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import business.service.GetSalonHistoryService;
 
-@WebServlet(name="GetHairSalonHistoryServlet",urlPatterns={"/api/:version/salon_history"})
+///@WebServlet(name="GetHairSalonHistoryServlet",urlPatterns={"/api/:version/salon_history"})
 public class GetSalonHistoryAction extends HttpServlet{
 
 	/**
