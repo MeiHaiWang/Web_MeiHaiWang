@@ -1,0 +1,21 @@
+{
+  "name": "hoge",
+  "version": "0.0.0",
+  "homepage": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "bootstrap-social": "~4.10.1",
+    "fuelux": "~3.11.4",
+    "jasny-bootstrap": "~3.1.3",
+    "jquery": "~2.1.4",
+    "social-share-js": "~1.0.4"
+  }
+}
