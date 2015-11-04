@@ -92,7 +92,7 @@ public class HttpRequestEntrance extends HttpServlet {
 				/* user-app login ->   */	&& !(service instanceof UserLoginService )
 				/* salon-tool login -> */	&& !(service instanceof CheckLoginService) 
 		        /* salon-tool session-check -> */ && !(service instanceof CheckSessionService)){
-
+				
 				if(!isSession(request, response)){
 					throw new Exception(Constant.MESSAGE_ERROR_NO_SESSION);
 				}

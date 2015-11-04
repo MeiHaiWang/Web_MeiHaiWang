@@ -55,7 +55,7 @@ public class TableConstant {
 	public static final String COLUMN_SALON_AREAID = "t_hairSalonMaster_areaId";
 	public static final String COLUMN_SALON_MENUID = "t_hairSalonMaster_menuId";
 	public static final String COLUMN_SALON_DISABLE_FLAG = "t_hairSalonMaster_disableFlag";
-	public static final String COLUMN_SALON_DITAIL_TEXT = "t_hairSalonMaster_detailText";
+	public static final String COLUMN_SALON_DETAIL_TEXT = "t_hairSalonMaster_detailText";
 	public static final String COLUMN_SALON_COUPONID = "t_hairSalonMaster_couponId";
 	public static final String COLUMN_SALON_STYLISTID = "t_hairSalonMaster_stylistId";
 	public static final String COLUMN_SALON_IMAGEPATH = "t_hairSalonMaster_salonImagePath";
