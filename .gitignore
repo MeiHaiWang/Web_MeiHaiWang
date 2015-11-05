@@ -11,6 +11,5 @@ WebContent/exsample/dest
 
 .project
 
-.project
-
-.project
+### generator ###
+generator/**/*.java
