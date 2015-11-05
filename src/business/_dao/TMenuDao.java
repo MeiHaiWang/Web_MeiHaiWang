@@ -58,11 +58,11 @@ public abstract class TMenuDao extends BaseDao {
 
 		for (String columnName : map.keySet()) {
 			
-			where += "`" + columnName + "` = ? AND";
+			where += " `" + columnName + "` = ? AND ";
 		}
 		
 		if (!map.isEmpty()) {
-			where = where.substring(0, where.length() -3);
+			where = where.substring(0, where.length() -4);
 			sql += where;
 		}
 
