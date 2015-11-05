@@ -52,7 +52,7 @@ public abstract class TMasterareaDao extends BaseDao {
 	
 	public List<TMasterareaInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterArea` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

@@ -49,7 +49,7 @@ public abstract class TMastersearchconditiontitleDao extends BaseDao {
 	
 	public List<TMastersearchconditiontitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterSearchConditionTitle` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

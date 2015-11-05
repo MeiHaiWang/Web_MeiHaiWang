@@ -48,7 +48,7 @@ public abstract class TMastercountryDao extends BaseDao {
 	
 	public List<TMastercountryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterCountry` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

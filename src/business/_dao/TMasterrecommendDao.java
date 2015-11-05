@@ -51,7 +51,7 @@ public abstract class TMasterrecommendDao extends BaseDao {
 	
 	public List<TMasterrecommendInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterRecommend` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

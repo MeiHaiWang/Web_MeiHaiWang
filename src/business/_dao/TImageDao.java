@@ -52,7 +52,7 @@ public abstract class TImageDao extends BaseDao {
 	
 	public List<TImageInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_image` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

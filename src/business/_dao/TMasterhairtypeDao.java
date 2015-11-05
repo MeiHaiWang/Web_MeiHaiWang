@@ -51,7 +51,7 @@ public abstract class TMasterhairtypeDao extends BaseDao {
 	
 	public List<TMasterhairtypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterHairType` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

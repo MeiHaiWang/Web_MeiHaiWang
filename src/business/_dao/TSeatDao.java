@@ -50,7 +50,7 @@ public abstract class TSeatDao extends BaseDao {
 	
 	public List<TSeatInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_seat` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

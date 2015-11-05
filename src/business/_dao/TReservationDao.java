@@ -56,7 +56,7 @@ public abstract class TReservationDao extends BaseDao {
 	
 	public List<TReservationInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_reservation` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

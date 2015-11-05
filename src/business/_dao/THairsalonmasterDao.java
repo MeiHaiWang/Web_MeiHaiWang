@@ -82,7 +82,7 @@ public abstract class THairsalonmasterDao extends BaseDao {
 	
 	public List<THairsalonmasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_hairSalonMaster` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

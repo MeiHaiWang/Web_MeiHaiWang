@@ -48,7 +48,7 @@ public abstract class TMastermenucategoryDao extends BaseDao {
 	
 	public List<TMastermenucategoryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterMenuCategory` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

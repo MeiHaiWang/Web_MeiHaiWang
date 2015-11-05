@@ -56,7 +56,7 @@ public abstract class TCouponDao extends BaseDao {
 	
 	public List<TCouponInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_coupon` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

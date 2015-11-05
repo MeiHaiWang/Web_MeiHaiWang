@@ -53,7 +53,7 @@ public abstract class TClaimDao extends BaseDao {
 	
 	public List<TClaimInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_claim` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {

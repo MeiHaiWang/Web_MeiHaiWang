@@ -48,7 +48,7 @@ public abstract class TMastercouponkindDao extends BaseDao {
 	
 	public List<TMastercouponkindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
-		String sql = "select * from `t_user` ";
+		String sql = "select * from `t_masterCouponKind` ";
 		String where = " where ";
 
 		for (String columnName : map.keySet()) {
