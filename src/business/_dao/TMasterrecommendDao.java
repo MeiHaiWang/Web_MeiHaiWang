@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMasterrecommendInfo;
+import common._model.TMasterRecommendInfo;
 import common.util.DBConnection;
 
-public abstract class TMasterrecommendDao extends BaseDao {
+public abstract class TMasterRecommendDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMasterrecommendInfo createTMasterrecommendInfo(ResultSet rs) throws SQLException {
+	private TMasterRecommendInfo createTMasterRecommendInfo(ResultSet rs) throws SQLException {
 		
-		TMasterrecommendInfo info = new TMasterrecommendInfo();
+		TMasterRecommendInfo info = new TMasterRecommendInfo();
 		info.setTMasterRecommendId(rs.getInt("t_masterRecommend_Id"));
 		info.setTMasterRecommendSalonId(rs.getInt("t_masterRecommend_salonId"));
 		info.setTMasterRecommendHairStyleId(rs.getInt("t_masterRecommend_hairStyleId"));
@@ -32,9 +32,9 @@ public abstract class TMasterrecommendDao extends BaseDao {
 		
 	}
 	
-	public TMasterrecommendInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterRecommendInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMasterrecommendInfo> list = getByColumn(dbConnection, "t_masterRecommend_Id", id);
+		List<TMasterRecommendInfo> list = getByColumn(dbConnection, "t_masterRecommend_Id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -42,18 +42,74 @@ public abstract class TMasterrecommendDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMasterrecommendInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterRecommendInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMasterrecommendInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterRecommendInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterRecommendInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterRecommend` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterRecommendInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterRecommendInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_masterRecommend_Id`) count from `t_masterRecommend` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -75,15 +131,13 @@ public abstract class TMasterrecommendDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMasterrecommendInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMasterrecommendInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMasterrecommendInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterRecommendInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterRecommend` "
 			+ " ( "
@@ -119,7 +173,7 @@ public abstract class TMasterrecommendDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMasterrecommendInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterRecommendInfo info) throws SQLException {
 		
 		String sql = "update `t_masterRecommend` set "
 

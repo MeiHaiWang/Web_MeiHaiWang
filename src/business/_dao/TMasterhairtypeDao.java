@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMasterhairtypeInfo;
+import common._model.TMasterHairTypeInfo;
 import common.util.DBConnection;
 
-public abstract class TMasterhairtypeDao extends BaseDao {
+public abstract class TMasterHairTypeDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMasterhairtypeInfo createTMasterhairtypeInfo(ResultSet rs) throws SQLException {
+	private TMasterHairTypeInfo createTMasterHairTypeInfo(ResultSet rs) throws SQLException {
 		
-		TMasterhairtypeInfo info = new TMasterhairtypeInfo();
+		TMasterHairTypeInfo info = new TMasterHairTypeInfo();
 		info.setTHairTypeId(rs.getInt("t_hairType_id"));
 		info.setTHairTypeName(rs.getString("t_hairType_name"));
 		info.setTHairTypeSex(rs.getString("t_hairType_sex"));
@@ -32,9 +32,9 @@ public abstract class TMasterhairtypeDao extends BaseDao {
 		
 	}
 	
-	public TMasterhairtypeInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterHairTypeInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMasterhairtypeInfo> list = getByColumn(dbConnection, "t_hairType_id", id);
+		List<TMasterHairTypeInfo> list = getByColumn(dbConnection, "t_hairType_id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -42,18 +42,74 @@ public abstract class TMasterhairtypeDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMasterhairtypeInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterHairTypeInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMasterhairtypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterHairTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterHairTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterHairType` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterHairTypeInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterHairTypeInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_hairType_id`) count from `t_masterHairType` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -75,15 +131,13 @@ public abstract class TMasterhairtypeDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMasterhairtypeInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMasterhairtypeInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMasterhairtypeInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterHairTypeInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterHairType` "
 			+ " ( "
@@ -119,7 +173,7 @@ public abstract class TMasterhairtypeDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMasterhairtypeInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterHairTypeInfo info) throws SQLException {
 		
 		String sql = "update `t_masterHairType` set "
 

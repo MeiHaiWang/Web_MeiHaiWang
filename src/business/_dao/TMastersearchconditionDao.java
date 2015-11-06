@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMastersearchconditionInfo;
+import common._model.TMasterSearchConditionInfo;
 import common.util.DBConnection;
 
-public abstract class TMastersearchconditionDao extends BaseDao {
+public abstract class TMasterSearchConditionDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMastersearchconditionInfo createTMastersearchconditionInfo(ResultSet rs) throws SQLException {
+	private TMasterSearchConditionInfo createTMasterSearchConditionInfo(ResultSet rs) throws SQLException {
 		
-		TMastersearchconditionInfo info = new TMastersearchconditionInfo();
+		TMasterSearchConditionInfo info = new TMasterSearchConditionInfo();
 		info.setTMasterSearchConditionId(rs.getInt("t_masterSearchCondition_id"));
 		info.setTMasterSearchConditionName(rs.getString("t_masterSearchCondition_name"));
 		info.setTMasterSearchConditionTitleId(rs.getInt("t_masterSearchCondition_titleId"));
@@ -30,9 +30,9 @@ public abstract class TMastersearchconditionDao extends BaseDao {
 		
 	}
 	
-	public TMastersearchconditionInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterSearchConditionInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMastersearchconditionInfo> list = getByColumn(dbConnection, "t_masterSearchCondition_id", id);
+		List<TMasterSearchConditionInfo> list = getByColumn(dbConnection, "t_masterSearchCondition_id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -40,18 +40,74 @@ public abstract class TMastersearchconditionDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMastersearchconditionInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterSearchConditionInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMastersearchconditionInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterSearchConditionInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterSearchConditionInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterSearchCondition` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterSearchConditionInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterSearchConditionInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_masterSearchCondition_id`) count from `t_masterSearchCondition` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -73,15 +129,13 @@ public abstract class TMastersearchconditionDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMastersearchconditionInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMastersearchconditionInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMastersearchconditionInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterSearchConditionInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterSearchCondition` "
 			+ " ( "
@@ -111,7 +165,7 @@ public abstract class TMastersearchconditionDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMastersearchconditionInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterSearchConditionInfo info) throws SQLException {
 		
 		String sql = "update `t_masterSearchCondition` set "
 

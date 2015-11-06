@@ -13,25 +13,25 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMastermenucategoryInfo;
+import common._model.TMasterMenuCategoryInfo;
 import common.util.DBConnection;
 
-public abstract class TMastermenucategoryDao extends BaseDao {
+public abstract class TMasterMenuCategoryDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMastermenucategoryInfo createTMastermenucategoryInfo(ResultSet rs) throws SQLException {
+	private TMasterMenuCategoryInfo createTMasterMenuCategoryInfo(ResultSet rs) throws SQLException {
 		
-		TMastermenucategoryInfo info = new TMastermenucategoryInfo();
+		TMasterMenuCategoryInfo info = new TMasterMenuCategoryInfo();
 		info.setTMenuCategoryCategoryId(rs.getInt("t_menuCategory_categoryId"));
 		info.setTMenuCategoryName(rs.getString("t_menuCategory_name"));
 		return info;
 		
 	}
 	
-	public TMastermenucategoryInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterMenuCategoryInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMastermenucategoryInfo> list = getByColumn(dbConnection, "t_menuCategory_categoryId", id);
+		List<TMasterMenuCategoryInfo> list = getByColumn(dbConnection, "t_menuCategory_categoryId", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -39,18 +39,74 @@ public abstract class TMastermenucategoryDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMastermenucategoryInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterMenuCategoryInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMastermenucategoryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterMenuCategoryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterMenuCategoryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterMenuCategory` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterMenuCategoryInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterMenuCategoryInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_menuCategory_categoryId`) count from `t_masterMenuCategory` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -72,15 +128,13 @@ public abstract class TMastermenucategoryDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMastermenucategoryInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMastermenucategoryInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMastermenucategoryInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterMenuCategoryInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterMenuCategory` "
 			+ " ( "
@@ -107,7 +161,7 @@ public abstract class TMastermenucategoryDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMastermenucategoryInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterMenuCategoryInfo info) throws SQLException {
 		
 		String sql = "update `t_masterMenuCategory` set "
 

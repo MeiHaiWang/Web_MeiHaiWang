@@ -55,10 +55,66 @@ public abstract class TReservationDao extends BaseDao {
 	}
 	
 	public List<TReservationInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TReservationInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_reservation` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TReservationInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTReservationInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_reservation_id`) count from `t_reservation` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -80,12 +136,10 @@ public abstract class TReservationDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TReservationInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTReservationInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
 	public int save(DBConnection dbConnection, TReservationInfo info) throws SQLException {

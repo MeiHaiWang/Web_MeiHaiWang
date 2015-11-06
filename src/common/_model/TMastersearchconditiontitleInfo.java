@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class TMastersearchconditiontitleInfo extends BaseInfo implements IBaseInfo {
+public class TMasterSearchConditionTitleInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tMasterSearchConditionTitleId = 0;

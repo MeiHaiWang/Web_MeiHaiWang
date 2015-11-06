@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class TMastercouponkindInfo extends BaseInfo implements IBaseInfo {
+public class TMasterCouponKindInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tCouponKindId = 0;

@@ -56,8 +56,10 @@ public class Generator {
 			}
 			data.put("fields", fields);
 
-			write("model.ftl", "model/" + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName) + "Info", data);
-			write("dao.ftl", "dao/" + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName) + "Dao", data);
+			String entityName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, tableName));
+			System.out.println(entityName);
+			write("model.ftl", "src/common/_model/" + entityName + "Info", data);
+			write("dao.ftl", "src/business/_dao/" + entityName + "Dao", data);
 		}
 		connection.close();
 	}
@@ -66,7 +68,7 @@ public class Generator {
 		Configuration configuration = new Configuration();
 		configuration.setDirectoryForTemplateLoading(new File("generator/templates"));
 		
-		File output = new File("generator/output/" + outputName + ".java");
+		File output = new File(outputName + ".java");
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(output)));
 		Template template = configuration.getTemplate(templateName);
 		template.process(data, pw);

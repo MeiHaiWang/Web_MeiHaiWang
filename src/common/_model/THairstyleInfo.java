@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class THairstyleInfo extends BaseInfo implements IBaseInfo {
+public class THairStyleInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tHairStyleId = 0;

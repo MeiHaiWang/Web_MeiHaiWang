@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class THairsalonmasterInfo extends BaseInfo implements IBaseInfo {
+public class THairSalonMasterInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tHairSalonMasterSalonId = 0;

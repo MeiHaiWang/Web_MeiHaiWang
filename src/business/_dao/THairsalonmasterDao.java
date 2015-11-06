@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.THairsalonmasterInfo;
+import common._model.THairSalonMasterInfo;
 import common.util.DBConnection;
 
-public abstract class THairsalonmasterDao extends BaseDao {
+public abstract class THairSalonMasterDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private THairsalonmasterInfo createTHairsalonmasterInfo(ResultSet rs) throws SQLException {
+	private THairSalonMasterInfo createTHairSalonMasterInfo(ResultSet rs) throws SQLException {
 		
-		THairsalonmasterInfo info = new THairsalonmasterInfo();
+		THairSalonMasterInfo info = new THairSalonMasterInfo();
 		info.setTHairSalonMasterSalonId(rs.getInt("t_hairSalonMaster_salonId"));
 		info.setTHairSalonMasterName(rs.getString("t_hairSalonMaster_name"));
 		info.setTHairSalonMasterViewNumber(rs.getInt("t_hairSalonMaster_viewNumber"));
@@ -63,9 +63,9 @@ public abstract class THairsalonmasterDao extends BaseDao {
 		
 	}
 	
-	public THairsalonmasterInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public THairSalonMasterInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<THairsalonmasterInfo> list = getByColumn(dbConnection, "t_hairSalonMaster_salonId", id);
+		List<THairSalonMasterInfo> list = getByColumn(dbConnection, "t_hairSalonMaster_salonId", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -73,18 +73,74 @@ public abstract class THairsalonmasterDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<THairsalonmasterInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<THairSalonMasterInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<THairsalonmasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<THairSalonMasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<THairSalonMasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_hairSalonMaster` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<THairSalonMasterInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTHairSalonMasterInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_hairSalonMaster_salonId`) count from `t_hairSalonMaster` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -106,15 +162,13 @@ public abstract class THairsalonmasterDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<THairsalonmasterInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTHairsalonmasterInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, THairsalonmasterInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, THairSalonMasterInfo info) throws SQLException {
 		
 		String sql = "insert into `t_hairSalonMaster` "
 			+ " ( "
@@ -243,7 +297,7 @@ public abstract class THairsalonmasterDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, THairsalonmasterInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, THairSalonMasterInfo info) throws SQLException {
 		
 		String sql = "update `t_hairSalonMaster` set "
 

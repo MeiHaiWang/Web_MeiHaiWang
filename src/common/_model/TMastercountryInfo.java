@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class TMastercountryInfo extends BaseInfo implements IBaseInfo {
+public class TMasterCountryInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tCountryCountryId = 0;

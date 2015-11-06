@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class TMastermenucategoryInfo extends BaseInfo implements IBaseInfo {
+public class TMasterMenuCategoryInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tMenuCategoryCategoryId = 0;

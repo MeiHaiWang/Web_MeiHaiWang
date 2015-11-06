@@ -1,4 +1,4 @@
-<#assign classNamePrefix = LOWER_UNDERSCORE.to(UPPER_CAMEL, tableName) />
+<#assign classNamePrefix = LOWER_UNDERSCORE.to(UPPER_CAMEL, LOWER_CAMEL.to(LOWER_UNDERSCORE, tableName)) />
 package common._model;
 
 import common.model.BaseInfo;

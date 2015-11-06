@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMastersearchconditiontitleInfo;
+import common._model.TMasterSearchConditionTitleInfo;
 import common.util.DBConnection;
 
-public abstract class TMastersearchconditiontitleDao extends BaseDao {
+public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMastersearchconditiontitleInfo createTMastersearchconditiontitleInfo(ResultSet rs) throws SQLException {
+	private TMasterSearchConditionTitleInfo createTMasterSearchConditionTitleInfo(ResultSet rs) throws SQLException {
 		
-		TMastersearchconditiontitleInfo info = new TMastersearchconditiontitleInfo();
+		TMasterSearchConditionTitleInfo info = new TMasterSearchConditionTitleInfo();
 		info.setTMasterSearchConditionTitleId(rs.getInt("t_masterSearchConditionTitle_id"));
 		info.setTMasterSearchConditionTitleName(rs.getString("t_masterSearchConditionTitle_name"));
 		info.setTMasterSearchConditionTitleTypeId(rs.getInt("t_masterSearchConditionTitle_typeId"));
@@ -30,9 +30,9 @@ public abstract class TMastersearchconditiontitleDao extends BaseDao {
 		
 	}
 	
-	public TMastersearchconditiontitleInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterSearchConditionTitleInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMastersearchconditiontitleInfo> list = getByColumn(dbConnection, "t_masterSearchConditionTitle_id", id);
+		List<TMasterSearchConditionTitleInfo> list = getByColumn(dbConnection, "t_masterSearchConditionTitle_id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -40,18 +40,74 @@ public abstract class TMastersearchconditiontitleDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMastersearchconditiontitleInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterSearchConditionTitleInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMastersearchconditiontitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterSearchConditionTitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterSearchConditionTitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterSearchConditionTitle` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterSearchConditionTitleInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterSearchConditionTitleInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_masterSearchConditionTitle_id`) count from `t_masterSearchConditionTitle` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -73,15 +129,13 @@ public abstract class TMastersearchconditiontitleDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMastersearchconditiontitleInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMastersearchconditiontitleInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMastersearchconditiontitleInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterSearchConditionTitleInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterSearchConditionTitle` "
 			+ " ( "
@@ -111,7 +165,7 @@ public abstract class TMastersearchconditiontitleDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMastersearchconditiontitleInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterSearchConditionTitleInfo info) throws SQLException {
 		
 		String sql = "update `t_masterSearchConditionTitle` set "
 

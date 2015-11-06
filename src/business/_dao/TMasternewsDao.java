@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMasternewsInfo;
+import common._model.TMasterNewsInfo;
 import common.util.DBConnection;
 
-public abstract class TMasternewsDao extends BaseDao {
+public abstract class TMasterNewsDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMasternewsInfo createTMasternewsInfo(ResultSet rs) throws SQLException {
+	private TMasterNewsInfo createTMasterNewsInfo(ResultSet rs) throws SQLException {
 		
-		TMasternewsInfo info = new TMasternewsInfo();
+		TMasterNewsInfo info = new TMasterNewsInfo();
 		info.setTMasterNewsId(rs.getInt("t_masterNewsId"));
 		info.setTMasterNewsName(rs.getString("t_masterNewsName"));
 		info.setTMasterNewImagePath(rs.getString("t_masterNewImagePath"));
@@ -32,9 +32,9 @@ public abstract class TMasternewsDao extends BaseDao {
 		
 	}
 	
-	public TMasternewsInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterNewsInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMasternewsInfo> list = getByColumn(dbConnection, "t_masterNewsId", id);
+		List<TMasterNewsInfo> list = getByColumn(dbConnection, "t_masterNewsId", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -42,18 +42,74 @@ public abstract class TMasternewsDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMasternewsInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterNewsInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMasternewsInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterNewsInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterNewsInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterNews` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterNewsInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterNewsInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_masterNewsId`) count from `t_masterNews` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -75,15 +131,13 @@ public abstract class TMasternewsDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMasternewsInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMasternewsInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMasternewsInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterNewsInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterNews` "
 			+ " ( "
@@ -119,7 +173,7 @@ public abstract class TMasternewsDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMasternewsInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterNewsInfo info) throws SQLException {
 		
 		String sql = "update `t_masterNews` set "
 

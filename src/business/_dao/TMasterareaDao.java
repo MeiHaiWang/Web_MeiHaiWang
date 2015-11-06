@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMasterareaInfo;
+import common._model.TMasterAreaInfo;
 import common.util.DBConnection;
 
-public abstract class TMasterareaDao extends BaseDao {
+public abstract class TMasterAreaDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMasterareaInfo createTMasterareaInfo(ResultSet rs) throws SQLException {
+	private TMasterAreaInfo createTMasterAreaInfo(ResultSet rs) throws SQLException {
 		
-		TMasterareaInfo info = new TMasterareaInfo();
+		TMasterAreaInfo info = new TMasterAreaInfo();
 		info.setTAreaAreaId(rs.getInt("t_area_areaId"));
 		info.setTAreaAreaName(rs.getString("t_area_areaName"));
 		info.setTAreaLevel(rs.getInt("t_area_level"));
@@ -33,9 +33,9 @@ public abstract class TMasterareaDao extends BaseDao {
 		
 	}
 	
-	public TMasterareaInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterAreaInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMasterareaInfo> list = getByColumn(dbConnection, "t_area_areaId", id);
+		List<TMasterAreaInfo> list = getByColumn(dbConnection, "t_area_areaId", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -43,18 +43,74 @@ public abstract class TMasterareaDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMasterareaInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterAreaInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMasterareaInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterAreaInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterAreaInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterArea` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterAreaInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterAreaInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_area_areaId`) count from `t_masterArea` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -76,15 +132,13 @@ public abstract class TMasterareaDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMasterareaInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMasterareaInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMasterareaInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterAreaInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterArea` "
 			+ " ( "
@@ -123,7 +177,7 @@ public abstract class TMasterareaDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMasterareaInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterAreaInfo info) throws SQLException {
 		
 		String sql = "update `t_masterArea` set "
 

@@ -10,6 +10,3 @@ WebContent/exsample/dest
 *.bak
 
 .project
-
-### generator ###
-generator/**/*.java

@@ -5,7 +5,7 @@ import common.model.IBaseInfo;
 
 import java.util.Date;
 
-public class TMasterareaInfo extends BaseInfo implements IBaseInfo {
+public class TMasterAreaInfo extends BaseInfo implements IBaseInfo {
 	
 	
 	private int tAreaAreaId = 0;

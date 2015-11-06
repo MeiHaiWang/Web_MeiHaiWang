@@ -13,25 +13,25 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMastercouponkindInfo;
+import common._model.TMasterCouponKindInfo;
 import common.util.DBConnection;
 
-public abstract class TMastercouponkindDao extends BaseDao {
+public abstract class TMasterCouponKindDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMastercouponkindInfo createTMastercouponkindInfo(ResultSet rs) throws SQLException {
+	private TMasterCouponKindInfo createTMasterCouponKindInfo(ResultSet rs) throws SQLException {
 		
-		TMastercouponkindInfo info = new TMastercouponkindInfo();
+		TMasterCouponKindInfo info = new TMasterCouponKindInfo();
 		info.setTCouponKindId(rs.getInt("t_couponKind_id"));
 		info.setTCouponKindName(rs.getString("t_couponKind_name"));
 		return info;
 		
 	}
 	
-	public TMastercouponkindInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterCouponKindInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMastercouponkindInfo> list = getByColumn(dbConnection, "t_couponKind_id", id);
+		List<TMasterCouponKindInfo> list = getByColumn(dbConnection, "t_couponKind_id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -39,18 +39,74 @@ public abstract class TMastercouponkindDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMastercouponkindInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterCouponKindInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMastercouponkindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterCouponKindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterCouponKindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterCouponKind` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterCouponKindInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterCouponKindInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_couponKind_id`) count from `t_masterCouponKind` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -72,15 +128,13 @@ public abstract class TMastercouponkindDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMastercouponkindInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMastercouponkindInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMastercouponkindInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterCouponKindInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterCouponKind` "
 			+ " ( "
@@ -107,7 +161,7 @@ public abstract class TMastercouponkindDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMastercouponkindInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterCouponKindInfo info) throws SQLException {
 		
 		String sql = "update `t_masterCouponKind` set "
 

@@ -13,25 +13,25 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.TMastercountryInfo;
+import common._model.TMasterCountryInfo;
 import common.util.DBConnection;
 
-public abstract class TMastercountryDao extends BaseDao {
+public abstract class TMasterCountryDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private TMastercountryInfo createTMastercountryInfo(ResultSet rs) throws SQLException {
+	private TMasterCountryInfo createTMasterCountryInfo(ResultSet rs) throws SQLException {
 		
-		TMastercountryInfo info = new TMastercountryInfo();
+		TMasterCountryInfo info = new TMasterCountryInfo();
 		info.setTCountryCountryId(rs.getInt("t_country_countryId"));
 		info.setTCountryCountryName(rs.getString("t_country_countryName"));
 		return info;
 		
 	}
 	
-	public TMastercountryInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public TMasterCountryInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<TMastercountryInfo> list = getByColumn(dbConnection, "t_country_countryId", id);
+		List<TMasterCountryInfo> list = getByColumn(dbConnection, "t_country_countryId", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -39,18 +39,74 @@ public abstract class TMastercountryDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<TMastercountryInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<TMasterCountryInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<TMastercountryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<TMasterCountryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<TMasterCountryInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterCountry` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<TMasterCountryInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTMasterCountryInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_country_countryId`) count from `t_masterCountry` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -72,15 +128,13 @@ public abstract class TMastercountryDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<TMastercountryInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTMastercountryInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, TMastercountryInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, TMasterCountryInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterCountry` "
 			+ " ( "
@@ -107,7 +161,7 @@ public abstract class TMastercountryDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, TMastercountryInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, TMasterCountryInfo info) throws SQLException {
 		
 		String sql = "update `t_masterCountry` set "
 

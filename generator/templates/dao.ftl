@@ -1,5 +1,4 @@
-<#assign classNamePrefix = LOWER_UNDERSCORE.to(UPPER_CAMEL, tableName) />
-<#assign instanceNamePrefix = LOWER_UNDERSCORE.to(LOWER_CAMEL, tableName) />
+<#assign classNamePrefix = LOWER_UNDERSCORE.to(UPPER_CAMEL, LOWER_CAMEL.to(LOWER_UNDERSCORE, tableName)) />
 package business._dao;
 
 import java.sql.PreparedStatement;
@@ -62,10 +61,66 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 	}
 	
 	public List<${classNamePrefix}Info> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<${classNamePrefix}Info> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `${tableName}` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<${classNamePrefix}Info> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(create${classNamePrefix}Info(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`${fields[0].name}`) count from `${tableName}` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -87,12 +142,10 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<${classNamePrefix}Info> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(create${classNamePrefix}Info(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
 	public int save(DBConnection dbConnection, ${classNamePrefix}Info info) throws SQLException {

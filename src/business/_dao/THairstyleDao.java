@@ -13,16 +13,16 @@ import org.apache.logging.log4j.Logger;
 
 import business.dao.BaseDao;
 
-import common._model.THairstyleInfo;
+import common._model.THairStyleInfo;
 import common.util.DBConnection;
 
-public abstract class THairstyleDao extends BaseDao {
+public abstract class THairStyleDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	private THairstyleInfo createTHairstyleInfo(ResultSet rs) throws SQLException {
+	private THairStyleInfo createTHairStyleInfo(ResultSet rs) throws SQLException {
 		
-		THairstyleInfo info = new THairstyleInfo();
+		THairStyleInfo info = new THairStyleInfo();
 		info.setTHairStyleId(rs.getInt("t_hairStyle_id"));
 		info.setTHairStyleName(rs.getString("t_hairStyle_name"));
 		info.setTHairStyleHairTypeId(rs.getInt("t_hairStyle_hairTypeId"));
@@ -40,9 +40,9 @@ public abstract class THairstyleDao extends BaseDao {
 		
 	}
 	
-	public THairstyleInfo get(DBConnection dbConnection, int id) throws SQLException {
+	public THairStyleInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
-		List<THairstyleInfo> list = getByColumn(dbConnection, "t_hairStyle_id", id);
+		List<THairStyleInfo> list = getByColumn(dbConnection, "t_hairStyle_id", id);
 		
 		if (list.isEmpty()) {
 			return null;
@@ -50,18 +50,74 @@ public abstract class THairstyleDao extends BaseDao {
 		return list.get(0);
 	}
 	
-	public List<THairstyleInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
+	public List<THairStyleInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put(columnName, value);
 		return getByColumns(dbConnection, map);
 	}
 	
-	public List<THairstyleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+	public List<THairStyleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+
+		return getByColumns(dbConnection, map, null, null);
+	}
+
+	public List<THairStyleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_hairStyle` ";
 		String where = " where ";
 
+		for (String columnName : map.keySet()) {
+			
+			where += " `" + columnName + "` = ? AND ";
+		}
+		
+		if (!map.isEmpty()) {
+			where = where.substring(0, where.length() -4);
+			sql += where;
+		}
+		
+		String limit = " limit ";
+		if (offset != null) {
+		
+			limit += offset + " , ";
+		}
+		
+		if (count != null) {
+			
+			limit += count;
+			sql += limit;
+		}
+
+		PreparedStatement preparedStatement = dbConnection.getConnection().prepareStatement(sql);
+		
+		for (Object value : map.values()) {
+			int index = 1;
+			preparedStatement.setObject(index, value);
+			index++;
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		logger.debug(sql.toString());
+		
+		List<THairStyleInfo> list = new ArrayList<>();
+		
+		while (rs.next()) {
+			list.add(createTHairStyleInfo(rs));
+		}
+		return list;
+	}
+	
+	public int count(DBConnection dbConnection) throws SQLException {
+
+		return count(dbConnection, new HashMap<>());
+	}
+
+	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
+		
+		String sql = " select count(`t_hairStyle_id`) count from `t_hairStyle` ";
+		String where = " where ";
+		
 		for (String columnName : map.keySet()) {
 			
 			where += " `" + columnName + "` = ? AND ";
@@ -83,15 +139,13 @@ public abstract class THairstyleDao extends BaseDao {
 		ResultSet rs = preparedStatement.executeQuery();
 		logger.debug(sql.toString());
 		
-		List<THairstyleInfo> list = new ArrayList<>();
-		
 		while (rs.next()) {
-			list.add(createTHairstyleInfo(rs));
+			return rs.getInt("count");
 		}
-		return list;
+		return 0;
 	}
 	
-	public int save(DBConnection dbConnection, THairstyleInfo info) throws SQLException {
+	public int save(DBConnection dbConnection, THairStyleInfo info) throws SQLException {
 		
 		String sql = "insert into `t_hairStyle` "
 			+ " ( "
@@ -151,7 +205,7 @@ public abstract class THairstyleDao extends BaseDao {
 		return -1;
 	}
 	
-	public int update(DBConnection dbConnection, THairstyleInfo info) throws SQLException {
+	public int update(DBConnection dbConnection, THairStyleInfo info) throws SQLException {
 		
 		String sql = "update `t_hairStyle` set "
 
