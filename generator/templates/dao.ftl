@@ -21,6 +21,12 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link ${classNamePrefix}Info} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private ${classNamePrefix}Info create${classNamePrefix}Info(ResultSet rs) throws SQLException {
 		
 		${classNamePrefix}Info info = new ${classNamePrefix}Info();
@@ -43,6 +49,13 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link ${classNamePrefix}Info} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public ${classNamePrefix}Info get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<${classNamePrefix}Info> list = getByColumn(dbConnection, "${fields[0].name}", id);
@@ -53,6 +66,15 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link ${classNamePrefix}Info} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<${classNamePrefix}Info> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -60,11 +82,29 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link ${classNamePrefix}Info} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<${classNamePrefix}Info> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link ${classNamePrefix}Info} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<${classNamePrefix}Info> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `${tableName}` ";
@@ -110,12 +150,25 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`${fields[0].name}`) count from `${tableName}` ";
@@ -148,6 +201,14 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, ${classNamePrefix}Info info) throws SQLException {
 		
 		String sql = "insert into `${tableName}` "
@@ -189,6 +250,14 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, ${classNamePrefix}Info info) throws SQLException {
 		
 		String sql = "update `${tableName}` set "
@@ -219,6 +288,14 @@ public abstract class ${classNamePrefix}Dao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `${tableName}` set "

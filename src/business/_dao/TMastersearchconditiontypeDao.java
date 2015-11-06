@@ -20,6 +20,12 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TMasterSearchConditionTypeInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TMasterSearchConditionTypeInfo createTMasterSearchConditionTypeInfo(ResultSet rs) throws SQLException {
 		
 		TMasterSearchConditionTypeInfo info = new TMasterSearchConditionTypeInfo();
@@ -29,6 +35,13 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTypeInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TMasterSearchConditionTypeInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TMasterSearchConditionTypeInfo> list = getByColumn(dbConnection, "t_masterSearchConditionType_id", id);
@@ -39,6 +52,15 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTypeInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -46,11 +68,29 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TMasterSearchConditionTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterSearchConditionType` ";
@@ -96,12 +136,25 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_masterSearchConditionType_id`) count from `t_masterSearchConditionType` ";
@@ -134,6 +187,14 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TMasterSearchConditionTypeInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterSearchConditionType` "
@@ -161,6 +222,14 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TMasterSearchConditionTypeInfo info) throws SQLException {
 		
 		String sql = "update `t_masterSearchConditionType` set "
@@ -179,6 +248,14 @@ public abstract class TMasterSearchConditionTypeDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_masterSearchConditionType` set "

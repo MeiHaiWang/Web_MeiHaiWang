@@ -20,6 +20,12 @@ public abstract class TMasterNewsDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TMasterNewsInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TMasterNewsInfo createTMasterNewsInfo(ResultSet rs) throws SQLException {
 		
 		TMasterNewsInfo info = new TMasterNewsInfo();
@@ -32,6 +38,13 @@ public abstract class TMasterNewsDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TMasterNewsInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TMasterNewsInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TMasterNewsInfo> list = getByColumn(dbConnection, "t_masterNewsId", id);
@@ -42,6 +55,15 @@ public abstract class TMasterNewsDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TMasterNewsInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterNewsInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -49,11 +71,29 @@ public abstract class TMasterNewsDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TMasterNewsInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterNewsInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TMasterNewsInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterNewsInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterNews` ";
@@ -99,12 +139,25 @@ public abstract class TMasterNewsDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_masterNewsId`) count from `t_masterNews` ";
@@ -137,6 +190,14 @@ public abstract class TMasterNewsDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TMasterNewsInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterNews` "
@@ -173,6 +234,14 @@ public abstract class TMasterNewsDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TMasterNewsInfo info) throws SQLException {
 		
 		String sql = "update `t_masterNews` set "
@@ -197,6 +266,14 @@ public abstract class TMasterNewsDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_masterNews` set "

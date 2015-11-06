@@ -20,6 +20,12 @@ public abstract class TImageDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TImageInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TImageInfo createTImageInfo(ResultSet rs) throws SQLException {
 		
 		TImageInfo info = new TImageInfo();
@@ -33,6 +39,13 @@ public abstract class TImageDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TImageInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TImageInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TImageInfo> list = getByColumn(dbConnection, "t_image_id", id);
@@ -43,6 +56,15 @@ public abstract class TImageDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TImageInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TImageInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -50,11 +72,29 @@ public abstract class TImageDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TImageInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TImageInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TImageInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TImageInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_image` ";
@@ -100,12 +140,25 @@ public abstract class TImageDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_image_id`) count from `t_image` ";
@@ -138,6 +191,14 @@ public abstract class TImageDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TImageInfo info) throws SQLException {
 		
 		String sql = "insert into `t_image` "
@@ -177,6 +238,14 @@ public abstract class TImageDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TImageInfo info) throws SQLException {
 		
 		String sql = "update `t_image` set "
@@ -203,6 +272,14 @@ public abstract class TImageDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_image` set "

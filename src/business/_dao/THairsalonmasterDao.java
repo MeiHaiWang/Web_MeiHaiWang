@@ -20,6 +20,12 @@ public abstract class THairSalonMasterDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link THairSalonMasterInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private THairSalonMasterInfo createTHairSalonMasterInfo(ResultSet rs) throws SQLException {
 		
 		THairSalonMasterInfo info = new THairSalonMasterInfo();
@@ -63,6 +69,13 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link THairSalonMasterInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public THairSalonMasterInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<THairSalonMasterInfo> list = getByColumn(dbConnection, "t_hairSalonMaster_salonId", id);
@@ -73,6 +86,15 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link THairSalonMasterInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<THairSalonMasterInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -80,11 +102,29 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link THairSalonMasterInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<THairSalonMasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link THairSalonMasterInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<THairSalonMasterInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_hairSalonMaster` ";
@@ -130,12 +170,25 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_hairSalonMaster_salonId`) count from `t_hairSalonMaster` ";
@@ -168,6 +221,14 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, THairSalonMasterInfo info) throws SQLException {
 		
 		String sql = "insert into `t_hairSalonMaster` "
@@ -297,6 +358,14 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, THairSalonMasterInfo info) throws SQLException {
 		
 		String sql = "update `t_hairSalonMaster` set "
@@ -383,6 +452,14 @@ public abstract class THairSalonMasterDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_hairSalonMaster` set "

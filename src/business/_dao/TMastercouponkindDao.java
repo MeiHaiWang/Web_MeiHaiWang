@@ -20,6 +20,12 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TMasterCouponKindInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TMasterCouponKindInfo createTMasterCouponKindInfo(ResultSet rs) throws SQLException {
 		
 		TMasterCouponKindInfo info = new TMasterCouponKindInfo();
@@ -29,6 +35,13 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TMasterCouponKindInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TMasterCouponKindInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TMasterCouponKindInfo> list = getByColumn(dbConnection, "t_couponKind_id", id);
@@ -39,6 +52,15 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TMasterCouponKindInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterCouponKindInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -46,11 +68,29 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TMasterCouponKindInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterCouponKindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TMasterCouponKindInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterCouponKindInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterCouponKind` ";
@@ -96,12 +136,25 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_couponKind_id`) count from `t_masterCouponKind` ";
@@ -134,6 +187,14 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TMasterCouponKindInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterCouponKind` "
@@ -161,6 +222,14 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TMasterCouponKindInfo info) throws SQLException {
 		
 		String sql = "update `t_masterCouponKind` set "
@@ -179,6 +248,14 @@ public abstract class TMasterCouponKindDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_masterCouponKind` set "

@@ -20,6 +20,12 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TMasterHairTypeInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TMasterHairTypeInfo createTMasterHairTypeInfo(ResultSet rs) throws SQLException {
 		
 		TMasterHairTypeInfo info = new TMasterHairTypeInfo();
@@ -32,6 +38,13 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TMasterHairTypeInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TMasterHairTypeInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TMasterHairTypeInfo> list = getByColumn(dbConnection, "t_hairType_id", id);
@@ -42,6 +55,15 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TMasterHairTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterHairTypeInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -49,11 +71,29 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TMasterHairTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterHairTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TMasterHairTypeInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterHairTypeInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterHairType` ";
@@ -99,12 +139,25 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_hairType_id`) count from `t_masterHairType` ";
@@ -137,6 +190,14 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TMasterHairTypeInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterHairType` "
@@ -173,6 +234,14 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TMasterHairTypeInfo info) throws SQLException {
 		
 		String sql = "update `t_masterHairType` set "
@@ -197,6 +266,14 @@ public abstract class TMasterHairTypeDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_masterHairType` set "

@@ -20,6 +20,12 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	/**
+	 * {@link TMasterSearchConditionTitleInfo} を作成します。
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	private TMasterSearchConditionTitleInfo createTMasterSearchConditionTitleInfo(ResultSet rs) throws SQLException {
 		
 		TMasterSearchConditionTitleInfo info = new TMasterSearchConditionTitleInfo();
@@ -30,6 +36,13 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTitleInfo} を取得します。
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public TMasterSearchConditionTitleInfo get(DBConnection dbConnection, int id) throws SQLException {
 		
 		List<TMasterSearchConditionTitleInfo> list = getByColumn(dbConnection, "t_masterSearchConditionTitle_id", id);
@@ -40,6 +53,15 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		return list.get(0);
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTitleInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param columnName
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTitleInfo> getByColumn(DBConnection dbConnection, String columnName, Object value) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<>();
@@ -47,11 +69,29 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		return getByColumns(dbConnection, map);
 	}
 	
+	/**
+	 * {@link TMasterSearchConditionTitleInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 
 		return getByColumns(dbConnection, map, null, null);
 	}
 
+	/**
+	 * {@link TMasterSearchConditionTitleInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TMasterSearchConditionTitleInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
 		String sql = "select * from `t_masterSearchConditionTitle` ";
@@ -97,12 +137,25 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection) throws SQLException {
 
 		return count(dbConnection, new HashMap<>());
 	}
 
+	/**
+	 * 件数をカウントします。
+	 * @param dbConnection
+	 * @param map
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count(DBConnection dbConnection, Map<String, Object> map) throws SQLException {
 		
 		String sql = " select count(`t_masterSearchConditionTitle_id`) count from `t_masterSearchConditionTitle` ";
@@ -135,6 +188,14 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		return 0;
 	}
 	
+	/**
+	 * 新規作成します。
+	 *
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int save(DBConnection dbConnection, TMasterSearchConditionTitleInfo info) throws SQLException {
 		
 		String sql = "insert into `t_masterSearchConditionTitle` "
@@ -165,6 +226,14 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		return -1;
 	}
 	
+	/**
+	 * 更新を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param info
+	 * @return
+	 * @throws SQLException
+	 */
 	public int update(DBConnection dbConnection, TMasterSearchConditionTitleInfo info) throws SQLException {
 		
 		String sql = "update `t_masterSearchConditionTitle` set "
@@ -185,6 +254,14 @@ public abstract class TMasterSearchConditionTitleDao extends BaseDao {
 		return preparedStatement.executeUpdate();
 	}
 	
+	/**
+	 * 論理削除を行ないます。
+	 * 
+	 * @param dbConnection
+	 * @param id PK
+	 * @return
+	 * @throws SQLException
+	 */
 	public int logicalDelete(DBConnection dbConnection, int id) throws SQLException {
 		
 		String sql = "update `t_masterSearchConditionTitle` set "
