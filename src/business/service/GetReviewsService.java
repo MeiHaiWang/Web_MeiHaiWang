@@ -47,10 +47,9 @@ public class GetReviewsService implements IServiceExcuter {
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<Integer> reviewIdList = new ArrayList<Integer>();
-			//List<Integer> evalIdList = new ArrayList<Integer>();
+			//List<Integer> reviewIdList = new ArrayList<Integer>();
+			List<String> reviewIdList = new ArrayList<String>();
 			List<ReviewInfo> reviewInfoList = new ArrayList<ReviewInfo>();
-			//List<EvaluationInfo> evaluationInfoList = new ArrayList<EvaluationInfo>();
 			//List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 
 			//レスポンスに設定するJSON Object
@@ -62,8 +61,10 @@ public class GetReviewsService implements IServiceExcuter {
 				//UserDao userDao = new UserDao();
 				//EvaluationDao evaluationDao = new EvaluationDao();
 				
-				reviewIdList = salonDao.getHairSalonReviewIdList(dbConnection, shopId);
-				reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList, pageNum, jsonObject);
+				//reviewIdList = salonDao.getHairSalonReviewIdList(dbConnection, shopId);
+				reviewIdList = Arrays.asList(salonDao.get(dbConnection, shopId).getTHairSalonMasterReviewId().split(","));
+				//TODO:
+				//reviewInfoList = reviewDao.getReviewDetailInfo(dbConnection, reviewIdList, pageNum, jsonObject);
 				//userInfoList = userDao.getReviewerUserInfo(dbConnection, reviewInfoList);
 				dbConnection.close();
 			}else{

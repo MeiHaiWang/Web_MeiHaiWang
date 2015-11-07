@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,16 +53,19 @@ public class GetAlbumInfoService implements IServiceExcuter{
 			JSONObject jsonObject = new JSONObject();
 			java.sql.Connection conn = dbConnection.connectDB();
 
-			List<Integer> hairStyleIdList = new ArrayList<Integer>();
+			//List<Integer> hairStyleIdList = new ArrayList<Integer>();
+			List<String> hairStyleIdList = new ArrayList<String>();
 			HairStyleInfo hairStyleInfo = new HairStyleInfo();
 			List<HairStyleInfo> hairStyleInfoList = new ArrayList<HairStyleInfo>();
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				hairStyleIdList = salonDao.getHairStyleIdList(dbConnection, salonId);
+				//hairStyleIdList = salonDao.getHairStyleIdList(dbConnection, salonId);
+				hairStyleIdList = Arrays.asList(salonDao.get(dbConnection, salonId).getTHairSalonMasterHairStyleId().split(","));
 				if(hairStyleIdList.size()>0){
 					HairStyleDao hairStyleDao = new HairStyleDao();
-					hairStyleInfoList = hairStyleDao.getHairStyleInfoForMaster(dbConnection, hairStyleIdList, salonId);				
+					//TODO
+					//hairStyleInfoList = hairStyleDao.getHairStyleInfoForMaster(dbConnection, hairStyleIdList, salonId);				
 					AreaDao areaDao = new AreaDao();
 					for(int i=0;i<hairStyleInfoList.size();i++){
 						HairStyleInfo hInfo = hairStyleInfoList.get(i);

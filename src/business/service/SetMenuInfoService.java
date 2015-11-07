@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.MenuDao;
+import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
+import common._model.TMenuInfo;
 import common.constant.Constant;
 import common.model.MenuInfo;
 import common.util.DBConnection;
@@ -81,27 +86,27 @@ public class SetMenuInfoService implements IServiceExcuter{
 		String t_menu_time = request.getParameter("t_menu_time") != null ?
 				request.getParameter("t_menu_time").toString() : null;
 
-		//MenuInfo を渡したほうがきれいかも.
-		MenuInfo menuInfo = new MenuInfo();
+		//MenuInfo にパラメータを格納して渡す.
+		TMenuInfo menuInfo = new TMenuInfo();
 		int menuId = -1;
 		if(t_menu_menuId != null){
 			if(t_menu_menuId.length()!=0) menuId = Integer.parseInt(t_menu_menuId);
 		}
-		menuInfo.setMenuId(menuId);
+		menuInfo.setTMenuMenuId(menuId);
 		int categoryId = 0;
 		if(t_menu_categoryId != null && t_menu_categoryId != ""){
 			categoryId = Integer.parseInt(t_menu_categoryId);
 		}
-		menuInfo.setMenuCategoryId(categoryId);
-		menuInfo.setMenuName(t_menu_name);
+		menuInfo.setTMenuCategoryId(categoryId);
+		menuInfo.setTMenuName(t_menu_name);
 		int price = 0;
 		if(t_menu_price != null && t_menu_price != ""){
 			price = Integer.parseInt(t_menu_price);
 		}
-		menuInfo.setMenuPrice(price);
-		menuInfo.setMenuDetailText(t_menu_detailText);
-		menuInfo.setMenuImagePath(t_menu_imagePath);
-		menuInfo.setMenuTime(t_menu_time);
+		menuInfo.setTMenuPrice(price);
+		menuInfo.setTMenuDetailText(t_menu_detailText);
+		menuInfo.setTMenuImagePath(t_menu_imagePath);
+		menuInfo.setTMenuTime(t_menu_time);
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -113,11 +118,38 @@ public class SetMenuInfoService implements IServiceExcuter{
 			
 			if(conn!=null){
 				MenuDao menuDao = new MenuDao();
+				/*
 				menuId = menuDao.setMenuInfoForMaster(
 						dbConnection,
 						salonId,
 						menuInfo
 						);
+						*/
+				int resultInt = -1;
+				if(menuInfo.getTMenuMenuId()<0){
+					resultInt = menuDao.save(dbConnection, menuInfo);
+				}else{
+					resultInt = menuDao.update(dbConnection, menuInfo);
+				}
+				/**
+				 * SalonテーブルにmenuIdを追加
+				 */
+				SalonDao salonDao = new SalonDao();
+				THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+				salonInfo = salonDao.get(dbConnection, salonId);
+				String menuIds = salonInfo.getTHairSalonMasterMenuId();
+				List<String> menuIdList = Arrays.asList(menuIds.split(","));
+				if(!menuIdList.contains(menuId)) {
+					menuIds="";
+					for(int index=0;index<menuIdList.size();index++){
+						menuIds += menuIdList.get(index)+",";
+					}
+					menuIds = menuIds.substring(0,menuIds.length()-1);
+					salonInfo.setTHairSalonMasterMenuId(menuIds);
+					resultInt = salonDao.update(dbConnection, salonInfo);
+					if(resultInt > 0) result = true;
+				}
+				
 				if(menuId > 0) result = true;
 				dbConnection.close();
 			}else{

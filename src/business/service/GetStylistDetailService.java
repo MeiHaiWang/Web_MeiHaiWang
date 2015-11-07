@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import business.dao.RecommendDao;
 import business.dao.StylistDao;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.CommonUtil;
@@ -39,16 +41,15 @@ public class GetStylistDetailService implements IServiceExcuter {
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			StylistInfo stylistInfo = new StylistInfo();
-			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
-			if(conn!=null){
+			TStylistInfo stylistInfo = new TStylistInfo();
+			if(conn!=null && stylistId>0){
 				StylistDao stylistDao = new StylistDao();
 				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-				stylistInfo = stylistDao.getStylistObject(dbConnection, stylistId);
-				stylistInfoList.add(stylistInfo);
+				stylistInfo = stylistDao.get(dbConnection, stylistId);
 				RecommendDao recomendDao = new RecommendDao();
 				//ユーザがお気に入りしているかどうかを設定する
-				recomendDao.setIsFavoriteStylist(userId, stylistInfoList, dbConnection);
+				//TODO
+				//recomendDao.setIsFavoriteStylist(userId, stylistInfoList, dbConnection);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -58,22 +59,23 @@ public class GetStylistDetailService implements IServiceExcuter {
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("id", stylistInfoList.get(0).getObjectId());
-			jsonOneData.put("shopID", stylistInfoList.get(0).getSalonId());
-			jsonOneData.put("name", stylistInfoList.get(0).getName());
-			jsonOneData.put("gender", stylistInfoList.get(0).getStylistGender());
+			
+			jsonOneData.put("id", stylistInfo.getTStylistId());
+			jsonOneData.put("shopID", stylistInfo.getTStylistSalonId());
+			jsonOneData.put("name", stylistInfo.getTStylistName());
+			jsonOneData.put("gender", stylistInfo.getTStylistSex());
 	    	int i = 0;
-	    	for(String str : stylistInfoList.get(0).getStylistImagePath()){
+	    	for(String str : Arrays.asList(stylistInfo.getTStylistImagePath().split(","))){
 	    		i++;
 	    		jsonOneData.put("image"+i, str);		    		
 	    	}
 
-			//jsonOneData.put("image", stylistInfoList.get(0).getStylistImagePath());
-			jsonOneData.put("message", stylistInfoList.get(0).getStylistMessage());
-			jsonOneData.put("years", stylistInfoList.get(0).getStylistYearsNumber());
-			jsonOneData.put("isgood", stylistInfoList.get(0).getIsGood());
-			jsonOneData.put("good_count", stylistInfoList.get(0).getFavoriteNumber());
-			jsonOneData.put("isNetReservation", stylistInfoList.get(0).getIsNetReservation());
+			//jsonOneData.put("image", stylistInfo.getStylistImagePath());
+			jsonOneData.put("message", stylistInfo.getTStylistMessage());
+			jsonOneData.put("years", stylistInfo.getTStylistExperienceYear());
+			jsonOneData.put("isgood", stylistInfo.getTStylistGoodNumber()>0? 1:0);
+			jsonOneData.put("good_count", stylistInfo.getTStylistFavoriteNumber());
+			jsonOneData.put("isNetReservation", stylistInfo.getTStylistIsNetReservation());
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("stylist",jsonOneData);
 		    PrintWriter out = response.getWriter();

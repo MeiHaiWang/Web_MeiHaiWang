@@ -1,46 +1,30 @@
 package business.dao;
 
 import java.sql.ResultSet;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import net.sf.json.JSONObject;
-
-import com.mysql.fabric.xmlrpc.base.Array;
-
+import business._dao.THairSalonMasterDao;
 import common.constant.Constant;
-import common.constant.TableConstant;
-import common.model.BeautyNewsInfo;
 import common.model.HairSalonInfo;
-import common.model.HairSalonInfo;
-import common.model.IBaseInfo;
-import common.model.StylistInfo;
-import common.model.UserInfo;
-import common.util.ConfigUtil;
 import common.util.DBConnection;
-import common.util.ListUtilities;
 
-public class SalonDao extends BaseDao{
+public class SalonDao extends THairSalonMasterDao{
 	private static Logger logger = LogManager.getLogger();
 
 	public SalonDao(){
 	}
 	
+	/*
 	public int getSalonIntData(DBConnection dbConnection ,String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
 		return getIntValue(dbConnection, Constant.TABLE_SALON, targetColumnName, sourceColumnName, sourceColumnValue );
 	}
@@ -91,7 +75,9 @@ public class SalonDao extends BaseDao{
 		}
 		return result;
 	}
-
+	*/
+	
+	/*
 	public HairSalonInfo getSalonObject(DBConnection dbConnection, int id) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
@@ -419,10 +405,243 @@ public class SalonDao extends BaseDao{
 		}
 		return salonInfoList;
 	}
+	*/
+	/*
+	public int setSalonInfoInsert(DBConnection dbConnection, HairSalonInfo salonInfo){
+
+		//DBステートメント
+		Statement statement = dbConnection.getStatement();
+		//返り値id
+		int retId = -1;
+
+		//Insertする情報をMapで整理
+		Map<String, String> source = new HashMap<String, String>();
+		source.put(TableConstant.COLUMN_SALON_NAME, salonInfo.getName());
+		source.put(TableConstant.COLUMN_SALON_VIEW_NUMBER, "");
+		source.put(TableConstant.COLUMN_SALON_GOOD_NUMBER, "");
+		source.put(TableConstant.COLUMN_SALON_AREAID, salonInfo.getSalonAreaId());
+		source.put(TableConstant.COLUMN_SALON_MENUID, "");
+		source.put(TableConstant.COLUMN_SALON_DISABLE_FLAG, );
+		source.put(TableConstant.COLUMN_SALON_DETAIL_TEXT, salonInfo.getSalonDetailText());
+		source.put(TableConstant.COLUMN_SALON_COUPONID, "");
+		source.put(TableConstant.COLUMN_SALON_STYLISTID, "");
+		source.put(TableConstant.COLUMN_SALON_IMAGEPATH, salonInfo.getHairSalonImagePathOneLine());
+		source.put(TableConstant.COLUMN_SALON_REVIEWID, "");
+		source.put(TableConstant.COLUMN_SALON_HAIRSTYLEID, "");
+		source.put(TableConstant.COLUMN_SALON_CONTACTNAME, salonInfo.getSalonContactName());
+		source.put(TableConstant.COLUMN_SALON_ADDRESS, salonInfo.getAddress());
+		source.put(TableConstant.COLUMN_SALON_PHONENUMBER, salonInfo.getTel());
+		source.put(TableConstant.COLUMN_SALON_MAIL, salonInfo.getMail());
+		source.put(TableConstant.COLUMN_SALON_PASSWORD, salonInfo.getPassword());
+
+		source.put(TableConstant.COLUMN_SALON_SALONID, Integer.toString(salonInfo.getSalonId()));
+		source.put(TableConstant.COLUMN_SALON_MESSAGE, salonInfo.getStylistMessage());
+		source.put(TableConstant.COLUMN_SALON_PHONE, salonInfo.getPhoneNumber());
+		source.put(TableConstant.COLUMN_SALON_BIRTH, ""); //birth
+		source.put(TableConstant.COLUMN_SALON_HAIRSTYLEID, "");
+		source.put(TableConstant.COLUMN_SALON_FAVORITE_NUMBER, Integer.toString(salonInfo.getFavoriteNumber()));
+		source.put(TableConstant.COLUMN_SALON_ISNETRESERVATION,Integer.toString(salonInfo.getIsNetReservation()));
+		source.put(TableConstant.COLUMN_SALON_CONDITIONID, salonInfo.getStylistSearchConditionId());
+		source.put(TableConstant.COLUMN_SALON_AREAID, salonInfo.getStylistAreaId());
+				
+		//DATETIME -> string 処理
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(salonInfo.getBirth());
+		source.replace(TableConstant.COLUMN_SALON_BIRTH, birth);
+		
+		//Insert SQL 
+		StringBuilder insertSql = new StringBuilder();
+		insertSql.append(Constant.INSERT);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(ConfigUtil.getConfig("dbname"));
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.DOT);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.TABLE_SALON);
+		insertSql.append(Constant.BACKQ);
+		insertSql.append(Constant.BRACKET_1);
+		int index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.BACKQ);
+				insertSql.append(entry.getKey());
+				insertSql.append(Constant.BACKQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.VALUES);
+		insertSql.append(Constant.SPACE);
+		insertSql.append(Constant.BRACKET_1);
+		index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()) {
+			if(index == 0){
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}else{
+				insertSql.append(Constant.COMMA);
+				insertSql.append(Constant.SPACE);
+				insertSql.append(Constant.SINGLEQ);
+				insertSql.append(entry.getValue());
+				insertSql.append(Constant.SINGLEQ);
+				index++;
+			}
+		}
+		insertSql.append(Constant.BRACKET_2);
+		insertSql.append(Constant.SEMICOLON);
+
+		//sql成功確認
+		int result_int = -1;
+
+		try {
+			//debug
+			logger.info("{}",insertSql.toString());
+			result_int = statement.executeUpdate(insertSql.toString(), Statement.RETURN_GENERATED_KEYS);
+			if(result_int > 0){
+				//更新したidをget
+				ResultSet rs = statement.getGeneratedKeys();
+		        if (rs.next()){
+		        	retId = rs.getInt(1);
+	        	}
+		        rs.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return retId;
+	}
+	
+	public int setSalonInfoUpdate(DBConnection dbConnection, HairSalonInfo salonInfo){
+
+		//DBステートメント
+		Statement statement = dbConnection.getStatement();
+		//返り値id
+		int retId = -1;
+
+		//Insertする情報をMapで整理
+		Map<String, String> source = new HashMap<String, String>();
+		source.put(TableConstant.COLUMN_SALON_NAME, salonInfo.getName());
+		source.put(TableConstant.COLUMN_SALON_SEX, Integer.toString(salonInfo.getStylistGender()));
+		source.put(TableConstant.COLUMN_SALON_DETAILTEXT, salonInfo.getStylistDetailText());
+		source.put(TableConstant.COLUMN_SALON_USERID, Integer.toString(salonInfo.getUserId()));
+		source.put(TableConstant.COLUMN_SALON_IMAGE, salonInfo.getImagePath());
+		source.put(TableConstant.COLUMN_SALON_POSITION, salonInfo.getPosition());
+		source.put(TableConstant.COLUMN_SALON_MESSAGE, salonInfo.getStylistMessage());
+		source.put(TableConstant.COLUMN_SALON_EXPERIENCEYEAR, salonInfo.getStylistYearsNumber());
+		source.put(TableConstant.COLUMN_SALON_SPECIALMENU, salonInfo.getSpecialMenu());
+		source.put(TableConstant.COLUMN_SALON_GOODNUMBER, "");
+		source.put(TableConstant.COLUMN_SALON_VIEWNUMBER, "");
+		source.put(TableConstant.COLUMN_SALON_MAIL, salonInfo.getMail());
+		source.put(TableConstant.COLUMN_SALON_PHONE, salonInfo.getPhoneNumber());
+		source.put(TableConstant.COLUMN_SALON_BIRTH, ""); //birth
+		source.put(TableConstant.COLUMN_SALON_MENUID, salonInfo.getMenuId());
+		source.put(TableConstant.COLUMN_SALON_HAIRSTYLEID, "");
+		source.put(TableConstant.COLUMN_SALON_SALONID, Integer.toString(salonInfo.getSalonId()));
+		source.put(TableConstant.COLUMN_SALON_FAVORITE_NUMBER, Integer.toString(salonInfo.getFavoriteNumber()));
+		source.put(TableConstant.COLUMN_SALON_ISNETRESERVATION,Integer.toString(salonInfo.getIsNetReservation()));
+		source.put(TableConstant.COLUMN_SALON_CONDITIONID, salonInfo.getStylistSearchConditionId());
+		source.put(TableConstant.COLUMN_SALON_AREAID, salonInfo.getStylistAreaId());
+				
+		//DATETIME -> string 処理
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String birth = format.format(salonInfo.getBirth());
+		source.replace(TableConstant.COLUMN_SALON_BIRTH, birth);
+
+		//Update SQL 
+		StringBuilder updateSql = new StringBuilder();
+		updateSql.append(Constant.UPDATE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(ConfigUtil.getConfig("dbname"));
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_SALON);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.SET);
+		updateSql.append(Constant.SPACE);
+		
+		int index = 0;
+		for(Map.Entry<String, String> entry : source.entrySet()){
+			if(index==0){ 
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}else{
+				updateSql.append(Constant.COMMA);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(entry.getKey());
+				updateSql.append(Constant.BACKQ);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.EQUAL);
+				updateSql.append(Constant.SPACE);
+				updateSql.append(Constant.SINGLEQ);
+				updateSql.append(entry.getValue());
+				updateSql.append(Constant.SINGLEQ);
+			}
+		}
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.WHERE);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.TABLE_SALON);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.DOT);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(TableConstant.COLUMN_SALON_ID);
+		updateSql.append(Constant.BACKQ);
+		updateSql.append(Constant.EQUAL);
+		updateSql.append(Constant.SPACE);
+		updateSql.append(salonInfo.getObjectId());
+		updateSql.append(Constant.SEMICOLON);
+		
+		//sql成功確認
+		int result_int = -1;
+
+		try {
+			//debug
+			logger.info("{}",updateSql.toString());
+			result_int = statement.executeUpdate(updateSql.toString(), Statement.RETURN_GENERATED_KEYS);
+			if(result_int > 0){
+				//更新したidをget
+				ResultSet rs = statement.getGeneratedKeys();
+		        if (rs.next()){
+		        	retId = rs.getInt(1);
+	        	}
+		        rs.close();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return retId;
+	}
+	*/
+
 	
 	////////////
-	
-	
+	/*
 	public boolean registSalonOnDisable(HairSalonInfo salonInfo,DBConnection dbConnection){
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` ("
 				+ "`t_hairSalonMaster_contactUserName`, `t_hairSalonMaster_name`, `t_hairSalonMaster_areaId`, `t_hairSalonMaster_address`, "
@@ -484,13 +703,6 @@ public class SalonDao extends BaseDao{
 				salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
 				salonInfo.setTelNumber(rs.getString("t_hairSalonMaster_phoneNumber"));
 				salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
-				/*
-				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
-						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
-				Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
-						rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
-				salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
-				*/
 				salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));				
 				salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 				salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
@@ -501,27 +713,9 @@ public class SalonDao extends BaseDao{
 						Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
 				salonInfo.setWordOfMonth(reviewIdList.size());
 				
-				/*
-				evaluationIdList = rs.getString("t_hairSalonMaster_evaluationId") != null?
-						Arrays.asList(rs.getString("t_hairSalonMaster_evaluationId").split(",")) : new ArrayList<String>();
-				*/
-						
 				availabuleCountryIdList = rs.getString("t_hairSalonMaster_availableCountryId") != null?
 						Arrays.asList(rs.getString("t_hairSalonMaster_availableCountryId").split(",")) : new ArrayList<String>();
 			}	
-
-			/*
-			String innerSql = "SELECT `t_evaluation_point` FROM `t_evaluation` WHERE FIND_IN_SET(t_evaluation_evaluationId,'" + String.join(",", evaluationIdList.toArray(new String[0])).toString() + "')"; 
-			System.out.println(innerSql);
-			ResultSet innerRs = statement.executeQuery(innerSql);
-			Double evaluationPoint = 0.0;
-			double i= 0.0;
-			while(innerRs.next()){
-				evaluationPoint += innerRs.getDouble("t_evaluation_point");
-				i++;
-			}
-			salonInfo.setEvaluationPointMid(evaluationPoint / i);
-			*/
 			
 			double reviewPoint = 0.0;
 			int reviewNumber = 0;
@@ -574,10 +768,6 @@ public class SalonDao extends BaseDao{
 			while(rs.next()){
 				salonInfo.setSalonMapUrl(rs.getString("t_hairSalonMaster_mapUrl"));
 				salonInfo.setSalonMapImagePath(rs.getString("t_hairSalonMaster_mapImagePath"));
-				/*
-				salonInfo.setSalonLatitude(rs.getDouble("t_hairSalonMaster_mapLatitude"));
-				salonInfo.setSalonLongitude(rs.getDouble("t_hairSalonMaster_mapLongitude"));
-				 */
 				Double ido = Double.parseDouble(rs.getString("t_hairSalonMaster_mapLatitude"));
 				Double keido = Double.parseDouble(rs.getString("t_hairSalonMaster_mapLongitude"));
 				salonInfo.setSalonLatitude(ido);
@@ -594,9 +784,6 @@ public class SalonDao extends BaseDao{
 	}
 	
 	
-	/*
-	 * History
-	 * */
 	public List<Integer> getHairSalonHistoryIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_latestViewSalonId` FROM `t_user` WHERE t_user_Id = " + user_id;
 		List<Integer> idList = new ArrayList<Integer>();
@@ -606,12 +793,6 @@ public class SalonDao extends BaseDao{
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_latestViewSalonId");
-			/*
-			for(int i=0; i<=str_id_list.length(); i+=2){
-				String temp = str_id_list.substring(i, i+1);
-				idList.add(Integer.parseInt(temp));
-			}
-			*/
 			ListUtilities listUtilities = new ListUtilities();
 			List<String> salonStrList = listUtilities.separateData(str_id_list);
 			idList = listUtilities.convertList_str_int(salonStrList);
@@ -629,7 +810,7 @@ public class SalonDao extends BaseDao{
 				"SELECT `t_hairSalonMaster_salonID`, `t_hairSalonMaster_name`, `t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_message`, `t_area_areaName` FROM `t_hairSalonMaster` JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_disableFlag` = 0 AND  t_hairSalonMaster_salonId =";
 		List<HairSalonInfo> infoList = new ArrayList<HairSalonInfo>();
 		
-		/* 履歴にまだ何も登録されていない＝null */
+		// 履歴にまだ何も登録されていない＝null 
 		if(idList.isEmpty()){
 			infoList.add(retNull());
 	 		return infoList;
@@ -656,10 +837,6 @@ public class SalonDao extends BaseDao{
 		return infoList;
 	}	
 	
-	
-	/*
-	 * Favorite
-	 * */
 	public List<Integer> getSalonFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_favoriteSalonId` FROM `t_user` WHERE t_user_Id =" + user_id;
 		List<Integer> SalonIdList = new ArrayList<Integer>();
@@ -669,12 +846,6 @@ public class SalonDao extends BaseDao{
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_favoriteSalonId");
-			/*
-			for(int i=0; i<=str_id_list.length(); i+=2){
-				String temp = str_id_list.substring(i, i+1);
-				SalonIdList.add(Integer.parseInt(temp));
-			}
-			*/
 			ListUtilities listUtilities = new ListUtilities();
 			List<String> salonStrList = listUtilities.separateData(str_id_list);
 			SalonIdList = listUtilities.convertList_str_int(salonStrList);
@@ -693,7 +864,7 @@ public class SalonDao extends BaseDao{
 				+ "`t_area_areaName` FROM t_hairSalonMaster JOIN t_masterArea ON t_hairSalonMaster_areaId = t_area_areaId WHERE `t_hairSalonMaster_disableFlag` = 0 AND t_hairSalonMaster_salonId =";
 		List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
 		
-		/* お気に入りにまだ何も登録されていない＝null */
+		// お気に入りにまだ何も登録されていない＝null 
 	 	if(Salon_id_list.isEmpty()) {
 	 		SalonInfoList.add(retNull());
 	 		return SalonInfoList;
@@ -745,23 +916,11 @@ public class SalonDao extends BaseDao{
 			throw e;
 		}
 		
-		//Debug
-		/*
-		for(int reviewId : reviewIdList)
-			System.out.println("reviewId: "+reviewId);
-			*/
-		
 		return reviewIdList;
 	}	
 	
-	/*空っぽのデータをつっこむ*/
+	///空っぽのデータをつっこむ
 	public HairSalonInfo retNull(){
-		/*
-		List<String> reviewIdList =  new ArrayList<String>();
-		List<String> evaluationIdList = new ArrayList<String>();
-		List<String> availabuleCountryIdList = new ArrayList<String>();
-		*/
-
 		HairSalonInfo salonInfo = new HairSalonInfo();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		salonInfo.setHairSalonId(Integer.MIN_VALUE);
@@ -778,13 +937,6 @@ public class SalonDao extends BaseDao{
 		salonInfo.setIsNetReservation(Integer.MIN_VALUE);
 		salonInfo.setWordOfMonth(Integer.MIN_VALUE);
 
-		/*
-		reviewIdList =  new ArrayList<String>();
-		
-		evaluationIdList = new ArrayList<String>();
-		availabuleCountryIdList =  new ArrayList<String>();
-		*/
-		
 		return salonInfo;
 	}
 
@@ -872,20 +1024,9 @@ public class SalonDao extends BaseDao{
 					salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
 					salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
 					salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
-					/*
-					reviewIdList = rs.getString("t_hairSalonMaster_reviewId")!= null ?
-							Arrays.asList(rs.getString("t_hairSalonMaster_reviewId").split(",")) : new ArrayList<String>();
-							*/
 					salonInfo.setSalonReviewIdList(rs.getString("t_hairSalonMaster_reviewId"));
 					salonInfo.setMessage(rs.getString("t_hairSalonMaster_message"));
 					salonInfo.setAddress(rs.getString("t_hairSalonMaster_address"));
-					/*
-					Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
-							rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
-					Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
-							rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
-					salonInfo.setBusinessHour(sdf.format(openTime).toString() + "〜"  + sdf.format(closeTime));
-					*/
 					salonInfo.setBusinessHour(rs.getString("t_hairSalonMaster_openTime") + "〜"  + rs.getString("t_hairSalonMaster_closeTime"));
 					salonInfo.setRegularHoliday(rs.getString("t_hairSalonMaster_closeDay"));
 					salonInfo.setFavoriteNumber(rs.getInt("t_hairSalonMaster_favoriteNumber"));
@@ -1055,6 +1196,7 @@ public class SalonDao extends BaseDao{
 				+ "JOIN t_masterCountry ON t_area_countryId = t_country_countryId "
 				+ "WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
 		*/
+	/*
 		String sql1 ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_name`, `t_hairSalonMaster_detailText`, "
 				+ "`t_hairSalonMaster_salonImagePath`, `t_hairSalonMaster_openTime`, `t_hairSalonMaster_closeTime`, "
 				+ "`t_hairSalonMaster_closeDay`, `t_hairSalonMaster_creditAvailable`, `t_hairSalonMaster_carParkAvailable`, "
@@ -1085,19 +1227,8 @@ public class SalonDao extends BaseDao{
 				salonInfo.setHairSalonId(rs.getInt("t_hairSalonMaster_salonId"));
 				salonInfo.setHairSalonName(rs.getString("t_hairSalonMaster_name"));
 				salonInfo.setSalonDetailText(rs.getString("t_hairSalonMaster_detailText"));
-
-				/*
-				salonInfo.setSalonCountryName(rs.getString("t_country_countryName"));
-				salonInfo.setAreaNameList(Arrays.asList(new String[]{rs.getString("t_area_areaName")}));
-				*/
 				
 				salonInfo.setHairSalonImagePath(rs.getString("t_hairSalonMaster_salonImagePath"));
-				/*
-				Date openTime = rs.getDate("t_hairSalonMaster_openTime") !=null ?
-						rs.getDate("t_hairSalonMaster_openTime"): new Date(0);
-				Date closeTime = rs.getDate("t_hairSalonMaster_closeTime") !=null ?
-						rs.getDate("t_hairSalonMaster_closeTime") : new Date(0);
-						*/
 				salonInfo.setSalonOpenTime(rs.getString("t_hairSalonMaster_openTime"));
 				salonInfo.setSalonCloseTime(rs.getString("t_hairSalonMaster_closeTime"));
 				salonInfo.setSalonCloseDay(rs.getString("t_hairSalonMaster_closeDay"));
@@ -1117,13 +1248,6 @@ public class SalonDao extends BaseDao{
 				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
 				salonInfo.setMail(rs.getString("t_hairSalonMaster_mail"));
 
-				/*
-				boolean japaneseAvailable = false;
-				int countryId = rs.getInt("t_hairSalonMaster_availableCountryId");
-				if(countryId == Constant.JAPANESE_COUNTRY_ID) japaneseAvailable = true;
-				salonInfo.setSalonJapaneseAvailable(japaneseAvailable);
-				
-				*/
 				//SalonInfoList.add(salonInfo);
 				
 			}	
@@ -1178,21 +1302,6 @@ public class SalonDao extends BaseDao{
 			DBConnection dbConnection, 
 			int salonId,
 			HairSalonInfo salonInfo
-			/*
-		    String t_hairSalonMaster_name,
-		    String t_area_id,
-		    String t_hairSalonMaster_detailText,
-		    String t_hairSalonMaster_openTime,
-		    String t_hairSalonMaster_closeTime,
-		    String t_hairSalonMaster_closeDay,
-		    String t_hairSalonMaster_creditAvailable,
-		    String t_hairSalonMaster_carParkAvailable,
-		    String t_hairSalonImagePath,
-		    String t_hairSalonMaster_japaneseAvailable
-		    t_hairSalonMaster_searchConditionId
-		    t_hairSalonMaster_mail
-		    t_hairSalonMaster_password
-		    */
 			){
 
 		boolean result = false;
@@ -1211,6 +1320,8 @@ public class SalonDao extends BaseDao{
 		/**
 		 * UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = 'name2', `t_hairSalonMaster_areaId` = '1,2' WHERE `t_hairsalonmaster`.`t_hairSalonMaster_salonId` = 5;
 		 */
+	
+	/*
 
 		String sql1 = "SELECT * FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 
 		String sql2 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_name` = '";
@@ -1244,11 +1355,6 @@ public class SalonDao extends BaseDao{
 		Statement statement = dbConnection.getStatement();
 		UserInfo userInfo = null;
 		int japaneseAvailable = -1;
-		/*
-		if(t_hairSalonMaster_japaneseAvailable!=null && t_hairSalonMaster_japaneseAvailable.compareTo("true") == 0){
-			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
-		}
-		*/
 		//System.out.println(salonInfo.getJapaneseAvailable()+","+Constant.JAPANESE_COUNTRY_ID);
 		if(salonInfo.getJapaneseAvailable()==1){
 			japaneseAvailable = Constant.JAPANESE_COUNTRY_ID;
@@ -1280,6 +1386,7 @@ public class SalonDao extends BaseDao{
 			 +sql11 + japaneseAvailable
 			 +sql_end;
 			 */
+	/*
 		//boolean -> int
 //		int creditAvailable =  salonInfo.getSalonCreditAvailable() ? 1 : 0;
 //		int carParkAvailable =  salonInfo.getSalonCarParkAvailable() ? 1 : 0;
@@ -1365,7 +1472,7 @@ public class SalonDao extends BaseDao{
 		 */
 
 		//http://tousu.baidu.com/map/add?new_poi=1&x=11605781.17&y=1736159.05&lat=15.506860161245294&lng=104.25537169474694
-		
+	/*	
 		boolean result = false;
 		String sql1 ="UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster`"
 				+ " SET `t_hairSalonMaster_mapUrl` = '"; 		
@@ -1459,7 +1566,7 @@ public class SalonDao extends BaseDao{
 			}
 			return couponIdList;	
 		}
-	
+	*/
 	
 	public List<HairSalonInfo> getSalonInfoList(DBConnection dbConnection,
 			List<String> searchConditionIdList, List<String> areaIdList,
@@ -1521,6 +1628,7 @@ public class SalonDao extends BaseDao{
 			    	}
 			    }
 			    */
+	
 			    //AND検索			    
 			    for(String condId : searchConditionIdList){
 			    	if(condList.contains(condId)){
@@ -1626,6 +1734,8 @@ public class SalonDao extends BaseDao{
 		}
 		return salonInfoList;
 	}
+	
+	/*
 	public String getSalonAreaId(DBConnection dbConnection, int salonId) {
 		String sql ="SELECT `t_hairSalonMaster_areaId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = " + salonId; 		
 		Statement statement = dbConnection.getStatement();
@@ -1677,6 +1787,7 @@ public class SalonDao extends BaseDao{
 		
 		return result;			
 	}
+	*/
 	public int getReviewedSalonId(DBConnection dbConnection, String t_reviewId) {
 		String sql ="SELECT `t_hairSalonMaster_salonId`, `t_hairSalonMaster_reviewId` "
 				+ "FROM `t_hairSalonMaster` ORDER BY `t_hairSalonMaster_salonId` ASC"; 		
@@ -1704,6 +1815,7 @@ public class SalonDao extends BaseDao{
 		return salonId;
 	}
 	
+	/*
 	public boolean DeleteReviewId(DBConnection dbConnection, String t_reviewId,
 			int salonId) {
 		boolean result = false;
@@ -1741,4 +1853,7 @@ public class SalonDao extends BaseDao{
 		
 		return result;
 	}
+	*/
+	
+	
 }

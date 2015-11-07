@@ -2,7 +2,9 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,9 @@ import net.sf.json.JSONObject;
 import business.dao.AreaDao;
 import business.dao.SalonDao;
 import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.AreaInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -90,14 +94,23 @@ public class CheckLoginService implements IServiceExcuter{
 
 		//updated-flag
 		int updated=-1;
-				
+		
+		//SalonInfo-list
+		List<THairSalonMasterInfo> salonInfoList = new ArrayList<THairSalonMasterInfo>();
+		
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			if(conn!=null){
 				//do Login 
-				salonId = salonDao.getCheckLoginInfo(dbConnection, mail, password);
-				if(salonId >= 0) result = true;
+				//salonId = salonDao.getCheckLoginInfo(dbConnection, mail, password);
+				THairSalonMasterInfo info = new THairSalonMasterInfo();
+				Map<String ,Object> map = new HashMap<String, Object>();
+				map.put(TableConstant.COLUMN_SALON_MAIL, mail);
+				map.put(TableConstant.COLUMN_SALON_PASSWORD, password);
+				salonInfoList = salonDao.getByColumns(dbConnection, map);
+				if(salonInfoList.size()>0) result = true;
+//				if(salonId >= 0) result = true;
 				//if(masterUserId >= 0) result = true;
 				//ログイン成功
 //				if(result){

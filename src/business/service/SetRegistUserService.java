@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import business.dao.UserDao;
 import net.sf.json.JSONObject;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -49,7 +50,7 @@ public class SetRegistUserService implements IServiceExcuter{
 				request.getParameter("t_user_tel").toString() : null;
 
 		//userInfo を渡したほうがきれいかも.
-		UserInfo userInfo = new UserInfo();
+		TUserInfo userInfo = new TUserInfo();
 		userInfo.setName(t_user_name);
 		int age = 0;
 		if(t_user_age != null && t_user_age != ""){
@@ -60,8 +61,8 @@ public class SetRegistUserService implements IServiceExcuter{
 		if(t_user_gender != null && t_user_gender != ""){
 			gender = Integer.parseInt(t_user_gender);
 		}
-		userInfo.setUserSex(gender);
-		userInfo.setUserPhoneNumber(t_user_tel);
+		userInfo.setTUserSex(gender);
+		userInfo.setTUserTel(t_user_tel);
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -80,7 +81,7 @@ public class SetRegistUserService implements IServiceExcuter{
 						userInfo
 						);
 						*/
-				userId = userDao.setUserInfoInsert(dbConnection, userInfo);
+				userId = userDao.save(dbConnection, userInfo);
 				if(userId > 0) result = true;
 				dbConnection.close();
 			}else{

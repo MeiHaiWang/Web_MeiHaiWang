@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
 import business.dao.RecommendDao;
 import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
@@ -78,11 +79,12 @@ public class GetSalonInfoService implements IServiceExcuter{
 	try{
 		DBConnection dbConnection = new DBConnection();
 		java.sql.Connection conn = dbConnection.connectDB();
-		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-
+		//List<THairSalonMasterInfo> salonInfoList = new ArrayList<THairSalonMasterInfo>();
+		THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+		
 		SalonDao dao = new SalonDao();
 		if(conn!=null){
-			salonInfoList = dao.getSalonInfo(dbConnection, salonId);
+			salonInfo = dao.get(dbConnection, salonId);
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 			throw new Exception("DabaBase Connect Error");
@@ -108,26 +110,33 @@ public class GetSalonInfoService implements IServiceExcuter{
 		 */
 		
 		// 返却用サロンデータ（jsonデータの作成）
-		HairSalonInfo hairSalonInfo = salonInfoList.get(0);
 		JSONObject jsonOneData = new JSONObject();
-		jsonOneData.put("t_hairSalonMaster_salon_name", hairSalonInfo.getHairSalonName());
-		jsonOneData.put("t_country_name", hairSalonInfo.getSalonCountryName());
-		if(hairSalonInfo.getAreaNameList().size()>0){
-			jsonOneData.put("t_area_name", hairSalonInfo.getAreaNameList().get(0));
+		jsonOneData.put("t_hairSalonMaster_salon_name", salonInfo.getTHairSalonMasterName());
+		//TODO: country名,area名をareaDaoからひっぱる 
+		/*
+		//jsonOneData.put("t_country_name", salonInfo.);
+		if(salonInfo.getTHairSalonMasterAreaId().size()>0){
+			jsonOneData.put("t_area_name", salonInfo.getAreaNameList().get(0));
 		}else{
 			jsonOneData.put("t_area_name", "");
 		}
-		jsonOneData.put("t_hairSalonMaster_areaId", hairSalonInfo.getSalonAreaId());
-		jsonOneData.put("t_hairSalonMaster_detailText", hairSalonInfo.getSalonDetailText());
-		jsonOneData.put("t_hairSalonMaster_openTime", hairSalonInfo.getSalonOpenTime());
-		jsonOneData.put("t_hairSalonMaster_closeTime", hairSalonInfo.getSalonCloseTime());
-		jsonOneData.put("t_hairSalonMaster_closeDay", hairSalonInfo.getSalonCloseDay());
-		jsonOneData.put("t_hairSalonMaster_creditAvailable", hairSalonInfo.getSalonCreditAvailable());
-		jsonOneData.put("t_hairSalonMaster_carParkAvailable", hairSalonInfo.getSalonCarParkAvailable());
-		jsonOneData.put("t_hairSalonMaster_salonImagePath", hairSalonInfo.getHairSalonImagePathOneLine());		    		
-    	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", hairSalonInfo.getJapaneseAvailable());
-    	jsonOneData.put("t_hairSalonMaster_searchConditionId", hairSalonInfo.getSalonSearchConditionId());
-    	jsonOneData.put("t_hairSalonMaster_mail", hairSalonInfo.getMail());
+		*/
+		jsonOneData.put("t_hairSalonMaster_areaId", salonInfo.getTHairSalonMasterAreaId());
+		jsonOneData.put("t_hairSalonMaster_detailText", salonInfo.getTHairSalonMasterDetailText());
+		jsonOneData.put("t_hairSalonMaster_openTime", salonInfo.getTHairSalonMasterOpenTime());
+		jsonOneData.put("t_hairSalonMaster_closeTime", salonInfo.getTHairSalonMasterCloseTime());
+		jsonOneData.put("t_hairSalonMaster_closeDay", salonInfo.getTHairSalonMasterCloseDay());
+		jsonOneData.put("t_hairSalonMaster_creditAvailable", salonInfo.getTHairSalonMasterCreditAvailable());
+		jsonOneData.put("t_hairSalonMaster_carParkAvailable", salonInfo.getTHairSalonMasterCarParkAvailable());
+		jsonOneData.put("t_hairSalonMaster_salonImagePath", salonInfo.getTHairSalonMasterSalonImagePath());		
+		//TODO: japaneseAvailable
+    	//jsonOneData.put("t_hairSalonMaster_japaneseAvailable", salonInfo.getTHairSalonMasterJapaneseAvailable());
+		int japaneseAvailable = 0;
+		List<String> langCoList = Arrays.asList(salonInfo.getTHairSalonMasterAvailableCountryId().split(","));
+		if(langCoList.contains(Constant.JAPANESE_COUNTRY_ID)) japaneseAvailable = 1;
+    	jsonOneData.put("t_hairSalonMaster_japaneseAvailable", japaneseAvailable);
+    	jsonOneData.put("t_hairSalonMaster_searchConditionId", salonInfo.getTHairSalonMasterSearchConditionId());
+    	jsonOneData.put("t_hairSalonMaster_mail", salonInfo.getTHairSalonMasterMail());
     	
     	/*
 		List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();

@@ -137,5 +137,15 @@ public class THairStyleInfo extends BaseInfo implements IBaseInfo {
 	public void setTHairStyleMessage (String tHairStyleMessage) {
 		this.tHairStyleMessage = tHairStyleMessage;
 	}
+	
+	//append
+	String areaName = "";
+	public void setHairStyleAreaName(String areaName) {
+		this.areaName   = areaName != null ? areaName:"";
+	}
+	public String getHairStyleAreaName(){
+		return this.areaName;
+	}
+
 
 }

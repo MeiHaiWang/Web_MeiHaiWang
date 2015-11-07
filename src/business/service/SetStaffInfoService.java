@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,9 @@ import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
+import common._model.TStylistInfo;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
@@ -102,7 +107,7 @@ public class SetStaffInfoService implements IServiceExcuter{
 		/**
 		 * stylistInfo にパラメータ情報を格納.
 		 */
-		StylistInfo stylistInfo = new StylistInfo();
+		TStylistInfo stylistInfo = new TStylistInfo();
 		stylistInfo.setName(t_stylist_name);
 		//stylistInfo.setStylistGender(Integer.parseInt(t_stylist_sex));
 		int sex = -1;
@@ -111,37 +116,36 @@ public class SetStaffInfoService implements IServiceExcuter{
 		}else{
 			sex = 0;
 		}
-		stylistInfo.setStylistGender(sex);
-		stylistInfo.setPhoneNumber(t_stylist_phoneNumber);
+		stylistInfo.setTStylistSex(sex);
+		stylistInfo.setTStylistPhoneNumber(t_stylist_phoneNumber);
 		//debug
 		//System.out.println("register phone:" + t_stylist_phoneNumber + ", " + stylistInfo.getPhoneNumber());
-		stylistInfo.setMail(t_stylist_mail);
+		stylistInfo.setTStylistMail(t_stylist_mail);
 		//debug
 		//System.out.println("register mail:" + t_stylist_mail + ", " + stylistInfo.getMail());
-		stylistInfo.setStylistImagePath(t_stylist_imagePath);
+		stylistInfo.setTStylistImagePath(t_stylist_imagePath);
 		DateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date birth = new Date(0);
 		try {
 			if(!t_stylist_birth.equals("--00:00:00"))
 				birth = sdf.parse(t_stylist_birth);
-			stylistInfo.setBirth(birth);
+			stylistInfo.setTStylistBirth(birth);
 			//debug
 			//System.out.println("birth = "+birth);
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		stylistInfo.setPosition(t_stylist_position);
+		stylistInfo.setTStylistPosition(t_stylist_position);
 		int year = -1;
 		if(t_stylist_experienceYear != "") year = Integer.parseInt(t_stylist_experienceYear);
 			else year = 0;
-		//stylistInfo.setStylistYears(Integer.parseInt(t_stylist_experienceYear));
-		stylistInfo.setStylistYears(year);
-		stylistInfo.setSpecialMenu(t_stylist_specialMenu);
-		stylistInfo.setStylistMessage(t_stylist_message);
-		stylistInfo.setStylistSearchConditionId(t_stylist_searchConditionId);
-		stylistInfo.setStylistRestDay(t_stylist_restDay);
-		stylistInfo.setStylistRestDay(t_stylist_restTime);
+		stylistInfo.setTStylistExperienceYear(year);
+		stylistInfo.setTStylistSpecialMenu(t_stylist_specialMenu);
+		stylistInfo.setTStylistMessage(t_stylist_message);
+		stylistInfo.setTStylistSearchConditionId(t_stylist_searchConditionId);
+		//stylistInfo.setTStylistRestDay(t_stylist_restDay);
+		//stylistInfo.setTStylistRestDay(t_stylist_restTime);
 		
 		/**
 		 * DB更新
@@ -183,27 +187,28 @@ public class SetStaffInfoService implements IServiceExcuter{
 			if(conn!=null){
 				StylistDao stylistDao = new StylistDao();
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = new UserInfo();
+				TUserInfo userInfo = new TUserInfo();
 				
 				/**
 				 * スタイリスト情報をUPDATEする場合には、既登録情報を取得
 				 * ユーザ情報をUPDATEする場合には、既登録情報を取得
 				 */
-				StylistInfo stylistPreviousInfo = new StylistInfo();
+				TStylistInfo stylistPreviousInfo = new TStylistInfo();
 				if(stylistId!=-1){
 					//スタイリストもユーザもすでに登録済み
 					//スタイリスト情報のUpdate+ユーザ情報のUpdate
 					//stylistPreviousInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-					stylistPreviousInfo = stylistDao.getStylistObject(dbConnection, stylistId);
-					if(stylistPreviousInfo != null) userId = stylistPreviousInfo.getUserId();
+					stylistPreviousInfo = stylistDao.get(dbConnection, stylistId);
+					if(stylistPreviousInfo != null) userId = stylistPreviousInfo.getTStylistUserId();
 				}else{
 					//スタイリストの新規登録 & ユーザUPDATE?
 					if(t_stylist_phoneNumber!=""){
 						//電話番号からユーザ情報を取得->ユーザ情報は登録済みなのでUpdate
 						//userInfo = userDao.getUserInfoByTel(dbConnection, t_stylist_phoneNumber);
-						userInfo = userDao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_stylist_phoneNumber);
+						List<TUserInfo> userInfoList = userDao.getByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_stylist_phoneNumber);
+						userInfo = userInfoList.get(0);
 						if(userInfo!=null){
-							userId = userInfo.getObjectId();
+							userId = userInfo.getTUserId();
 						}
 					}else{
 						//ユーザ情報も新規登録
@@ -218,35 +223,36 @@ public class SetStaffInfoService implements IServiceExcuter{
 					//debug
 					System.out.println("スタイリストがすでにユーザ登録済み"+",userId:"+userId);
 					//ユーザ情報をアップデート
-					userInfo.setObjectId(userId);
-					userInfo.setUserMail(stylistInfo.getMail());
-					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
+					userInfo.setTUserId(userId);
+					userInfo.setTUserMail(stylistInfo.getTStylistMail());
+					userInfo.setTUserTel(stylistInfo.getTStylistPhoneNumber());
 					userInfo.setUserIsStylist(1);
 					userInfo.setName(stylistInfo.getName());
-					userInfo.setUserSex(stylistInfo.getStylistGender());
-					userInfo.setUserBirth(stylistInfo.getBirth());
-					userInfo.setUserImagePath(stylistInfo.getImagePath());
+					userInfo.setTUserSex(stylistInfo.getTStylistSex());
+					userInfo.setTUserBirth(stylistInfo.getTStylistBirth());
+					userInfo.setTUserImagePath(stylistInfo.getTStylistImagePath());
 					//userId = userDao.setUserAcount(dbConnection, userInfo);
-					userId = userDao.setUserInfoUpdate(dbConnection, userInfo);
+					userId = userDao.update(dbConnection, userInfo);
 				}else{
 					//ユーザ情報が登録されていない場合
-					userInfo = new UserInfo();
-					userInfo.setUserMail(stylistInfo.getMail());
-					userInfo.setUserPhoneNumber(stylistInfo.getPhoneNumber());
+					userInfo = new TUserInfo();
+					userInfo.setTUserMail(stylistInfo.getTStylistMail());
+					userInfo.setTUserTel(stylistInfo.getTStylistPhoneNumber());
 					userInfo.setUserIsStylist(1);
-					userInfo.setName(stylistInfo.getName());
-					userInfo.setUserSex(stylistInfo.getStylistGender());
-					userInfo.setUserBirth(stylistInfo.getBirth());
-					userInfo.setUserImagePath(stylistInfo.getImagePath());
-					userInfo.setUserPass("0000"); //TODO 初期パスワード
-					userId = userDao.setUserInfoInsert(dbConnection, userInfo);
+					userInfo.setTUserName(stylistInfo.getTStylistName());
+					userInfo.setTUserSex(stylistInfo.getTStylistSex());
+					userInfo.setTUserBirth(stylistInfo.getTStylistBirth());
+					userInfo.setTUserImagePath(stylistInfo.getTStylistImagePath());
+					userInfo.setTUserPassward("0000"); //TODO 初期パスワード
+					userId = userDao.save(dbConnection, userInfo);
 					//debug
 					logger.info("スタイリストを新規にユーザ登録:userId={}"+userId);
 				}
 				if(userId>-1){
 					SalonDao salonDao = new SalonDao();
-					String salonAreaId = salonDao.getSalonAreaId(dbConnection,salonId);
-					stylistInfo.setStylistAreaId(salonAreaId);
+					//String salonAreaId = salonDao.getSalonAreaId(dbConnection,salonId);
+					String salonAreaId = salonDao.get(dbConnection,salonId).getTHairSalonMasterAreaId();
+					stylistInfo.setTStylistAreaId(salonAreaId);
 					//debug
 					System.out.println("スタイリスト登録: "+stylistId+", "+userId+", "+stylistInfo.getName());
 					/**
@@ -254,26 +260,47 @@ public class SetStaffInfoService implements IServiceExcuter{
 					 * stylistIdが0より大きい場合はスタイリスト情報修正
 					 */
 					if(stylistId>0){
-						stylistId = stylistDao.setStylistInfoInsert(
+						stylistId = stylistDao.save(
 								dbConnection,
 								stylistInfo
 								);
 					}else{
-						stylistId = stylistDao.setStylistInfoUpdate(
+						stylistId = stylistDao.update(
 								dbConnection,
 								stylistInfo
 								);
 					}
-					/**
-					 * stylistIdをsalonテーブルに追加
-					 */
-					salonDao.setSalonInfo(dbConnection, salonId, salonInfo);
 					
-					/**
-					 * userIdをスタイリストテーブルに追加
-					 */
-					stylistInfo.setObjectId(stylistId);
-					stylistDao.setStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_USERID, userId, stylistInfo);
+					if(stylistId>0){
+						/**
+						 * stylistIdをsalonテーブルに追加
+						 */
+						//salonDao.setSalonInfo(dbConnection, salonId, salonInfo);
+						THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+						salonInfo = salonDao.get(dbConnection, salonId);
+						String stylistIds = salonInfo.getTHairSalonMasterStylistId();
+						List<String> stylistIdList = Arrays.asList(stylistIds.split(","));
+						if(!stylistIdList.contains(stylistId)) {
+							stylistIds="";
+							for(int index=0;index<stylistIdList.size();index++){
+								stylistIds += stylistIdList.get(index)+",";
+							}
+							stylistIds = stylistIds.substring(0,stylistIds.length()-1);
+							salonInfo.setTHairSalonMasterStylistId(stylistIds);
+							int resultInt = salonDao.update(dbConnection, salonInfo);
+							if(resultInt > 0) result = true;
+						}
+					}
+					
+					if(result){
+						/**
+						 * userIdをスタイリストテーブルに追加
+						 */
+						stylistInfo = stylistDao.get(dbConnection, stylistId);
+						stylistInfo.setTStylistUserId(userId);
+						int resultInt = stylistDao.update(dbConnection, stylistInfo);
+						if(resultInt > 0) result = true;
+					}
 					
 				}else{
 					//userId is null.
@@ -281,9 +308,7 @@ public class SetStaffInfoService implements IServiceExcuter{
 							+ "Your phone-number may be used by another.");
 					return response;
 				}
-				if(stylistId >= 0){
-					result = true;
-				}else{
+				if(stylistId < 0) {
 					//stylistId is -1
 					response = faultError(response, "Fault in Set-Stylist-Infomation.");
 					return response;

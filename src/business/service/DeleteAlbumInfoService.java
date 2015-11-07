@@ -1,6 +1,8 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
+import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.util.DBConnection;
 
@@ -56,13 +60,33 @@ public class DeleteAlbumInfoService implements IServiceExcuter{
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
 			
-			if(conn!=null){
+			if(conn!=null && t_hairStyle_id!=null){
 				HairStyleDao hairStyleDao = new HairStyleDao();
+				int resultInt = hairStyleDao.logicalDelete(dbConnection, Integer.parseInt(t_hairStyle_id));
+				if(resultInt>0){
+					SalonDao salonDao = new SalonDao();
+					THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+					salonInfo = salonDao.get(dbConnection, salonId);
+					String hsIds = salonInfo.getTHairSalonMasterHairStyleId();
+					List<String> hsIdList = Arrays.asList(hsIds.split(","));
+					hsIds = "";
+					for(int index=0;index<hsIdList.size();index++){
+						if(!hsIdList.get(index).equals(t_hairStyle_id)){
+							hsIds += hsIdList.get(index)+",";
+						}
+					}
+					hsIds = hsIds.substring(0,hsIds.length()-1);
+					salonInfo.setTHairSalonMasterHairStyleId(hsIds);
+					resultInt = salonDao.update(dbConnection, salonInfo);
+				}
+				if(resultInt>0) result = true;
+				/*
 				result = hairStyleDao.DeleteHairStyleInfoForMaster(
 						dbConnection,
 						t_hairStyle_id,
 						salonId
 						);
+						*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

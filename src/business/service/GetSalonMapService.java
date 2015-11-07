@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.CommonUtil;
@@ -30,10 +31,10 @@ public class GetSalonMapService implements IServiceExcuter{
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			HairSalonInfo salonInfo = new HairSalonInfo();
+			THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				salonInfo = salonDao.getSalonMapInfo(salonId, dbConnection);
+				salonInfo = salonDao.get(dbConnection, salonId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -43,11 +44,11 @@ public class GetSalonMapService implements IServiceExcuter{
 			//レスポンスに設定するJSON Object
 			JSONObject jsonObject = new JSONObject();
 			JSONObject jsonOneData = new JSONObject();
-			jsonOneData.put("image", salonInfo.getSalonMapImagePath());
-			jsonOneData.put("latitude", salonInfo.getSalonLatitude());
-			jsonOneData.put("longitude", salonInfo.getSalonLongitude());
-			jsonOneData.put("info", salonInfo.getSalonMapInfo());
-			jsonOneData.put("baiduURL", salonInfo.getSalonMapUrl());
+			jsonOneData.put("image", salonInfo.getTHairSalonMasterMapImagePath());
+			jsonOneData.put("latitude", salonInfo.getTHairSalonMasterMapLatitude());
+			jsonOneData.put("longitude", salonInfo.getTHairSalonMasterMapLongitude());
+			jsonOneData.put("info", salonInfo.getTHairSalonMasterMapInfoText());
+			jsonOneData.put("baiduURL", salonInfo.getTHairSalonMasterMapUrl());
 		    // 返却用サロンデータ（jsonデータの作成）
 		    jsonObject.put("shop_map",jsonOneData);
 		    PrintWriter out = response.getWriter();

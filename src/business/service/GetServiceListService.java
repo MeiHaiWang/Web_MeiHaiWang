@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,7 +79,8 @@ public class GetServiceListService implements IServiceExcuter{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 
-			List<Integer> menuIdList = new ArrayList<Integer>();
+			//List<Integer> menuIdList = new ArrayList<Integer>();
+			List<String> menuIdList = new ArrayList<String>();
 			List<MenuInfo> menuInfoList  = new ArrayList<MenuInfo>();
 			
 			if(conn!=null){
@@ -86,10 +88,11 @@ public class GetServiceListService implements IServiceExcuter{
 				MenuDao menuDao = new MenuDao();
 
 				//menuIdList for salonId in HairSalon-Table 
-				menuIdList = salonDao.getMenuIdList(dbConnection, salonId);
+				menuIdList = Arrays.asList(salonDao.get(dbConnection, salonId).getTHairSalonMasterMenuId().split(","));
 
 				//menuInfoList for menuIdList in Menu-Table 
-				menuInfoList = menuDao.getMenuListInfo(dbConnection, menuIdList);	
+				//TODO:
+				//menuInfoList = menuDao.getMenuListInfo(dbConnection, menuIdList);	
 
 				dbConnection.close();
 			}else{

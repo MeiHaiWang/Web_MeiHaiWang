@@ -367,5 +367,15 @@ public class THairSalonMasterInfo extends BaseInfo implements IBaseInfo {
 	public void setTHairSalonMasterSeatId (String tHairSalonMasterSeatId) {
 		this.tHairSalonMasterSeatId = tHairSalonMasterSeatId;
 	}
+	
+	//append
+	private String salonCondName ="";
+
+	public void setSalonConditionName(String salonCondName) {
+		this.salonCondName = salonCondName != null ? salonCondName : "";		
+	}
+	public String getSalonCondName(){
+		return salonCondName ;
+	}
 
 }

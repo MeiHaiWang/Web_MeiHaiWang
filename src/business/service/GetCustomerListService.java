@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
 import business.dao.MenuDao;
 import business.dao.ReservationDao;
 import business.dao.UserDao;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.model.ReservationInfo;
 import common.model.UserInfo;
@@ -85,7 +86,7 @@ public class GetCustomerListService implements IServiceExcuter{
 //		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 		//List<ReservationInfo> reservationInfoList = new ArrayList<ReservationInfo>();		
 		List<Integer> userIdList = new ArrayList<Integer>();
-		List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+		List<TUserInfo> userInfoList = new ArrayList<TUserInfo>();
 		
 		ReservationDao dao = new ReservationDao();
 		UserDao userDao = new UserDao();
@@ -119,7 +120,10 @@ public class GetCustomerListService implements IServiceExcuter{
 				for(ReservationInfo ri : reservationInfoList){
 					List<String> menuIdList = new ArrayList<String>();
 					menuIdList = Arrays.asList(ri.getReservationMenuId().split(","));
-					totalPayment += menuDao.getMenuCost(dbConnection, menuIdList);
+					//totalPayment += menuDao.getMenuCost(dbConnection, menuIdList);
+					for(String id: menuIdList){
+						totalPayment += menuDao.get(dbConnection, Integer.parseInt(id)).getTMenuPrice();
+					}
 				}
 				
 				//前回来店日時、次回来店日時を取得
@@ -140,8 +144,8 @@ public class GetCustomerListService implements IServiceExcuter{
 				}
 				
 				//UserInfoにデータを格納
-				UserInfo userInfo = new UserInfo();
-				userInfo = userDao.getUserObject(dbConnection, userId);							
+				TUserInfo userInfo = new TUserInfo();
+				userInfo = userDao.get(dbConnection, userId);							
 				userInfo.setLatestCutStylist(lastReservationStylistName);
 				userInfo.setLatestCutMemo(lastReservationMemo);
 				userInfo.setSalonTraffic(salonTraffic);
@@ -178,12 +182,12 @@ public class GetCustomerListService implements IServiceExcuter{
 		// 返却用サロンデータ（jsonデータの作成）
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
-		for(UserInfo userInfo : userInfoList){
+		for(TUserInfo userInfo : userInfoList){
 			JSONObject jsonOneData = new JSONObject();
 			jsonOneData.put("t_user_name", userInfo.getName());
-			jsonOneData.put("t_user_phoneNumber", userInfo.getUserPhoneNumber());
+			jsonOneData.put("t_user_phoneNumber", userInfo.getTUserTel());
 	    	/* 年齢を求める*/
-	    	Date userBirth = userInfo.getUserBirth();
+	    	Date userBirth = userInfo.getTUserBirth();
 	    	Date nowDate = new Date();
 	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	    	Calendar birthDay = Calendar.getInstance();
@@ -197,7 +201,7 @@ public class GetCustomerListService implements IServiceExcuter{
 	    		age-=1;
 	    	}
 	    	jsonOneData.put("t_user_age", age);			
-			jsonOneData.put("t_user_gender", userInfo.getUserSex());
+			jsonOneData.put("t_user_gender", userInfo.getTUserSex());
 			jsonOneData.put("t_stylist_name", userInfo.getLatestCutStylist());
 			jsonOneData.put("t_reservation_memo", userInfo.getLatestCutMemo());
 			jsonOneData.put("salon_traffic", userInfo.getSalonTraffic());

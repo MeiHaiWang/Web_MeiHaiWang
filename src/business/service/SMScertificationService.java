@@ -11,6 +11,7 @@ import org.bouncycastle.util.encoders.Base64;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -50,11 +51,11 @@ public class SMScertificationService implements IServiceExcuter{
 				java.sql.Connection conn = dbConnection.connectDB();
 				if(conn!=null){
 					UserDao userDao = new UserDao();
-					UserInfo userInfo = new UserInfo();
-					userInfo.setUserPhoneNumber(tel);
-					userInfo.setUserPass(pw);
+					TUserInfo userInfo = new TUserInfo();
+					userInfo.setTUserTel(tel);
+					userInfo.setTUserPassward(pw);
 					//int userId = userDao.setUserAcount(dbConnection, userInfo);
-					int userId = userDao.setUserInfoInsert(dbConnection, userInfo);
+					int userId = userDao.save(dbConnection, userInfo);
 					if(userId < 0) result = false;
 					dbConnection.close();
 				}else{

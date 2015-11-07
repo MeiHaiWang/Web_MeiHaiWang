@@ -207,5 +207,77 @@ public class TUserInfo extends BaseInfo implements IBaseInfo {
 	public void setTUserReservationId (String tUserReservationId) {
 		this.tUserReservationId = tUserReservationId;
 	}
+	
+	
+	
+	//append
+	private int UserAge= 0;
+	private String LatestCutStylist = "";
+	private String LatestCutMemo;
+	private int SalonTraffic; //来店回数
+	private double TotalPayment;
+	private String previousDate="";
+	private String nextDate ="";
+	private int isStylist = 0;
+
+	public void setLatestCutStylist(String stylistName){
+		this.LatestCutStylist = stylistName != null ? stylistName : "";
+	}
+	public String getLatestCutStylist(){
+		return LatestCutStylist;
+	}
+	
+	public void setLatestCutMemo(String memo){
+		this.LatestCutMemo = memo != null ? memo : "";
+	}
+	public String getLatestCutMemo(){
+		return LatestCutMemo;
+	}
+
+	public void setSalonTraffic(int salonTraffic) {
+		this.SalonTraffic = salonTraffic;
+	}
+	public int getSalonTraffic(){
+		return SalonTraffic;
+	}
+
+	public void setTotalPayment(double totalPayment2) {
+		this.TotalPayment = totalPayment2;
+	}
+	public double getTotalPayment(){
+		return TotalPayment;
+	}
+
+	public void setUserAge(int userAge){
+		this.UserAge = userAge;
+	}
+	
+	public int getUserAge(){
+		return UserAge;
+	}
+
+	public void setReservationPreviousDate(String previousDate) {
+		this.previousDate = previousDate != null ? previousDate : "";
+	}
+	public String getReservationPreviousDate(){
+		return previousDate;
+	}
+
+	public void setReservationNextDate(String nextDate) {
+		this.nextDate = nextDate != null ? nextDate : "";
+	}
+	public String getReservationNextDate(){
+		return nextDate ;
+	}
+	
+	public void setUserIsStylist(int flag){
+		this.isStylist = flag;
+	}
+	
+	public int getUserIsStylist(){
+		return isStylist;
+	}
+
+
 
 }

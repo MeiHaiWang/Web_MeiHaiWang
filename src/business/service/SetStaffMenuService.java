@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
@@ -54,9 +55,11 @@ public class SetStaffMenuService implements IServiceExcuter {
 					t_menu_t_menu_id = t_menu_t_menu_id.substring(1);
 
 				StylistDao stylistDao = new StylistDao();
-				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setObjectId(Integer.parseInt(t_stylist_Id));
-				int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_MENUID, t_menu_t_menu_id, stylistInfo);
+				TStylistInfo stylistInfo = new TStylistInfo();
+				stylistInfo = stylistDao.get(dbConnection, Integer.parseInt(t_stylist_Id));
+				//TODO: append? set?
+				stylistInfo.setTStylistMenuId(t_menu_t_menu_id);
+				int result_int = stylistDao.update(dbConnection, stylistInfo);
 				if(result_int>0) result = true;
 				/*
 				result = stylistDao.setStylistMenuForMaster(

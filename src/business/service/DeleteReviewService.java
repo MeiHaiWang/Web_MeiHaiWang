@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,9 @@ import business.dao.CommentDao;
 import business.dao.MenuDao;
 import business.dao.ReviewDao;
 import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.util.DBConnection;
 
 public class DeleteReviewService implements IServiceExcuter{
@@ -40,32 +43,60 @@ public class DeleteReviewService implements IServiceExcuter{
 			int salonId = -1;
 			List<String> commentIdList = new ArrayList<String>();
 			
-			if(conn!=null){
+			if(conn!=null && t_reviewId!=null){
 				ReviewDao reviewDao = new ReviewDao();
 				SalonDao salonDao = new SalonDao();
 				CommentDao commentDao = new CommentDao();
-				commentIdList = reviewDao.getReviewCommentIdList(dbConnection,t_reviewId);
+				//commentIdList = reviewDao.getReviewCommentIdList(dbConnection,t_reviewId);
+				commentIdList = Arrays.asList(reviewDao.get(dbConnection,Integer.parseInt(t_reviewId)).getTReviewCommentId().split(","));
 				salonId = salonDao.getReviewedSalonId(dbConnection,t_reviewId);
-				int reviewUserId = reviewDao.getReviewUserId(dbConnection, t_reviewId);
+				//int reviewUserId = reviewDao.getReviewUserId(dbConnection, t_reviewId);
+				int reviewUserId = reviewDao.get(dbConnection, Integer.parseInt(t_reviewId)).getTReviewUserId();
 				if(reviewUserId == userId){
 					result = true;
 				}
 				if(result){
+					/*
 					result = reviewDao.DeleteReviewInfo(
 							dbConnection,
 							t_reviewId
 							);
+							*/
+					int resultInt = reviewDao.logicalDelete(dbConnection, Integer.parseInt(t_reviewId));
+					if(resultInt>0) result=true;
 				}
 				if(result){
-					result = salonDao.DeleteReviewId(dbConnection,
-							t_reviewId, salonId);
+					/**
+					 * salonテーブルからreviewIdを削除
+					 */
+					//result = salonDao.DeleteReviewId(dbConnection, t_reviewId, salonId);
+					THairSalonMasterInfo info = new THairSalonMasterInfo();
+					info = salonDao.get(dbConnection, salonId);
+					String reviewIds = info.getTHairSalonMasterReviewId();
+					List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
+					reviewIds = "";
+					for(int index=0;index<reviewIdList.size();index++){
+						if(!reviewIdList.get(index).equals(t_reviewId)){
+							reviewIds += reviewIdList.get(index)+",";
+						}
+					}
+					reviewIds = reviewIds.substring(0,reviewIds.length()-1);
+					info.setTHairSalonMasterReviewId(reviewIds);
+					salonDao.update(dbConnection, info);
 				}
 				if(result && !commentIdList.get(0).equals("")){
+					/**
+					 * Reviewについていたコメントも同時に削除
+					 */
 					for(String commentId: commentIdList){
+						/*
 						result = commentDao.DeleteCommentId(
 								dbConnection,
 								commentId
 								);
+								*/
+						int resultInt = commentDao.logicalDelete(dbConnection, Integer.parseInt(commentId));
+						if(resultInt>0) result=true;
 					}
 				}
 				dbConnection.close();

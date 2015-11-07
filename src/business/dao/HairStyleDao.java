@@ -12,16 +12,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import business._dao.THairStyleDao;
 import common.model.HairStyleInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
-public class HairStyleDao {
-	public HairStyleDao() throws Exception{
-		
-	}
+public class HairStyleDao extends THairStyleDao{
 	
+	/*
 	public List<Integer> getHairStyleHistoryIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_latestViewHairStyleId` FROM `t_user` WHERE t_user_Id = " + user_id;
 		List<Integer> idList = new ArrayList<Integer>();
@@ -31,28 +30,9 @@ public class HairStyleDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_latestViewHairStyleId");
-			/*
-			for(int i=0; i<=str_id_list.length(); i+=2){
-				String temp = str_id_list.substring(i, i+1);
-				idList.add(Integer.parseInt(temp));
-			}
-	    	String str2 = str_id_list;
-	    	int i = 0;
-	    	while(i<=str_id_list.length()){
-	    		int idx = str_id_list.indexOf(',', i);
-	    		if(idx>0){
-			    	str2 = str_id_list.substring(i, idx);		    			
-	    		}
-		    	//jsonOneData.put("image"+Integer.toString(num++), str2);
-	    		idList.add(Integer.parseInt(str2));
-		    	i+=(str2.length()+1);
-	    	}
-			 */
 			ListUtilities listUtilities = new ListUtilities();
 			List<String> hairStyleStrList = listUtilities.separateData(str_id_list);
 			idList = listUtilities.convertList_str_int(hairStyleStrList);
-
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -65,7 +45,7 @@ public class HairStyleDao {
 				"SELECT `t_hairStyle_Id`, `t_hairStyle_imagePath`, `t_hairStyle_stylistId`, `t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE `t_hairStyle_Id` =";
 		List<HairStyleInfo> infoList = new ArrayList<HairStyleInfo>();
 		
-		/* 履歴にまだ何も登録されていない＝null */
+		// 履歴にまだ何も登録されていない＝null 
 		if(idList.isEmpty()){
 			infoList.add(retNull());
 	 		return infoList;
@@ -91,9 +71,6 @@ public class HairStyleDao {
 		return infoList;
 	}	
 	
-	/*
-	 * Favorite
-	 * */
 	public List<Integer> getHairStyleFavoriteIdList(DBConnection dbConnection, int user_id) throws SQLException{
 		String sql = "SELECT `t_user_favoriteHairStyleId` FROM `t_user` WHERE t_user_Id =" + user_id;
 		List<Integer> HairStyleIdList = new ArrayList<Integer>();
@@ -103,13 +80,6 @@ public class HairStyleDao {
 			ResultSet rs = statement.executeQuery(sql);
 			rs.next();
 			String str_id_list = rs.getString("t_user_favoriteHairStyleId");
-			
-			/*
-			for(int i=0; i<=str_id_list.length(); i+=2){
-				String temp = str_id_list.substring(i, i+1);
-				HairStyleIdList.add(Integer.parseInt(temp));
-			}
-			*/
 			
 	    	String str2 = str_id_list;
 	    	int i = 0;
@@ -137,7 +107,7 @@ public class HairStyleDao {
 				+ " `t_hairStyle_favoriteNumber` FROM `t_hairStyle` WHERE t_hairStyle_id=";
 		List<HairStyleInfo> HairStyleInfoList = new ArrayList<HairStyleInfo>();
 		
-		/* お気に入りにまだ何も登録されていない＝null */
+		// お気に入りにまだ何も登録されていない＝null 
 	 	if(HairStyle_id_list.isEmpty()) {
 	 		HairStyleInfoList.add(retNull());
 	 		return HairStyleInfoList;
@@ -162,6 +132,7 @@ public class HairStyleDao {
 		}
 		return HairStyleInfoList;
 	}
+	*/
 	
 	//アプリ側：ヘアスタイル情報の詳細を取得
 	/**
@@ -178,6 +149,7 @@ public class HairStyleDao {
 		   stylistID: 1
 		}
 	*/
+	/*
 	public HairStyleInfo getHairStyleDetailInfo(DBConnection dbConnection, int cataloglistID) throws SQLException{
 		String sql = 
 				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_stylistId`, "
@@ -206,7 +178,7 @@ public class HairStyleDao {
 		return hairStyleInfo;
 	}
 	
-	/*空っぽのデータをつっこむ*/
+	//空っぽのデータをつっこむ
 	public HairStyleInfo retNull(){
 		HairStyleInfo hairStyleInfo = new HairStyleInfo();
 		hairStyleInfo.setHairStyleId(Integer.MIN_VALUE);
@@ -217,26 +189,28 @@ public class HairStyleDao {
 		return hairStyleInfo;
 
 	}
+	*/
 
+	/**
+	 *     {
+		      album:[
+		        {
+		          t_hairStyle_id,
+		          t_hairSalonMaster_salonId,
+		          t_hairStyle_hairTypeId,
+		          t_hairStyle_name,
+		          t_hairStyle_stylistId,
+		          t_hairStyle_imagePath,
+		          t_hairStyle_areaId,
+		          t_hairStyle_areaName,
+		          t_hairStyle_message
+		        },
+		      ]
+		    }
+	 */
+	/*
 	public List<HairStyleInfo> getHairStyleInfoForMaster(
 			DBConnection dbConnection, List<Integer> hairStyleIdList, int salonId) {
-		/**
-		 *     {
-			      album:[
-			        {
-			          t_hairStyle_id,
-			          t_hairSalonMaster_salonId,
-			          t_hairStyle_hairTypeId,
-			          t_hairStyle_name,
-			          t_hairStyle_stylistId,
-			          t_hairStyle_imagePath,
-			          t_hairStyle_areaId,
-			          t_hairStyle_areaName,
-			          t_hairStyle_message
-			        },
-			      ]
-			    }
-		 */
 		
 		String sql = 
 				"SELECT `t_hairStyle_id`, `t_hairStyle_imagePath`, `t_hairStyle_hairTypeId`, `t_hairStyle_searchConditionId`, "
@@ -271,14 +245,8 @@ public class HairStyleDao {
 		return HairStyleInfoList;
 	}
 
-	
-	public int setAlbumInfoForMaster(DBConnection dbConnection, int salonId,
-			HairStyleInfo hairStyleInfo) throws SQLException{
-		
-		int hairStyleId = hairStyleInfo.getHairStyleId();
-		boolean result = false;
-		
-		/**
+
+			/**
 		 * hairStyleId からhairStyle情報があるかどうか確認。
 		 * idがテーブルに存在したらx
 		 * idが存在しなければinsertする
@@ -305,10 +273,15 @@ public class HairStyleDao {
 			`t_hairStyle_imagePath`, `t_hairStyle_salonId`, `t_hairStyle_updateDate`, `t_hairStyle_favoriteNumber`) VALUES ('
 			10', NULL, NULL, '0', '0', NULL, NULL, NULL, NULL, NULL, '0');	
 		*/
+	/*
+	public int setAlbumInfoForMaster(DBConnection dbConnection, int salonId,
+			HairStyleInfo hairStyleInfo) throws SQLException{
+		
+		int hairStyleId = hairStyleInfo.getHairStyleId();
+		boolean result = false;
 		
 		//String sql_before = "SELECT * FROM `t_hairStyle` WHERE `t_hairStyle_id` = "; // hairStyleId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` ("
-				/*+ "`t_hairStyle_id`, "*/
 				+ "`t_hairStyle_name`, `t_hairStyle_hairTypeId`, `t_hairStyle_stylistId`, "
 				+ "`t_hairStyle_goodNumber`, `t_hairStyle_viewNumber`, `t_hairStyle_salonId`, `t_hairStyle_areaId`,"
 				+ "`t_hairStyle_updateDate`, `t_hairStyle_imagePath`, `t_hairStyle_searchConditionId`, "
@@ -327,7 +300,8 @@ public class HairStyleDao {
 		String updateTime = sdf.format(oneDate);
 		System.out.println("updateTime:"+updateTime);
 		*/
-		
+
+		/*
 		//update
 		String sql_update = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` SET "
 				+ "`t_hairStyle_id` = '" +  hairStyleInfo.getHairStyleId()  + "', "
@@ -346,22 +320,8 @@ public class HairStyleDao {
 		Statement statement = dbConnection.getStatement();
 		
 		if(hairStyleInfo.getHairStyleId()<0){
-			/*
-			for(int i=1; i<Integer.MAX_VALUE; i++){
-				try {
-					ResultSet rs = statement.executeQuery(sql_before+Integer.toString(i));
-					if(!rs.next()){
-						hairStyleId = i;
-						break;
-					}
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
-			}
-			*/
-						
 			//combine insert sentence
-			String sql = sql1 /*+hairStyleId + sql2*/
+			String sql = sql1 
 					+ hairStyleInfo.getHairStyleName()  + sql2
 					+ hairStyleInfo.getHairTypeId() +sql2
 					+ hairStyleInfo.getStylistId()  + sql2
@@ -394,7 +354,7 @@ public class HairStyleDao {
 				hairStyleId = -1;
 			}
 		
-			//* hairStyle をsalon　に足さなきゃ
+			// hairStyle をsalon　に足さなきゃ
 			String salon_sql1 = "SELECT `t_hairSalonMaster_hairStyleId` FROM `t_hairSalonMaster` WHERE `t_hairSalonMaster_salonId` = ";
 			String salon_sql2_before = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_hairSalonMaster` SET `t_hairSalonMaster_hairStyleId` = '";
 			String salon_sql2_middle = "' WHERE `t_hairSalonMaster`.`t_hairSalonMaster_salonId` = ";
@@ -451,22 +411,17 @@ public class HairStyleDao {
 
 		return hairStyleId;
 	}
-
-	public boolean DeleteHairStyleInfoForMaster(DBConnection dbConnection,
-			String t_hairStyle_Id, int salonId) {
-		boolean result = false;
-		
-		/**
-		 * stylistId からstylist情報があるかどうか確認。
-		 * idがテーブルに存在したらupdate
-		 * idが存在しなければx
-		 */
+	*/
 
 		/**
 		 * SQL 例:
 		 *DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_hairStyleid` = 2
 		 * 
 		*/
+		/*
+	public boolean DeleteHairStyleInfoForMaster(DBConnection dbConnection,
+			String t_hairStyle_Id, int salonId) {
+		boolean result = false;
 		
 		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_hairStyle` WHERE `t_hairStyle`.`t_hairStyle_id` = ";
 		Statement statement = dbConnection.getStatement();
@@ -538,6 +493,6 @@ public class HairStyleDao {
 		
 		return result;
 	}	
-
+		 */
 
 }

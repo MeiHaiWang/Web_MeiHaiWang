@@ -32,9 +32,7 @@ public class AddSalonFavoriteService implements IServiceExcuter{
 			int status = -1;
 			if(conn!=null && salonId!=null){
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = new UserInfo();
-				userInfo.setObjectId(userId);
-				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_SALON, salonId, userInfo);
+				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_SALON, salonId, userId);
 				status = 0; //正常終了
 				//status = userDao.addFavoriteSalon(dbConnection, userId, salonId);
 				dbConnection.close();

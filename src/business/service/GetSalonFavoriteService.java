@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
+import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
@@ -25,16 +28,23 @@ public class GetSalonFavoriteService implements IServiceExcuter{
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<Integer> SalonIdList  = new ArrayList<Integer>();
-			List<HairSalonInfo> SalonInfoList = new ArrayList<HairSalonInfo>();
+			//List<Integer> SalonIdList  = new ArrayList<Integer>();
+			List<String> salonIdList = new ArrayList<String>();
+			List<THairSalonMasterInfo> salonInfoList = new ArrayList<THairSalonMasterInfo>();
 
 	        int userId = request.getHeader(Constant.HEADER_USERID)!= null 
 	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
-	        		//TODO テスト用
+
 			if(conn!=null){
 				SalonDao dao = new SalonDao();
-				SalonIdList  = dao.getSalonFavoriteIdList(dbConnection, userId);
-				SalonInfoList = dao.getSalonFavoriteInfo(dbConnection, SalonIdList);
+				UserDao userDao = new UserDao();
+				//SalonIdList  = dao.getSalonFavoriteIdList(dbConnection, userId);
+				salonIdList = Arrays.asList(userDao.get(dbConnection, userId).getTUserFavoriteSalonId().split(","));
+				for(String id : salonIdList){
+					THairSalonMasterInfo info = new THairSalonMasterInfo();
+					info = dao.get(dbConnection, Integer.parseInt(id));
+					salonInfoList.add(info);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -55,18 +65,19 @@ public class GetSalonFavoriteService implements IServiceExcuter{
 			 */			
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray SalonArray = new JSONArray();
-		    for(HairSalonInfo SalonInfo : SalonInfoList){
+		    for(THairSalonMasterInfo salonInfo : salonInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", SalonInfo.getHairSalonId());
-		    	jsonOneData.put("name", SalonInfo.getHairSalonName());
+		    	jsonOneData.put("id", salonInfo.getTHairSalonMasterSalonId());
+		    	jsonOneData.put("name", salonInfo.getTHairSalonMasterName());
 		    	//jsonOneData.put("image", SalonInfo.getHairSalonImagePath());
 		    	int i = 0;
-		    	for(String str : SalonInfo.getHairSalonImagePath()){
+		    	for(String str : Arrays.asList(salonInfo.getTHairSalonMasterSalonImagePath().split(","))){
 		    		i++;
 		    		jsonOneData.put("image"+i, str);		    		
 		    	}
-		    	jsonOneData.put("message", SalonInfo.getMessage());
-		    	jsonOneData.put("place", SalonInfo.getAreaNameList().get(0));
+		    	jsonOneData.put("message", salonInfo.getTHairSalonMasterMessage());
+		    	//TODO: place?
+		    	jsonOneData.put("place", salonInfo.getTHairSalonMasterAddress());
 		    	SalonArray.add(jsonOneData);
 		    }
 		    jsonObject.put("salon_lists",SalonArray);		    

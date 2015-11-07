@@ -3,7 +3,10 @@ package business.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,10 @@ import business.dao.ReviewDao;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TCommentInfo;
+import common._model.THairSalonMasterInfo;
+import common._model.TReviewInfo;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.CommentInfo;
@@ -54,20 +61,20 @@ public class SetReviewService implements IServiceExcuter{
 		String evaluation = null;
 		evaluation = evaluation1 + "," + evaluation2 + "," + evaluation3 + "," + evaluation4 + "," + evaluation5;
 				
-		ReviewInfo reviewInfo = new ReviewInfo();
-		if(comment!=null&&!comment.equals("")) reviewInfo.setReviewText(comment);
+		TReviewInfo reviewInfo = new TReviewInfo();
+		if(comment!=null&&!comment.equals("")) reviewInfo.setTReviewText(comment);
 		//if(evaluation!=null&&evaluation.equals("")) reviewInfo.setReviewPoint(Double.parseDouble(evaluation));
-		if(evaluation!=null) reviewInfo.setReviewPoint(evaluation);
-		reviewInfo.setReviewUserId(userId);
+		if(evaluation!=null) reviewInfo.setTReviewEvaluationPoint(evaluation);
+		reviewInfo.setTReviewUserId(userId);
 		//reviewInfo.setReviewPostedDate();
-		CommentInfo commentInfo = new CommentInfo();
-		if(reviewId!=null&&!reviewId.equals("")) commentInfo.setCommentReviewId(Integer.parseInt(reviewId));
-		if(comment!=null&&!comment.equals("")) commentInfo.setCommentMessage(comment);
-		commentInfo.setCommentUserId(userId);
+		TCommentInfo commentInfo = new TCommentInfo();
+		if(reviewId!=null&&!reviewId.equals("")) commentInfo.setTCommentReviewId(Integer.parseInt(reviewId));
+		if(comment!=null&&!comment.equals("")) commentInfo.setTCommentMessage(comment);
+		commentInfo.setTCommentUserId(userId);
 		//commentInfo.setCommentUserName(userName);
 		
 		if((salonId==null || salonId.equals("")) || evaluation==null || comment==null){
-			if(commentInfo.getCommentReviewId()<0){
+			if(commentInfo.getTCommentReviewId()<0){
 				return resultError(response, "Invalid Parameter.");
 			}
 		}
@@ -79,28 +86,58 @@ public class SetReviewService implements IServiceExcuter{
 			java.sql.Connection conn = dbConnection.connectDB();
 			
 			if(conn!=null){
-				StylistInfo stylistInfo = new StylistInfo();
+				List<TStylistInfo> stylistInfoList = new ArrayList<TStylistInfo>();
 				StylistDao stylistDao = new StylistDao();
 				//stylistInfo = stylistDao.getStylistInfoByUserId(dbConnection,userId);
-				stylistInfo = stylistDao.getStylistObjectByColumn(dbConnection, TableConstant.COLUMN_STYLIST_USERID, Integer.toString(userId));
+				stylistInfoList = stylistDao.getByColumn(dbConnection, TableConstant.COLUMN_STYLIST_USERID, Integer.toString(userId));
 				ReviewDao reviewDao = new ReviewDao();
-				if(commentInfo.getCommentReviewId()<0){
+				if(commentInfo.getTCommentReviewId()<0){
 					//ユーザーレビュー
 					//レビューを登録
-					rid = reviewDao.setReview(dbConnection, reviewInfo);
+					//rid = reviewDao.setReview(dbConnection, reviewInfo);
+					rid = reviewDao.save(dbConnection, reviewInfo);
 					if(rid>0){
 						//サロンにレビューidを追加
 						SalonDao salonDao = new SalonDao();
-						result = salonDao.setSalonReview(dbConnection, salonId, rid);
+						THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+						salonInfo = salonDao.get(dbConnection, Integer.parseInt(salonId));
+						String reviewIds = salonInfo.getTHairSalonMasterStylistId();
+						List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
+						if(!reviewIdList.contains(rid)) {
+							reviewIds="";
+							for(int index=0;index<reviewIdList.size();index++){
+								reviewIds += reviewIdList.get(index)+",";
+							}
+							reviewIds += rid;
+							salonInfo.setTHairSalonMasterStylistId(reviewIds);
+							int resultInt = salonDao.update(dbConnection, salonInfo);
+							if(resultInt > 0) result = true;
+						}
+						//result = salonDao.setSalonReview(dbConnection, salonId, rid);
 					}
 				}else{
 					//スタイリストのレビューに対するcomment
-					commentInfo.setCommentUserName(stylistInfo.getName());
+					//commentInfo.setTCommentUserId(tCommentUserId);//.setTCommentUserName(stylistInfoList.get(0).getName());
 					CommentDao commentDao = new CommentDao();
-					int commentId = commentDao.setComment(dbConnection, commentInfo);					
+					//int commentId = commentDao.setTComment(dbConnection, commentInfo);	
+					int commentId = commentDao.save(dbConnection, commentInfo);	
 					if(commentId>0){
 						//reviewにcommentIdを紐付け
-						result = reviewDao.setReviewCommentId(dbConnection, commentInfo.getCommentReviewId(), commentId);
+						TReviewInfo _reviewInfo = new TReviewInfo();
+						_reviewInfo = reviewDao.get(dbConnection, commentInfo.getTCommentReviewId());
+						String commentIds = _reviewInfo.getTReviewCommentId();
+						List<String> commentIdList = Arrays.asList(commentIds.split(","));
+						if(!commentIdList.contains(Integer.toString(commentInfo.getTCommentReviewId()))) {
+							commentIds="";
+							for(int index=0;index<commentIdList.size();index++){
+								commentIds += commentIdList.get(index)+",";
+							}
+							commentIds += rid;
+							_reviewInfo.setTReviewCommentId(commentIds);
+							int resultInt = reviewDao.update(dbConnection, _reviewInfo);
+							if(resultInt > 0) result = true;
+						}
+						//result = reviewDao.setReviewCommentId(dbConnection, commentInfo.getTCommentReviewId(), commentId);
 					}
 				}
 				dbConnection.close();

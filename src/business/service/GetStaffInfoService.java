@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import net.sf.json.JSONObject;
 import business.dao.ConditionDao;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.model.ConditionInfo;
 import common.model.ConditionTitleInfo;
@@ -52,16 +54,18 @@ public class GetStaffInfoService implements IServiceExcuter{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 
-			List<Integer> stylistIdList = new ArrayList<Integer>();
-			List<StylistInfo> stylistInfoList  = new ArrayList<StylistInfo>();
+			//List<Integer> stylistIdList = new ArrayList<Integer>();
+			List<String> stylistIdList = new ArrayList<String>();
+			List<TStylistInfo> stylistInfoList  = new ArrayList<TStylistInfo>();
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
+				//stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
+				stylistIdList = Arrays.asList(salonDao.get(dbConnection, salonId).getTHairSalonMasterStylistId().split(","));
 				if(stylistIdList.size()>0){
 					StylistDao stylistDao = new StylistDao();
-					for(int id : stylistIdList){
-						stylistInfoList.add(stylistDao.getStylistObject(dbConnection, id));
+					for(String id : stylistIdList){
+						stylistInfoList.add(stylistDao.get(dbConnection, Integer.parseInt(id)));
 					}
 					//stylistInfoList = stylistDao.getStylistInfoForMaster(dbConnection, stylistIdList);	
 				}
@@ -100,29 +104,29 @@ public class GetStaffInfoService implements IServiceExcuter{
 			 */
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray stylistArray = new JSONArray();
-		    for(StylistInfo info : stylistInfoList){
+		    for(TStylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("t_stylist_Id", info.getObjectId());
-		    	jsonOneData.put("t_stylist_name", info.getName());
-		    	jsonOneData.put("t_stylist_sex", info.getStylistGender());
-		    	jsonOneData.put("t_stylist_phoneNumber", info.getPhoneNumber());
-		    	jsonOneData.put("t_stylist_mail", info.getMail());
-		    	jsonOneData.put("t_stylist_imagePath", info.getStylistImagePath());
+		    	jsonOneData.put("t_stylist_Id", info.getTStylistId());
+		    	jsonOneData.put("t_stylist_name", info.getTStylistName());
+		    	jsonOneData.put("t_stylist_sex", info.getTStylistSex());
+		    	jsonOneData.put("t_stylist_phoneNumber", info.getTStylistPhoneNumber());
+		    	jsonOneData.put("t_stylist_mail", info.getTStylistMail());
+		    	jsonOneData.put("t_stylist_imagePath", info.getTStylistImagePath());
 		    	//jsonOneData.put("t_stylist_birth", info.getBirth());
-		    	Date birthDate = info.getBirth();
+		    	Date birthDate = info.getTStylistBirth();
 		    	DateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		    	String birthStr = sdf.format(birthDate);
 		    	//debug
 		    	//System.out.println("birthStr = " +birthStr);
 		    	jsonOneData.put("t_stylist_birth", birthStr);
-		    	jsonOneData.put("t_stylist_position", info.getPosition());
-		    	jsonOneData.put("t_stylist_experienceYear", info.getStylistYearsNumber());
-		    	jsonOneData.put("t_stylist_specialMenu", info.getSpecialMenu());
-		    	jsonOneData.put("t_stylist_message", info.getStylistMessage());
-		    	jsonOneData.put("t_menu_t_menu_id", info.getMenuId());
-		    	jsonOneData.put("t_stylist_searchConditionId", info.getStylistSearchConditionId());
-		    	jsonOneData.put("t_stylist_restDay", info.getStylistRestDay());
-		    	jsonOneData.put("t_stylist_restTime", info.getStylistRestTime());
+		    	jsonOneData.put("t_stylist_position", info.getTStylistPosition());
+		    	jsonOneData.put("t_stylist_experienceYear", info.getTStylistExperienceYear());
+		    	jsonOneData.put("t_stylist_specialMenu", info.getTStylistSpecialMenu());
+		    	jsonOneData.put("t_stylist_message", info.getTStylistMessage());
+		    	jsonOneData.put("t_menu_t_menu_id", info.getTStylistMenuId());
+		    	jsonOneData.put("t_stylist_searchConditionId", info.getTStylistSearchConditionId());
+		    	jsonOneData.put("t_stylist_restDay", info.getTStylistRestday());
+		    	jsonOneData.put("t_stylist_restTime", info.getTStylistResttime());
 		    	
 		    	/*
 		    	//検索条件

@@ -31,9 +31,7 @@ public class AddHairStyleFavoriteService implements IServiceExcuter{
 				UserDao userDao = new UserDao();
 				//infoList = userDao.getuserInfo(dbConnection, userId);
 				//status = userDao.addFavoriteHairStyle(dbConnection, userId, hairStyleId);
-				UserInfo info = new UserInfo();
-				info.setObjectId(userId);
-				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE, hairStyleId, info);
+				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE, hairStyleId, userId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

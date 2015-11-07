@@ -2,7 +2,9 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import business.dao.UserDao;
 import net.sf.json.JSONObject;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.UserInfo;
@@ -65,29 +68,31 @@ public class UserLoginService implements IServiceExcuter {
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			UserDao userDao = new UserDao();
-			UserInfo info = null;
+			List<TUserInfo> infoList = new ArrayList<TUserInfo>();
 			
 			if(conn!=null){
 				//自動ログイン
 				if(userHash != null){
 					//info = userDao.getUserInfoByHash(dbConnection, userHash);
-					info = userDao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_HASH, userHash);
+					infoList = userDao.getByColumn(dbConnection, TableConstant.COLUMN_USER_HASH, userHash);
 					//自動ログイン成功
-					if(info != null){
+					if(infoList.size() != 0){
 						autoLogin = 1;
 					}
 				}
 				else{
-					Map<String, String> source = new HashMap<String, String>();
+					Map<String, Object> source = new HashMap<String, Object>();
 					source.put(TableConstant.COLUMN_USER_TEL, tel);
 					source.put(TableConstant.COLUMN_USER_PASSWORD, tel);
 					//info = userDao.getUserInfoByLoginInfo(dbConnection, pw, tel);
-					info = userDao.getUserObjectByColumnMap(dbConnection, source);
+					infoList = userDao.getByColumns(dbConnection, source);
 					//ログイン成功 Hash値を再計算してユーザテーブルに格納する
-					if(info != null){
+					if(infoList.size() != 0){
 						retHash = EncryptUtil.getHashValue(pw + tel);
 						//updated = userDao.updateUserHash(dbConnection, info.getObjectId(),retHash);
-						updated = userDao.setUserStringData(dbConnection, TableConstant.COLUMN_USER_HASH, retHash, info);
+						TUserInfo userInfo = infoList.get(0);
+						userInfo.setTUserCookie(retHash);
+						updated = userDao.update(dbConnection, userInfo);
 					}
 				}
 				dbConnection.close();

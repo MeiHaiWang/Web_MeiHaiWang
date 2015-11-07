@@ -15,6 +15,8 @@ import business.dao.ConditionDao;
 import business.dao.NewsDao;
 import business.dao.RecommendDao;
 import business.dao.SalonDao;
+import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.BeautyNewsInfo;
 import common.model.ConditionInfo;
@@ -42,35 +44,37 @@ public class GetSalonDetailService implements IServiceExcuter{
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
+			//List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
+			THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				RecommendDao recomendDao = new RecommendDao();
-				salonInfoList = salonDao.getSalonDetailInfo(salonId, dbConnection);
-				//ユーザがお気に入りしているかどうかを設定する
-				recomendDao.setIsFavoriteSalon(userId, salonInfoList, dbConnection);
+				//salonInfoList = salonDao.getSalonDetailInfo(salonId, dbConnection);
+				salonInfo = salonDao.get(dbConnection, salonId);
+				//ユーザがお気に入りしているかどうかを設定する?
+				UserDao userDao = new UserDao();
+				List<String> favoriteSalonList = Arrays.asList(userDao.get(dbConnection, userId).getTUserFavoriteSalonId().split(","));
+				//TODO: salonInfo.favoriteNumberをどうするか考えなきゃいけない?
+
 				//検索条件の名前一覧を取得
 				ConditionDao conditionDao = new ConditionDao();
 				List<ConditionInfo> ConditionInfoList  = new ArrayList<ConditionInfo>();
 				List<ConditionTitleInfo> ConditionTitleInfoList  = new ArrayList<ConditionTitleInfo>();
 				ConditionTitleInfoList = conditionDao.getConditionTitleInfo(dbConnection, Constant.TYPE_FOR_SALON_CONDITION);
 				ConditionInfoList = conditionDao.getConditionInfo(dbConnection, ConditionTitleInfoList);
-				for(int i=0;i<salonInfoList.size();i++){
-					HairSalonInfo oneSalon = salonInfoList.get(i);
-					List<String> salonCondIdList = Arrays.asList(oneSalon.getSalonSearchConditionId().split(","));
-					String str = "";
-					for(String oneCondId : salonCondIdList){
-						for(ConditionInfo cInfo : ConditionInfoList){
-							if(cInfo.getConditionId()==Integer.parseInt(oneCondId)){
-								str+=cInfo.getConditionName()+",";
-							}
+				List<String> salonCondIdList = Arrays.asList(salonInfo.getTHairSalonMasterSearchConditionId().split(","));
+				String str = "";
+				for(String oneCondId : salonCondIdList){
+					for(ConditionInfo cInfo : ConditionInfoList){
+						if(cInfo.getConditionId()==Integer.parseInt(oneCondId)){
+							str+=cInfo.getConditionName()+",";
 						}
 					}
-					if(str.length()>0){
-						str=str.substring(0,str.length()-1);
-						oneSalon.setSalonConditionName(str);
-						salonInfoList.set(i, oneSalon);
-					}
+				}
+				if(str.length()>0){
+					str=str.substring(0,str.length()-1);
+					salonInfo.setSalonConditionName(str);
 				}
 				dbConnection.close();
 			}else{
@@ -82,32 +86,31 @@ public class GetSalonDetailService implements IServiceExcuter{
 			JSONObject jsonObject = new JSONObject();
 		    
 		    // 返却用サロンデータ（jsonデータの作成）
-			JSONArray salonArray = new JSONArray();
-		    for(HairSalonInfo hairSalonInfo : salonInfoList){
-		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", hairSalonInfo.getHairSalonId());
-		    	jsonOneData.put("name", hairSalonInfo.getHairSalonName());
-		    	int i = 0;
-		    	for(String str : hairSalonInfo.getHairSalonImagePath()){
-		    		i++;
-		    		jsonOneData.put("image"+i, str);		    		
-		    	}
-		    	//jsonOneData.put("image", hairSalonInfo.getHairSalonImagePath());
-		    	jsonOneData.put("star_count", hairSalonInfo.getEvaluationPointMid());
-		    	jsonOneData.put("message", hairSalonInfo.getMessage());
-		    	jsonOneData.put("tel", hairSalonInfo.getTel());
-		    	jsonOneData.put("adress",hairSalonInfo.getAreaNameList().toArray(new String[0]));
-		    	jsonOneData.put("business_hours", hairSalonInfo.getBusinessHour());
-		    	jsonOneData.put("regular_holiday", hairSalonInfo.getRegularHoliday());
-		    	//jsonOneData.put("multilingual", hairSalonInfo.getMultiLingual());
-		    	jsonOneData.put("condition_name", hairSalonInfo.getSalonCondName());
-		    	jsonOneData.put("word_of_mouth_count", hairSalonInfo.getWordOfMonth());
-		    	jsonOneData.put("isgood", hairSalonInfo.getIsGood());
-		    	jsonOneData.put("good_count", hairSalonInfo.getFavoriteNumber());
-		    	jsonOneData.put("isNetReservation", hairSalonInfo.getIsNetReservation());
-		    	salonArray.add(jsonOneData);
-		    }
-		    jsonObject.put("shop",salonArray);
+	    	JSONObject jsonOneData = new JSONObject();
+	    	jsonOneData.put("id", salonInfo.getTHairSalonMasterSalonId());
+	    	jsonOneData.put("name", salonInfo.getTHairSalonMasterName());
+	    	int i = 0;
+	    	for(String str : Arrays.asList(salonInfo.getTHairSalonMasterSalonImagePath().split(","))){
+	    		i++;
+	    		jsonOneData.put("image"+i, str);		    		
+	    	}
+	    	//TODO 評価レビューからポイントを取得する必要あり
+	    	//jsonOneData.put("star_count", salonInfo.getTEvaluationPointMid());
+	    	jsonOneData.put("message", salonInfo.getTHairSalonMasterMessage());
+	    	jsonOneData.put("tel", salonInfo.getTHairSalonMasterPhoneNumber());
+	    	jsonOneData.put("adress",salonInfo.getTHairSalonMasterAddress());
+	    	jsonOneData.put("business_hours", salonInfo.getTHairSalonMasterOpenTime()+"-"+salonInfo.getTHairSalonMasterCloseTime());
+	    	jsonOneData.put("regular_holiday", salonInfo.getTHairSalonMasterCloseDay());
+	    	//jsonOneData.put("multilingual", salonInfo.getMultiLingual());
+	    	jsonOneData.put("condition_name", salonInfo.getSalonCondName());
+	    	int reviewNum = salonInfo.getTHairSalonMasterReviewId().equals("") ?
+	    			0 : Arrays.asList(salonInfo.getTHairSalonMasterReviewId().split(",")).size();
+	    	jsonOneData.put("word_of_mouth_count", reviewNum);
+	    	//TODO: good と　favoriteのちがい
+	    	jsonOneData.put("isgood", salonInfo.getTHairSalonMasterGoodNumber()>0 ? 1:0);
+	    	jsonOneData.put("good_count", salonInfo.getTHairSalonMasterGoodNumber());
+	    	jsonOneData.put("isNetReservation", salonInfo.getTHairSalonMasterIsNetReservation());
+		    jsonObject.put("shop",jsonOneData);
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonObject);
 		    out.flush();

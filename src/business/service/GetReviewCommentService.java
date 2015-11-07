@@ -16,6 +16,7 @@ import business.dao.CommentDao;
 import business.dao.ReviewDao;
 import business.dao.SalonDao;
 import business.dao.UserDao;
+import common._model.TCommentInfo;
 import common.model.CommentInfo;
 import common.model.ReviewInfo;
 import common.model.UserInfo;
@@ -30,7 +31,7 @@ public class GetReviewCommentService implements IServiceExcuter{
         int commentId = request.getParameter("id")!= null
         		?Integer.parseInt(request.getParameter("id")) : -1;
         
-		CommentInfo commentInfo = new CommentInfo();
+		TCommentInfo commentInfo = new TCommentInfo();
 		CommentDao commentDao = new CommentDao(); 
         
 		try{
@@ -38,7 +39,7 @@ public class GetReviewCommentService implements IServiceExcuter{
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			if(conn!=null){
-				commentInfo = commentDao.getCommentInfo(dbConnection, commentId);
+				commentInfo = commentDao.get(dbConnection, commentId);
 				
 				dbConnection.close();
 			}else{
@@ -63,11 +64,12 @@ public class GetReviewCommentService implements IServiceExcuter{
 			//int i=0;
 		    //for(ReviewInfo reviewInfo : reviewInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("name", commentInfo.getCommentUserName());		    	
-		    	Date day = commentInfo.getCommentDate();
+		    	UserDao userDao = new UserDao();
+		    	jsonOneData.put("name", userDao.get(dbConnection, commentInfo.getTCommentUserId()).getTUserName());		    	
+		    	Date day = commentInfo.getTCommentDate();
 		    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		    	jsonOneData.put("day", sdf.format(day));
-		    	jsonOneData.put("comment", commentInfo.getCommentMessage());		    	
+		    	jsonOneData.put("comment", commentInfo.getTCommentMessage());		    	
 		    	commentArray.add(jsonOneData);
 		    	//i++;
 		    //}

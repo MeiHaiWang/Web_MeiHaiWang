@@ -9,9 +9,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
 import business.dao.ImageDao;
 import business.dao.StylistDao;
+import common._model.THairStyleInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.HairStyleInfo;
@@ -308,9 +311,9 @@ public class SetHairStyleService implements IServiceExcuter{
 	    				if(conn!=null){
 	    	            	StylistDao stylistDao = new StylistDao();
 	    	            	//salonId = stylistDao.getStylistSalonId(dbConnection, item.getString());
-	    	            	StylistInfo stylistInfo = new StylistInfo();
-	    	            	stylistInfo.setObjectId(Integer.parseInt(item.getString()));
-	    	            	salonId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_SALONID, stylistInfo);
+	    	            	//StylistInfo stylistInfo = new StylistInfo();
+	    	            	//stylistInfo.setObjectId(Integer.parseInt(item.getString()));
+	    	            	salonId = stylistDao.get(dbConnection, Integer.parseInt(item.getString())).getTStylistSalonId();
 	    	            	//debug
 	    	            	//System.out.println("salonId :"+salonId);
 	        			}else{
@@ -381,7 +384,7 @@ public class SetHairStyleService implements IServiceExcuter{
 
 		//if(t_hairSalonMaster_salonId != null) salonId = Integer.parseInt(t_hairSalonMaster_salonId);
 		//hairStyleInfo に情報を格納
-		HairStyleInfo hairStyleInfo = new HairStyleInfo();
+		THairStyleInfo hairStyleInfo = new THairStyleInfo();
 		/*
 		int hairStyleId = -1;
 		if(t_hairStyle_id != null && t_hairStyle_id != "") hairStyleId = Integer.parseInt(t_hairStyle_id);
@@ -390,22 +393,28 @@ public class SetHairStyleService implements IServiceExcuter{
 		if(t_hairStyle_hairTypeId != null && t_hairStyle_hairTypeId != "") hairTypeId = Integer.parseInt(t_hairStyle_hairTypeId);
 		hairStyleInfo.setHairTypeId(hairTypeId);
 		*/
-		hairStyleInfo.setHairStyleName(t_hairStyle_name);
+		hairStyleInfo.setTHairStyleName(t_hairStyle_name);
 		int stylistId = -1;
 		if(t_hairStyle_stylistId != null && t_hairStyle_stylistId != "") stylistId = Integer.parseInt(t_hairStyle_stylistId);
-		hairStyleInfo.setStylistId(stylistId);
+		hairStyleInfo.setTHairStyleStylistId(stylistId);
 		if(t_hairStyle_imagePath != null && t_hairStyle_imagePath != ""){
-			hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
+			hairStyleInfo.setTHairStyleImagePath(t_hairStyle_imagePath);
 		}else{
-			hairStyleInfo.setHairStyleImagePath("img/notfound.jpg");
+			hairStyleInfo.setTHairStyleImagePath("img/notfound.jpg");
 		}
 		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
-			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
+			hairStyleInfo.setTHairStyleSearchConditionId(t_hairStyle_searchConditionId);
 		//hairStyleInfo.setHairStyleAreaId(t_hairStyle_areaId);
-		hairStyleInfo.setHairStyleMessage(t_hairStyle_message);
-		hairStyleInfo.setUpdateTime(t_hairStyle_updateDate);
-		//debug
-		//System.out.println("hariStyleInfo:"+hairStyleInfo+","+hairStyleInfo.getHairStyleMessage());
+		hairStyleInfo.setTHairStyleMessage(t_hairStyle_message);
+        // Date型変換
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date uD = new Date();
+		try {
+			uD = sdf.parse(t_hairStyle_updateDate);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		hairStyleInfo.setTHairStyleUpdateDate(uD);
 		
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -419,16 +428,24 @@ public class SetHairStyleService implements IServiceExcuter{
 					StylistDao stylistDao = new StylistDao();
 					//hairStyleInfo.setHairStyleAreaId(stylistDao.getStylistAreaId(dbConnection,hairStyleInfo.getStylistId()));
 					StylistInfo info = new StylistInfo();
-					info.setObjectId(hairStyleInfo.getStylistId());
-					int areaId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_AREAID, info);
-					if(areaId>0) hairStyleInfo.setHairStyleAreaId(Integer.toString(areaId));
+					info.setObjectId(hairStyleInfo.getTHairStyleStylistId());
+					String areaId = stylistDao.get(dbConnection, hairStyleInfo.getTHairStyleStylistId()).getTStylistAreaId();
+					if(areaId!=null && Integer.parseInt(areaId)>0) hairStyleInfo.setTHairStyleAreaId(areaId);
 					HairStyleDao hairStyleDao = new HairStyleDao();
+					/*
 					hairStyleId = hairStyleDao.setAlbumInfoForMaster(
 							dbConnection,
 							salonId,
 							hairStyleInfo
 							);
 					if(hairStyleId > 0) result = true;
+					*/
+					int resultInt = -1;
+					if(hairStyleInfo.getTHairStyleId()>0){
+						resultInt = hairStyleDao.save(dbConnection, hairStyleInfo);
+					}else{
+						resultInt = hairStyleDao.update(dbConnection, hairStyleInfo);
+					}
 				}
 				dbConnection.close();
 			}else{

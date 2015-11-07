@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import business.dao.AreaDao;
 import business.dao.HairTypeDao;
 import business.dao.StylistDao;
+import common._model.TStylistInfo;
 import common.model.AreaInfo;
 import common.model.HairStyleInfo;
 import common.model.HairTypeInfo;
@@ -56,12 +57,12 @@ public class GetHairStyleOrderGoodService implements IServiceExcuter{
 			List<HairStyleInfo> HairStyleOrderNewList  = new ArrayList<HairStyleInfo>();
 			java.sql.Connection conn = dbConnection.connectDB();
 			
-			StylistInfo stylistInfo = new StylistInfo();
+			TStylistInfo stylistInfo = new TStylistInfo();
 			if(conn!=null){
 				HairTypeDao hairTypeDao = new HairTypeDao();
 				StylistDao stylistDao = new StylistDao();
 				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, stylistId);
-				stylistInfo = stylistDao.getStylistObject(dbConnection, stylistId);
+				stylistInfo = stylistDao.get(dbConnection, stylistId);
 				HairStyleOrderNewList = hairTypeDao.getHairTypeOrderGoodInfo(dbConnection, stylistId, page, jsonObject, searchConditionIdList);
 				AreaDao areaDao = new AreaDao();
 				for(int i=0;i<HairStyleOrderNewList.size();i++){

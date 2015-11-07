@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import business._dao.TStylistDao;
 import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.constant.TableConstant;
@@ -31,12 +32,13 @@ import common.util.ConfigUtil;
 import common.util.DBConnection;
 import common.util.ListUtilities;
 
-public class StylistDao extends BaseDao{
+public class StylistDao extends TStylistDao{
 	private static Logger logger = LogManager.getLogger();
 
 	public StylistDao() throws Exception{
 	}
 
+	/*
 	public int getStylistIntData(DBConnection dbConnection ,String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
 		return getIntValue(dbConnection, Constant.TABLE_STYLIST, targetColumnName, sourceColumnName, sourceColumnValue );
 	}
@@ -87,7 +89,9 @@ public class StylistDao extends BaseDao{
 		}
 		return result;
 	}
+	*/
 
+	/*
 	public StylistInfo getStylistObject(DBConnection dbConnection, int id) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
@@ -402,6 +406,7 @@ public class StylistDao extends BaseDao{
 		}
 		return stylistInfoList;
 	}
+	*/
 
 	public List<StylistInfo> getStylistInfoList(DBConnection dbConnection, int salonId, List<String> areaIdList , List<String> searchConditionIdList , int pageNum,JSONObject jsonObject) throws SQLException{
 		StringBuilder sql = new StringBuilder();
@@ -605,7 +610,7 @@ public class StylistDao extends BaseDao{
 		return stylistInfoList;
 	}	
 
-	
+	/*
 	public int setStylistInfoInsert(DBConnection dbConnection, StylistInfo stylistInfo){
 
 		//DBステートメント
@@ -830,13 +835,16 @@ public class StylistDao extends BaseDao{
 		
 		return retId;
 	}
+	*/
 	
+	/*
 	public boolean DeleteStylistObject(DBConnection dbConnection, String t_stylist_Id) {
 		/**
 		 * SQL 例:
 		 * DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_stylist` WHERE `t_stylist`.`t_stylist_Id` = 13
 		 * 
 		*/
+	/*
 		boolean result = false;
 		StringBuilder deleteSql = new StringBuilder();
 		deleteSql.append(Constant.DELETE);
@@ -878,6 +886,7 @@ public class StylistDao extends BaseDao{
 
 		return result;
 	}
+	*/
 	/*
 	public boolean DeleteStylistInfoForMaster(DBConnection dbConnection,
 			String t_stylist_Id , int salonId) {

@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import business._dao.TReviewDao;
 import net.sf.json.JSONObject;
 import common.constant.Constant;
 import common.model.ReviewInfo;
@@ -17,18 +18,19 @@ import common.model.UserInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class ReviewDao {
+public class ReviewDao extends TReviewDao{
+	/*
+	String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "
+			+ "`t_review_text`, `t_review_evaluation_point`, `t_review_userId`"
+			+ "FROM t_review WHERE t_review_id = ";
+			 */
+	/*
 	public List<ReviewInfo> getReviewDetailInfo(DBConnection dbConnection, List<Integer> idList, int pageNum, JSONObject jsonObject) throws SQLException{
 		List<ReviewInfo> ReviewInfoList = new ArrayList<ReviewInfo>();
 		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "
 				+ "`t_review_text`, `t_review_evaluation_point`, `t_user_name`, `t_user_sex`, `t_user_birth` "
 				+ "FROM t_review JOIN t_user ON t_review_userId = t_user_Id WHERE t_review_id = ";
 				//+ "LIMIT 1 OFFSET 0";		
-		/*
-		String sql = "SELECT `t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId` , "
-				+ "`t_review_text`, `t_review_evaluation_point`, `t_review_userId`"
-				+ "FROM t_review WHERE t_review_id = ";
-				 */
 		Statement statement = dbConnection.getStatement();
 		
 		//ページ対応
@@ -75,29 +77,22 @@ public class ReviewDao {
 			e.printStackTrace();
 			throw e;
 		}
-
-		/*
-		if(Constant.ONE_PAGE_NUM * pageNum + Constant.ONE_PAGE_NUM >= hitNum){
-			jsonObject.put("next", 0);
-		}
-		else{
-			jsonObject.put("next", 1);
-		}
-		*/
 		
 		return ReviewInfoList;
 	}
 
+	/**
+	 * INSERT INTO `MEIHAIWAN_TEST`.`t_review` 
+	 * (`t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId`, 
+	 * `t_review_text`, `t_review_evaluation_point`) 
+	 * VALUES ('5', '1', '2015-10-01 00:00:00', 'pdf', 'asdf', '1');
+	 */
+	
+	/*
 	public int setReview(DBConnection dbConnection, ReviewInfo reviewInfo) {
 		boolean result = false;
 		int reviewId = -1;
 
-		/**
-		 * INSERT INTO `MEIHAIWAN_TEST`.`t_review` 
-		 * (`t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId`, 
-		 * `t_review_text`, `t_review_evaluation_point`) 
-		 * VALUES ('5', '1', '2015-10-01 00:00:00', 'pdf', 'asdf', '1');
-		 */
 		
 		String sql = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_review` "
 				+ "(`t_review_id`, `t_review_userId`, `t_review_postedDate`, `t_review_commentId`,`t_review_text`, `t_review_evaluation_point`)"
@@ -128,29 +123,20 @@ public class ReviewDao {
 	        	}
 		        rs.close();
 			}
-	        /*
-			String reviewIdSql = "SELECT `t_review_id` FROM `t_review` WHERE `t_review_postedDate` = '"+sdf.format(c.getTime())+"'";
-			if(result){
-				ResultSet rs = statement.executeQuery(reviewIdSql);
-				while(rs.next()){
-					reviewId = rs.getInt("t_review_id");
-				}
-			}
-			*/
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return reviewId;
 	}
 
+	/**
+	 * UPDATE `MEIHAIWAN_TEST`.`t_review` SET `t_review_commentId` = '1' WHERE `t_review`.`t_review_id` = 10;
+	 */
+	/*
 	public boolean setReviewCommentId(DBConnection dbConnection,
 			int commentReviewId, int commentId) {
 		boolean result = false;
-		/**
-		 * UPDATE `MEIHAIWAN_TEST`.`t_review` SET `t_review_commentId` = '1' WHERE `t_review`.`t_review_id` = 10;
-		 */
 		String sql_before = "SELECT `t_review_commentId` FROM `t_review` WHERE `t_review_id`="+ commentReviewId;
 		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_review` SET `t_review_commentId` = '" ;
 		String sql2 ="' WHERE `t_review`.`t_review_id` = " +commentReviewId;
@@ -179,18 +165,18 @@ public class ReviewDao {
 				result = true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return result;
 	}
 
+	/**
+	 * DELETE FROM `MEIHAIWAN_TEST`.`t_review` WHERE `t_review`.`t_review_id` = 26
+	 */
+	/*
 	public boolean DeleteReviewInfo(DBConnection dbConnection, String t_reviewId) {
 		boolean result = false;
-		/**
-		 * DELETE FROM `MEIHAIWAN_TEST`.`t_review` WHERE `t_review`.`t_review_id` = 26
-		 */
 		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_review` WHERE `t_review`.`t_review_id` = "+t_reviewId;
 		Statement statement = dbConnection.getStatement();
 
@@ -202,7 +188,6 @@ public class ReviewDao {
 				result = true;
 			}
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -222,7 +207,6 @@ public class ReviewDao {
 			}
 			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return Arrays.asList(commentId.split(","));
@@ -240,19 +224,19 @@ public class ReviewDao {
 				userId = rs.getInt("t_review_userId");
 			}
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return userId;
 	}
 
+	/**
+	 * SELECT `t_review_commentId` FROM `t_review` WHERE `t_review_id`=
+	 * UPDATE `MEIHAIWAN_TEST`.`t_review` SET `t_review_commentId` = '5,6,7' WHERE `t_review`.`t_review_id` = 22;
+	 */
+	/*
 	public boolean DeleteCommentId(DBConnection dbConnection, int reviewId,
 			String t_commentId) {
 		boolean result = false;
-		/**
-		 * SELECT `t_review_commentId` FROM `t_review` WHERE `t_review_id`=
-		 * UPDATE `MEIHAIWAN_TEST`.`t_review` SET `t_review_commentId` = '5,6,7' WHERE `t_review`.`t_review_id` = 22;
-		 */
 		String sql_before = "SELECT `t_review_commentId` FROM `t_review` WHERE `t_review_id`="+reviewId;
 		String sql1 = "UPDATE `"+ConfigUtil.getConfig("dbname")+"`.`t_review` SET `t_review_commentId` = '";
 		String sql2 = "' WHERE `t_review`.`t_review_id` = "+reviewId;
@@ -288,5 +272,6 @@ public class ReviewDao {
 		
 		return result;
 	}
+	*/
 	
 }

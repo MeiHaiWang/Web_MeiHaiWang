@@ -84,4 +84,19 @@ public class TableConstant {
 	public static final String COLUMN_SALON_RESERVATIONID = "t_hairSalonMaster_reservationId";
 	public static final String COLUMN_SALON_SEATID = "t_hairSalonMaster_seatId";
 		
+	//t_hairStyle
+	public static final String COLUMN_HAIRSTYLE_ID = "t_hairStyle_id";
+	public static final String COLUMN_HAIRSTYLE_NAME = "t_hairStyle_name";
+	public static final String COLUMN_HAIRSTYLE_HAIRTYPEID = "t_hairStyle_hairTypeId";
+	public static final String COLUMN_HAIRSTYLE_GOODNUMBER = "t_hairStyle_goodNumber";
+	public static final String COLUMN_HAIRSTYLE_VIEWNUMBER = "t_hairStyle_viewNumber";
+	public static final String COLUMN_HAIRSTYLE_STYLISTID = "t_hairStyle_stylistId";
+	public static final String COLUMN_HAIRSTYLE_AREAID = "t_hairStyle_areaId";
+	public static final String COLUMN_HAIRSTYLE_IMAGEPATH = "t_hairStyle_imagePath";
+	public static final String COLUMN_HAIRSTYLE_SALONID = "t_hairStyle_salonId";
+	public static final String COLUMN_HAIRSTYLE_UPDATE_DATE = "t_hairStyle_updateDate";
+	public static final String COLUMN_HAIRSTYLE_FAVORITENUMBER = "t_hairStyle_favoriteNumber";
+	public static final String COLUMN_HAIRSTYLE_CONDITIONID = "t_hairStyle_searchConditionId";
+	public static final String COLUMN_HAIRSTYLE_MESSAGE = "t_hairStyle_message";
+	
 }

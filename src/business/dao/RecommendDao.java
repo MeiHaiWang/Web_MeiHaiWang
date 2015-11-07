@@ -148,8 +148,6 @@ public class RecommendDao {
 		}
 		return lastUpdate;
 	}
-		
-	
 	public void setIsFavoriteSalon(Integer userId,List<HairSalonInfo> infoList , DBConnection dbConnection) throws SQLException{
 		if(userId == Constant.USER_NOT_LOGIN){
 			return;

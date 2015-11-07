@@ -1,14 +1,21 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
+import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
+import common._model.TStylistInfo;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
@@ -69,18 +76,33 @@ public class DeleteStaffInfoService implements IServiceExcuter{
 			 * ¥ stylistをdisableにしたらuserもdisableでいいか
 			 */
 			if(conn!=null && t_stylist_Id!=null){
+				int stylistId =  Integer.parseInt(t_stylist_Id);
 				StylistDao stylistDao = new StylistDao();
 				UserDao userDao = new UserDao();
-				StylistInfo info = new StylistInfo();
-				info.setObjectId(Integer.parseInt(t_stylist_Id));
-				int userId = stylistDao.getStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_USERID, info);
-				UserInfo userInfo = new UserInfo(); 
-				userInfo.setObjectId(userId);
-				int result_int = userDao.setUserIntData(dbConnection, TableConstant.COLUMN_USER_DISABLE_FLAG, Constant.FLAG_ON, userInfo);
-				if(result_int>0) result_int = stylistDao.setStylistIntData(dbConnection, TableConstant.COLUMN_STYLIST_DISABLE_FLAG, Constant.FLAG_ON, info);
-				if(result_int>0) result_int = salonDao.removeId(dbConnection, "t_hairSalonMaster_stylistId", stylistId, salonId);
-				if(result_int>0) result_int = hairStyleDao.setHairStyleIntData(dbConnection, TableConstant.COLUMN_HAIRSTYLE_DISABLE_FLAG, Constant.FLAG_ON, hairStyleInfo);
-				if(result_int>0) result = true;
+				TStylistInfo info = new TStylistInfo();
+				info = stylistDao.get(dbConnection,stylistId);
+				int result_int = userDao.logicalDelete(dbConnection, info.getTStylistUserId());
+				if(result_int>0){ result_int = stylistDao.logicalDelete(dbConnection, stylistId); }
+				if(result_int>0){ 
+					//result_int = salonDao.removeId(dbConnection, "t_hairSalonMaster_stylistId", stylistId, salonId); 
+					SalonDao salonDao = new SalonDao();
+					THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+					salonInfo = salonDao.get(dbConnection, salonId);
+					String stylistIds = salonInfo.getTHairSalonMasterStylistId();
+					List<String> stylistIdList = Arrays.asList(stylistIds.split(","));
+					stylistIds = "";
+					for(int index=0;index<stylistIdList.size();index++){
+						if(!stylistIdList.get(index).equals(stylistId)){
+							stylistIds += stylistIdList.get(index)+",";
+						}
+					}
+					stylistIds = stylistIds.substring(0,stylistIds.length()-1);
+					salonInfo.setTHairSalonMasterStylistId(stylistIds);
+					result_int = salonDao.update(dbConnection, salonInfo);
+				}
+				//TODO
+				//if(result_int>0){ result_int = hairStyleDao.logicalDelete(dbConnection, hairStyleId); }
+				if(result_int>0){ result = true; }
 				//result = stylistDao.DeleteStylistObject(dbConnection, t_stylist_Id);
 				/*
 				result = stylistDao.DeleteStylistInfoForMaster(

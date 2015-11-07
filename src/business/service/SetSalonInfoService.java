@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
@@ -98,8 +99,6 @@ public class SetSalonInfoService implements IServiceExcuter{
 		String t_hairSalonMaster_pass = request.getParameter("t_hairSalonMaster_pass") != null ?
 				request.getParameter("t_hairSalonMaster_pass").toString() : null;
 
-		
-		
 				/*
 		List<String> salonImagePathList = request.getParameter("t_hairSalonMaster_salonImagePath") != null ?
 				Arrays.asList(request.getParameter("t_hairSalonMaster_salonImagePath").split(",")) : new ArrayList<String>();	
@@ -133,22 +132,24 @@ public class SetSalonInfoService implements IServiceExcuter{
 	    		*/
 				
       //salonInfo を渡したほうがきれいかも.
-		HairSalonInfo salonInfo = new HairSalonInfo();
-		salonInfo.setHairSalonId(salonId);
-		salonInfo.setHairSalonName(t_hairSalonMaster_name);
-		salonInfo.setSalonAreaId(t_area_id);
-		salonInfo.setSalonDetailText(t_hairSalonMaster_detailText);
-		salonInfo.setSalonOpenTime(t_hairSalonMaster_openTime);
-		salonInfo.setSalonCloseTime(t_hairSalonMaster_closeTime);
-		salonInfo.setSalonCloseDay(t_hairSalonMaster_closeDay);
-		salonInfo.setSalonCreditAvailable(Integer.parseInt(t_hairSalonMaster_creditAvailable));
-		salonInfo.setSalonCarParkAvailable(Integer.parseInt(t_hairSalonMaster_carParkAvailable));
-		salonInfo.setHairSalonImagePath(t_hairSalonMaster_salonImagePath);
+		THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
+		salonInfo.setTHairSalonMasterSalonId(salonId);
+		salonInfo.setTHairSalonMasterName(t_hairSalonMaster_name);
+		salonInfo.setTHairSalonMasterAreaId(t_area_id);
+		salonInfo.setTHairSalonMasterDetailText(t_hairSalonMaster_detailText);
+		salonInfo.setTHairSalonMasterOpenTime(t_hairSalonMaster_openTime);
+		salonInfo.setTHairSalonMasterCloseTime(t_hairSalonMaster_closeTime);
+		salonInfo.setTHairSalonMasterCloseDay(t_hairSalonMaster_closeDay);
+		salonInfo.setTHairSalonMasterCreditAvailable(Integer.parseInt(t_hairSalonMaster_creditAvailable));
+		salonInfo.setTHairSalonMasterCarParkAvailable(Integer.parseInt(t_hairSalonMaster_carParkAvailable));
+		salonInfo.setTHairSalonMasterSalonImagePath(t_hairSalonMaster_salonImagePath);
 		//salonInfo.setSalonAvailableCountries(t_hairSalonMaster_japaneseAvailable);
-		salonInfo.setSalonJapaneseAvailable(Integer.parseInt(t_hairSalonMaster_japaneseAvailable));
-		salonInfo.setSalonSearchConditionId(t_hairSalonMaster_searchConditionId);
-		salonInfo.setMail(t_hairSalonMaster_mail);
-		salonInfo.setPassword(t_hairSalonMaster_pass);
+		//salonInfo.setTHairSalonMasterJapaneseAvailable(Integer.parseInt(t_hairSalonMaster_japaneseAvailable));
+		//TODO: japaneseAvailable?
+		salonInfo.setTHairSalonMasterAvailableCountryId(t_hairSalonMaster_japaneseAvailable);
+		salonInfo.setTHairSalonMasterSearchConditionId(t_hairSalonMaster_searchConditionId);
+		salonInfo.setTHairSalonMasterMail(t_hairSalonMaster_mail);
+		salonInfo.setTHairSalonMasterPassward(t_hairSalonMaster_pass);
 
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -159,24 +160,15 @@ public class SetSalonInfoService implements IServiceExcuter{
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
+				/*
 				result = salonDao.setSalonInfo(
 						dbConnection,
 						salonId,
 						salonInfo
-						/*
-					    t_hairSalonMaster_name,
-					    t_area_id,
-					    t_hairSalonMaster_detailText,
-					    t_hairSalonMaster_openTime,
-					    t_hairSalonMaster_closeTime,
-					    t_hairSalonMaster_closeDay,
-					    t_hairSalonMaster_creditAvailable,
-					    t_hairSalonMaster_carParkAvailable,
-					    t_hairSalonMaster_salonImagePath,
-					    t_hairSalonMaster_japaneseAvailable,
-					    t_hairSalonMaster_searchConditionId
-					    */
 						);
+						*/
+				int resultInt = salonDao.update(dbConnection, salonInfo);
+				if(resultInt > 0) result = true;
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

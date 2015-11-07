@@ -11,21 +11,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import business._dao.TMenuDao;
 import common.model.MenuInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class MenuDao {
+public class MenuDao extends TMenuDao{
 	public MenuDao(){
 	}
 	
-	/**
-	 * 
-	 * @param dbConnection
-	 * @param AreaType: 
-	 * @return
-	 * @throws SQLException
-	 */
+	/*
 	public List<MenuInfo> getMenuListInfo(DBConnection dbConnection, List<Integer> menuIdList) throws SQLException{
 		String sql1= "SELECT `t_menu_menuId`, `t_menu_name` FROM `t_menu` WHERE `t_menu_menuId` = ";
 		List<MenuInfo> menuInfoList = new ArrayList<MenuInfo>();
@@ -70,6 +65,7 @@ public class MenuDao {
 		      ]
 		    }
 	 */
+	/*
 	public List<MenuInfo> getMenuInfoForMaster(DBConnection dbConnection,
 			List<Integer> menuIdList) throws SQLException{
 
@@ -100,17 +96,7 @@ public class MenuDao {
 		return menuInfoList;
 	}
 
-	
-	public int setMenuInfoForMaster(DBConnection dbConnection, int salonId,
-			MenuInfo menuInfo) throws SQLException{
-		
-		int menuId = menuInfo.getMenuId();
-		boolean result = false;
-		
-		//Unexpected value
-		if(menuInfo.getMenuPrice()<0) return -1;
-		
-		/**
+			/**
 		 * menuId からmenu情報があるかどうか確認。
 		 * idがテーブルに存在したらx
 		 * idが存在しなければinsertする
@@ -133,6 +119,17 @@ public class MenuDao {
 			INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` (`t_menu_menuId`, `t_menu_name`, `t_menu_price`, `t_menu_categoryId`, 
 			`t_menu_detailText`, `t_menu_imagePath`) VALUES ('2', 'name', '1000', '1', 'detail', 'imagePath');		 * 
 		*/
+
+	/*
+	public int setMenuInfoForMaster(DBConnection dbConnection, int salonId,
+			MenuInfo menuInfo) throws SQLException{
+		
+		int menuId = menuInfo.getMenuId();
+		boolean result = false;
+		
+		//Unexpected value
+		if(menuInfo.getMenuPrice()<0) return -1;
+		
 		
 		String sql_before = "SELECT * FROM `t_menu` WHERE `t_menu_menuId` = "; // menuId 
 		String sql1 = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` ("
@@ -185,7 +182,6 @@ public class MenuDao {
 				int result_int = statement.executeUpdate(sql);
 				if(result_int >= 0) result = true;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
@@ -204,7 +200,6 @@ public class MenuDao {
 					break;
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	
@@ -220,7 +215,6 @@ public class MenuDao {
 					int result_int = statement.executeUpdate(salon_sql);
 					if(result_int < 0) menuId = -1;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					menuId = -1;
 				}
@@ -233,7 +227,6 @@ public class MenuDao {
 				int result_int = statement.executeUpdate(sql_update);
 				if(result_int >= 0) result = true;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				menuId = -1;
 			}
@@ -242,9 +235,6 @@ public class MenuDao {
 		return menuId;
 	}
 
-	public boolean DeleteMenuInfoForMaster(DBConnection dbConnection,
-			String t_menu_menuId,int salonId) {
-		boolean result = false;
 		
 		/**
 		 * stylistId からstylist情報があるかどうか確認。
@@ -257,6 +247,10 @@ public class MenuDao {
 		 *DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = 2
 		 * 
 		*/
+	/*
+	public boolean DeleteMenuInfoForMaster(DBConnection dbConnection,
+			String t_menu_menuId,int salonId) {
+		boolean result = false;
 		
 		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_menu` WHERE `t_menu`.`t_menu_menuId` = ";
 		Statement statement = dbConnection.getStatement();
@@ -320,7 +314,6 @@ public class MenuDao {
 			int result_int = statement.executeUpdate(salon_sql);
 			if(result_int < 0) result = false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			result = false;
 		}
@@ -384,7 +377,6 @@ public class MenuDao {
 				int result_int = statement.executeUpdate(stylist_sql);
 				if(result_int < 0) result = false;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				result = false;
 				break;
@@ -415,5 +407,6 @@ public class MenuDao {
 		}
 		return totalCost;
 	}	
-
+	*/
+	
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import business.dao.UserDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.UserInfo;
@@ -56,13 +57,15 @@ public class GetUserInfoService implements IServiceExcuter{
 		DBConnection dbConnection = new DBConnection();
 		java.sql.Connection conn = dbConnection.connectDB();
 //		List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
-		UserInfo userInfo = new UserInfo();
+		List<TUserInfo> userInfoList = new ArrayList<TUserInfo>();
 		UserDao dao = new UserDao();
+		TUserInfo userInfo = new TUserInfo();
 		if(conn!=null){
 			//userInfo = dao.getUserInfoByTel(dbConnection, t_user_tel);
-			userInfo = dao.getUserObjectByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_user_tel);
-			if(userInfo!=null && userInfo.getObjectId()>0){
-				userInfo = dao.getUserObject(dbConnection, userInfo.getObjectId());
+			userInfoList = dao.getByColumn(dbConnection, TableConstant.COLUMN_USER_TEL, t_user_tel);
+			userInfo = userInfoList.get(0);
+			if(userInfo!=null && userInfo.getTUserId()>0){
+				userInfo = dao.get(dbConnection, userInfo.getTUserId());
 			}
 		}else{
 			responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -85,11 +88,11 @@ public class GetUserInfoService implements IServiceExcuter{
 		if(userInfo!=null){
 			// 返却用サロンデータ（jsonデータの作成）
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("t_user_id", userInfo.getObjectId());
-			jsonObject.put("t_user_name", userInfo.getName());
-			jsonObject.put("t_user_tel", userInfo.getUserPhoneNumber());
+			jsonObject.put("t_user_id", userInfo.getTUserId());
+			jsonObject.put("t_user_name", userInfo.getTUserName());
+			jsonObject.put("t_user_tel", userInfo.getTUserTel());
 	    	/* 年齢を求める*/
-	    	Date userBirth = userInfo.getUserBirth();
+	    	Date userBirth = userInfo.getTUserBirth();
 	    	Date nowDate = new Date();
 	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	    	Calendar birthDay = Calendar.getInstance();
@@ -103,7 +106,7 @@ public class GetUserInfoService implements IServiceExcuter{
 	    		age-=1;
 	    	}
 	    	jsonObject.put("t_user_age", age);			
-			jsonObject.put("t_user_gender", userInfo.getUserSex());
+			jsonObject.put("t_user_gender", userInfo.getTUserSex());
 		    
 	    	PrintWriter out = response.getWriter();
 			out.print(jsonObject);

@@ -43,9 +43,7 @@ public class AddStylistFavoriteService implements IServiceExcuter{
 				UserDao userDao = new UserDao();
 				//infoList = userDao.getuserInfo(dbConnection, userId);
 				//status = userDao.addFavoriteStylist(dbConnection, userId, stylistId);
-				UserInfo info = new UserInfo();
-				info.setObjectId(userId);
-				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_STYLIST, stylistId, info);
+				userDao.appendId(dbConnection, TableConstant.COLUMN_USER_FAVORITE_STYLIST, stylistId, userId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

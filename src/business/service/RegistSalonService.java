@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.model.HairSalonInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
@@ -56,17 +57,19 @@ public class RegistSalonService implements IServiceExcuter{
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			HairSalonInfo salonInfo = new HairSalonInfo();
+			THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
 			if(conn!=null){
-				salonInfo.setSalonContactUserName(contactUserName);
-				salonInfo.setHairSalonName(salonName);
-				salonInfo.setSalonAreaId(childAreaId);
-				salonInfo.setAddress(address);
-				salonInfo.setTelNumber(tel);
-				salonInfo.setMail(mail);
-				salonInfo.setPassword(pass);
+				salonInfo.setTHairSalonMasterContactUserName(contactUserName);
+				salonInfo.setTHairSalonMasterName(salonName);
+				salonInfo.setTHairSalonMasterAreaId(childAreaId);
+				salonInfo.setTHairSalonMasterAddress(address);
+				salonInfo.setTHairSalonMasterPhoneNumber(tel);
+				salonInfo.setTHairSalonMasterMail(mail);
+				salonInfo.setTHairSalonMasterPassward(pass);
 				SalonDao salonDao = new SalonDao();
-				result  = salonDao.registSalonOnDisable(salonInfo, dbConnection);
+				//result  = salonDao.registSalonOnDisable(salonInfo, dbConnection);
+				int resultInt  = salonDao.save(dbConnection, salonInfo);
+				if(resultInt > 0) result = true;
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

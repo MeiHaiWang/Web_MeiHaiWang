@@ -17,6 +17,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.UserDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
@@ -76,7 +77,10 @@ public class CheckSessionService implements IServiceExcuter{
 				DBConnection dbConnection = new DBConnection();
 				java.sql.Connection conn = dbConnection.connectDB();
 				if(conn!=null){
-					salonContactUserName = salonDao.getContactUserName(dbConnection, salonId);
+					THairSalonMasterInfo info = new THairSalonMasterInfo();
+					info = salonDao.get(dbConnection, salonId);
+					salonContactUserName = info.getTHairSalonMasterContactUserName();
+					//salonContactUserName = salonDao.getContactUserName(dbConnection, salonId);
 					dbConnection.close();
 				}else{
 					responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

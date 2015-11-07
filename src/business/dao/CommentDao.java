@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import business._dao.TCommentDao;
 import common.model.CommentInfo;
 import common.model.ReviewInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class CommentDao {
+public class CommentDao extends TCommentDao{
 
+	/*
 	public CommentInfo getCommentInfo(DBConnection dbConnection, int commentId) throws SQLException{
 
 		CommentInfo commentInfo = new CommentInfo();
@@ -43,14 +45,15 @@ public class CommentDao {
 		return commentInfo;
 	}
 
-	public int setComment(DBConnection dbConnection, CommentInfo commentInfo) {
-		//boolean result = false;
-		int commentId = -1;
 		/**
 		 * INSERT INTO `MEIHAIWAN_TEST`.`t_comment` 
 		 * (`t_comment_id`, `t_comment_userId`, `t_comment_message`, `t_comment_reviewId`, `t_comment_date`) 
 		 * VALUES (NULL, '1', '1', '1', '2015-10-27 00:00:00');
 		 */
+	/*
+	public int setComment(DBConnection dbConnection, CommentInfo commentInfo) {
+		//boolean result = false;
+		int commentId = -1;
 		String sql_before = "SELECT * FROM `t_review` WHERE `t_review_id`="+commentInfo.getCommentReviewId();
 		String sql = "INSERT INTO `"+ConfigUtil.getConfig("dbname")+"`.`t_comment` "
 				+ "(`t_comment_id`, `t_comment_userId`, `t_comment_message`, `t_comment_reviewId`, `t_comment_date`) VALUES (NULL, ";
@@ -89,18 +92,18 @@ public class CommentDao {
 		        rs.close();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return commentId;
 	}
 
+	/**
+	 * DELETE FROM `MEIHAIWAN_TEST`.`t_comment` WHERE `t_comment`.`t_comment_id` = 6
+	 */
+	/*
 	public boolean DeleteCommentId(DBConnection dbConnection, String commentId) {
 		boolean result = false;
-		/**
-		 * DELETE FROM `MEIHAIWAN_TEST`.`t_comment` WHERE `t_comment`.`t_comment_id` = 6
-		 */
 		String sql = "DELETE FROM `"+ConfigUtil.getConfig("dbname")+"`.`t_comment` WHERE `t_comment`.`t_comment_id` = "+commentId;
 		Statement statement = dbConnection.getStatement();
 		try{
@@ -111,7 +114,6 @@ public class CommentDao {
 				result = true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -134,5 +136,6 @@ public class CommentDao {
 		}
 		return reviewId;
 	}
+	*/
 	
 }

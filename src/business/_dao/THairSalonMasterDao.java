@@ -189,8 +189,8 @@ public abstract class THairSalonMasterDao extends BaseDao {
 			index++;
 		}
 		
+		logger.info(sql.toString());
 		ResultSet rs = preparedStatement.executeQuery();
-		logger.debug(sql.toString());
 		
 		List<THairSalonMasterInfo> list = new ArrayList<>();
 		

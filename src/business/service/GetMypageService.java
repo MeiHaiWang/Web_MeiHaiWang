@@ -15,7 +15,9 @@ import net.sf.json.JSONObject;
 import business.dao.ReservationDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TUserInfo;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.BeautyNewsInfo;
 import common.model.ReservationInfo;
 import common.model.UserInfo;
@@ -38,21 +40,20 @@ public class GetMypageService implements IServiceExcuter{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<ReservationInfo> reservationList  = new ArrayList<ReservationInfo>();
-			UserInfo userInfo = new UserInfo();
+			TUserInfo userInfo = new TUserInfo();
 			
 			if(conn!=null){
 				ReservationDao dao = new ReservationDao();
 				reservationList = dao.getReservationInfo(dbConnection, userId);
 				UserDao userDao = new UserDao();
-				userInfo = userDao.getUserObject(dbConnection, userId);
+				userInfo = userDao.get(dbConnection, userId);
+				//Userがスタイリストかどうかを確認
 				StylistDao stylistDao = new StylistDao();
-				/*
-				if(stylistDao.getStylistUserId(dbConnection, stylistId) == userInfo.getUserId()){
+				if(stylistDao.getByColumn(dbConnection, TableConstant.COLUMN_STYLIST_USERID, userId).size()>0){
 					userInfo.setUserIsStylist(1);
 				}else{
 					userInfo.setUserIsStylist(0);
 				}
-				*/
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -65,7 +66,7 @@ public class GetMypageService implements IServiceExcuter{
 			JSONArray myPageArray = new JSONArray();
 	    	JSONObject jsonOneData = new JSONObject();
 	    	jsonObject.put("isstylist", userInfo.getUserIsStylist());
-	    	jsonObject.put("mypoint", userInfo.getUserPoint());
+	    	jsonObject.put("mypoint", userInfo.getTUserPoint());
 	    	
 		    for(ReservationInfo returnMypage : reservationList){
 		    	jsonOneData.put("id", returnMypage.getReservationId());

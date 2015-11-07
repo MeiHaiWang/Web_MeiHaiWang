@@ -13,8 +13,11 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.ReservationDao;
+import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TUserInfo;
 import common.constant.Constant;
+import common.constant.TableConstant;
 import common.model.ReservationInfo;
 import common.model.UserInfo;
 import common.util.DBConnection;
@@ -33,12 +36,18 @@ public class GetProfileService implements IServiceExcuter{
         try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			UserInfo userInfo = new UserInfo();
+			TUserInfo userInfo = new TUserInfo();
 			
 			if(conn!=null){
 				UserDao userDao = new UserDao();
-				userInfo = userDao.getUserObject(dbConnection, userId);
-
+				userInfo = userDao.get(dbConnection, userId);
+				//Userがスタイリストかどうかを確認
+				StylistDao stylistDao = new StylistDao();
+				if(stylistDao.getByColumn(dbConnection, TableConstant.COLUMN_STYLIST_USERID, userId).size()>0){
+					userInfo.setUserIsStylist(1);
+				}else{
+					userInfo.setUserIsStylist(0);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -60,11 +69,11 @@ public class GetProfileService implements IServiceExcuter{
 	    	JSONObject jsonOneData = new JSONObject();
 	    	jsonObject.put("isstylist", userInfo.getUserIsStylist());
 	    	jsonObject.put("name", userInfo.getName());
-	    	jsonObject.put("image", userInfo.getUserImagePath());
-	    	Date oneDate = userInfo.getUserBirth();
+	    	jsonObject.put("image", userInfo.getTUserImagePath());
+	    	Date oneDate = userInfo.getTUserBirth();
 	    	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日");
 	    	jsonOneData.put("day", sdf1.format(oneDate));
-	    	jsonObject.put("gender", userInfo.getUserSex());
+	    	jsonObject.put("gender", userInfo.getTUserSex());
 	    	myPageArray.add(jsonOneData);
 
 		    //Debug

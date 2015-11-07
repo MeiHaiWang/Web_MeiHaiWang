@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TStylistInfo;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
 import common.model.UserInfo;
@@ -69,9 +70,9 @@ public class SetStaffConditionService implements IServiceExcuter{
 			tags = tags.substring(0,tags.length()-1);
 			if(stylistId!=null && !tagList.isEmpty()){
 				if(conn!=null){
-					StylistInfo info = new StylistInfo();
-					info.setObjectId(Integer.parseInt(stylistId));
-					int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_CONDITIONID, tags, info);
+					TStylistInfo info = stylistDao.get(dbConnection, Integer.parseInt(stylistId));
+					info.setTStylistSearchConditionId(tags);
+					int result_int = stylistDao.update(dbConnection, info);
 					if(result_int > 0) result = true;
 						/*
 						result  = stylistDao.setStylistCondition(

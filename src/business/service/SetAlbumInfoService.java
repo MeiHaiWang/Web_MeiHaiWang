@@ -1,6 +1,8 @@
 package business.service;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.HairStyleDao;
+import common._model.THairStyleInfo;
 import common.constant.Constant;
 import common.model.HairStyleInfo;
 import common.util.DBConnection;
@@ -85,28 +88,35 @@ public class SetAlbumInfoService implements IServiceExcuter{
 
 		if(t_hairSalonMaster_salonId != null) salonId = Integer.parseInt(t_hairSalonMaster_salonId);
 		//hairStyleInfo を渡したほうがきれいかも.
-		HairStyleInfo hairStyleInfo = new HairStyleInfo();
+		THairStyleInfo hairStyleInfo = new THairStyleInfo();
 		int hairStyleId = -1;
 		if(t_hairStyle_id != null && t_hairStyle_id != "") hairStyleId = Integer.parseInt(t_hairStyle_id);
-		hairStyleInfo.setHairStyleId(hairStyleId);
+		hairStyleInfo.setTHairStyleId(hairStyleId);
 		int hairTypeId = -1;
 		if(t_hairStyle_hairTypeId != null && t_hairStyle_hairTypeId != "") hairTypeId = Integer.parseInt(t_hairStyle_hairTypeId);
-		hairStyleInfo.setHairTypeId(hairTypeId);
-		hairStyleInfo.setHairStyleName(t_hairStyle_name);
+		hairStyleInfo.setTHairStyleHairTypeId(hairTypeId);
+		hairStyleInfo.setTHairStyleName(t_hairStyle_name);
 		int stylistId = -1;
 		if(t_hairStyle_stylistId != null && t_hairStyle_stylistId != "") stylistId = Integer.parseInt(t_hairStyle_stylistId);
-		hairStyleInfo.setStylistId(stylistId);
+		hairStyleInfo.setTHairStyleStylistId(stylistId);
 		if(t_hairStyle_imagePath != null && t_hairStyle_imagePath != ""){
-			hairStyleInfo.setHairStyleImagePath(t_hairStyle_imagePath);
+			hairStyleInfo.setTHairStyleImagePath(t_hairStyle_imagePath);
 		}else{
-			hairStyleInfo.setHairStyleImagePath("img/notfound.jpg");
+			hairStyleInfo.setTHairStyleImagePath("img/notfound.jpg");
 		}
 		if(t_hairStyle_searchConditionId != null && t_hairStyle_searchConditionId != "")
-			hairStyleInfo.setHairStyleSearchConditionId(t_hairStyle_searchConditionId);
-		hairStyleInfo.setHairStyleAreaId(t_hairStyle_areaId);
-		hairStyleInfo.setHairStyleMessage(t_hairStyle_message);
-		hairStyleInfo.setUpdateTime(t_hairStyle_updateDate);
-		//System.out.println("updateDate:"+t_hairStyle_updateDate);
+			hairStyleInfo.setTHairStyleSearchConditionId(t_hairStyle_searchConditionId);
+		hairStyleInfo.setTHairStyleAreaId(t_hairStyle_areaId);
+		hairStyleInfo.setTHairStyleMessage(t_hairStyle_message);
+        // Date型変換
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date uD = new Date();
+		try {
+			uD = sdf.parse(t_hairStyle_updateDate);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		hairStyleInfo.setTHairStyleUpdateDate(uD);
 		
 		try{
 			DBConnection dbConnection = new DBConnection();
@@ -118,12 +128,20 @@ public class SetAlbumInfoService implements IServiceExcuter{
 			
 			if(conn!=null){
 				HairStyleDao hairStyleDao = new HairStyleDao();
+				/*
 				hairStyleId = hairStyleDao.setAlbumInfoForMaster(
 						dbConnection,
 						salonId,
 						hairStyleInfo
 						);
 				if(hairStyleId > 0) result = true;
+				*/
+				int resultInt = -1;
+				if(hairStyleInfo.getTHairStyleId()>0){
+					resultInt = hairStyleDao.save(dbConnection, hairStyleInfo);
+				}else{
+					resultInt = hairStyleDao.update(dbConnection, hairStyleInfo);
+				}
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

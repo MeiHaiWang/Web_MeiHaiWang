@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
@@ -39,10 +40,12 @@ public class DeleteStaffMenuService implements IServiceExcuter{
 			JSONObject jsonObject = new JSONObject();
 			
 			if(conn!=null && t_stylist_Id!=null){
+				int stylistId = Integer.parseInt(t_stylist_Id);
 				StylistDao stylistDao = new StylistDao();
-				StylistInfo stylistInfo = new StylistInfo();
-				stylistInfo.setObjectId(Integer.parseInt(t_stylist_Id));
-				int result_int = stylistDao.setStylistStringData(dbConnection, TableConstant.COLUMN_STYLIST_MENUID, Constant.EMPTY, stylistInfo);
+				TStylistInfo stylistInfo = new TStylistInfo();
+				stylistInfo = stylistDao.get(dbConnection, stylistId);
+				stylistInfo.setTStylistMenuId("");
+				int result_int = stylistDao.update(dbConnection, stylistInfo);
 				if(result_int>0) result = true;
 				/*
 				result = stylistDao.DeleteStylistMenuForMaster(

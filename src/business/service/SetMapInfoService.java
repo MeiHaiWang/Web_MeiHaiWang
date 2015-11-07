@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
+import common._model.THairSalonMasterInfo;
 import common.constant.Constant;
 import common.util.DBConnection;
 
@@ -52,12 +53,10 @@ public class SetMapInfoService implements IServiceExcuter{
 
 	    String t_hairSalonMaster_mapUrl = request.getParameter("t_hairSalonMaster_mapUrl") != null ?
 				request.getParameter("t_hairSalonMaster_mapUrl").toString() : null;
-				/*
 		String t_hairSalonMaster_mapImagePath = request.getParameter("t_hairSalonMaster_mapImagePath") != null ?
 				request.getParameter("t_hairSalonMaster_mapImagePath").toString() : null;
-				*/
-		String t_hairSalonMaster_mapImagePath = "";
-
+		//String t_hairSalonMaster_mapImagePath = "";
+				
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
@@ -65,14 +64,26 @@ public class SetMapInfoService implements IServiceExcuter{
 			boolean result = false;
 			JSONObject jsonObject = new JSONObject();
 			
-			if(conn!=null){
+			if(conn!=null && t_hairSalonMaster_mapUrl!=null){
 				SalonDao salonDao = new SalonDao();
+				THairSalonMasterInfo info = new THairSalonMasterInfo();
+				info = salonDao.get(dbConnection, salonId);
+				info.setTHairSalonMasterMapUrl(t_hairSalonMaster_mapUrl);
+
+				//緯度経度をURLから抽出
+				String url = t_hairSalonMaster_mapUrl;
+				info.setTHairSalonMasterMapLatitude(Double.parseDouble(url.substring(url.indexOf("lat=")+4,url.lastIndexOf("&"))));
+				info.setTHairSalonMasterMapLongitude(Double.parseDouble(url.substring(url.indexOf("lng=")+4,url.length())));
+				int resultInt = salonDao.update(dbConnection, info);
+				if(resultInt > 0) result=true;
+				/*
 				result = salonDao.setSalonMapInfo(
 						dbConnection,
 						salonId,
 					      t_hairSalonMaster_mapUrl,
 					      t_hairSalonMaster_mapImagePath
 				      );
+				      */
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

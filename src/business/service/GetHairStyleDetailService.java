@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import business.dao.HairStyleDao;
 import business.dao.RecommendDao;
 import business.dao.SalonDao;
 import business.dao.StylistDao;
+import common._model.THairStyleInfo;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.model.HairSalonInfo;
 import common.model.HairStyleInfo;
@@ -32,16 +35,17 @@ public class GetHairStyleDetailService implements IServiceExcuter{
 		try{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
-			HairStyleInfo hInfo = new HairStyleInfo();
-			StylistInfo stylistInfo = new StylistInfo();
+			THairStyleInfo hInfo = new THairStyleInfo();
+			TStylistInfo stylistInfo = new TStylistInfo();
 			if(conn!=null){
 				HairStyleDao hairStyleDao = new HairStyleDao();
-				hInfo = hairStyleDao.getHairStyleDetailInfo(dbConnection, cataloglistId);
+				//hInfo = hairStyleDao.getHairStyleDetailInfo(dbConnection, cataloglistId);
+				hInfo = hairStyleDao.get(dbConnection, cataloglistId);
 				StylistDao stylistDao = new StylistDao();
 				//stylistInfo = stylistDao.getStylistDetailInfo(dbConnection, hInfo.getStylistId());
-				stylistInfo = stylistDao.getStylistObject(dbConnection, hInfo.getStylistId());
+				stylistInfo = stylistDao.get(dbConnection, hInfo.getTHairStyleStylistId());
 				AreaDao areaDao = new AreaDao();
-				List<String> areaNameList = areaDao.getAreaName(dbConnection, hInfo.getHairStyleAreaId());
+				List<String> areaNameList = areaDao.getAreaName(dbConnection, hInfo.getTHairStyleAreaId());
 				String areaName = "";
 				for(String area : areaNameList){
 					areaName += area + ",";
@@ -70,22 +74,22 @@ public class GetHairStyleDetailService implements IServiceExcuter{
 			 */
 			//レスポンスに設定するJSON Object
 			JSONObject jsonOneData = new JSONObject();
-	    	jsonOneData.put("id", hInfo.getHairStyleId());
+	    	jsonOneData.put("id", hInfo.getTHairStyleId());
 	    	int i = 0;
-	    	for(String str : hInfo.getHairStyleImagePath()){
+	    	for(String str : Arrays.asList(hInfo.getTHairStyleImagePath().split(","))){
 	    		i++;
 	    		jsonOneData.put("image"+i, str);		    		
 	    	}
-	    	if(hInfo.getHairStyleGoodNumber()>0){
+	    	if(hInfo.getTHairStyleGoodNumber()>0){
 	    		jsonOneData.put("isgood", 1);
 	    	}else{
 	    		jsonOneData.put("isgood", 0);
 	    	}		    	
-	    	jsonOneData.put("stylistName", stylistInfo.getName());
-	    	jsonOneData.put("message", hInfo.getHairStyleMessage());
+	    	jsonOneData.put("stylistName", stylistInfo.getTStylistName());
+	    	jsonOneData.put("message", hInfo.getTHairStyleMessage());
 	    	jsonOneData.put("area", hInfo.getHairStyleAreaName());
-	    	jsonOneData.put("good_count", hInfo.getHairStyleGoodNumber());
-	    	jsonOneData.put("stylistID", hInfo.getStylistId());
+	    	jsonOneData.put("good_count", hInfo.getTHairStyleGoodNumber());
+	    	jsonOneData.put("stylistID", hInfo.getTHairStyleStylistId());
 
 	    	PrintWriter out = response.getWriter();
 		    out.print(jsonOneData);

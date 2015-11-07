@@ -2,6 +2,7 @@ package business.service;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import business.dao.SalonDao;
 import business.dao.StylistDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.model.StylistInfo;
 import common.util.DBConnection;
@@ -68,19 +70,20 @@ public class GetStylistListService implements IServiceExcuter {
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 
-			List<Integer> stylistIdList = new ArrayList<Integer>();
-			List<StylistInfo> stylistInfoList  = new ArrayList<StylistInfo>();
+			//List<Integer> stylistIdList = new ArrayList<Integer>();
+			List<String> stylistIdList = new ArrayList<String>();
+			List<TStylistInfo> stylistInfoList  = new ArrayList<TStylistInfo>();
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
 				StylistDao stylistDao = new StylistDao();
 
 				//stylistIdList for salonId in salonTable
-				stylistIdList = salonDao.getStylistIdList(dbConnection, salonId);
+				stylistIdList = Arrays.asList(salonDao.get(dbConnection, salonId).getTHairSalonMasterStylistId().split(","));
 
 				//stylistInfoList for stylistIdList in stylistTable
-				for(int id : stylistIdList){
-					stylistInfoList.add(stylistDao.getStylistObject(dbConnection, id));
+				for(String id : stylistIdList){
+					stylistInfoList.add(stylistDao.get(dbConnection, Integer.parseInt(id)));
 				}
 				//stylistInfoList = stylistDao.getStylistListInfo(dbConnection, stylistIdList);	
 
@@ -108,11 +111,11 @@ public class GetStylistListService implements IServiceExcuter {
 			 */
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray stylistArray = new JSONArray();
-		    for(StylistInfo info : stylistInfoList){
+		    for(TStylistInfo info : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
 		    	//jsonOneData.put("t_stylist_stylist_id", info.getStylistId());
-		    	jsonOneData.put("t_stylist_Id", info.getObjectId());
-		    	jsonOneData.put("t_stylist_name", info.getName());
+		    	jsonOneData.put("t_stylist_Id", info.getTStylistId());
+		    	jsonOneData.put("t_stylist_name", info.getTStylistName());
 			    stylistArray.add(jsonOneData);
 		    }
 		    jsonObject.put("stylist",stylistArray);	

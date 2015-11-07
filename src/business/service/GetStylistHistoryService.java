@@ -14,6 +14,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.StylistDao;
 import business.dao.UserDao;
+import common._model.TStylistInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.StylistInfo;
@@ -31,7 +32,7 @@ public class GetStylistHistoryService implements IServiceExcuter{
 			DBConnection dbConnection = new DBConnection();
 			java.sql.Connection conn = dbConnection.connectDB();
 			List<String> stylistIdList  = new ArrayList<String>();
-			List<StylistInfo> stylistInfoList = new ArrayList<StylistInfo>();
+			List<TStylistInfo> stylistInfoList = new ArrayList<TStylistInfo>();
 
 			int userId = request.getHeader(Constant.HEADER_USERID)!= null 
 	        		?Integer.parseInt(request.getHeader(Constant.HEADER_USERID)) : -1;
@@ -39,14 +40,12 @@ public class GetStylistHistoryService implements IServiceExcuter{
 			if(conn!=null){
 				StylistDao dao = new StylistDao();
 				UserDao userDao = new UserDao();
-				UserInfo userInfo = new UserInfo();
-				userInfo.setObjectId(userId);
-				String stylistIdListStr = userDao.getUserStringData(dbConnection, TableConstant.COLUMN_USER_LATEST_STYLIST, userInfo);
+				String stylistIdListStr = userDao.get(dbConnection, userId).getLatestCutStylist();
 				if(stylistIdListStr != null) stylistIdList = Arrays.asList(stylistIdListStr.split(","));
 				//stylistIdList  = dao.getStylistHistoryIdList(dbConnection, userId);
 				//stylistInfoList = dao.getStylistHistoryInfo(dbConnection, stylistIdList);
 				for(String id : stylistIdList){
-					stylistInfoList.add(dao.getStylistObject(dbConnection, Integer.parseInt(id)));
+					stylistInfoList.add(dao.get(dbConnection, Integer.parseInt(id)));
 				}
 				dbConnection.close();
 			}else{
@@ -72,21 +71,21 @@ public class GetStylistHistoryService implements IServiceExcuter{
 			
 		    // 返却用サロンデータ（jsonデータの作成）
 		    JSONArray stylistArray = new JSONArray();
-		    for(StylistInfo stylistInfo : stylistInfoList){
+		    for(TStylistInfo stylistInfo : stylistInfoList){
 		    	JSONObject jsonOneData = new JSONObject();
-		    	jsonOneData.put("id", stylistInfo.getObjectId());
-		    	jsonOneData.put("shopID", stylistInfo.getSalonId());
-		    	jsonOneData.put("name", stylistInfo.getName());
-		    	jsonOneData.put("gender", stylistInfo.getStylistGender());
+		    	jsonOneData.put("id", stylistInfo.getTStylistId());
+		    	jsonOneData.put("shopID", stylistInfo.getTStylistSalonId());
+		    	jsonOneData.put("name", stylistInfo.getTStylistName());
+		    	jsonOneData.put("gender", stylistInfo.getTStylistSex());
 		    	//jsonOneData.put("image", stylistInfo.getStylistImagePath());
 		    	int i = 0;
-		    	for(String str : stylistInfo.getStylistImagePath()){
+		    	for(String str : Arrays.asList(stylistInfo.getTStylistImagePath().split(","))){
 		    		i++;
 		    		jsonOneData.put("image"+i, str);		    		
 		    	}
-		    	jsonOneData.put("message", stylistInfo.getStylistMessage());
-		    	jsonOneData.put("years", stylistInfo.getStylistYearsNumber());
-		    	jsonOneData.put("good_count", stylistInfo.getFavoriteNumber());
+		    	jsonOneData.put("message", stylistInfo.getTStylistMessage());
+		    	jsonOneData.put("years", stylistInfo.getTStylistExperienceYear());
+		    	jsonOneData.put("good_count", stylistInfo.getTStylistFavoriteNumber());
 		    	stylistArray.add(jsonOneData);
 		    }
 		    jsonObject.put("stylist_lists",stylistArray);		    

@@ -14,6 +14,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import business._dao.TUserDao;
+import common._model.TUserInfo;
 import common.constant.Constant;
 import common.constant.TableConstant;
 import common.model.IBaseInfo;
@@ -21,9 +23,9 @@ import common.model.UserInfo;
 import common.util.ConfigUtil;
 import common.util.DBConnection;
 
-public class UserDao extends BaseDao{
+public class UserDao extends TUserDao{
 	private static Logger logger = LogManager.getLogger();
-
+	/*
 	public int getUserIntData(DBConnection dbConnection ,String targetColumnName, String sourceColumnName, String sourceColumnValue) throws SQLException{
 		return getIntValue(dbConnection, Constant.TABLE_USER, targetColumnName, sourceColumnName, sourceColumnValue );
 	}
@@ -42,17 +44,54 @@ public class UserDao extends BaseDao{
 	public int setUserStringData(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
 		return setStringValue(dbConnection, Constant.TABLE_USER, targetColumnName, value, TableConstant.COLUMN_USER_ID, info);
 	}
-	public int appendId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
+	*/
+	
+	public int appendId(DBConnection dbConnection ,String targetColumnName, String value, int id) throws SQLException{
 		int result = -1;
-		String idlist = getUserStringData(dbConnection, targetColumnName, info);
-		if(idlist!=null){
-			idlist = idlist + ","+ value;
-			result = setUserStringData(dbConnection, targetColumnName, idlist, info);
-		}else{
-			result = setUserStringData(dbConnection, targetColumnName, value, info);
+		String idList = null;
+		TUserInfo userInfo = get(dbConnection, id);
+		String idlist = null;
+		switch(targetColumnName){
+		case TableConstant.COLUMN_USER_FAVORITE_SALON:
+			idlist = userInfo.getTUserFavoriteSalonId();
+			if(idlist!=null){
+				idlist = idlist + ","+ value;
+				userInfo.setTUserFavoriteSalonId(idlist);
+				result = update(dbConnection, userInfo);
+			}else{
+				userInfo.setTUserFavoriteSalonId(value);
+				result = update(dbConnection, userInfo);
+			}
+			break;
+		case TableConstant.COLUMN_USER_FAVORITE_HAIR_STYLE:
+			idlist = userInfo.getTUserFavoriteHairStyleId();
+			if(idlist!=null){
+				idlist = idlist + ","+ value;
+				userInfo.setTUserFavoriteHairStyleId(idlist);
+				result = update(dbConnection, userInfo);
+			}else{
+				userInfo.setTUserFavoriteHairStyleId(value);
+				result = update(dbConnection, userInfo);
+			}
+			break;
+		case TableConstant.COLUMN_USER_FAVORITE_STYLIST:
+			idlist = userInfo.getTUserFavoriteStylistId();
+			if(idlist!=null){
+				idlist = idlist + ","+ value;
+				userInfo.setTUserFavoriteStylistId(idlist);
+				result = update(dbConnection, userInfo);
+			}else{
+				userInfo.setTUserFavoriteStylistId(value);
+				result = update(dbConnection, userInfo);
+			}
+			break;
+		default:
+			break;
 		}
 		return result;
 	}
+	
+	/*
 	public int removeId(DBConnection dbConnection ,String targetColumnName, String value, IBaseInfo info) throws SQLException{
 		int result = -1;
 		String idlist = getUserStringData(dbConnection, targetColumnName, info);
@@ -74,7 +113,8 @@ public class UserDao extends BaseDao{
 		}
 		return result;
 	}
-
+	
+	/*
 	public UserInfo getUserObject(DBConnection dbConnection, int id) throws SQLException{
 		StringBuilder sql = new StringBuilder();
 		sql.append(Constant.SELECTALL);
@@ -348,7 +388,7 @@ public class UserDao extends BaseDao{
 		source.put(TableConstant.COLUMN_USER_HASH, "");
 		source.put(TableConstant.COLUMN_USER_IMAGE, userInfo.getUserImagePath());
 		source.put(TableConstant.COLUMN_USER_SEX, Integer.toString(userInfo.getUserSex()));
-		source.put(TableConstant.COLUMN_USER_BIRTH, ""); /*birth*/
+		source.put(TableConstant.COLUMN_USER_BIRTH, "");
 		source.put(TableConstant.COLUMN_USER_NAME, userInfo.getName());
 		source.put(TableConstant.COLUMN_USER_FAVORITE_SALON, "");
 		source.put(TableConstant.COLUMN_USER_FAVORITE_STYLIST, "");
@@ -455,7 +495,7 @@ public class UserDao extends BaseDao{
 		source.put(TableConstant.COLUMN_USER_HASH, "");
 		source.put(TableConstant.COLUMN_USER_IMAGE, userInfo.getUserImagePath());
 		source.put(TableConstant.COLUMN_USER_SEX, Integer.toString(userInfo.getUserSex()));
-		source.put(TableConstant.COLUMN_USER_BIRTH, ""); /*birth*/
+		source.put(TableConstant.COLUMN_USER_BIRTH, ""); 
 		source.put(TableConstant.COLUMN_USER_NAME, userInfo.getName());
 		source.put(TableConstant.COLUMN_USER_FAVORITE_SALON, "");
 		source.put(TableConstant.COLUMN_USER_FAVORITE_STYLIST, "");
@@ -549,7 +589,8 @@ public class UserDao extends BaseDao{
 		
 		return retId;
 	}
-	
+		*/
+
 	
 	
 	//public int setUserAcount(DBConnection dbConnection, UserInfo userInfo){

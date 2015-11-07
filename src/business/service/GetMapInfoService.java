@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import business.dao.SalonDao;
-
+import common._model.THairSalonMasterInfo;
 import common.model.HairSalonInfo;
 import common.util.DBConnection;
 
@@ -45,12 +45,13 @@ public class GetMapInfoService implements IServiceExcuter{
 			java.sql.Connection conn = dbConnection.connectDB();
 
 			//List<Integer> salonIdList = new ArrayList<Integer>();
-			HairSalonInfo salonInfo = new HairSalonInfo();
+			THairSalonMasterInfo salonInfo = new THairSalonMasterInfo();
 			//List<HairSalonInfo> salonInfoList = new ArrayList<HairSalonInfo>();
 			
 			if(conn!=null){
 				SalonDao salonDao = new SalonDao();
-				salonInfo = salonDao.getSalonMapInfo(salonId, dbConnection);				
+				//salonInfo = salonDao.getSalonMapInfo(salonId, dbConnection);				
+				salonInfo = salonDao.get(dbConnection, salonId);
 				dbConnection.close();
 			}else{
 				responseStatus = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
@@ -65,10 +66,10 @@ public class GetMapInfoService implements IServiceExcuter{
 			      t_hairSalonMaster_mapImagePath,
 			    }
 			 */
-			jsonObject.put("t_hairSalonMaster_mapUrl", salonInfo.getSalonMapUrl());
-			jsonObject.put("t_hairSalonMaster_mapImagePath", salonInfo.getSalonMapImagePath());
-			jsonObject.put("t_hairSalonMaster_mapLatitude", salonInfo.getSalonLatitude());
-			jsonObject.put("t_hairSalonMaster_mapLongitude", salonInfo.getSalonLongitude());
+			jsonObject.put("t_hairSalonMaster_mapUrl", salonInfo.getTHairSalonMasterMapUrl());
+			jsonObject.put("t_hairSalonMaster_mapImagePath", salonInfo.getTHairSalonMasterMapImagePath());
+			jsonObject.put("t_hairSalonMaster_mapLatitude", salonInfo.getTHairSalonMasterMapLatitude());
+			jsonObject.put("t_hairSalonMaster_mapLongitude", salonInfo.getTHairSalonMasterMapLongitude());
 
 			// 返却用サロンデータ（jsonデータの作成）
 						    		    
