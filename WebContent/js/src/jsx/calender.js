@@ -409,4 +409,70 @@ $(function(){
         location.href = "customerlist.html";
   });
 
+  /**
+   * Scheduler
+   */
+  var options = {
+	        startTime: "07:00", // schedule start time(HH:ii)
+	        endTime: "21:00",   // schedule end time(HH:ii)
+	        widthTime:60 * 10,  // cell timestamp example 10 minutes
+	        timeLineY:60,       // height(px)
+	        verticalScrollbar:20,   // scrollbar (px)
+	        timeLineBorder:2,   // border(top and bottom)
+	        debug:"#debug",     // debug string output elements
+	        rows : {
+	            '1' : {
+	                title : 'Title Area',
+	                schedule:[
+	                    {
+	                        start:'09:00',
+	                        end:'12:00',
+	                        text:'Text Area',
+	                        data:{
+	                        	test:"test"
+	                        }
+	                    },
+	                    {
+	                        start:'11:00',
+	                        end:'14:00',
+	                        text:'Text Area',
+	                        data:{
+	                        }
+	                    }
+	                ]
+	            },
+	            '2' : {
+	                title : 'Title Area',
+	                schedule:[
+	                    {
+	                        start:'16:00',
+	                        end:'17:00',
+	                        text:'Text Area',
+	                        data:{
+	                        }
+	                    }
+	                ]
+	            }
+	        },
+	        change: function(node,data){
+	            alert("change event"+node.text+","+data);
+	        },
+	        init_data: function(node,data){
+	        },
+	        click: function(node,data){
+	            alert("click event"+node.title+","+data);
+	        },
+	        append: function(node,data){
+	        },
+	        time_click: function(time,data){
+	            alert("time click event"+time.start+","+data);
+	        }
+	    };
+/*
+  jQuery(document).ready(function(){
+	    var $sc = jQuery("#schedule").timeSchedule(options);
+	});
+*/
+  $("#schedule").timeSchedule(options);
+  
 });

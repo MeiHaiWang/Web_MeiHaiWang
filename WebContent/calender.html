@@ -2,16 +2,16 @@
 <html>
 <head>
     <title>Beauty Hair Net Manager - Calender</title>
-    <link href="css/application.min.css" rel="stylesheet">
+<!--     <link href="css/application.min.css" rel="stylesheet"> -->
     <link href="css/style.min.css" rel="stylesheet">
     <!-- jQueryUI 
     <link rel="stylesheet" href="others/jquery-ui.css" />
 	-->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
-    <!-- Tag-it CSS本体 -->
-    <link href="others/jquery.tagit.css" rel="stylesheet" type="text/css">
     <!-- Gantt -->
     <link href="vendor/jQuery.Gantt/css/style.css" type="text/css" rel="stylesheet">
+    <!-- Scheduler -->
+    <link href="others/jq.schedule.style.css" type="text/css" rel="stylesheet">
     
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
@@ -209,7 +209,6 @@ var logout = (function () {
                                 </tr>
                               </table>
                             </td>
-                            
                             <td id="calender_table_right">
                               <table id = "calender">
                                 <th>
@@ -246,6 +245,16 @@ var logout = (function () {
                                   </td>
                                 </tr>
                               </table>
+                              <table id = "staff_schedule2">
+                                <th>
+                                  发型师时间表2
+                                </th>
+                                <tr>
+                                  <td>
+                                    <div id="schedule"></div>
+                                  </td>
+                                </tr>
+                              </table>
                             </td>
                           </tr>
                         </table>
@@ -268,6 +277,7 @@ var logout = (function () {
 
 <!-- common libraries. required for every page-->
 <script src="vendor/jquery/dist/jquery.min.js"></script>
+<!-- 
 <script src="vendor/jquery-pjax/jquery.pjax.js"></script>
 <script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
 <script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
@@ -280,11 +290,15 @@ var logout = (function () {
 <script src="vendor/pace.js/pace.min.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.js"></script>
+ -->
 
 <!-- tag-it  -->
 <!-- <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>   -->
 <script src="others/jquery-ui.min.js"></script>
-<script src="others/tag-it.js"></script>
+<!-- <script src="others/tag-it.js"></script> -->
+
+<!-- Scheduler -->
+<script type="text/javascript" src="others/jq.schedule.js"></script>
 
 <!-- react -->
 <script src="js/react.min.js"></script>
@@ -296,15 +310,16 @@ var logout = (function () {
  
 <!-- common app js -->
 <script src="js/config.js"></script>
-<script src="js/app.min.js"></script>
+<!-- <script src="js/app.min.js"></script> -->
 <script src="js/common.min.js"></script>
 <script src="js/calender.min.js"></script>
 
 <!-- common app js -->
 <script src="js/settings.js"></script>
-<script src="js/app.js"></script>
+<!-- <script src="js/app.js"></script> -->
 
 <!-- page specific libs -->
+<!-- 
 <script id="test" src="vendor/underscore/underscore.js"></script>
 <script src="vendor/jquery.sparkline/index.js"></script>
 <script src="vendor/d3/d3.min.js"></script>
@@ -313,8 +328,8 @@ var logout = (function () {
 <script src="vendor/jQuery-Mapael/js/jquery.mapael.js"></script>
 <script src="vendor/jQuery-Mapael/js/maps/usa_states.js"></script>
 <script src="vendor/jQuery-Mapael/js/maps/world_countries.js"></script>
-<script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script>
 <script src="vendor/jquery-animateNumber/jquery.animateNumber.min.js"></script>
+<script src="vendor/bootstrap_calendar/bootstrap_calendar/js/bootstrap_calendar.min.js"></script> -->
 <!--  <script src="vendor/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script> -->
 
 <!-- gantt js -->
