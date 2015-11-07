@@ -1,18 +1,11 @@
 package business.factory;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import common.util.ConfigUtil;
-import common.constant.Constant;
 import business.service.AddHairStyleFavoriteService;
 import business.service.AddSalonFavoriteService;
 import business.service.AddStylistFavoriteService;
@@ -37,8 +30,8 @@ import business.service.GetHairStyleDetailService;
 import business.service.GetHairStyleFavoriteService;
 import business.service.GetHairStyleHistoryService;
 import business.service.GetHairStyleOrderGoodService;
-import business.service.GetHairTypeCategoryService;
 import business.service.GetHairStyleOrderNewService;
+import business.service.GetHairTypeCategoryService;
 import business.service.GetHairTypeListService;
 import business.service.GetMapInfoService;
 import business.service.GetMenuInfoService;
@@ -72,6 +65,7 @@ import business.service.IServiceExcuter;
 import business.service.LogoutSessionService;
 import business.service.RegistSalonService;
 import business.service.SMScertificationService;
+import business.service.SampleUserService;
 import business.service.SetAlbumInfoService;
 import business.service.SetClaimService;
 import business.service.SetCouponInfoService;
@@ -91,7 +85,9 @@ import business.service.SetStylistConditionService;
 import business.service.UploadImageService;
 import business.service.UploadSalonImageService;
 import business.service.UserLoginService;
-import business.service.UserRegistService;
+
+import common.constant.Constant;
+import common.util.ConfigUtil;
 
 public class ServiceExcuteController {
 	private static Logger logger = LogManager.getLogger();
@@ -103,11 +99,14 @@ public class ServiceExcuteController {
 		
 		IServiceExcuter service = null;
 		
+		if(uri.equals(ConfigUtil.getConfig("contextPath") + "/api/:version/sample") && Constant.HTTP_REQUEST_TYPE_GET.equals(requetType)){
+			service = new SampleUserService();
+		}
 		/**
 		 * アプリ側 GET
 		 */
 		//オススメ取得　GET /api/:version/osusume
-		if(uri.equals(ConfigUtil.getConfig("contextPath") + "/api/:version/osusume") && Constant.HTTP_REQUEST_TYPE_GET.equals(requetType)){
+		else if(uri.equals(ConfigUtil.getConfig("contextPath") + "/api/:version/osusume") && Constant.HTTP_REQUEST_TYPE_GET.equals(requetType)){
 			service = new GetRecommendService();
 		}
 		//店舗検索　GET /api/:version/shop_list
