@@ -97,6 +97,23 @@ public abstract class TReviewDao extends BaseDao {
 	 */
 	public List<TReviewInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count) throws SQLException {
 		
+		return getByColumns(dbConnection, map, offset, count, null, null);
+	}
+
+	/**
+	 * {@link TReviewInfo} 一覧を取得します
+	 * 
+	 * @param dbConnection
+	 * @param map
+	 * @param offset
+	 * @param count
+	 * @param orderColumn
+	 * @param direction
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<TReviewInfo> getByColumns(DBConnection dbConnection, Map<String, Object> map, Integer offset, Integer count, String orderColumn, String direction) throws SQLException {
+		
 		String sql = "select * from `t_review` ";
 		String where = " where ";
 
@@ -108,6 +125,18 @@ public abstract class TReviewDao extends BaseDao {
 		if (!map.isEmpty()) {
 			where = where.substring(0, where.length() -4);
 			sql += where;
+		}
+		
+		String order = " order by ";
+		if (orderColumn != null) {
+			
+			order += " " + orderColumn + " ";
+			
+			if (direction != null) {
+			
+				order += " " + direction + " ";
+			}
+			sql += order;
 		}
 		
 		String limit = " limit ";
